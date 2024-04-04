@@ -16,8 +16,8 @@ public class JanelaPrincipal extends BaseJanela {
 
         addKeyListener(new KeyAdapter() {
             @Override
-            public void keyPressed(KeyEvent event) {
-                if (event.getKeyCode() == KeyEvent.VK_SPACE) {
+            public void keyPressed(KeyEvent evento) {
+                if (evento.getKeyCode() == KeyEvent.VK_SPACE) {
                     new SeletorRadial(DIAMETRO_SELETOR_RADIAL, MouseInfo.getPointerInfo().getLocation());
                 }
             }
