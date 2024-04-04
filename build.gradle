@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.modelador'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 21
+}
+
+dependencies {
+    implementation 'com.miglayout:miglayout:3.7.4'
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'org.modelador.Principal'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
