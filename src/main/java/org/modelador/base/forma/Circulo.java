@@ -38,7 +38,5 @@ public class Circulo extends JPanel {
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         graphics2D.setColor(getBackground());
         graphics2D.fillRoundRect(0, 0, getWidth(), getHeight(), arcos.width, arcos.height);
-        //graphics2D.setColor(getForeground());
-        //graphics2D.drawRoundRect(0, 0, getWidth(), getHeight(), arcos.width, arcos.height);
     }
 }
