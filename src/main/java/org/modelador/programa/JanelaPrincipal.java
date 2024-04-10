@@ -9,8 +9,6 @@ import java.awt.event.KeyEvent;
 
 public class JanelaPrincipal extends BaseJanela {
 
-    public final int DIAMETRO_SELETOR_RADIAL = 150;
-
     public JanelaPrincipal(int largura, int altura) {
         super("DER-MODELADOR", largura, altura);
 
@@ -18,7 +16,7 @@ public class JanelaPrincipal extends BaseJanela {
             @Override
             public void keyPressed(KeyEvent evento) {
                 if (evento.getKeyCode() == KeyEvent.VK_SPACE) {
-                    new SeletorRadial(DIAMETRO_SELETOR_RADIAL, MouseInfo.getPointerInfo().getLocation());
+                    new SeletorRadial(MouseInfo.getPointerInfo().getLocation());
                 }
             }
         });
