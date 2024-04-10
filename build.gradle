@@ -23,6 +23,10 @@ jar {
     manifest {
         attributes 'Main-Class': 'org.modelador.Principal'
     }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 test {
