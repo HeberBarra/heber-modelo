@@ -14,6 +14,7 @@ public class Circulo extends JPanel {
     public Circulo(int raioBorda, Color corFundo) {
         super();
         setBackground(corFundo);
+        setOpaque(false);
         this.raioBorda = raioBorda;
     }
 
