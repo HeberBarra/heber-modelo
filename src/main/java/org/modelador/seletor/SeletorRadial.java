@@ -1,25 +1,36 @@
 package org.modelador.seletor;
 
 import org.modelador.base.forma.Circulo;
+import org.modelador.base.forma.FracaoCirculo;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
 public class SeletorRadial extends JFrame {
 
-    public final int RAIO_BORDA = 10000;
+    public final Color COR_HOVER = Color.YELLOW;
+    public final Color COR_FUNDO = Color.LIGHT_GRAY;
     private final Color TRANSPARENTE = new Color(1, 1, 1, 0);
-    protected final JPanel conteudo = new JPanel(null);
+    public final int RAIO_BORDA = 10000;
+    private final int DIAMETRO = 150;
+    protected JPanel conteudo = new JPanel(new BorderLayout());
+    protected Circulo circuloInterno = new Circulo(RAIO_BORDA, Color.GRAY);
 
-    public SeletorRadial(int diametro, Point posicao) {
+    public SeletorRadial(Point posicao) {
         super();
-        configurarSeletor(diametro);
-        criarCirculos(diametro);
-        setLocation((int) (posicao.getX() - diametro / 2), (int) (posicao.getY() - diametro / 2));
+
+        configurarSeletor();
+        criarCirculoInterno();
+        criarFracoes();
+        setLocation((int) (posicao.getX() - DIAMETRO / 2), (int) (posicao.getY() - DIAMETRO / 2));
         setVisible(true);
         setAutoRequestFocus(true);
         fecharAoPerderFoco();
@@ -40,26 +51,60 @@ public class SeletorRadial extends JFrame {
         });
     }
 
-    private void criarCirculos(int diametro) {
-        Circulo circuloSeletor = new Circulo(RAIO_BORDA, Color.LIGHT_GRAY);
-        circuloSeletor.setOpaque(false);
-        circuloSeletor.setBounds(0, 0, diametro, diametro);
+    private void criarFracoes() {
+        final int NUMERO_FUNCOES = 4;
+        conteudo.setSize(DIAMETRO, DIAMETRO);
+        FracaoCirculo[] fracoesCirculo = new FracaoCirculo[NUMERO_FUNCOES];
 
-        Circulo circuloInterno = new Circulo(RAIO_BORDA, Color.GRAY);
-        circuloInterno.setOpaque(false);
-        int diametroCirculoInterno = circuloSeletor.getWidth() / 2;
-        int circuloInternoX = circuloSeletor.getX() + (circuloSeletor.getWidth() - diametroCirculoInterno) / 2;
-        int circuloInternoY = circuloSeletor.getY() + (circuloSeletor.getHeight() - diametroCirculoInterno) / 2;
+        int anguloFracoes = 360 / NUMERO_FUNCOES;
+
+        Dimension[] dimensoes = new Dimension[NUMERO_FUNCOES];
+        dimensoes[0] = new Dimension(DIAMETRO / 2, DIAMETRO / 2);
+        dimensoes[1] = new Dimension(DIAMETRO , DIAMETRO / 2);
+        dimensoes[2] = new Dimension(DIAMETRO / 2, DIAMETRO);
+        dimensoes[3] = new Dimension(DIAMETRO, DIAMETRO);
+
+        int[] angulos = {90, 0, 180, 270};
+
+        for (int i = 0; i < NUMERO_FUNCOES; i++) {
+            fracoesCirculo[i] = new FracaoCirculo(DIAMETRO, DIAMETRO, 0, 0, DIAMETRO, angulos[i], anguloFracoes, COR_FUNDO);
+            conteudo.add(fracoesCirculo[i]);
+            fracoesCirculo[i].setSize(dimensoes[i]);
+        }
+
+        for (FracaoCirculo fracaoCirculo: fracoesCirculo) {
+            fracaoCirculo.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    super.mouseEntered(e);
+                    fracaoCirculo.setBackground(COR_HOVER);
+                    circuloInterno.repaint();
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    super.mouseExited(e);
+                    fracaoCirculo.setBackground(COR_FUNDO);
+                    circuloInterno.repaint();
+                }
+            });
+        }
+
+    }
+
+    private void criarCirculoInterno() {
+        int diametroCirculoInterno = DIAMETRO / 2;
+        int circuloInternoX = (DIAMETRO - diametroCirculoInterno) / 2;
+        int circuloInternoY = (DIAMETRO - diametroCirculoInterno) / 2;
         circuloInterno.setBounds(circuloInternoX, circuloInternoY, diametroCirculoInterno, diametroCirculoInterno);
 
         conteudo.add(circuloInterno);
-        conteudo.add(circuloSeletor);
     }
 
-    private void configurarSeletor(int diametro) {
+    private void configurarSeletor() {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(conteudo);
-        setSize(diametro, diametro);
+        setSize(DIAMETRO, DIAMETRO);
         setResizable(false);
         setUndecorated(true);
         setBackground(TRANSPARENTE);
