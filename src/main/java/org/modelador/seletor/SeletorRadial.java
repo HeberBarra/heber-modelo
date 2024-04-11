@@ -20,7 +20,7 @@ public class SeletorRadial extends JFrame {
     public final Color COR_FUNDO = Color.LIGHT_GRAY;
     private final Color TRANSPARENTE = new Color(1, 1, 1, 0);
     public final int RAIO_BORDA = 10000;
-    private final int DIAMETRO = 150;
+    private final int DIAMETRO = 100;
     protected JPanel conteudo = new JPanel(new BorderLayout());
     protected Circulo circuloInterno = new Circulo(RAIO_BORDA, Color.GRAY);
 
