@@ -1,8 +1,8 @@
 package org.modelador.programa;
 
-import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
+import javax.swing.JPanel;
 
 public class Grade extends JPanel {
 
@@ -10,7 +10,12 @@ public class Grade extends JPanel {
     private Color corFundo;
     private Color corGrade;
 
-    public Grade(int larguraGrade, int alturaGrade, int tamanhoQuadrado, Color corFundo, Color corGrade) {
+    public Grade(
+            int larguraGrade,
+            int alturaGrade,
+            int tamanhoQuadrado,
+            Color corFundo,
+            Color corGrade) {
         super();
         this.tamanhoQuadrado = tamanhoQuadrado;
         this.corFundo = corFundo;
@@ -26,7 +31,7 @@ public class Grade extends JPanel {
     }
 
     public int recalcularTamanho(int tamanho) {
-        return ( Math.divideExact(tamanho, tamanhoQuadrado) - 2 ) * tamanhoQuadrado;
+        return (Math.divideExact(tamanho, tamanhoQuadrado) - 2) * tamanhoQuadrado;
     }
 
     @Override
@@ -71,5 +76,4 @@ public class Grade extends JPanel {
     public void setCorGrade(Color corGrade) {
         this.corGrade = corGrade;
     }
-
 }
