@@ -14,5 +14,4 @@ public abstract class BaseJanela extends JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setContentPane(conteudo);
     }
-
 }

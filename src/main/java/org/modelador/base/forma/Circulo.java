@@ -1,11 +1,11 @@
 package org.modelador.base.forma;
 
-import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import javax.swing.JPanel;
 
 public class Circulo extends JPanel {
 
@@ -36,7 +36,8 @@ public class Circulo extends JPanel {
         super.paintComponent(graphics);
         Dimension arcos = new Dimension(raioBorda, raioBorda);
         Graphics2D graphics2D = (Graphics2D) graphics;
-        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics2D.setRenderingHint(
+                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         graphics2D.setColor(getBackground());
         graphics2D.fillRoundRect(0, 0, getWidth(), getHeight(), arcos.width, arcos.height);
     }
