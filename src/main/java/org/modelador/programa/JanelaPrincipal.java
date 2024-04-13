@@ -7,6 +7,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import org.modelador.base.janela.BaseJanela;
+import org.modelador.configurador.Configurador;
 import org.modelador.seletor.SeletorRadial;
 
 public class JanelaPrincipal extends BaseJanela {
@@ -22,6 +23,10 @@ public class JanelaPrincipal extends BaseJanela {
                     public void keyPressed(KeyEvent evento) {
                         if (evento.getKeyCode() == KeyEvent.VK_SPACE) {
                             new SeletorRadial(MouseInfo.getPointerInfo().getLocation());
+                        }
+
+                        if (evento.getKeyCode() == KeyEvent.VK_F1) {
+                            Configurador.recarregarConfiguracoes();
                         }
                     }
                 });
