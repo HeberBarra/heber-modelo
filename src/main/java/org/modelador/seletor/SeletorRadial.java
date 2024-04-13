@@ -12,14 +12,16 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.modelador.base.forma.Circulo;
 import org.modelador.base.forma.FracaoCirculo;
+import org.modelador.configurador.Configurador;
 
 public class SeletorRadial extends JFrame {
 
     public final Color COR_HOVER = Color.YELLOW;
     public final Color COR_FUNDO = Color.LIGHT_GRAY;
-    private final Color TRANSPARENTE = new Color(1, 1, 1, 0);
-    public final int RAIO_BORDA = 10000;
-    private final int DIAMETRO = 100;
+    public final Color TRANSPARENTE = new Color(1, 1, 1, 0);
+    private final int RAIO_BORDA = 10000;
+    private final int DIAMETRO =
+            Configurador.pegarValorConfiguracao("seletor", "diametro", int.class);
     protected JPanel conteudo = new JPanel(new BorderLayout());
     protected Circulo circuloInterno = new Circulo(RAIO_BORDA, Color.GRAY);
 
