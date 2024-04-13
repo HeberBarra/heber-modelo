@@ -17,6 +17,7 @@ java {
 
 dependencies {
     implementation 'com.miglayout:miglayout:3.7.4'
+    implementation 'org.tomlj:tomlj:1.1.1'
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
