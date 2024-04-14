@@ -53,15 +53,7 @@ public class JavaLogger {
     }
 
     protected static FileHandler criarFileHandler(String nomeArquivo) throws IOException {
-        if (!nomeArquivo.endsWith(".txt") && !nomeArquivo.contains(".")) {
-            nomeArquivo += ".txt";
-        }
-
-        FileHandler fileHandler = new FileHandler(pastaLogs + "/" + nomeArquivo);
-        fileHandler.setFormatter(new FormatadorJavaLogger());
-        fileHandler.setFilter(new JavaLoggerFiltro());
-
-        return fileHandler;
+        return new JavaLoggerArquivo(pastaLogs, nomeArquivo);
     }
 
     public static void desativarLogger(boolean deveDesativar, Logger logger) {
