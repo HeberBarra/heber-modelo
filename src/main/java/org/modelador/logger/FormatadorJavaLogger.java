@@ -14,6 +14,6 @@ public class FormatadorJavaLogger extends Formatter {
                 record.getLevel(),
                 record.getSourceClassName(),
                 record.getSourceMethodName(),
-                record.getThrown());
+                record.getMessage());
     }
 }
