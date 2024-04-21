@@ -7,6 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.logging.Logger;
 import org.modelador.logger.JavaLogger;
 import org.tomlj.Toml;
@@ -27,6 +30,7 @@ public class Configurador {
     static {
         JavaLogger.desativarLogger(
                 pegarValorConfiguracao("logger", "desativar", boolean.class), logger);
+        atualizarArquivoConfiguracoes();
     }
 
     public static String pegarInformacoesConfiguracoes(TomlParseResult configuracoes) {
@@ -47,6 +51,7 @@ public class Configurador {
     }
 
     public static void recarregarConfiguracoes() {
+        atualizarArquivoConfiguracoes();
         configuracoes = lerConfiguracoes(ARQUIVO_CONFIGURACOES);
     }
 
@@ -113,6 +118,38 @@ public class Configurador {
         return (T) valor;
     }
 
+    public static TomlParseResult combinarConfiguracoes(
+            TomlTable templateConfiguracoes, TomlTable configuracoes) {
+        Map<String, Map<String, Object>> combinacaoConfiguracoes = new LinkedHashMap<>();
+
+        for (String nomeTabela : templateConfiguracoes.keySet()) {
+            TomlTable templateTabela = templateConfiguracoes.getTable(nomeTabela);
+            Map<String, Object> mapTabela = new LinkedHashMap<>();
+
+            for (String chaveTabela : Objects.requireNonNull(templateTabela).keySet()) {
+                TomlTable tabelaConfiguracoes = configuracoes.getTable(chaveTabela);
+
+                if (tabelaConfiguracoes == null) {
+                    mapTabela.put(chaveTabela, templateTabela.get(chaveTabela));
+                    continue;
+                }
+
+                Object valor = tabelaConfiguracoes.get(chaveTabela);
+
+                if (valor == null) {
+                    valor = templateTabela.get(chaveTabela);
+                }
+
+                mapTabela.put(chaveTabela, valor);
+            }
+
+            combinacaoConfiguracoes.put(nomeTabela, mapTabela);
+        }
+
+        String resultadoCombinacao = ConversorToml.converterMapParaString(combinacaoConfiguracoes);
+        return Toml.parse(resultadoCombinacao);
+    }
+
     public static void criarArquivoConfiguracoes() {
         File pastaConfiguracoes = PASTA_CONFIGURACAO.getCaminhoPasta().toFile();
         File arquivoConfiguracoes =
@@ -134,7 +171,7 @@ public class Configurador {
 
         try (BufferedWriter bufferedWriter =
                 new BufferedWriter(new FileWriter(arquivoConfiguracoes))) {
-            bufferedWriter.write(lerTemplateConfiguracoes().toToml());
+            bufferedWriter.write(Objects.requireNonNull(lerTemplateConfiguracoes()).toToml());
         } catch (IOException e) {
             logger.warning(
                     String.format(
@@ -147,6 +184,23 @@ public class Configurador {
                             e.getMessage()));
             logger.severe("Encerrando execução do programa...");
             System.exit(1);
+        }
+    }
+
+    public static void atualizarArquivoConfiguracoes() {
+        TomlParseResult resultadoCombinacao =
+                combinarConfiguracoes(lerTemplateConfiguracoes(), configuracoes);
+        File arquivoConfiguracoes =
+                new File(PASTA_CONFIGURACAO.getCaminhoPasta() + "/" + ARQUIVO_CONFIGURACOES);
+
+        try (BufferedWriter bufferedWriter =
+                new BufferedWriter(new FileWriter(arquivoConfiguracoes))) {
+            bufferedWriter.write(resultadoCombinacao.toToml());
+        } catch (IOException e) {
+            logger.warning(
+                    String.format(
+                            "Erro ao tentar ler o arquivo de configuracões: %s - %s",
+                            arquivoConfiguracoes, e.getMessage()));
         }
     }
 }
