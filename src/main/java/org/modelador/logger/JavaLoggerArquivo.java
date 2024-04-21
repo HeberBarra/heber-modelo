@@ -29,7 +29,6 @@ public class JavaLoggerArquivo extends FileHandler {
 
     public JavaLoggerArquivo(String pastaLog, String nomeArquivo) throws IOException {
         super(pastaLog + corrigirNomeArquivo(nomeArquivo));
-        System.out.println(pastaLog + corrigirNomeArquivo(nomeArquivo));
         setFormatter(new FormatadorJavaLogger());
         setFilter(new JavaLoggerFiltro());
     }
