@@ -3,3 +3,6 @@ diametro = 100
 
 [logger]
 desativar = false
+
+[grade]
+tamanho_quadrado = 20
