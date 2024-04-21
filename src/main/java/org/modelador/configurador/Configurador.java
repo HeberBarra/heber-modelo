@@ -189,7 +189,8 @@ public class Configurador {
 
     public static void atualizarArquivoConfiguracoes() {
         TomlParseResult resultadoCombinacao =
-                combinarConfiguracoes(Objects.requireNonNull(lerTemplateConfiguracoes()), configuracoes);
+                combinarConfiguracoes(
+                        Objects.requireNonNull(lerTemplateConfiguracoes()), configuracoes);
         File arquivoConfiguracoes =
                 new File(PASTA_CONFIGURACAO.getCaminhoPasta() + "/" + ARQUIVO_CONFIGURACOES);
 
