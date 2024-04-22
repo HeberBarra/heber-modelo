@@ -123,17 +123,17 @@ public class Configurador {
         Map<String, Map<String, Object>> combinacaoConfiguracoes = new LinkedHashMap<>();
 
         for (String nomeTabela : templateConfiguracoes.keySet()) {
-            TomlTable templateTabela = templateConfiguracoes.getTable(nomeTabela);
+            TomlTable templateTabela = Objects.requireNonNull(templateConfiguracoes.getTable(nomeTabela));
+            TomlTable tabelaConfiguracoes = configuracoes.getTable(nomeTabela);
             Map<String, Object> mapTabela = new LinkedHashMap<>();
 
-            for (String chaveTabela : Objects.requireNonNull(templateTabela).keySet()) {
-                TomlTable tabelaConfiguracoes = configuracoes.getTable(chaveTabela);
 
-                if (tabelaConfiguracoes == null) {
-                    mapTabela.put(chaveTabela, templateTabela.get(chaveTabela));
-                    continue;
-                }
+            if (tabelaConfiguracoes == null) {
+                combinacaoConfiguracoes.put(nomeTabela, templateTabela.toMap());
+                continue;
+            }
 
+            for (String chaveTabela : templateTabela.keySet()) {
                 Object valor = tabelaConfiguracoes.get(chaveTabela);
 
                 if (valor == null) {
