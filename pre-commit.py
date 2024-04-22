@@ -16,7 +16,6 @@ else:
 subprocess.run([comando, 'spotlessApply'])
 
 for arquivo in arquivos_modificados:
-    print(arquivo)
     subprocess.run(['git', 'add', arquivo])
 
 
