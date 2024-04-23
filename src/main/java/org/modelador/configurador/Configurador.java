@@ -51,6 +51,7 @@ public class Configurador {
                 pegarValorConfiguracao("logger", "desativar", boolean.class), logger);
         atualizarConfiguracoes(ARQUIVO_CONFIGURACOES, TEMPLATE_CONFIGURACOES, configuracoes);
         configuracoes = lerConfiguracoes();
+        paleta = lerPaleta();
         Paleta.setTemplatePaleta(lerTemplateConfiguracoes(TEMPLATE_PALETA));
         Paleta.setInformacoesPaleta(paleta);
         Paleta.limparCache();
