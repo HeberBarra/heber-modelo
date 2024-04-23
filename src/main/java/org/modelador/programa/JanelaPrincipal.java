@@ -1,10 +1,12 @@
 package org.modelador.programa;
 
+import java.awt.Component;
 import java.awt.MouseInfo;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import org.modelador.base.componente.RecarregamentoComponente;
 import org.modelador.base.janela.BaseJanela;
 import org.modelador.configurador.Configurador;
 import org.modelador.configurador.paleta.Paleta;
@@ -12,10 +14,18 @@ import org.modelador.seletor.SeletorRadial;
 
 public class JanelaPrincipal extends BaseJanela {
 
+    protected Grade grade;
+    protected int larguraGrade;
+    protected int alturaGrade;
+
     public JanelaPrincipal(int largura, int altura) {
         super("DER-MODELADOR", largura, altura);
         getContentPane().setBackground(Paleta.pegarCor("cor_fundo"));
         setVisible(true);
+
+        larguraGrade = largura;
+        alturaGrade = altura;
+
         criarGrade();
 
         addKeyListener(
@@ -28,16 +38,30 @@ public class JanelaPrincipal extends BaseJanela {
 
                         if (evento.getKeyCode() == KeyEvent.VK_F1) {
                             Configurador.recarregarConfiguracoes();
+                            recarregarComponentes();
                         }
                     }
                 });
     }
 
+    private void recarregarComponentes() {
+        getContentPane().setBackground(Paleta.pegarCor("cor_fundo"));
+        grade.setTamanhoQuadrado(
+                Configurador.pegarValorConfiguracao("grade", "tamanho_quadrado", int.class));
+        grade.setSize(larguraGrade, alturaGrade);
+
+        for (Component componente : getContentPane().getComponents()) {
+            if (componente instanceof RecarregamentoComponente) {
+                ((RecarregamentoComponente) componente).recarregar();
+            }
+        }
+    }
+
     private void criarGrade() {
-        Grade grade =
+        grade =
                 new Grade(
-                        getWidth(),
-                        getHeight(),
+                        larguraGrade,
+                        alturaGrade,
                         Configurador.pegarValorConfiguracao("grade", "tamanho_quadrado", int.class),
                         Paleta.pegarCor("cor_grade"));
         getContentPane().setLayout(null);
