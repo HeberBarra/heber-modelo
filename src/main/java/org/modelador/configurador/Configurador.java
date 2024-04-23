@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
+import org.modelador.configurador.paleta.Paleta;
 import org.modelador.logger.JavaLogger;
 import org.tomlj.Toml;
 import org.tomlj.TomlParseResult;
@@ -25,13 +26,8 @@ public class Configurador {
     public static final Path TEMPLATE_PALETA = Path.of(PASTA_TEMPLATES + "/template_paleta.toml");
     public static final String ARQUIVO_CONFIGURACOES = "configuracoes.toml";
     public static final String ARQUIVO_PALETA = "paleta.toml";
-    public static TomlParseResult configuracoes = lerConfiguracoes(ARQUIVO_CONFIGURACOES);
-
-    static {
-        JavaLogger.desativarLogger(
-                pegarValorConfiguracao("logger", "desativar", boolean.class), logger);
-        atualizarArquivoConfiguracoes();
-    }
+    public static TomlTable configuracoes = lerConfiguracoes();
+    public static TomlTable paleta = lerPaleta();
 
     public static String pegarInformacoesConfiguracoes(TomlParseResult configuracoes) {
         StringBuilder informacoesConfiguracoes = new StringBuilder();
@@ -51,8 +47,13 @@ public class Configurador {
     }
 
     public static void recarregarConfiguracoes() {
-        atualizarArquivoConfiguracoes();
-        configuracoes = lerConfiguracoes(ARQUIVO_CONFIGURACOES);
+        JavaLogger.desativarLogger(
+                pegarValorConfiguracao("logger", "desativar", boolean.class), logger);
+        atualizarConfiguracoes(ARQUIVO_CONFIGURACOES, TEMPLATE_CONFIGURACOES, configuracoes);
+        configuracoes = lerConfiguracoes();
+        Paleta.setTemplatePaleta(lerTemplateConfiguracoes(TEMPLATE_PALETA));
+        Paleta.setInformacoesPaleta(paleta);
+        Paleta.limparCache();
     }
 
     public static PastaConfiguracao detectarSistemaOperacional() {
@@ -67,9 +68,9 @@ public class Configurador {
         }
     }
 
-    public static TomlParseResult lerTemplateConfiguracoes() {
+    public static TomlParseResult lerTemplateConfiguracoes(Path template) {
         try {
-            return Toml.parse(TEMPLATE_CONFIGURACOES);
+            return Toml.parse(template);
         } catch (IOException e) {
             logger.warning(
                     String.format("Falha ao ler template das configurações: %s", e.getMessage()));
@@ -78,32 +79,36 @@ public class Configurador {
         return null;
     }
 
-    public static TomlParseResult lerConfiguracoes(String arquivo) {
-        criarArquivoConfiguracoes();
+    protected static TomlParseResult lerArquivo(String arquivo) {
         if (!arquivo.startsWith("/")) {
             arquivo = "/" + arquivo;
         }
 
-        String caminhoArquivoConfiguracoes = PASTA_CONFIGURACAO.getCaminhoPasta() + arquivo;
+        Path caminhoArquivo = Path.of(PASTA_CONFIGURACAO.getCaminhoPasta() + arquivo);
 
         try {
-            Path caminhoArquivo = Path.of(caminhoArquivoConfiguracoes);
             return Toml.parse(caminhoArquivo);
         } catch (FileNotFoundException e) {
-            logger.warning(
-                    String.format(
-                            "Arquivo de configurações %s não encontrado",
-                            caminhoArquivoConfiguracoes));
+            logger.severe(String.format("Arquivo %s não encontrado", caminhoArquivo));
         } catch (NoSuchFileException e) {
-            logger.warning(String.format("Arquivo: %s não existe", caminhoArquivoConfiguracoes));
+            logger.severe(String.format("Arquivo: %s não existe", caminhoArquivo));
         } catch (IOException e) {
-            logger.warning(
-                    String.format(
-                            "Erro ao ler arquivo de configuracoes: %s - %s",
-                            arquivo, e.getMessage()));
+            logger.severe(String.format("Erro ao ler arquivo: %s - %s", arquivo, e.getMessage()));
         }
 
+        logger.severe("Devido a um erro crítico o programa será encerrado");
+        System.exit(1);
         return null;
+    }
+
+    public static TomlTable lerConfiguracoes() {
+        criarArquivoConfiguracoes();
+        return lerArquivo(ARQUIVO_CONFIGURACOES);
+    }
+
+    public static TomlTable lerPaleta() {
+        criarArquivoPaleta();
+        return lerArquivo(ARQUIVO_PALETA);
     }
 
     public static <T> T pegarValorConfiguracao(
@@ -150,10 +155,9 @@ public class Configurador {
         return Toml.parse(resultadoCombinacao);
     }
 
-    public static void criarArquivoConfiguracoes() {
+    protected static void criarArquivo(String arquivo, Path template) {
         File pastaConfiguracoes = PASTA_CONFIGURACAO.getCaminhoPasta().toFile();
-        File arquivoConfiguracoes =
-                new File(PASTA_CONFIGURACAO.getCaminhoPasta() + "/" + ARQUIVO_CONFIGURACOES);
+        File arquivoConfiguracoes = new File(PASTA_CONFIGURACAO.getCaminhoPasta() + "/" + arquivo);
 
         try {
             logger.fine(String.valueOf(pastaConfiguracoes.mkdir()));
@@ -171,7 +175,8 @@ public class Configurador {
 
         try (BufferedWriter bufferedWriter =
                 new BufferedWriter(new FileWriter(arquivoConfiguracoes))) {
-            bufferedWriter.write(Objects.requireNonNull(lerTemplateConfiguracoes()).toToml());
+            bufferedWriter.write(
+                    Objects.requireNonNull(lerTemplateConfiguracoes(template)).toToml());
         } catch (IOException e) {
             logger.warning(
                     String.format(
@@ -187,12 +192,20 @@ public class Configurador {
         }
     }
 
-    public static void atualizarArquivoConfiguracoes() {
-        TomlParseResult resultadoCombinacao =
+    public static void criarArquivoConfiguracoes() {
+        criarArquivo(ARQUIVO_CONFIGURACOES, TEMPLATE_CONFIGURACOES);
+    }
+
+    public static void criarArquivoPaleta() {
+        criarArquivo(ARQUIVO_PALETA, TEMPLATE_PALETA);
+    }
+
+    public static void atualizarConfiguracoes(
+            String arquivo, Path template, TomlTable informacoes) {
+        TomlTable resultadoCombinacao =
                 combinarConfiguracoes(
-                        Objects.requireNonNull(lerTemplateConfiguracoes()), configuracoes);
-        File arquivoConfiguracoes =
-                new File(PASTA_CONFIGURACAO.getCaminhoPasta() + "/" + ARQUIVO_CONFIGURACOES);
+                        Objects.requireNonNull(lerTemplateConfiguracoes(template)), informacoes);
+        File arquivoConfiguracoes = new File(PASTA_CONFIGURACAO.getCaminhoPasta() + "/" + arquivo);
 
         try (BufferedWriter bufferedWriter =
                 new BufferedWriter(new FileWriter(arquivoConfiguracoes))) {
@@ -200,7 +213,7 @@ public class Configurador {
         } catch (IOException e) {
             logger.warning(
                     String.format(
-                            "Erro ao tentar ler o arquivo de configuracões: %s - %s",
+                            "Falha ao tentar atualizar o arquivo: %s. Erro: %s",
                             arquivoConfiguracoes, e.getMessage()));
         }
     }
