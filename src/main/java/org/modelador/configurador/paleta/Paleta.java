@@ -18,10 +18,16 @@ public class Paleta {
     }
 
     protected static int converterStringParaHexadecimal(String hexCode) {
-        return Integer.parseInt(hexCode, 16);
+        return Integer.parseInt(hexCode.substring(1), 16);
     }
 
     protected static String pegarHexCode(TomlTable tabelaPaleta, String chaveCor) {
+        TomlTable tabelaTomlPaleta = templatePaleta.getTable("paleta");
+
+        if (tabelaTomlPaleta != null) {
+            return (String) tabelaTomlPaleta.get(chaveCor);
+        }
+
         return (String) tabelaPaleta.get(chaveCor);
     }
 
