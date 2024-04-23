@@ -3,6 +3,7 @@ package org.modelador.configurador.paleta;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import org.tomlj.TomlTable;
 
 public class Paleta {
@@ -22,13 +23,9 @@ public class Paleta {
     }
 
     protected static String pegarHexCode(TomlTable tabelaPaleta, String chaveCor) {
-        TomlTable tabelaTomlPaleta = templatePaleta.getTable("paleta");
+        TomlTable tabelaTomlPaleta = tabelaPaleta.getTable("paleta");
 
-        if (tabelaTomlPaleta != null) {
-            return (String) tabelaTomlPaleta.get(chaveCor);
-        }
-
-        return (String) tabelaPaleta.get(chaveCor);
+        return (String) Objects.requireNonNullElse(tabelaTomlPaleta, tabelaPaleta).get(chaveCor);
     }
 
     public static void setTemplatePaleta(TomlTable templatePaleta) {
