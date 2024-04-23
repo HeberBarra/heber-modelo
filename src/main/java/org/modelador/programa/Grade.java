@@ -3,8 +3,10 @@ package org.modelador.programa;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JPanel;
+import org.modelador.base.componente.RecarregamentoComponente;
+import org.modelador.configurador.paleta.Paleta;
 
-public class Grade extends JPanel {
+public class Grade extends JPanel implements RecarregamentoComponente {
 
     private int tamanhoQuadrado;
     private Color corGrade;
@@ -43,6 +45,13 @@ public class Grade extends JPanel {
         for (int i = tamanhoQuadrado; i < getHeight(); i += tamanhoQuadrado) {
             graphics.drawLine(0, i, getWidth(), i);
         }
+    }
+
+    @Override
+    public void recarregar() {
+        ;
+        setCorGrade(Paleta.pegarCor("cor_grade"));
+        repaint();
     }
 
     public int getTamanhoQuadrado() {

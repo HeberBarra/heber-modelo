@@ -49,7 +49,7 @@ public class Configurador {
     public static void recarregarConfiguracoes() {
         JavaLogger.desativarLogger(
                 pegarValorConfiguracao("logger", "desativar", boolean.class), logger);
-        atualizarConfiguracoes(ARQUIVO_CONFIGURACOES, TEMPLATE_CONFIGURACOES, configuracoes);
+        atualizarConfiguracoes(ARQUIVO_CONFIGURACOES, TEMPLATE_CONFIGURACOES, lerConfiguracoes());
         configuracoes = lerConfiguracoes();
         paleta = lerPaleta();
         Paleta.setTemplatePaleta(lerTemplateConfiguracoes(TEMPLATE_PALETA));
