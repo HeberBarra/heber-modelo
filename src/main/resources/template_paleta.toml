@@ -1,3 +1,5 @@
 [paleta]
-cor_fundo = "#"
-cor_hover = "#"
+cor_fundo = "#EEEEEE"
+cor_seletor_radial = "#C0C0C0"
+cor_hover = "##00BFFF"
+cor_grade = "#A9A9A9"

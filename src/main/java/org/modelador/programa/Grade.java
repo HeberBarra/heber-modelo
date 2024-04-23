@@ -7,25 +7,17 @@ import javax.swing.JPanel;
 public class Grade extends JPanel {
 
     private int tamanhoQuadrado;
-    private Color corFundo;
     private Color corGrade;
 
-    public Grade(
-            int larguraGrade,
-            int alturaGrade,
-            int tamanhoQuadrado,
-            Color corFundo,
-            Color corGrade) {
+    public Grade(int larguraGrade, int alturaGrade, int tamanhoQuadrado, Color corGrade) {
         super();
         this.tamanhoQuadrado = tamanhoQuadrado;
-        this.corFundo = corFundo;
         this.corGrade = corGrade;
 
         configurarGrade(larguraGrade, alturaGrade);
     }
 
     private void configurarGrade(int largura, int altura) {
-        setBackground(corFundo);
         setSize(largura, altura);
         setOpaque(false);
     }
@@ -59,14 +51,6 @@ public class Grade extends JPanel {
 
     public void setTamanhoQuadrado(int tamanhoQuadrado) {
         this.tamanhoQuadrado = tamanhoQuadrado;
-    }
-
-    public Color getCorFundo() {
-        return corFundo;
-    }
-
-    public void setCorFundo(Color corFundo) {
-        this.corFundo = corFundo;
     }
 
     public Color getCorGrade() {
