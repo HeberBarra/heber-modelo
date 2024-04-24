@@ -1,19 +1,28 @@
 package org.modelador.programa;
 
 import java.awt.Component;
+import java.awt.FileDialog;
 import java.awt.MouseInfo;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.nio.file.Path;
+import java.util.HashSet;
+import java.util.Set;
 import org.modelador.base.componente.RecarregamentoComponente;
 import org.modelador.base.janela.BaseJanela;
 import org.modelador.configurador.Configurador;
 import org.modelador.configurador.paleta.Paleta;
+import org.modelador.exploraradorarquivos.ExploradorArquivos;
 import org.modelador.seletor.SeletorRadial;
 
 public class JanelaPrincipal extends BaseJanela {
+    // TODO: Fazer lógica par a ler o conteúdo de um arquivo aberto
 
+    protected Set<File> arquivosAbertos = new HashSet<>();
+    protected ExploradorArquivos exploradorArquivos;
     protected Grade grade;
     protected int larguraGrade;
     protected int alturaGrade;
@@ -40,8 +49,18 @@ public class JanelaPrincipal extends BaseJanela {
                             Configurador.recarregarConfiguracoes();
                             recarregarComponentes();
                         }
+
+                        if (evento.getKeyCode() == KeyEvent.VK_F2) {
+                            abrirArquivo();
+                        }
                     }
                 });
+    }
+
+    private void abrirArquivo() {
+        exploradorArquivos = new ExploradorArquivos(this, "Abrir arquivo", FileDialog.LOAD);
+        Path caminhoArquivo = exploradorArquivos.getCaminhoArquivo();
+        arquivosAbertos.add(caminhoArquivo.toFile());
     }
 
     private void recarregarComponentes() {
