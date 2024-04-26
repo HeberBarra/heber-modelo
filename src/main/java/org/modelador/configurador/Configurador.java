@@ -36,12 +36,12 @@ public class Configurador {
         StringBuilder informacoesConfiguracoes = new StringBuilder();
 
         for (var nomeTabela : configuracoes.keySet()) {
-            informacoesConfiguracoes.append(String.format("[%s]\n", nomeTabela));
+            informacoesConfiguracoes.append("[%s]\n".formatted(nomeTabela));
 
             TomlTable tabela = configuracoes.getTable(nomeTabela);
             assert tabela != null;
             for (var chave : tabela.keySet()) {
-                informacoesConfiguracoes.append(String.format("%s = %s\n", chave, tabela.get(chave)));
+                informacoesConfiguracoes.append("%s = %s\n".formatted(chave, tabela.get(chave)));
             }
         }
 
@@ -74,7 +74,7 @@ public class Configurador {
         try {
             return Toml.parse(template);
         } catch (IOException e) {
-            logger.warning(String.format("Falha ao ler template das configurações: %s", e.getMessage()));
+            logger.warning("Falha ao ler template das configurações: %s".formatted(e.getMessage()));
         }
 
         return null;
@@ -90,11 +90,11 @@ public class Configurador {
         try {
             return Toml.parse(caminhoArquivo);
         } catch (FileNotFoundException e) {
-            logger.severe(String.format("Arquivo %s não encontrado", caminhoArquivo));
+            logger.severe("Arquivo %s não encontrado".formatted(caminhoArquivo));
         } catch (NoSuchFileException e) {
-            logger.severe(String.format("Arquivo: %s não existe", caminhoArquivo));
+            logger.severe("Arquivo: %s não existe".formatted(caminhoArquivo));
         } catch (IOException e) {
-            logger.severe(String.format("Erro ao ler arquivo: %s - %s", arquivo, e.getMessage()));
+            logger.severe("Erro ao ler arquivo: %s - %s".formatted(arquivo, e.getMessage()));
         }
 
         logger.severe("Devido a um erro crítico o programa será encerrado");
@@ -161,8 +161,8 @@ public class Configurador {
             logger.fine(String.valueOf(pastaConfiguracoes.mkdir()));
             logger.fine(String.valueOf(arquivoConfiguracoes.createNewFile()));
         } catch (IOException e) {
-            logger.warning(String.format(
-                    "Erro ao criar o arquivo de configurações: %s - %s", arquivoConfiguracoes, e.getMessage()));
+            logger.warning("Erro ao criar o arquivo de configurações: %s - %s"
+                    .formatted(arquivoConfiguracoes, e.getMessage()));
         }
 
         if (arquivoConfiguracoes.length() != 0) {
@@ -173,12 +173,11 @@ public class Configurador {
             bufferedWriter.write(
                     Objects.requireNonNull(lerTemplateConfiguracoes(template)).toToml());
         } catch (IOException e) {
-            logger.warning(String.format(
-                    "Erro ao tentar ler o arquivo de configuracões: %s - %s", arquivoConfiguracoes, e.getMessage()));
+            logger.warning("Erro ao tentar ler o arquivo de configuracões: %s - %s"
+                    .formatted(arquivoConfiguracoes, e.getMessage()));
         } catch (NullPointerException e) {
-            logger.severe(String.format(
-                    "Arquivo de configurações está vazio e houve um problema na leitura da template: %s",
-                    e.getMessage()));
+            logger.severe("Arquivo de configurações está vazio e houve um problema na leitura da template: %s"
+                    .formatted(e.getMessage()));
             logger.severe("Encerrando execução do programa...");
             System.exit(1);
         }
@@ -200,8 +199,8 @@ public class Configurador {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(arquivoConfiguracoes))) {
             bufferedWriter.write(resultadoCombinacao.toToml());
         } catch (IOException e) {
-            logger.warning(String.format(
-                    "Falha ao tentar atualizar o arquivo: %s. Erro: %s", arquivoConfiguracoes, e.getMessage()));
+            logger.warning("Falha ao tentar atualizar o arquivo: %s. Erro: %s"
+                    .formatted(arquivoConfiguracoes, e.getMessage()));
         }
     }
 }
