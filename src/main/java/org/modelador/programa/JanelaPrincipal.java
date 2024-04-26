@@ -37,24 +37,23 @@ public class JanelaPrincipal extends BaseJanela {
 
         criarGrade();
 
-        addKeyListener(
-                new KeyAdapter() {
-                    @Override
-                    public void keyPressed(KeyEvent evento) {
-                        if (evento.getKeyCode() == KeyEvent.VK_SPACE) {
-                            new SeletorRadial(MouseInfo.getPointerInfo().getLocation());
-                        }
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent evento) {
+                if (evento.getKeyCode() == KeyEvent.VK_SPACE) {
+                    new SeletorRadial(MouseInfo.getPointerInfo().getLocation());
+                }
 
-                        if (evento.getKeyCode() == KeyEvent.VK_F1) {
-                            Configurador.recarregarConfiguracoes();
-                            recarregarComponentes();
-                        }
+                if (evento.getKeyCode() == KeyEvent.VK_F1) {
+                    Configurador.recarregarConfiguracoes();
+                    recarregarComponentes();
+                }
 
-                        if (evento.getKeyCode() == KeyEvent.VK_F2) {
-                            abrirArquivo();
-                        }
-                    }
-                });
+                if (evento.getKeyCode() == KeyEvent.VK_F2) {
+                    abrirArquivo();
+                }
+            }
+        });
     }
 
     private void abrirArquivo() {
@@ -65,8 +64,7 @@ public class JanelaPrincipal extends BaseJanela {
 
     private void recarregarComponentes() {
         getContentPane().setBackground(Paleta.pegarCor("cor_fundo"));
-        grade.setTamanhoQuadrado(
-                Configurador.pegarValorConfiguracao("grade", "tamanho_quadrado", int.class));
+        grade.setTamanhoQuadrado(Configurador.pegarValorConfiguracao("grade", "tamanho_quadrado", int.class));
         grade.setSize(larguraGrade, alturaGrade);
 
         for (Component componente : getContentPane().getComponents()) {
@@ -77,23 +75,21 @@ public class JanelaPrincipal extends BaseJanela {
     }
 
     private void criarGrade() {
-        grade =
-                new Grade(
-                        larguraGrade,
-                        alturaGrade,
-                        Configurador.pegarValorConfiguracao("grade", "tamanho_quadrado", int.class),
-                        Paleta.pegarCor("cor_grade"));
+        grade = new Grade(
+                larguraGrade,
+                alturaGrade,
+                Configurador.pegarValorConfiguracao("grade", "tamanho_quadrado", int.class),
+                Paleta.pegarCor("cor_grade"));
         getContentPane().setLayout(null);
         getContentPane().add(grade);
 
-        addComponentListener(
-                new ComponentAdapter() {
-                    @Override
-                    public void componentResized(ComponentEvent e) {
-                        super.componentResized(e);
-                        grade.setSize(getSize());
-                        grade.repaint();
-                    }
-                });
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                grade.setSize(getSize());
+                grade.repaint();
+            }
+        });
     }
 }

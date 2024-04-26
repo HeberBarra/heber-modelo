@@ -22,10 +22,9 @@ public class ConversorToml {
             Map<String, Object> tabela = dados.get(chave);
 
             for (String chaveTabela : tabela.keySet()) {
-                stringBuilder.append(
-                        String.format(
-                                "%s%s=%s",
-                                INDENTACAO, chaveTabela, tabela.get(chaveTabela).toString()));
+                stringBuilder.append(String.format(
+                        "%s%s=%s",
+                        INDENTACAO, chaveTabela, tabela.get(chaveTabela).toString()));
             }
 
             stringBuilder.append("\n");

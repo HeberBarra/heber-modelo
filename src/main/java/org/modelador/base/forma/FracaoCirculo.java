@@ -40,19 +40,10 @@ public class FracaoCirculo extends JPanel {
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         Graphics2D graphics2D = (Graphics2D) graphics;
-        graphics2D.setRenderingHint(
-                RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         graphics2D.setBackground(getBackground());
         graphics2D.setColor(getBackground());
-        Arc2D arco =
-                new Arc2D.Double(
-                        circuloX,
-                        circuloY,
-                        diametro,
-                        diametro,
-                        anguloInicial,
-                        anguloArco,
-                        Arc2D.PIE);
+        Arc2D arco = new Arc2D.Double(circuloX, circuloY, diametro, diametro, anguloInicial, anguloArco, Arc2D.PIE);
         graphics2D.fill(arco);
     }
 

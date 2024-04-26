@@ -25,7 +25,8 @@ public class Paleta {
     protected static String pegarHexCode(TomlTable tabelaPaleta, String chaveCor) {
         TomlTable tabelaTomlPaleta = tabelaPaleta.getTable("paleta");
 
-        return (String) Objects.requireNonNullElse(tabelaTomlPaleta, tabelaPaleta).get(chaveCor);
+        return (String)
+                Objects.requireNonNullElse(tabelaTomlPaleta, tabelaPaleta).get(chaveCor);
     }
 
     public static void setTemplatePaleta(TomlTable templatePaleta) {
