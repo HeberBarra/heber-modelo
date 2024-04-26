@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 import org.modelador.configurador.paleta.Paleta;
+import org.modelador.exploraradorarquivos.Recurso;
 import org.modelador.logger.JavaLogger;
 import org.tomlj.Toml;
 import org.tomlj.TomlParseResult;
@@ -20,10 +21,12 @@ import org.tomlj.TomlTable;
 public class Configurador {
 
     private static final Logger logger = JavaLogger.obterLogger(Configurador.class.getName());
-    public static final Path PASTA_TEMPLATES = Path.of("src/main/resources");
+    protected static Recurso recurso = new Recurso();
     public static final PastaConfiguracao PASTA_CONFIGURACAO = detectarSistemaOperacional();
-    public static final Path TEMPLATE_CONFIGURACOES = Path.of(PASTA_TEMPLATES + "/template.toml");
-    public static final Path TEMPLATE_PALETA = Path.of(PASTA_TEMPLATES + "/template_paleta.toml");
+    public static final Path TEMPLATE_CONFIGURACOES =
+            recurso.pegarRecurso("template.toml").toPath();
+    public static final Path TEMPLATE_PALETA =
+            recurso.pegarRecurso("template_paleta.toml").toPath();
     public static final String ARQUIVO_CONFIGURACOES = "configuracoes.toml";
     public static final String ARQUIVO_PALETA = "paleta.toml";
     public static TomlTable configuracoes = lerConfiguracoes();
