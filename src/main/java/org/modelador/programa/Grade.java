@@ -1,6 +1,7 @@
 package org.modelador.programa;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import org.modelador.base.componente.RecarregamentoComponente;
@@ -10,6 +11,10 @@ public class Grade extends JPanel implements RecarregamentoComponente {
 
     private int tamanhoQuadrado;
     private Color corGrade;
+
+    public Grade(Dimension dimensaoGrade, int tamanhoQuadrado, Color corGrade) {
+        this(dimensaoGrade.width, dimensaoGrade.height, tamanhoQuadrado, corGrade);
+    }
 
     public Grade(int larguraGrade, int alturaGrade, int tamanhoQuadrado, Color corGrade) {
         super();
