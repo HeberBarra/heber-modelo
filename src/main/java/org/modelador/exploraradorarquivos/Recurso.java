@@ -39,8 +39,7 @@ public class Recurso {
 
             return arquivoRecurso;
         } catch (IOException e) {
-            logger.warning(
-                    "Erro ao ler recurso: %s - %s".formatted(caminhoArquivo, e.getMessage()));
+            logger.warning("Erro ao ler recurso: %s - %s".formatted(caminhoArquivo, e.getMessage()));
         }
 
         return null;

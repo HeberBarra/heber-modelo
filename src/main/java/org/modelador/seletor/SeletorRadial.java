@@ -21,8 +21,7 @@ public class SeletorRadial extends JFrame {
     public final Color COR_FUNDO = Paleta.pegarCor("cor_seletor_radial");
     public final Color TRANSPARENTE = new Color(1, 1, 1, 0);
     private final int RAIO_BORDA = 10000;
-    private final int DIAMETRO =
-            Configurador.pegarValorConfiguracao("seletor", "diametro", int.class);
+    private final int DIAMETRO = Configurador.pegarValorConfiguracao("seletor", "diametro", int.class);
     protected JPanel conteudo = new JPanel(new BorderLayout());
     protected Circulo circuloInterno = new Circulo(RAIO_BORDA, Color.GRAY);
 
@@ -39,17 +38,16 @@ public class SeletorRadial extends JFrame {
     }
 
     private void fecharAoPerderFoco() {
-        addWindowFocusListener(
-                new WindowFocusListener() {
+        addWindowFocusListener(new WindowFocusListener() {
 
-                    @Override
-                    public void windowGainedFocus(WindowEvent e) {}
+            @Override
+            public void windowGainedFocus(WindowEvent e) {}
 
-                    @Override
-                    public void windowLostFocus(WindowEvent e) {
-                        dispose();
-                    }
-                });
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                dispose();
+            }
+        });
     }
 
     private void criarFracoes() {
@@ -69,36 +67,27 @@ public class SeletorRadial extends JFrame {
 
         for (int i = 0; i < NUMERO_FUNCOES; i++) {
             fracoesCirculo[i] =
-                    new FracaoCirculo(
-                            DIAMETRO,
-                            DIAMETRO,
-                            0,
-                            0,
-                            DIAMETRO,
-                            angulos[i],
-                            anguloFracoes,
-                            COR_FUNDO);
+                    new FracaoCirculo(DIAMETRO, DIAMETRO, 0, 0, DIAMETRO, angulos[i], anguloFracoes, COR_FUNDO);
             conteudo.add(fracoesCirculo[i]);
             fracoesCirculo[i].setSize(dimensoes[i]);
         }
 
         for (FracaoCirculo fracaoCirculo : fracoesCirculo) {
-            fracaoCirculo.addMouseListener(
-                    new MouseAdapter() {
-                        @Override
-                        public void mouseEntered(MouseEvent e) {
-                            super.mouseEntered(e);
-                            fracaoCirculo.setBackground(COR_HOVER);
-                            circuloInterno.repaint();
-                        }
+            fracaoCirculo.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    super.mouseEntered(e);
+                    fracaoCirculo.setBackground(COR_HOVER);
+                    circuloInterno.repaint();
+                }
 
-                        @Override
-                        public void mouseExited(MouseEvent e) {
-                            super.mouseExited(e);
-                            fracaoCirculo.setBackground(COR_FUNDO);
-                            circuloInterno.repaint();
-                        }
-                    });
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    super.mouseExited(e);
+                    fracaoCirculo.setBackground(COR_FUNDO);
+                    circuloInterno.repaint();
+                }
+            });
         }
     }
 
@@ -106,8 +95,7 @@ public class SeletorRadial extends JFrame {
         int diametroCirculoInterno = DIAMETRO / 2;
         int circuloInternoX = (DIAMETRO - diametroCirculoInterno) / 2;
         int circuloInternoY = (DIAMETRO - diametroCirculoInterno) / 2;
-        circuloInterno.setBounds(
-                circuloInternoX, circuloInternoY, diametroCirculoInterno, diametroCirculoInterno);
+        circuloInterno.setBounds(circuloInternoX, circuloInternoY, diametroCirculoInterno, diametroCirculoInterno);
 
         conteudo.add(circuloInterno);
     }

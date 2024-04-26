@@ -41,8 +41,7 @@ public class Configurador {
             TomlTable tabela = configuracoes.getTable(nomeTabela);
             assert tabela != null;
             for (var chave : tabela.keySet()) {
-                informacoesConfiguracoes.append(
-                        String.format("%s = %s\n", chave, tabela.get(chave)));
+                informacoesConfiguracoes.append(String.format("%s = %s\n", chave, tabela.get(chave)));
             }
         }
 
@@ -50,8 +49,7 @@ public class Configurador {
     }
 
     public static void recarregarConfiguracoes() {
-        JavaLogger.desativarLogger(
-                pegarValorConfiguracao("logger", "desativar", boolean.class), logger);
+        JavaLogger.desativarLogger(pegarValorConfiguracao("logger", "desativar", boolean.class), logger);
         atualizarConfiguracoes(ARQUIVO_CONFIGURACOES, TEMPLATE_CONFIGURACOES, lerConfiguracoes());
         configuracoes = lerConfiguracoes();
         paleta = lerPaleta();
@@ -76,8 +74,7 @@ public class Configurador {
         try {
             return Toml.parse(template);
         } catch (IOException e) {
-            logger.warning(
-                    String.format("Falha ao ler template das configurações: %s", e.getMessage()));
+            logger.warning(String.format("Falha ao ler template das configurações: %s", e.getMessage()));
         }
 
         return null;
@@ -115,8 +112,7 @@ public class Configurador {
         return lerArquivo(ARQUIVO_PALETA);
     }
 
-    public static <T> T pegarValorConfiguracao(
-            String nomeTabela, String chave, Class<T> tipoValor) {
+    public static <T> T pegarValorConfiguracao(String nomeTabela, String chave, Class<T> tipoValor) {
         TomlTable tabela = configuracoes.getTableOrEmpty(nomeTabela);
         var valor = tabela.get(chave);
 
@@ -127,13 +123,11 @@ public class Configurador {
         return (T) valor;
     }
 
-    public static TomlParseResult combinarConfiguracoes(
-            TomlTable templateConfiguracoes, TomlTable configuracoes) {
+    public static TomlParseResult combinarConfiguracoes(TomlTable templateConfiguracoes, TomlTable configuracoes) {
         Map<String, Map<String, Object>> combinacaoConfiguracoes = new LinkedHashMap<>();
 
         for (String nomeTabela : templateConfiguracoes.keySet()) {
-            TomlTable templateTabela =
-                    Objects.requireNonNull(templateConfiguracoes.getTable(nomeTabela));
+            TomlTable templateTabela = Objects.requireNonNull(templateConfiguracoes.getTable(nomeTabela));
             TomlTable tabelaConfiguracoes = configuracoes.getTable(nomeTabela);
             Map<String, Object> mapTabela = new LinkedHashMap<>();
 
@@ -167,30 +161,24 @@ public class Configurador {
             logger.fine(String.valueOf(pastaConfiguracoes.mkdir()));
             logger.fine(String.valueOf(arquivoConfiguracoes.createNewFile()));
         } catch (IOException e) {
-            logger.warning(
-                    String.format(
-                            "Erro ao criar o arquivo de configurações: %s - %s",
-                            arquivoConfiguracoes, e.getMessage()));
+            logger.warning(String.format(
+                    "Erro ao criar o arquivo de configurações: %s - %s", arquivoConfiguracoes, e.getMessage()));
         }
 
         if (arquivoConfiguracoes.length() != 0) {
             return;
         }
 
-        try (BufferedWriter bufferedWriter =
-                new BufferedWriter(new FileWriter(arquivoConfiguracoes))) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(arquivoConfiguracoes))) {
             bufferedWriter.write(
                     Objects.requireNonNull(lerTemplateConfiguracoes(template)).toToml());
         } catch (IOException e) {
-            logger.warning(
-                    String.format(
-                            "Erro ao tentar ler o arquivo de configuracões: %s - %s",
-                            arquivoConfiguracoes, e.getMessage()));
+            logger.warning(String.format(
+                    "Erro ao tentar ler o arquivo de configuracões: %s - %s", arquivoConfiguracoes, e.getMessage()));
         } catch (NullPointerException e) {
-            logger.severe(
-                    String.format(
-                            "Arquivo de configurações está vazio e houve um problema na leitura da template: %s",
-                            e.getMessage()));
+            logger.severe(String.format(
+                    "Arquivo de configurações está vazio e houve um problema na leitura da template: %s",
+                    e.getMessage()));
             logger.severe("Encerrando execução do programa...");
             System.exit(1);
         }
@@ -204,21 +192,16 @@ public class Configurador {
         criarArquivo(ARQUIVO_PALETA, TEMPLATE_PALETA);
     }
 
-    public static void atualizarConfiguracoes(
-            String arquivo, Path template, TomlTable informacoes) {
+    public static void atualizarConfiguracoes(String arquivo, Path template, TomlTable informacoes) {
         TomlTable resultadoCombinacao =
-                combinarConfiguracoes(
-                        Objects.requireNonNull(lerTemplateConfiguracoes(template)), informacoes);
+                combinarConfiguracoes(Objects.requireNonNull(lerTemplateConfiguracoes(template)), informacoes);
         File arquivoConfiguracoes = new File(PASTA_CONFIGURACAO.getCaminhoPasta() + "/" + arquivo);
 
-        try (BufferedWriter bufferedWriter =
-                new BufferedWriter(new FileWriter(arquivoConfiguracoes))) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(arquivoConfiguracoes))) {
             bufferedWriter.write(resultadoCombinacao.toToml());
         } catch (IOException e) {
-            logger.warning(
-                    String.format(
-                            "Falha ao tentar atualizar o arquivo: %s. Erro: %s",
-                            arquivoConfiguracoes, e.getMessage()));
+            logger.warning(String.format(
+                    "Falha ao tentar atualizar o arquivo: %s. Erro: %s", arquivoConfiguracoes, e.getMessage()));
         }
     }
 }
