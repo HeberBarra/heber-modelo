@@ -32,22 +32,6 @@ public class Configurador {
     public static TomlTable configuracoes = lerConfiguracoes();
     public static TomlTable paleta = lerPaleta();
 
-    public static String pegarInformacoesConfiguracoes(TomlParseResult configuracoes) {
-        StringBuilder informacoesConfiguracoes = new StringBuilder();
-
-        for (var nomeTabela : configuracoes.keySet()) {
-            informacoesConfiguracoes.append("[%s]\n".formatted(nomeTabela));
-
-            TomlTable tabela = configuracoes.getTable(nomeTabela);
-            assert tabela != null;
-            for (var chave : tabela.keySet()) {
-                informacoesConfiguracoes.append("%s = %s\n".formatted(chave, tabela.get(chave)));
-            }
-        }
-
-        return informacoesConfiguracoes.toString();
-    }
-
     public static void recarregarConfiguracoes() {
         JavaLogger.desativarLogger(pegarValorConfiguracao("logger", "desativar", boolean.class), logger);
         atualizarConfiguracoes(ARQUIVO_CONFIGURACOES, TEMPLATE_CONFIGURACOES, lerConfiguracoes());
@@ -112,6 +96,7 @@ public class Configurador {
         return lerArquivo(ARQUIVO_PALETA);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T pegarValorConfiguracao(String nomeTabela, String chave, Class<T> tipoValor) {
         TomlTable tabela = configuracoes.getTableOrEmpty(nomeTabela);
         var valor = tabela.get(chave);
