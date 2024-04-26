@@ -8,12 +8,12 @@ public class FormatadorJavaLogger extends Formatter {
 
     @Override
     public String format(LogRecord record) {
-        return String.format(
-                "%s - [%s] %s::%s - %s\n",
-                new Date(record.getMillis()),
-                record.getLevel(),
-                record.getSourceClassName(),
-                record.getSourceMethodName(),
-                record.getMessage());
+        return "%s - [%s] %s::%s - %s\n"
+                .formatted(
+                        new Date(record.getMillis()),
+                        record.getLevel(),
+                        record.getSourceClassName(),
+                        record.getSourceMethodName(),
+                        record.getMessage());
     }
 }

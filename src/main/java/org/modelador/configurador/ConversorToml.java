@@ -18,13 +18,13 @@ public class ConversorToml {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (String chave : dados.keySet()) {
-            stringBuilder.append(String.format("[%s]\n", chave));
+            stringBuilder.append("[%s]\n".formatted(chave));
             Map<String, Object> tabela = dados.get(chave);
 
             for (String chaveTabela : tabela.keySet()) {
-                stringBuilder.append(String.format(
-                        "%s%s=%s",
-                        INDENTACAO, chaveTabela, tabela.get(chaveTabela).toString()));
+                stringBuilder.append("%s%s=%s"
+                        .formatted(
+                                INDENTACAO, chaveTabela, tabela.get(chaveTabela).toString()));
             }
 
             stringBuilder.append("\n");

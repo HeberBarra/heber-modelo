@@ -38,7 +38,7 @@ public class JavaLogger {
             logger.addHandler(criarFileHandler(nomeArquivo));
 
         } catch (IOException e) {
-            logger.warning(String.format("Falha ao criar logger: %s", e.getMessage()));
+            logger.warning("Falha ao criar logger: %s".formatted(e.getMessage()));
         }
 
         return logger;
