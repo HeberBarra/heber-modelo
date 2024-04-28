@@ -65,7 +65,8 @@ public class JanelaPrincipal extends BaseJanela {
     private void recarregarComponentes() {
         getContentPane().setBackground(Paleta.pegarCor("cor_fundo"));
         grade.setTamanhoQuadrado(Configurador.pegarValorConfiguracao("grade", "tamanho_quadrado", int.class));
-        grade.setSize(larguraGrade, alturaGrade);
+        grade.setEspessuraBorda(Configurador.pegarValorConfiguracao("grade", "espessura_borda", int.class));
+        grade.setCorBorda(Paleta.pegarCor("cor_borda_grade"));
 
         for (Component componente : getContentPane().getComponents()) {
             if (componente instanceof RecarregamentoComponente) {
@@ -79,7 +80,9 @@ public class JanelaPrincipal extends BaseJanela {
                 larguraGrade,
                 alturaGrade,
                 Configurador.pegarValorConfiguracao("grade", "tamanho_quadrado", int.class),
-                Paleta.pegarCor("cor_grade"));
+                Paleta.pegarCor("cor_grade"),
+                Paleta.pegarCor("cor_borda_grade"),
+                Configurador.pegarValorConfiguracao("grade", "espessura_borda", int.class));
         getContentPane().setLayout(null);
         getContentPane().add(grade);
 
@@ -87,7 +90,11 @@ public class JanelaPrincipal extends BaseJanela {
             @Override
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
-                grade.setSize(getSize());
+                int tamanho_quadrado = grade.getTamanhoQuadrado();
+                larguraGrade = getWidth() - tamanho_quadrado;
+                alturaGrade = getHeight() - tamanho_quadrado;
+                grade.setLocation(tamanho_quadrado, tamanho_quadrado);
+                grade.setSize(larguraGrade, alturaGrade);
                 grade.repaint();
             }
         });
