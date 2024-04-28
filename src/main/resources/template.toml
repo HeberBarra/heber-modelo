@@ -6,3 +6,4 @@ desativar = false
 
 [grade]
 tamanho_quadrado = 20
+espessura_borda = 1
