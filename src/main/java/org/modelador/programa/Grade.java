@@ -50,6 +50,11 @@ public class Grade extends JPanel implements RecarregamentoComponente {
     }
 
     @Override
+    public void setSize(Dimension dimensao) {
+        this.setSize(dimensao.width, dimensao.height);
+    }
+
+    @Override
     public void setSize(int largura, int altura) {
         super.setSize(recalcularTamanho(largura), recalcularTamanho(altura));
     }
