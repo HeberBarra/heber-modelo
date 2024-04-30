@@ -1,8 +1,10 @@
 package org.modelador.programa;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
@@ -11,6 +13,7 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
+import javax.swing.JPanel;
 import org.modelador.base.componente.RecarregamentoComponente;
 import org.modelador.base.janela.BaseJanela;
 import org.modelador.configurador.Configurador;
@@ -23,20 +26,23 @@ public class JanelaPrincipal extends BaseJanela {
 
     protected Set<File> arquivosAbertos = new HashSet<>();
     protected ExploradorArquivos exploradorArquivos;
-    protected Grade grade;
-    protected int larguraGrade;
-    protected int alturaGrade;
+    protected Grade grade = criarGrade();
+    protected BarraSuperior barraSuperior = new BarraSuperior();
+    protected BarraLateral barraLateral = new BarraLateral();
+    protected JPanel conteudo = new JPanel(null);
 
     public JanelaPrincipal(int largura, int altura) {
         super("DER-MODELADOR", largura, altura);
-        getContentPane().setBackground(Paleta.pegarCor("cor_fundo"));
+        conteudo.setBackground(Paleta.pegarCor("cor_fundo"));
         setVisible(true);
 
-        larguraGrade = largura;
-        alturaGrade = altura;
+        conteudo.add(grade);
+        conteudo.add(barraSuperior);
+        conteudo.add(barraLateral);
+        barraLateral.setBackground(Paleta.pegarCor("cor_barra_lateral"));
+        barraSuperior.setBackground(Paleta.pegarCor("cor_barra_superior"));
 
-        criarGrade();
-
+        setContentPane(conteudo);
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent evento) {
@@ -54,6 +60,83 @@ public class JanelaPrincipal extends BaseJanela {
                 }
             }
         });
+
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                Dimension tamanhoPanel = conteudo.getSize();
+                int margem = grade.getTamanhoQuadrado();
+                mudarGrade(tamanhoPanel, margem);
+                mudarBarraSuperior(tamanhoPanel, margem);
+                mudarBarraLateral(tamanhoPanel, margem);
+            }
+        });
+    }
+
+    protected Grade criarGrade() {
+        return new Grade(
+                calcularTamanhoGrade(getSize()),
+                Configurador.pegarValorConfiguracao("grade", "tamanho_quadrado", int.class),
+                Paleta.pegarCor("cor_grade"),
+                Paleta.pegarCor("cor_borda_grade"),
+                Configurador.pegarValorConfiguracao("grade", "espessura_borda", int.class));
+    }
+
+    protected Dimension calcularTamanhoGrade(Dimension tamanho) {
+        int largura = tamanho.width * 80 / 100;
+        int altura = tamanho.height * 85 / 100;
+
+        return new Dimension(largura, altura);
+    }
+
+    protected Point calcularPosicaoGrade(Dimension tamanhoPanel, Dimension tamanhoGrade, int margem) {
+        int x = tamanhoPanel.width - tamanhoGrade.width + margem;
+        int y = (tamanhoPanel.height - tamanhoGrade.height) / 2 + margem * 3;
+
+        return new Point(x, y);
+    }
+
+    protected void mudarGrade(Dimension tamanhoPanel, int margem) {
+        Dimension tamanhoGrade = calcularTamanhoGrade(tamanhoPanel);
+        Point posicaoGrade = calcularPosicaoGrade(tamanhoPanel, tamanhoGrade, margem);
+
+        grade.setSize(tamanhoGrade);
+        grade.setLocation(posicaoGrade);
+        grade.repaint();
+    }
+
+    protected Dimension calcularTamanhoBarraSuperior(Dimension tamanhoPanel, Dimension tamanhoGrade, int margem) {
+        int altura = tamanhoPanel.height - tamanhoGrade.height - margem * 4;
+
+        return new Dimension(tamanhoPanel.width, altura);
+    }
+
+    protected void mudarBarraSuperior(Dimension tamanhoPanel, int margem) {
+        barraSuperior.setSize(calcularTamanhoBarraSuperior(tamanhoPanel, grade.getSize(), margem));
+    }
+
+    protected Dimension calcularTamanhoBarraLateral(
+            Dimension tamanhoPanel, Dimension tamanhoGrade, Dimension tamanhoBarraSuperior, int margem) {
+        int largura = tamanhoPanel.width - tamanhoGrade.width - margem * 4;
+        int altura = tamanhoPanel.height - tamanhoBarraSuperior.height;
+
+        return new Dimension(largura, altura);
+    }
+
+    protected Point calcularPosicaoBarraLateral(Dimension tamanhoPanel, Dimension tamanhoBarraLateral) {
+        return new Point(0, tamanhoPanel.height - tamanhoBarraLateral.height);
+    }
+
+    protected void mudarBarraLateral(Dimension tamanhoPanel, int margem) {
+        Dimension tamanhoGrade = grade.getSize();
+        Dimension tamanhoBarraSuperior = barraSuperior.getSize();
+        Dimension tamanhoBarraLateral =
+                calcularTamanhoBarraLateral(tamanhoPanel, tamanhoGrade, tamanhoBarraSuperior, margem);
+        Point posicaoBarraLateral = calcularPosicaoBarraLateral(tamanhoPanel, tamanhoBarraLateral);
+
+        barraLateral.setSize(tamanhoBarraLateral);
+        barraLateral.setLocation(posicaoBarraLateral);
     }
 
     private void abrirArquivo() {
@@ -73,30 +156,5 @@ public class JanelaPrincipal extends BaseJanela {
                 ((RecarregamentoComponente) componente).recarregar();
             }
         }
-    }
-
-    private void criarGrade() {
-        grade = new Grade(
-                larguraGrade,
-                alturaGrade,
-                Configurador.pegarValorConfiguracao("grade", "tamanho_quadrado", int.class),
-                Paleta.pegarCor("cor_grade"),
-                Paleta.pegarCor("cor_borda_grade"),
-                Configurador.pegarValorConfiguracao("grade", "espessura_borda", int.class));
-        getContentPane().setLayout(null);
-        getContentPane().add(grade);
-
-        addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                super.componentResized(e);
-                int tamanho_quadrado = grade.getTamanhoQuadrado();
-                larguraGrade = getWidth() - tamanho_quadrado;
-                alturaGrade = getHeight() - tamanho_quadrado;
-                grade.setLocation(tamanho_quadrado, tamanho_quadrado);
-                grade.setSize(larguraGrade, alturaGrade);
-                grade.repaint();
-            }
-        });
     }
 }
