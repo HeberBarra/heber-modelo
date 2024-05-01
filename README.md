@@ -15,7 +15,9 @@ Desenvolvido por estudantes do Curso Técnico em Informática do Instituto Feder
 #### Diretório de configurações:
 
 **Windows:** %APPDATA%\\der-modelador\\
+
 **Mac:** $HOME/Library/Application Support/der-modelador/
+
 **Unix:** $HOME/.config/der-modelador/
 
 O programa disponibiliza algumas opções de configuração, que são feitas usando [TOML(Tom's Obvious Minimal Language)](https://toml.io/en/). Os arquivos são criados automaticamente pelo programa caso não existam, baseados nas templates do programa.
