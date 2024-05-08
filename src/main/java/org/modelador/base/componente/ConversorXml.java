@@ -11,7 +11,13 @@ public interface ConversorXml {
 
         try {
             atributo.setAccessible(true);
-            return atributo.get(this).toString();
+            var valorAtributo = atributo.get(this);
+
+            if (valorAtributo == null) {
+                return "";
+            }
+
+            return valorAtributo.toString();
         } catch (IllegalAccessException e) {
             logger.severe("Falha ao ler valor do atributo: %s. %n%s".formatted(atributo.getName(), e.getMessage()));
         }
@@ -19,17 +25,30 @@ public interface ConversorXml {
         return "";
     }
 
+    default String pegarAtributosClasses() {
+        StringBuilder stringBuilder = new StringBuilder();
+        Class<?> classe = getClass();
+        while (classe != null) {
+            for (Field field : classe.getDeclaredFields()) {
+                // Ignora as classes que pertence ao JDK, pois os atributos dessas não podem ser acessados
+                if (classe.getClassLoader() == "".getClass().getClassLoader()) break;
+
+                stringBuilder.append("\t<%s>%s".formatted(field.getName(), pegarValorAtributo(field)));
+                stringBuilder.append("</%s>%n".formatted(field.getName()));
+            }
+
+            classe = classe.getSuperclass();
+        }
+
+        return stringBuilder.toString();
+    }
+
     default String converterParaStringXml() {
         StringBuilder stringBuilder = new StringBuilder();
         String nomeClasse = this.getClass().getSimpleName();
 
         stringBuilder.append("<%s>%n".formatted(nomeClasse));
-
-        for (Field field : getClass().getDeclaredFields()) {
-            stringBuilder.append("\t<%s>%s".formatted(field.getName(), pegarValorAtributo(field)));
-            stringBuilder.append("</%s>%n".formatted(field.getName()));
-        }
-
+        stringBuilder.append(pegarAtributosClasses());
         stringBuilder.append("</%s>".formatted(nomeClasse));
 
         return stringBuilder.toString();
