@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
 import javax.swing.JPanel;
+import org.jetbrains.annotations.NotNull;
 
 public class Componente extends JPanel implements ConversorXml {
 
@@ -37,7 +38,7 @@ public class Componente extends JPanel implements ConversorXml {
     }
 
     @Override
-    public void setLocation(Point posicao) {
+    public void setLocation(@NotNull Point posicao) {
         this.setLocation(posicao.x, posicao.y);
     }
 
@@ -51,7 +52,7 @@ public class Componente extends JPanel implements ConversorXml {
     }
 
     @Override
-    public void setBounds(Rectangle retangulo) {
+    public void setBounds(@NotNull Rectangle retangulo) {
         this.setBounds(retangulo.x, retangulo.y, retangulo.width, retangulo.height);
     }
 
