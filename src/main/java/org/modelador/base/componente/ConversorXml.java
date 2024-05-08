@@ -30,7 +30,7 @@ public interface ConversorXml {
         Class<?> classe = getClass();
         while (classe != null) {
             for (Field field : classe.getDeclaredFields()) {
-                // Ignora as classes que pertence ao JDK, pois os atributos dessas não podem ser acessados
+                // Ignora as classes que pertencem ao JDK, pois os atributos dessas não podem ser acessados
                 if (classe.getClassLoader() == "".getClass().getClassLoader()) break;
 
                 stringBuilder.append("\t<%s>%s".formatted(field.getName(), pegarValorAtributo(field)));
