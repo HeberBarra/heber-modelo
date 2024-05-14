@@ -29,17 +29,17 @@ O programa disponibiliza algumas opções de configuração, que são feitas usa
 
 ## 3 Instalação
 
-Atualmente a única forma de "instalar" o programa é compilado usando o Gradle, para melhor compatibilidade é necessário usar a versão 21 do JDK. Recomendo usar a task jar do Gradle para gerar o arquivo jar, permitindo assim uma maior praticidade.   
+Atualmente a única forma de "instalar" o programa é compilando usando o Gradle, para melhor compatibilidade é necessário usar a versão 21 do JDK. Recomendo usar a task jar do Gradle para gerar o arquivo jar, permitindo assim uma maior praticidade.   
 
 ## 4 Funcionalidades Planejadas/Propostas
 
 - [ ] Seletor Radial
-- [ ] Formatação automaticamente
+- [ ] Formatação automática
 - [ ] Suporte para temas
 - [ ] Suporte para key maps customizados
 - [ ] Formatação automática de atributos
 - [ ] Estilos diferentes de fundo/grade
-- [ ] Exportação para PDF, SVG, PNG e HTML
+- [ ] Exportação para PDF, SVG, PNG e XML
 - [ ] Alinhar com a grade
 - [ ] Versionamento Semântico
 - [ ] Auto atualização

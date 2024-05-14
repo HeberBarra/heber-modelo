@@ -8,7 +8,7 @@ public class FormatadorJavaLogger extends Formatter {
 
     @Override
     public String format(LogRecord record) {
-        return "%s - [%s] %s::%s - %s\n"
+        return "[%s] %s - %s::%s: %n%s%n"
                 .formatted(
                         new Date(record.getMillis()),
                         record.getLevel(),

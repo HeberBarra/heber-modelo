@@ -58,7 +58,7 @@ public class Configurador {
         try {
             return Toml.parse(template);
         } catch (IOException e) {
-            logger.warning("Falha ao ler template das configurações: %s".formatted(e.getMessage()));
+            logger.warning("Falha ao ler template das configurações: %n%s".formatted(e.getMessage()));
         }
 
         return null;
@@ -78,7 +78,7 @@ public class Configurador {
         } catch (NoSuchFileException e) {
             logger.severe("Arquivo: %s não existe".formatted(caminhoArquivo));
         } catch (IOException e) {
-            logger.severe("Erro ao ler arquivo: %s - %s".formatted(arquivo, e.getMessage()));
+            logger.severe("Erro ao ler arquivo: %s. %n%s".formatted(arquivo, e.getMessage()));
         }
 
         logger.severe("Devido a um erro crítico o programa será encerrado");
@@ -146,7 +146,7 @@ public class Configurador {
             logger.fine(String.valueOf(pastaConfiguracoes.mkdir()));
             logger.fine(String.valueOf(arquivoConfiguracoes.createNewFile()));
         } catch (IOException e) {
-            logger.warning("Erro ao criar o arquivo de configurações: %s - %s"
+            logger.warning("Erro ao criar o arquivo de configurações: %s. %n%s"
                     .formatted(arquivoConfiguracoes, e.getMessage()));
         }
 
@@ -158,10 +158,10 @@ public class Configurador {
             bufferedWriter.write(
                     Objects.requireNonNull(lerTemplateConfiguracoes(template)).toToml());
         } catch (IOException e) {
-            logger.warning("Erro ao tentar ler o arquivo de configuracões: %s - %s"
+            logger.warning("Erro ao tentar ler o arquivo de configuracões: %s%n%s"
                     .formatted(arquivoConfiguracoes, e.getMessage()));
         } catch (NullPointerException e) {
-            logger.severe("Arquivo de configurações está vazio e houve um problema na leitura da template: %s"
+            logger.severe("Arquivo de configurações está vazio e houve um problema na leitura da template: %n%s"
                     .formatted(e.getMessage()));
             logger.severe("Encerrando execução do programa...");
             System.exit(1);
@@ -184,8 +184,8 @@ public class Configurador {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(arquivoConfiguracoes))) {
             bufferedWriter.write(resultadoCombinacao.toToml());
         } catch (IOException e) {
-            logger.warning("Falha ao tentar atualizar o arquivo: %s. Erro: %s"
-                    .formatted(arquivoConfiguracoes, e.getMessage()));
+            logger.warning(
+                    "Falha ao tentar atualizar o arquivo: %s. %n%s".formatted(arquivoConfiguracoes, e.getMessage()));
         }
     }
 }
