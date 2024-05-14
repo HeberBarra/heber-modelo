@@ -1,6 +1,8 @@
 package org.modelador.base.componente;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import javax.swing.JPanel;
@@ -8,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Componente extends JPanel implements ConversorXml {
 
+    protected Color corFundo;
     protected int largura;
     protected int altura;
     protected int x;
@@ -19,6 +22,23 @@ public class Componente extends JPanel implements ConversorXml {
     }
 
     @Override
+    public void paint(Graphics graphics) {
+        super.paint(graphics);
+
+        if (corFundo == null) return;
+
+        graphics.setColor(corFundo);
+        graphics.fillRect(0, 0, largura, altura);
+    }
+
+    @Override
+    public void setBackground(@NotNull Color corFundo) {
+        super.setBackground(new Color(0, 0, 0, 0));
+        this.corFundo = corFundo;
+        repaint();
+    }
+
+    @Override
     public void setSize(int largura, int altura) {
         super.setSize(largura, altura);
         this.largura = largura;
@@ -26,7 +46,7 @@ public class Componente extends JPanel implements ConversorXml {
     }
 
     @Override
-    public void setSize(Dimension tamanho) {
+    public void setSize(@NotNull Dimension tamanho) {
         this.setSize(tamanho.width, tamanho.height);
     }
 
@@ -54,6 +74,14 @@ public class Componente extends JPanel implements ConversorXml {
     @Override
     public void setBounds(@NotNull Rectangle retangulo) {
         this.setBounds(retangulo.x, retangulo.y, retangulo.width, retangulo.height);
+    }
+
+    public Color getCorFundo() {
+        return corFundo;
+    }
+
+    public void setCorFundo(Color corFundo) {
+        this.corFundo = corFundo;
     }
 
     public int getLargura() {

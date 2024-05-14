@@ -18,6 +18,8 @@ import org.modelador.base.componente.RecarregamentoComponente;
 import org.modelador.base.janela.BaseJanela;
 import org.modelador.configurador.Configurador;
 import org.modelador.configurador.paleta.Paleta;
+import org.modelador.diagrama.Diagrama;
+import org.modelador.diagrama.Entidade;
 import org.modelador.exploraradorarquivos.ExploradorArquivos;
 import org.modelador.seletor.SeletorRadial;
 
@@ -27,6 +29,7 @@ public class JanelaPrincipal extends BaseJanela {
     protected Set<File> arquivosAbertos = new HashSet<>();
     protected ExploradorArquivos exploradorArquivos;
     protected Grade grade = criarGrade();
+    protected Diagrama diagrama;
     protected BarraSuperior barraSuperior = new BarraSuperior();
     protected BarraLateral barraLateral = new BarraLateral();
     protected JPanel conteudo = new JPanel(null);
@@ -36,6 +39,8 @@ public class JanelaPrincipal extends BaseJanela {
         conteudo.setBackground(Paleta.pegarCor("cor_fundo"));
         setVisible(true);
 
+        diagrama = new Diagrama("Diagrama 1");
+        conteudo.add(diagrama);
         conteudo.add(grade);
         conteudo.add(barraSuperior);
         conteudo.add(barraLateral);
@@ -70,8 +75,27 @@ public class JanelaPrincipal extends BaseJanela {
                 mudarGrade(tamanhoPanel, margem);
                 mudarBarraSuperior(tamanhoPanel, margem);
                 mudarBarraLateral(tamanhoPanel, margem);
+
+                diagrama.setSize(calcularTamanhoDiagrama());
+                diagrama.setLocation(calcularPosicaoDiagrama());
             }
         });
+
+        diagrama.adicionarComponente(new Entidade(), 0, 0, 300, 200);
+    }
+
+    protected Dimension calcularTamanhoDiagrama() {
+        int largura = grade.getWidth() - grade.getEspessuraBorda() * 2;
+        int altura = grade.getHeight() - grade.getEspessuraBorda() * 2;
+
+        return new Dimension(largura, altura);
+    }
+
+    protected Point calcularPosicaoDiagrama() {
+        int x = grade.getX() + grade.getEspessuraBorda();
+        int y = grade.getY() + grade.getEspessuraBorda();
+
+        return new Point(x, y);
     }
 
     protected Grade criarGrade() {
@@ -150,6 +174,8 @@ public class JanelaPrincipal extends BaseJanela {
         grade.setTamanhoQuadrado(Configurador.pegarValorConfiguracao("grade", "tamanho_quadrado", int.class));
         grade.setEspessuraBorda(Configurador.pegarValorConfiguracao("grade", "espessura_borda", int.class));
         grade.setCorBorda(Paleta.pegarCor("cor_borda_grade"));
+        diagrama.setSize(calcularTamanhoDiagrama());
+        diagrama.setLocation(calcularPosicaoDiagrama());
 
         for (Component componente : getContentPane().getComponents()) {
             if (componente instanceof RecarregamentoComponente) {
