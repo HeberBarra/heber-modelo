@@ -2,11 +2,12 @@ package org.modelador.base.componente;
 
 import java.lang.reflect.Field;
 import java.util.logging.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.modelador.logger.JavaLogger;
 
 public interface ConversorXml {
 
-    default String pegarValorAtributo(Field atributo) {
+    @NotNull default String pegarValorAtributo(@NotNull Field atributo) {
         Logger logger = JavaLogger.obterLogger(getClass().getName());
 
         try {
@@ -25,7 +26,7 @@ public interface ConversorXml {
         return "";
     }
 
-    default String pegarAtributosClasses() {
+    @NotNull default String pegarAtributosClasses() {
         StringBuilder stringBuilder = new StringBuilder();
         Class<?> classe = getClass();
         while (classe != null) {
@@ -43,7 +44,7 @@ public interface ConversorXml {
         return stringBuilder.toString();
     }
 
-    default String converterParaStringXml() {
+    @NotNull default String converterParaStringXml() {
         StringBuilder stringBuilder = new StringBuilder();
         String nomeClasse = this.getClass().getSimpleName();
 
