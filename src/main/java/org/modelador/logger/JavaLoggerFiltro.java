@@ -8,6 +8,6 @@ public class JavaLoggerFiltro implements Filter {
 
     @Override
     public boolean isLoggable(LogRecord record) {
-        return record.getLevel() != Level.INFO;
+        return record.getLevel() != Level.FINE;
     }
 }
