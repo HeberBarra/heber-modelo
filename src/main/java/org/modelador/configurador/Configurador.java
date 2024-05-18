@@ -33,7 +33,7 @@ public class Configurador {
     public static TomlTable paleta = lerPaleta();
 
     public static void recarregarConfiguracoes() {
-        JavaLogger.desativarLogger(pegarValorConfiguracao("logger", "desativar", boolean.class), logger);
+        JavaLogger.desativarLogger(pegarValorConfiguracao("logger", "desativar", boolean.class), Logger.getLogger(""));
         atualizarConfiguracoes(ARQUIVO_CONFIGURACOES, TEMPLATE_CONFIGURACOES, lerConfiguracoes());
         configuracoes = lerConfiguracoes();
         paleta = lerPaleta();
