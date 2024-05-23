@@ -64,7 +64,7 @@ public class Configurador {
         return null;
     }
 
-    protected static TomlParseResult lerArquivo(@NotNull String arquivo) {
+    protected static @NotNull TomlParseResult lerArquivo(@NotNull String arquivo) {
         if (!arquivo.startsWith("/")) {
             arquivo = "/" + arquivo;
         }
@@ -86,22 +86,23 @@ public class Configurador {
         return null;
     }
 
-    public static TomlTable lerConfiguracoes() {
+    public static @NotNull TomlTable lerConfiguracoes() {
         criarArquivoConfiguracoes();
         return lerArquivo(ARQUIVO_CONFIGURACOES);
     }
 
-    public static TomlTable lerPaleta() {
+    public static @NotNull TomlTable lerPaleta() {
         criarArquivoPaleta();
         return lerArquivo(ARQUIVO_PALETA);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T pegarValorConfiguracao(@NotNull String nomeTabela, @NotNull String chave, Class<T> tipoValor) {
+    public static @NotNull <T> T pegarValorConfiguracao(
+            @NotNull String nomeTabela, @NotNull String chave, @NotNull Class<T> tipoValor) {
         TomlTable tabela = configuracoes.getTableOrEmpty(nomeTabela);
-        var valor = tabela.get(chave);
+        var valor = Objects.requireNonNull(tabela.get(chave));
 
-        if (tipoValor == int.class && valor != null) {
+        if (tipoValor == int.class) {
             valor = Math.toIntExact((long) valor);
         }
 
@@ -139,7 +140,7 @@ public class Configurador {
         return Toml.parse(resultadoCombinacao);
     }
 
-    protected static void criarArquivo(String arquivo, Path template) {
+    protected static void criarArquivo(@NotNull String arquivo, @NotNull Path template) {
         File pastaConfiguracoes = PASTA_CONFIGURACAO.getCaminhoPasta().toFile();
         File arquivoConfiguracoes = new File(PASTA_CONFIGURACAO.getCaminhoPasta() + "/" + arquivo);
 
@@ -177,7 +178,8 @@ public class Configurador {
         criarArquivo(ARQUIVO_PALETA, TEMPLATE_PALETA);
     }
 
-    public static void atualizarConfiguracoes(String arquivo, Path template, TomlTable informacoes) {
+    public static void atualizarConfiguracoes(
+            @NotNull String arquivo, @NotNull Path template, @NotNull TomlTable informacoes) {
         TomlTable resultadoCombinacao =
                 combinarConfiguracoes(Objects.requireNonNull(lerTemplateConfiguracoes(template)), informacoes);
         File arquivoConfiguracoes = new File(PASTA_CONFIGURACAO.getCaminhoPasta() + "/" + arquivo);
