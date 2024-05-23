@@ -4,7 +4,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FileDialog;
 import java.awt.MouseInfo;
-import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
@@ -14,6 +13,7 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.JPanel;
+import org.jetbrains.annotations.NotNull;
 import org.modelador.base.componente.RecarregamentoComponente;
 import org.modelador.base.janela.BaseJanela;
 import org.modelador.configurador.Configurador;
@@ -24,7 +24,6 @@ import org.modelador.exploraradorarquivos.ExploradorArquivos;
 import org.modelador.seletor.SeletorRadial;
 
 public class JanelaPrincipal extends BaseJanela {
-    // TODO: Fazer lógica par a ler o conteúdo de um arquivo aberto
 
     protected Set<File> arquivosAbertos = new HashSet<>();
     protected ExploradorArquivos exploradorArquivos;
@@ -33,6 +32,7 @@ public class JanelaPrincipal extends BaseJanela {
     protected BarraSuperior barraSuperior = new BarraSuperior();
     protected BarraLateral barraLateral = new BarraLateral();
     protected JPanel conteudo = new JPanel(null);
+    protected int margem;
 
     public JanelaPrincipal(int largura, int altura) {
         super("DER-MODELADOR", largura, altura);
@@ -71,34 +71,27 @@ public class JanelaPrincipal extends BaseJanela {
             public void componentResized(ComponentEvent e) {
                 super.componentResized(e);
                 Dimension tamanhoPanel = conteudo.getSize();
-                int margem = grade.getTamanhoQuadrado();
-                mudarGrade(tamanhoPanel, margem);
-                mudarBarraSuperior(tamanhoPanel, margem);
-                mudarBarraLateral(tamanhoPanel, margem);
-
-                diagrama.setSize(calcularTamanhoDiagrama());
-                diagrama.setLocation(calcularPosicaoDiagrama());
+                margem = grade.getTamanhoQuadrado();
+                definirTamanhoPosicaoGrade(grade, tamanhoPanel);
+                definirTamanhoBarraSuperior(barraSuperior, tamanhoPanel, grade.getSize());
+                definirTamanhoPosicaoBarraLateral(barraLateral, tamanhoPanel, grade.getSize(), barraSuperior.getSize());
+                definirTamanhoPosicaoDiagrama(diagrama, grade);
             }
         });
 
         diagrama.adicionarComponente(new Entidade(), 0, 0, 300, 200);
     }
 
-    protected Dimension calcularTamanhoDiagrama() {
+    private void definirTamanhoPosicaoDiagrama(@NotNull Diagrama diagrama, @NotNull Grade grade) {
         int largura = grade.getWidth() - grade.getEspessuraBorda() * 2;
         int altura = grade.getHeight() - grade.getEspessuraBorda() * 2;
-
-        return new Dimension(largura, altura);
-    }
-
-    protected Point calcularPosicaoDiagrama() {
         int x = grade.getX() + grade.getEspessuraBorda();
         int y = grade.getY() + grade.getEspessuraBorda();
 
-        return new Point(x, y);
+        diagrama.setBounds(x, y, largura, altura);
     }
 
-    protected Grade criarGrade() {
+    private @NotNull Grade criarGrade() {
         return new Grade(
                 calcularTamanhoGrade(getSize()),
                 Configurador.pegarValorConfiguracao("grade", "tamanho_quadrado", int.class),
@@ -107,60 +100,39 @@ public class JanelaPrincipal extends BaseJanela {
                 Configurador.pegarValorConfiguracao("grade", "espessura_borda", int.class));
     }
 
-    protected Dimension calcularTamanhoGrade(Dimension tamanho) {
+    private @NotNull Dimension calcularTamanhoGrade(@NotNull Dimension tamanho) {
         int largura = tamanho.width * 80 / 100;
         int altura = tamanho.height * 85 / 100;
 
         return new Dimension(largura, altura);
     }
 
-    protected Point calcularPosicaoGrade(Dimension tamanhoPanel, Dimension tamanhoGrade, int margem) {
-        int x = tamanhoPanel.width - tamanhoGrade.width + margem;
-        int y = (tamanhoPanel.height - tamanhoGrade.height) / 2 + margem * 3;
+    private void definirTamanhoPosicaoGrade(@NotNull Grade grade, @NotNull Dimension tamanhoPanel) {
+        grade.setSize(calcularTamanhoGrade(tamanhoPanel));
 
-        return new Point(x, y);
-    }
-
-    protected void mudarGrade(Dimension tamanhoPanel, int margem) {
-        Dimension tamanhoGrade = calcularTamanhoGrade(tamanhoPanel);
-        Point posicaoGrade = calcularPosicaoGrade(tamanhoPanel, tamanhoGrade, margem);
-
-        grade.setSize(tamanhoGrade);
-        grade.setLocation(posicaoGrade);
+        Dimension tamanhoGrade = grade.getSize();
+        int x = tamanhoPanel.width - tamanhoGrade.width - margem * 2;
+        int y = (tamanhoPanel.height - tamanhoGrade.height) / 2 + margem * 2;
+        grade.setLocation(x, y);
         grade.repaint();
     }
 
-    protected Dimension calcularTamanhoBarraSuperior(Dimension tamanhoPanel, Dimension tamanhoGrade, int margem) {
-        int altura = tamanhoPanel.height - tamanhoGrade.height - margem * 4;
-
-        return new Dimension(tamanhoPanel.width, altura);
+    private void definirTamanhoBarraSuperior(
+            @NotNull BarraSuperior barraSuperior, @NotNull Dimension tamanhoPanel, @NotNull Dimension tamanhoGrade) {
+        barraSuperior.setSize(tamanhoPanel.width, tamanhoPanel.height - tamanhoGrade.height - margem * 4);
     }
 
-    protected void mudarBarraSuperior(Dimension tamanhoPanel, int margem) {
-        barraSuperior.setSize(calcularTamanhoBarraSuperior(tamanhoPanel, grade.getSize(), margem));
-    }
-
-    protected Dimension calcularTamanhoBarraLateral(
-            Dimension tamanhoPanel, Dimension tamanhoGrade, Dimension tamanhoBarraSuperior, int margem) {
+    private void definirTamanhoPosicaoBarraLateral(
+            @NotNull BarraLateral barraLateral,
+            @NotNull Dimension tamanhoPanel,
+            @NotNull Dimension tamanhoGrade,
+            @NotNull Dimension tamanhoBarraSuperior) {
         int largura = tamanhoPanel.width - tamanhoGrade.width - margem * 4;
         int altura = tamanhoPanel.height - tamanhoBarraSuperior.height;
+        barraLateral.setSize(largura, altura);
 
-        return new Dimension(largura, altura);
-    }
-
-    protected Point calcularPosicaoBarraLateral(Dimension tamanhoPanel, Dimension tamanhoBarraLateral) {
-        return new Point(0, tamanhoPanel.height - tamanhoBarraLateral.height);
-    }
-
-    protected void mudarBarraLateral(Dimension tamanhoPanel, int margem) {
-        Dimension tamanhoGrade = grade.getSize();
-        Dimension tamanhoBarraSuperior = barraSuperior.getSize();
-        Dimension tamanhoBarraLateral =
-                calcularTamanhoBarraLateral(tamanhoPanel, tamanhoGrade, tamanhoBarraSuperior, margem);
-        Point posicaoBarraLateral = calcularPosicaoBarraLateral(tamanhoPanel, tamanhoBarraLateral);
-
-        barraLateral.setSize(tamanhoBarraLateral);
-        barraLateral.setLocation(posicaoBarraLateral);
+        int y = tamanhoPanel.height - barraLateral.getHeight();
+        barraLateral.setLocation(0, y);
     }
 
     private void abrirArquivo() {
@@ -169,13 +141,16 @@ public class JanelaPrincipal extends BaseJanela {
         arquivosAbertos.add(caminhoArquivo.toFile());
     }
 
-    private void recarregarComponentes() {
-        getContentPane().setBackground(Paleta.pegarCor("cor_fundo"));
+    private void reconfigurarGrade(@NotNull Grade grade) {
         grade.setTamanhoQuadrado(Configurador.pegarValorConfiguracao("grade", "tamanho_quadrado", int.class));
         grade.setEspessuraBorda(Configurador.pegarValorConfiguracao("grade", "espessura_borda", int.class));
         grade.setCorBorda(Paleta.pegarCor("cor_borda_grade"));
-        diagrama.setSize(calcularTamanhoDiagrama());
-        diagrama.setLocation(calcularPosicaoDiagrama());
+    }
+
+    private void recarregarComponentes() {
+        getContentPane().setBackground(Paleta.pegarCor("cor_fundo"));
+        reconfigurarGrade(grade);
+        definirTamanhoPosicaoDiagrama(diagrama, grade);
 
         for (Component componente : getContentPane().getComponents()) {
             if (componente instanceof RecarregamentoComponente) {
