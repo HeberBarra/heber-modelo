@@ -3,7 +3,7 @@
 
 ## 0 Licença(s)
 
-* GNU GENERAL PUBLIC LICENSE  (GPL) 3.0
+* MIT License
 
 ## 1 Introdução
 
