@@ -11,6 +11,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.modelador.configurador.paleta.Paleta;
 import org.modelador.exploraradorarquivos.Recurso;
 import org.modelador.logger.JavaLogger;
@@ -23,17 +25,15 @@ public class Configurador {
     private static final Logger logger = JavaLogger.obterLogger(Configurador.class.getName());
     protected static Recurso recurso = new Recurso();
     public static final PastaConfiguracao PASTA_CONFIGURACAO = detectarSistemaOperacional();
-    public static final Path TEMPLATE_CONFIGURACOES =
-            recurso.pegarRecurso("template.toml").toPath();
-    public static final Path TEMPLATE_PALETA =
-            recurso.pegarRecurso("template_paleta.toml").toPath();
+    public static final Path TEMPLATE_CONFIGURACOES = recurso.pegarCaminhoRecurso("template.toml");
+    public static final Path TEMPLATE_PALETA = recurso.pegarCaminhoRecurso("template_paleta.toml");
     public static final String ARQUIVO_CONFIGURACOES = "configuracoes.toml";
     public static final String ARQUIVO_PALETA = "paleta.toml";
     public static TomlTable configuracoes = lerConfiguracoes();
     public static TomlTable paleta = lerPaleta();
 
     public static void recarregarConfiguracoes() {
-        JavaLogger.desativarLogger(pegarValorConfiguracao("logger", "desativar", boolean.class), logger);
+        JavaLogger.desativarLogger(pegarValorConfiguracao("logger", "desativar", boolean.class), Logger.getLogger(""));
         atualizarConfiguracoes(ARQUIVO_CONFIGURACOES, TEMPLATE_CONFIGURACOES, lerConfiguracoes());
         configuracoes = lerConfiguracoes();
         paleta = lerPaleta();
@@ -42,7 +42,7 @@ public class Configurador {
         Paleta.limparCache();
     }
 
-    public static PastaConfiguracao detectarSistemaOperacional() {
+    public static @NotNull PastaConfiguracao detectarSistemaOperacional() {
         String nomeSistema = System.getProperty("os.name").toLowerCase();
 
         if (nomeSistema.contains("windows")) {
@@ -54,7 +54,7 @@ public class Configurador {
         }
     }
 
-    public static TomlParseResult lerTemplateConfiguracoes(Path template) {
+    public static @Nullable TomlParseResult lerTemplateConfiguracoes(@NotNull Path template) {
         try {
             return Toml.parse(template);
         } catch (IOException e) {
@@ -64,7 +64,7 @@ public class Configurador {
         return null;
     }
 
-    protected static TomlParseResult lerArquivo(String arquivo) {
+    protected static @NotNull TomlParseResult lerArquivo(@NotNull String arquivo) {
         if (!arquivo.startsWith("/")) {
             arquivo = "/" + arquivo;
         }
@@ -81,34 +81,36 @@ public class Configurador {
             logger.severe("Erro ao ler arquivo: %s. %n%s".formatted(arquivo, e.getMessage()));
         }
 
-        logger.severe("Devido a um erro crítico o programa será encerrado");
+        logger.severe("Erro crítico ao tentar ler arquivo %s, portanto o programa será encerrado.".formatted(arquivo));
         System.exit(1);
         return null;
     }
 
-    public static TomlTable lerConfiguracoes() {
+    public static @NotNull TomlTable lerConfiguracoes() {
         criarArquivoConfiguracoes();
         return lerArquivo(ARQUIVO_CONFIGURACOES);
     }
 
-    public static TomlTable lerPaleta() {
+    public static @NotNull TomlTable lerPaleta() {
         criarArquivoPaleta();
         return lerArquivo(ARQUIVO_PALETA);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T pegarValorConfiguracao(String nomeTabela, String chave, Class<T> tipoValor) {
+    public static @NotNull <T> T pegarValorConfiguracao(
+            @NotNull String nomeTabela, @NotNull String chave, @NotNull Class<T> tipoValor) {
         TomlTable tabela = configuracoes.getTableOrEmpty(nomeTabela);
-        var valor = tabela.get(chave);
+        var valor = Objects.requireNonNull(tabela.get(chave));
 
-        if (tipoValor == int.class && valor != null) {
+        if (tipoValor == int.class) {
             valor = Math.toIntExact((long) valor);
         }
 
         return (T) valor;
     }
 
-    public static TomlParseResult combinarConfiguracoes(TomlTable templateConfiguracoes, TomlTable configuracoes) {
+    public static @NotNull TomlParseResult combinarConfiguracoes(
+            @NotNull TomlTable templateConfiguracoes, @NotNull TomlTable configuracoes) {
         Map<String, Map<String, Object>> combinacaoConfiguracoes = new LinkedHashMap<>();
 
         for (String nomeTabela : templateConfiguracoes.keySet()) {
@@ -138,7 +140,7 @@ public class Configurador {
         return Toml.parse(resultadoCombinacao);
     }
 
-    protected static void criarArquivo(String arquivo, Path template) {
+    protected static void criarArquivo(@NotNull String arquivo, @NotNull Path template) {
         File pastaConfiguracoes = PASTA_CONFIGURACAO.getCaminhoPasta().toFile();
         File arquivoConfiguracoes = new File(PASTA_CONFIGURACAO.getCaminhoPasta() + "/" + arquivo);
 
@@ -176,7 +178,8 @@ public class Configurador {
         criarArquivo(ARQUIVO_PALETA, TEMPLATE_PALETA);
     }
 
-    public static void atualizarConfiguracoes(String arquivo, Path template, TomlTable informacoes) {
+    public static void atualizarConfiguracoes(
+            @NotNull String arquivo, @NotNull Path template, @NotNull TomlTable informacoes) {
         TomlTable resultadoCombinacao =
                 combinarConfiguracoes(Objects.requireNonNull(lerTemplateConfiguracoes(template)), informacoes);
         File arquivoConfiguracoes = new File(PASTA_CONFIGURACAO.getCaminhoPasta() + "/" + arquivo);
