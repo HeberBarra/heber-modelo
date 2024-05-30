@@ -26,13 +26,17 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'org.modelador.Principal'
+        attributes (
+                'Main-Class': 'org.modelador.Principal',
+                'Implementation-Version': version
+        )
     }
 
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    project.version = ""
 }
 
 spotless {
