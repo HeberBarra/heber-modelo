@@ -20,3 +20,4 @@ jobs:
         artifacts: "build/libs/der-modelador.jar"
         bodyFile: "release_body.md" 
         makeLatest: true
+        tag: "v0.0.1-SNAPSHOT"
