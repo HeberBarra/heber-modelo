@@ -10,7 +10,6 @@ name: Create Release
 jobs:
   build:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'   
     permissions:
       contents: write
     steps:
@@ -19,4 +18,4 @@ jobs:
       with:
         artifacts: "build/libs/der-modelador.jar"
         bodyFile: "release_body.md" 
-
+        makeLatest: true
