@@ -19,4 +19,4 @@ jobs:
       with:
         artifacts: "build/libs/der-modelador.jar"
         bodyFile: "release_body.md" 
-
+        makeLatest: true
