@@ -20,4 +20,10 @@ public class Diagrama extends JPanel {
         componente.setBounds(x, y, largura, altura);
         componente.repaint();
     }
+
+    public void adicionarComponente(@NotNull Componente componente) {
+        add(componente);
+        componente.setBounds(componente.getX(), componente.getY(), componente.getLargura(), componente.getAltura());
+        componente.repaint();
+    }
 }

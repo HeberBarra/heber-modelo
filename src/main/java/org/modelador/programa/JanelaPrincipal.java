@@ -19,16 +19,16 @@ import org.modelador.base.janela.BaseJanela;
 import org.modelador.configurador.Configurador;
 import org.modelador.configurador.paleta.Paleta;
 import org.modelador.diagrama.Diagrama;
-import org.modelador.diagrama.Entidade;
 import org.modelador.exploraradorarquivos.ExploradorArquivos;
+import org.modelador.seletor.FuncoesSeletorRadial;
 import org.modelador.seletor.SeletorRadial;
 
 public class JanelaPrincipal extends BaseJanela {
 
+    public static Diagrama diagrama;
     protected Set<File> arquivosAbertos = new HashSet<>();
     protected ExploradorArquivos exploradorArquivos;
     protected Grade grade = criarGrade();
-    protected Diagrama diagrama;
     protected BarraSuperior barraSuperior = new BarraSuperior();
     protected BarraLateral barraLateral = new BarraLateral();
     protected JPanel conteudo = new JPanel(null);
@@ -79,7 +79,11 @@ public class JanelaPrincipal extends BaseJanela {
             }
         });
 
-        diagrama.adicionarComponente(new Entidade(), 0, 0, 300, 200);
+        new FuncoesSeletorRadial();
+    }
+
+    public Grade getGrade() {
+        return grade;
     }
 
     private void definirTamanhoPosicaoDiagrama(@NotNull Diagrama diagrama, @NotNull Grade grade) {
