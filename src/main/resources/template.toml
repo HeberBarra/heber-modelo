@@ -12,3 +12,4 @@ espessura_borda = 1
 alinhar_a_grade = true
 altura_entidade = 200
 largura_entidade = 300
+espessura_borda_entidade = 1

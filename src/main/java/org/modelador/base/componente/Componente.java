@@ -35,8 +35,8 @@ public class Componente extends JPanel implements ConversorXml {
     }
 
     @Override
-    public void paint(Graphics graphics) {
-        super.paint(graphics);
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
 
         if (corFundo == null) return;
 
