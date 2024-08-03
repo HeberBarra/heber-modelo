@@ -1,10 +1,10 @@
 plugins {
-    id 'java'
+    id "java"
     id "com.diffplug.spotless" version "6.25.0"
 }
 
-group = 'org.modelador'
-version = '0.0.1-SNAPSHOT'
+group = "org.modelador"
+version = "0.0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -16,24 +16,24 @@ java {
 }
 
 dependencies {
-    implementation 'org.fusesource.jansi:jansi:2.4.1'
-    implementation 'org.jetbrains:annotations:24.1.0'
-    implementation 'com.miglayout:miglayout:3.7.4'
-    implementation 'org.tomlj:tomlj:1.1.1'
-    testImplementation platform('org.junit:junit-bom:5.10.0')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation "org.fusesource.jansi:jansi:2.4.1"
+    implementation "org.jetbrains:annotations:24.1.0"
+    implementation "com.miglayout:miglayout:3.7.4"
+    implementation "org.tomlj:tomlj:1.1.1"
+    testImplementation platform("org.junit:junit-bom:5.10.0")
+    testImplementation "org.junit.jupiter:junit-jupiter"
 }
 
 jar {
     manifest {
         attributes (
-                'Main-Class': 'org.modelador.Principal',
-                'Implementation-Version': version
+                "Main-Class": "org.modelador.Principal",
+                "Implementation-Version": version
         )
     }
 
     from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect({ it.isDirectory() ? it : zipTree(it) })
     }
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
     project.version = ""
@@ -41,8 +41,8 @@ jar {
 
 spotless {
 
-    format 'misc', {
-        target '*.gradle', '.gitignore'
+    format "misc", {
+        target("*.gradle", ".gitignore")
         trimTrailingWhitespace()
         indentWithSpaces(4)
         endWithNewline()
