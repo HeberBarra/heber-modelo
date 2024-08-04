@@ -25,5 +25,5 @@ jobs:
       - name: Create jar file
         run: ./gradlew jar
       - name: Print program version
-        run: java -jar ./build/libs/der-modelador.jar --version
+        run: java -jar ./build/libs/sheepnator.jar --version
 

@@ -1,11 +1,3 @@
-Primeira versão do der-modelador(nome poderá mudar ao decorrer do projeto)
+# Grandes Mudanças no Projeto
 
-Funções básicas:
-
-* Paleta de cores customizável
-* Propriedades customizáveis
-* Seletor radial de quatro partes
-
-
-Projeto ainda está começo do desenvolvimento, espere mudanças, correções e melhorias
-
+Nas próximas versões o projeto passará a ter uma interface web, e o nome será mudado de "der-modelador" para "sheepnator"

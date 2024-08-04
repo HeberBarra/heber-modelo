@@ -8,12 +8,16 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import org.modelador.base.forma.Circulo;
 import org.modelador.base.forma.FracaoCirculo;
 import org.modelador.configurador.Configurador;
 import org.modelador.configurador.paleta.Paleta;
+import org.modelador.seletor.funcoes.FuncaoSeletor;
 
 public class SeletorRadial extends JFrame {
 
@@ -24,6 +28,13 @@ public class SeletorRadial extends JFrame {
     private final int DIAMETRO = Configurador.pegarValorConfiguracao("seletor", "diametro", int.class);
     protected JPanel conteudo = new JPanel(new BorderLayout());
     protected Circulo circuloInterno = new Circulo(RAIO_BORDA, Color.GRAY);
+    protected static List<JLabel> icones = new ArrayList<>();
+    protected static List<FuncaoSeletor> metodos = new ArrayList<>();
+
+    public static void adicionarFuncao(JLabel icone, FuncaoSeletor metodo) {
+        icones.add(icone);
+        metodos.add(metodo);
+    }
 
     public SeletorRadial(Point posicao) {
         super();
@@ -68,8 +79,21 @@ public class SeletorRadial extends JFrame {
         for (int i = 0; i < NUMERO_FUNCOES; i++) {
             fracoesCirculo[i] =
                     new FracaoCirculo(DIAMETRO, DIAMETRO, 0, 0, DIAMETRO, angulos[i], anguloFracoes, COR_FUNDO);
+
             conteudo.add(fracoesCirculo[i]);
             fracoesCirculo[i].setSize(dimensoes[i]);
+
+            if (icones.size() <= i) continue;
+
+            fracoesCirculo[i].add(icones.get(i));
+            int finalI = i;
+            fracoesCirculo[i].addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    metodos.get(finalI).executar();
+                }
+            });
         }
 
         for (FracaoCirculo fracaoCirculo : fracoesCirculo) {

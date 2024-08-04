@@ -17,7 +17,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "build/libs/der-modelador.jar"
+        artifacts: "build/libs/sheepnator.jar"
         bodyFile: "release_body.md" 
         makeLatest: true
         tag: "v0.0.1-SNAPSHOT"

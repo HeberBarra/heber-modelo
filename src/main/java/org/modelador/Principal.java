@@ -5,6 +5,9 @@ import org.modelador.programa.JanelaPrincipal;
 
 public class Principal {
 
+    public static final String NOME_PROGRAMA = "sheepnator";
+    public static JanelaPrincipal janelaPrincipal;
+
     public static void main(String[] args) {
         if (args.length != 0 && args[0].equals("--version")) {
             System.out.println(Principal.class.getPackage().getImplementationVersion());
@@ -12,6 +15,6 @@ public class Principal {
         }
 
         Configurador.recarregarConfiguracoes();
-        JanelaPrincipal janelaPrincipal = new JanelaPrincipal(1080, 720);
+        janelaPrincipal = new JanelaPrincipal(1080, 720);
     }
 }

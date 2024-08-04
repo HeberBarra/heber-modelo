@@ -3,8 +3,8 @@ package org.modelador.programa;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import org.modelador.base.componente.BordaRedonda;
 import org.modelador.base.componente.RecarregamentoComponente;
 import org.modelador.configurador.paleta.Paleta;
 
@@ -36,7 +36,7 @@ public class Grade extends JPanel implements RecarregamentoComponente {
     }
 
     protected void criarBordaGrade() {
-        setBorder(BorderFactory.createLineBorder(corBorda, espessuraBorda));
+        setBorder(new BordaRedonda(corBorda, espessuraBorda, 10, true));
     }
 
     private void configurarGrade(int largura, int altura) {
@@ -60,8 +60,8 @@ public class Grade extends JPanel implements RecarregamentoComponente {
     }
 
     @Override
-    public void paint(Graphics graphics) {
-        super.paint(graphics);
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
         graphics.setColor(corGrade);
 
         for (int i = tamanhoQuadrado + espessuraBorda - 1; i < getWidth() - espessuraBorda - 1; i += tamanhoQuadrado) {
