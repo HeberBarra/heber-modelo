@@ -1,6 +1,6 @@
 plugins {
-    id "java"
-    id "com.diffplug.spotless" version "6.25.0"
+    java
+    id("com.diffplug.spotless") version "6.25.0"
 }
 
 group = "org.modelador"
@@ -24,29 +24,21 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
-jar {
+tasks.jar {
     manifest {
-        attributes (
-                "Main-Class": "org.modelador.Principal",
-                "Implementation-Version": version
-        )
+        attributes["Main-Class"] = "org.modelador.Principal"
+        attributes["Implementation-Version"] = version
     }
 
-    from {
-        configurations.runtimeClasspath.collect({ it.isDirectory() ? it : zipTree(it) })
-    }
+    from (
+        configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) }
+    )
+
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
     project.version = ""
 }
 
 spotless {
-
-    format "misc", {
-        target("*.gradle", ".gitignore")
-        trimTrailingWhitespace()
-        indentWithSpaces(4)
-        endWithNewline()
-    }
 
     java {
         importOrder()
@@ -58,6 +50,6 @@ spotless {
 
 }
 
-test {
+tasks.test {
     useJUnitPlatform()
 }
