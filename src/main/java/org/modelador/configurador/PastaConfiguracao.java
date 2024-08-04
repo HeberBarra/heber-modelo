@@ -1,12 +1,15 @@
 package org.modelador.configurador;
 
+import org.modelador.Principal;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public enum PastaConfiguracao {
-    MAC(Paths.get(System.getProperty("user.home") + "/Library/Application Support/der-modelador/")),
-    UNIX(Paths.get(System.getProperty("user.home") + "/.config/der-modelador/")),
-    WINDOWS(Paths.get(System.getenv("APPDATA") + "/der-modelador/"));
+
+    MAC(Paths.get("%s/Library/Application Support/%s/".formatted(System.getProperty("user.home"), Principal.NOME_PROGRAMA))),
+    UNIX(Paths.get("%s/.config/%s".formatted(System.getProperty("user.home"), Principal.NOME_PROGRAMA))),
+    WINDOWS(Paths.get("%s/%s".formatted(System.getenv("APPDATA"), Principal.NOME_PROGRAMA)));
 
     private final Path caminhoPasta;
 

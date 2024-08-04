@@ -5,6 +5,7 @@ import org.modelador.programa.JanelaPrincipal;
 
 public class Principal {
 
+    public static final String NOME_PROGRAMA = "sheepnator";
     public static JanelaPrincipal janelaPrincipal;
 
     public static void main(String[] args) {

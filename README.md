@@ -1,5 +1,4 @@
-# Der-Modelador
-\*Nome temporário
+# Sheepnator
 
 ## 0 Licença(s)
 
@@ -8,17 +7,17 @@
 ## 1 Introdução
 
 Projeto baseado no [brModelo](https://github.com/chcandido/brModelo) , visando criar uma ferramenta mais moderna, corrigindo algumas falhas, melhorando a experiência do usuário e permitindo maior customização. 
-Desenvolvido por estudantes do Curso Técnico em Informática do Instituto Federal do Paraná - Campus Curitiba, como possível projeto de conclusão de curso.
+Desenvolvido por estudantes do Curso Técnico em Informática do Instituto Federal do Paraná - Campus Curitiba, como projeto de conclusão de curso.
 
 ## 2 Configurações
 
 #### Diretório de configurações:
 
-**Windows:** %APPDATA%\\der-modelador\\
+**Windows:** %APPDATA%\\sheepnator\\
 
-**Mac:** $HOME/Library/Application Support/der-modelador/
+**Mac:** $HOME/Library/Application Support/sheepnator/
 
-**Unix:** $HOME/.config/der-modelador/
+**Unix:** $HOME/.config/sheepnator/
 
 O programa disponibiliza algumas opções de configuração, que são feitas usando [TOML(Tom's Obvious Minimal Language)](https://toml.io/en/). Os arquivos são criados automaticamente pelo programa caso não existam, baseados nas templates do programa.
 
