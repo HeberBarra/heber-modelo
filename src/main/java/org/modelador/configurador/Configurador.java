@@ -25,8 +25,8 @@ public class Configurador {
     private static final Logger logger = JavaLogger.obterLogger(Configurador.class.getName());
     protected static Recurso recurso = new Recurso();
     public static final PastaConfiguracao PASTA_CONFIGURACAO = detectarSistemaOperacional();
-    public static final Path TEMPLATE_CONFIGURACOES = recurso.pegarCaminhoRecurso("template.toml");
-    public static final Path TEMPLATE_PALETA = recurso.pegarCaminhoRecurso("template_paleta.toml");
+    public static final Path TEMPLATE_CONFIGURACOES = recurso.pegarCaminhoRecurso("config_templates/template.toml");
+    public static final Path TEMPLATE_PALETA = recurso.pegarCaminhoRecurso("config_templates/template_paleta.toml");
     public static final String ARQUIVO_CONFIGURACOES = "configuracoes.toml";
     public static final String ARQUIVO_PALETA = "paleta.toml";
     public static TomlTable configuracoes = lerConfiguracoes();
