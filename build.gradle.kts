@@ -1,6 +1,8 @@
 plugins {
     java
     id("com.diffplug.spotless") version "6.25.0"
+    id("org.springframework.boot") version "3.3.2"
+	id("io.spring.dependency-management") version "1.1.6"
 }
 
 group = "org.modelador"
@@ -18,24 +20,12 @@ java {
 dependencies {
     implementation("org.fusesource.jansi:jansi:2.4.1")
     implementation("org.jetbrains:annotations:24.1.0")
-    implementation("com.miglayout:miglayout:3.7.4")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.tomlj:tomlj:1.1.1")
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
-    testImplementation("org.junit.jupiter:junit-jupiter")
-}
-
-tasks.jar {
-    manifest {
-        attributes["Main-Class"] = "org.modelador.Principal"
-        attributes["Implementation-Version"] = version
-    }
-
-    from (
-        configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) }
-    )
-
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    project.version = ""
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 spotless {
@@ -52,4 +42,8 @@ spotless {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    this.archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
 }
