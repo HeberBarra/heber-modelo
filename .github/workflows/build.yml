@@ -23,7 +23,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
       - name: Create jar file
-        run: ./gradlew jar
+        run: ./gradlew bootJar
       - name: Print program version
         run: java -jar ./build/libs/sheepnator.jar --version
 
