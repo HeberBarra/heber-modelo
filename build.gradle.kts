@@ -2,7 +2,7 @@ plugins {
     java
     id("com.diffplug.spotless") version "6.25.0"
     id("org.springframework.boot") version "3.3.2"
-	id("io.spring.dependency-management") version "1.1.6"
+    id("io.spring.dependency-management") version "1.1.6"
 }
 
 group = "org.modelador"
@@ -21,7 +21,7 @@ dependencies {
     implementation("org.fusesource.jansi:jansi:2.4.1")
     implementation("org.jetbrains:annotations:24.1.0")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-	implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.tomlj:tomlj:1.1.1")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
