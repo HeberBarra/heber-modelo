@@ -1,7 +1,3 @@
 package org.modelador.configurador;
 
-public class VerificadorConfiguracao {
-
-
-
-}
+public class VerificadorConfiguracao {}

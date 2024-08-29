@@ -1,9 +1,5 @@
 package org.modelador.configurador;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.modelador.logger.JavaLogger;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.logging.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.modelador.logger.JavaLogger;
 
 public class Recurso {
 
@@ -61,5 +59,4 @@ public class Recurso {
     public static @NotNull Path pegarCaminhoRecurso(@NotNull String caminhoRecurso) {
         return pegarArquivoRecurso(caminhoRecurso).toPath();
     }
-
 }

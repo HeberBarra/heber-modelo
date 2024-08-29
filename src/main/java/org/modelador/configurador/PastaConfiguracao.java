@@ -1,10 +1,10 @@
 package org.modelador.configurador;
 
+import java.io.File;
+import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.modelador.Principal;
 import org.modelador.logger.JavaLogger;
-import java.io.File;
-import java.util.logging.Logger;
 
 public class PastaConfiguracao {
 
@@ -16,9 +16,9 @@ public class PastaConfiguracao {
     }
 
     private static void criarPastaConfiguracao() {
-       if (new File(PASTA_CONFIGURACAO).mkdir()) {
-           logger.info("Pasta %s criada com sucesso".formatted(PASTA_CONFIGURACAO));
-       }
+        if (new File(PASTA_CONFIGURACAO).mkdir()) {
+            logger.info("Pasta %s criada com sucesso".formatted(PASTA_CONFIGURACAO));
+        }
     }
 
     private static @NotNull String decidirPastaConfiguracao() {
@@ -36,11 +36,11 @@ public class PastaConfiguracao {
 
         if (nomeSistema.contains("windows")) {
             return "%s/%s/".formatted(System.getenv("APPDATA"), Principal.NOME_PROGRAMA);
-        } if (nomeSistema.contains("mac") || nomeSistema.contains("darwin")) {
+        }
+        if (nomeSistema.contains("mac") || nomeSistema.contains("darwin")) {
             return "%s/Library/Preferences/%s/".formatted(System.getProperty("user.home"), Principal.NOME_PROGRAMA);
         } else {
             return "%s/.config/%s".formatted(System.getProperty("user.home"), Principal.NOME_PROGRAMA);
         }
     }
-
 }
