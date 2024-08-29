@@ -1,0 +1,44 @@
+{
+  "$id": "",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "JSON Schema para o arquivo de validação da configuração",
+  "type": ["object"],
+  "properties": {
+    "atributos": {
+      "type": ["array"],
+      "items": {
+        "type": ["object"],
+        "properties": {
+          "categoria": {
+            "description": "Define a qual categoria o atributo da configuração pertence",
+            "type": ["string"]
+          },
+          "atributo": {
+            "description": "Define o qual o nome do atributo da configuração",
+            "type": ["string"]
+          },
+          "tipo": {
+            "description": "Define qual será o tipo do atributo",
+            "enum": [
+              "Integer",
+              "Double",
+              "String",
+              "Boolean"
+            ],
+            "type": ["string"]
+          },
+          "obrigatorio": {
+            "description": "Define se o atributo deve ser obrigatório",
+            "type": ["boolean", "null"]
+          },
+          "valorPadrao": {
+            "description": "Define qual o valor padrão do atributo",
+            "type": ["string", "integer", "number", "boolean"]
+          }
+        },
+        "required": ["categoria", "atributo", "tipo", "valorPadrao"]
+      }
+    }
+  },
+  "required": ["atributos"]
+}
