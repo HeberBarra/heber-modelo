@@ -13,15 +13,14 @@ public abstract class JsonVerificador<T extends AtributoJson> {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("{\n  \"$schema\": \"%s\"".formatted(schema));
+        stringBuilder.append("{\n  \"$schema\": \"%s\"%n".formatted(schema));
         stringBuilder.append("  \"atributos: \": [\n");
         atributos.forEach(atributo -> {
-            stringBuilder.append(atributos);
+            stringBuilder.append(atributo);
 
             if (atributos.getLast() != atributo) {
                 stringBuilder.append(", ");
             }
-
             stringBuilder.append("\n");
         });
         stringBuilder.append("  ]\n}");
