@@ -1,0 +1,19 @@
+services:
+  mysql-server:
+    build:
+      dockerfile: dockerfile
+      context: .
+    container_name: diagrama-mysql
+    restart: always
+    environment:
+      - MYSQL_DATABASE=Sheepnator
+    env_file:
+      - .env
+    ports:
+      - "3306:${MYSQL_PORT}"
+    volumes:
+      - "mysql-volume:/var/lib/mysql"
+
+volumes:
+  mysql-volume:
+    driver: local
