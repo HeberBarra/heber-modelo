@@ -1,4 +1,4 @@
-package org.modelador.configurador.verificador;
+package org.modelador.configurador.verificador.json;
 
 public class AtributoJsonPaleta extends AtributoJson {
 
@@ -10,8 +10,8 @@ public class AtributoJsonPaleta extends AtributoJson {
         String indentacao = " ".repeat(QUANTIDADE_INDENTACAO);
 
         return ("%s{%n".formatted(" ".repeat(QUANTIDADE_INDENTACAO - 2))
-                + "%s\"nomeVariavel\": \"%s\"".formatted(indentacao, nomeVariavel)
-                + "%s\"valorPadraoVariavel\": \"%s\"".formatted(indentacao, valorPadraoVariavel)
+                + "%s\"nomeVariavel\": \"%s\",%n".formatted(indentacao, nomeVariavel)
+                + "%s\"valorPadraoVariavel\": \"%s\"%n".formatted(indentacao, valorPadraoVariavel)
                 + "%s}".formatted(" ".repeat(QUANTIDADE_INDENTACAO - 2)));
     }
 

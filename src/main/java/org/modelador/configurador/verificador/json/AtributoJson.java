@@ -1,4 +1,4 @@
-package org.modelador.configurador.verificador;
+package org.modelador.configurador.verificador.json;
 
 public abstract class AtributoJson {
 
