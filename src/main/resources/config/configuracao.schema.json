@@ -27,10 +27,6 @@
             ],
             "type": ["string"]
           },
-          "obrigatorio": {
-            "description": "Define se o atributo deve ser obrigatório",
-            "type": ["boolean", "null"]
-          },
           "valorPadrao": {
             "description": "Define qual o valor padrão do atributo",
             "type": ["string", "integer", "number", "boolean"]
