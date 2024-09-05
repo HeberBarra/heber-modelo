@@ -1,18 +1,32 @@
 package org.modelador.configurador.verificador.json;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class AtributoJsonPaleta extends AtributoJson {
 
     private String nomeVariavel;
     private String valorPadraoVariavel;
 
     @Override
-    public String toString() {
-        String indentacao = " ".repeat(QUANTIDADE_INDENTACAO);
+    public Map<String, String> converterParaMap() {
+        Map<String, String> informacoesAtributo = new LinkedHashMap<>();
 
-        return ("%s{%n".formatted(" ".repeat(QUANTIDADE_INDENTACAO - 2))
-                + "%s\"nomeVariavel\": \"%s\",%n".formatted(indentacao, nomeVariavel)
-                + "%s\"valorPadraoVariavel\": \"%s\"%n".formatted(indentacao, valorPadraoVariavel)
-                + "%s}".formatted(" ".repeat(QUANTIDADE_INDENTACAO - 2)));
+        informacoesAtributo.put("nomeVariavel", nomeVariavel);
+        informacoesAtributo.put("valorPadraoVariavel", valorPadraoVariavel);
+
+        return informacoesAtributo;
+    }
+
+    @Override
+    public String toString() {
+        String indentacaoAtributos = " ".repeat(TAMANHO_INDENTACAO * NIVEL_INDENTACAO);
+        String indentacaoChaves = " ".repeat(TAMANHO_INDENTACAO * (NIVEL_INDENTACAO - 1));
+
+        return ("%s{%n".formatted(indentacaoChaves)
+                + "%s\"nomeVariavel\": \"%s\",%n".formatted(indentacaoAtributos, nomeVariavel)
+                + "%s\"valorPadraoVariavel\": \"%s\"%n".formatted(indentacaoAtributos, valorPadraoVariavel)
+                + "%s}".formatted(indentacaoChaves));
     }
 
     public String getNomeVariavel() {

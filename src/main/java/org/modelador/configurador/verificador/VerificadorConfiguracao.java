@@ -25,4 +25,18 @@ public class VerificadorConfiguracao {
     public void mostrarInformacoes() {
         leitores.forEach(leitor -> System.out.println(leitor.getInformacoesJson()));
     }
+
+    @SuppressWarnings("unchecked")
+    public LeitorArquivoVerificacao<JsonVerificadorPaleta> getLeitorPaleta() {
+        return (LeitorArquivoVerificacao<JsonVerificadorPaleta>) leitores.get(1);
+    }
+
+    @SuppressWarnings("unchecked")
+    public LeitorArquivoVerificacao<JsonVerificadorConfiguracoes> getLeitorConfiguracoes() {
+        return (LeitorArquivoVerificacao<JsonVerificadorConfiguracoes>) leitores.getFirst();
+    }
+
+    public List<LeitorArquivoVerificacao<?>> getLeitores() {
+        return leitores;
+    }
 }

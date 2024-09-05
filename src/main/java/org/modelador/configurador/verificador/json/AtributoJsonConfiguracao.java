@@ -1,6 +1,8 @@
 package org.modelador.configurador.verificador.json;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @JsonPropertyOrder({"categoria", "atributo", "tipo", "obrigatorio", "valorPadrao"})
 public class AtributoJsonConfiguracao extends AtributoJson {
@@ -12,16 +14,36 @@ public class AtributoJsonConfiguracao extends AtributoJson {
     private String valorPadrao;
 
     @Override
-    public String toString() {
-        String indentacao = " ".repeat(QUANTIDADE_INDENTACAO);
+    public Map<String, String> converterParaMap() {
+        Map<String, String> informacoesAtributo = new LinkedHashMap<>();
 
-        return ("%s{%n".formatted(" ".repeat(QUANTIDADE_INDENTACAO - 2)) + "%s\"categoria\": \"%s\",%n")
-                        .formatted(indentacao, categoria)
-                + "%s\"atributo\": \"%s\",%n".formatted(indentacao, atributo)
-                + "%s\"tipo\": \"%s\",%n".formatted(indentacao, tipo)
-                + "%s\"obrigatorio\" %s,%n".formatted(indentacao, !(obrigatorio == null))
-                + "%s\"valorPadrao\": %s%n".formatted(indentacao, pegarStringFormatadaValorPadrao())
-                + "%s}".formatted(" ".repeat(QUANTIDADE_INDENTACAO - 2));
+        informacoesAtributo.put("categoria", categoria);
+        informacoesAtributo.put("atributo", atributo);
+        informacoesAtributo.put("tipo", tipo);
+
+        if (obrigatorio == null || !obrigatorio) {
+            informacoesAtributo.put("obrigatorio", "false");
+        } else {
+            informacoesAtributo.put("obrigatorio", "true");
+        }
+
+        informacoesAtributo.put("valorPadrao", valorPadrao);
+
+        return informacoesAtributo;
+    }
+
+    @Override
+    public String toString() {
+        String indentacaoAtributos = " ".repeat(TAMANHO_INDENTACAO * NIVEL_INDENTACAO);
+        String indentacaoChaves = " ".repeat(TAMANHO_INDENTACAO * (NIVEL_INDENTACAO - 1));
+
+        return ("%s{%n".formatted(indentacaoChaves) + "%s\"categoria\": \"%s\",%n")
+                        .formatted(indentacaoAtributos, categoria)
+                + "%s\"atributo\": \"%s\",%n".formatted(indentacaoAtributos, atributo)
+                + "%s\"tipo\": \"%s\",%n".formatted(indentacaoAtributos, tipo)
+                + "%s\"obrigatorio\" %s,%n".formatted(indentacaoAtributos, !(obrigatorio == null))
+                + "%s\"valorPadrao\": %s%n".formatted(indentacaoAtributos, pegarStringFormatadaValorPadrao())
+                + "%s}".formatted(indentacaoChaves);
     }
 
     public String pegarStringFormatadaValorPadrao() {
