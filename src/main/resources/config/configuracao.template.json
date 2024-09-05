@@ -4,7 +4,7 @@
     {
       "categoria": "seletor",
       "atributo": "diametro",
-      "tipo": "Integer",
+      "tipo": "Long",
       "valorPadrao": 100
     },
     {
@@ -16,13 +16,13 @@
     {
       "categoria": "grade",
       "atributo": "tamanho_quadrado",
-      "tipo": "Integer",
+      "tipo": "Long",
       "valorPadrao": 20
     },
     {
       "categoria": "grade",
       "atributo": "espessura_borda",
-      "tipo": "Integer",
+      "tipo": "Long",
       "valorPadrao": 1
     },
     {
@@ -34,19 +34,19 @@
     {
       "categoria": "diagrama",
       "atributo": "altura_entidade",
-      "tipo": "Integer",
+      "tipo": "Long",
       "valorPadrao": 200
     },
     {
       "categoria": "diagrama",
       "atributo": "largura_entidade",
-      "tipo": "Integer",
+      "tipo": "Long",
       "valorPadrao": 300
     },
     {
       "categoria": "diagrama",
       "atributo": "espessura_borda_entidade",
-      "tipo": "Integer",
+      "tipo": "Long",
       "valorPadrao": 1
     }
   ]

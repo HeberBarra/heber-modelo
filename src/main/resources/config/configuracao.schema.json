@@ -20,7 +20,7 @@
           "tipo": {
             "description": "Define qual será o tipo do atributo",
             "enum": [
-              "Integer",
+              "Long",
               "Double",
               "String",
               "Boolean"
