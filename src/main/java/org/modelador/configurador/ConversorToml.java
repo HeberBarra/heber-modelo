@@ -5,12 +5,14 @@ import java.util.Map;
 
 public class ConversorToml {
 
+    private static final int INDENTACAO = 2;
+
     public static String converterMapPaletaParaStringToml(Map<String, List<Map<String, String>>> dados) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("[paleta]\n");
 
         for (Map<String, String> variavelPaleta : dados.get("paleta")) {
-            stringBuilder.append("%s=".formatted(variavelPaleta.get("nomeVariavel")));
+            stringBuilder.append("%s%s=".formatted(" ".repeat(INDENTACAO), variavelPaleta.get("nomeVariavel")));
             stringBuilder.append("\"%s\"%n".formatted(variavelPaleta.get("valorPadraoVariavel")));
         }
 
@@ -24,7 +26,7 @@ public class ConversorToml {
             stringBuilder.append("[%s]%n".formatted(categoria));
 
             for (Map<String, String> informacoesAtributo : dados.get(categoria)) {
-                stringBuilder.append("%s=".formatted(informacoesAtributo.get("atributo")));
+                stringBuilder.append("%s%s=".formatted(" ".repeat(INDENTACAO), informacoesAtributo.get("atributo")));
 
                 if (informacoesAtributo.get("tipo").equals("String")) {
                     stringBuilder.append("\"%s\"%n".formatted(informacoesAtributo.get("valorPadrao")));
