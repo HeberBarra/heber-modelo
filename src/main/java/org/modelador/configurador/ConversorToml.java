@@ -11,7 +11,7 @@ public class ConversorToml {
 
         for (Map<String, String> variavelPaleta : dados.get("paleta")) {
             stringBuilder.append("%s=".formatted(variavelPaleta.get("nomeVariavel")));
-            stringBuilder.append("%s%n".formatted(variavelPaleta.get("valorPadraoVariavel")));
+            stringBuilder.append("\"%s\"%n".formatted(variavelPaleta.get("valorPadraoVariavel")));
         }
 
         return stringBuilder.toString();

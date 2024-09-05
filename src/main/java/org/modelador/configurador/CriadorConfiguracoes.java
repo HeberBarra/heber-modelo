@@ -64,6 +64,12 @@ public class CriadorConfiguracoes {
     }
 
     public void criarArquivo(String dadosToml, String caminhoArquivo) {
+        File arquivo = new File(caminhoArquivo);
+
+        if (arquivo.length() != 0) {
+            return;
+        }
+
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(caminhoArquivo))) {
             bufferedWriter.write(dadosToml);
         } catch (IOException e) {

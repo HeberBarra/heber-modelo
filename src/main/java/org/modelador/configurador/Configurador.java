@@ -11,10 +11,13 @@ public class Configurador {
     private static final Logger logger = JavaLogger.obterLogger(Configurador.class.getName());
     private final CriadorConfiguracoes criadorConfiguracoes;
     private final VerificadorConfiguracao verificadorConfiguracao;
+    private final LeitorConfiguracao leitorConfiguracao;
 
     public Configurador() {
         criadorConfiguracoes = new CriadorConfiguracoes();
         verificadorConfiguracao = new VerificadorConfiguracao();
+        leitorConfiguracao =
+                new LeitorConfiguracao(PastaConfiguracao.PASTA_CONFIGURACAO, ARQUIVO_CONFIGURACOES, ARQUIVO_PALETA);
     }
 
     private void lerConfiguracaoPadrao() {
@@ -30,5 +33,17 @@ public class Configurador {
         lerConfiguracaoPadrao();
         criadorConfiguracoes.criarArquivoConfiguracoes(PastaConfiguracao.PASTA_CONFIGURACAO, ARQUIVO_CONFIGURACOES);
         criadorConfiguracoes.criarArquivoPaleta(PastaConfiguracao.PASTA_CONFIGURACAO, ARQUIVO_PALETA);
+    }
+
+    public void lerConfiguracoes() {
+        leitorConfiguracao.lerArquivos();
+    }
+
+    public String pegarCorPaleta(String nomeVariavel) {
+        return leitorConfiguracao.pegarCorPaleta(nomeVariavel);
+    }
+
+    public <T> T pegarValorConfiguracao(String categoria, String atributo, Class<T> tipo) {
+        return leitorConfiguracao.pegarValorConfiguracao(categoria, atributo, tipo);
     }
 }
