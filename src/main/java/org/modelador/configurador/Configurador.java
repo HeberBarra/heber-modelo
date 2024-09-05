@@ -39,6 +39,18 @@ public class Configurador {
         leitorConfiguracao.lerArquivos();
     }
 
+    public void verificarConfiguracoes() {
+        verificadorConfiguracao.verificarArquivoConfiguracoes(
+                criadorConfiguracoes.getConfiguracaoPadrao(), leitorConfiguracao.getInformacoesConfiguracoes());
+        verificadorConfiguracao.verificarArquivoPaleta(
+                criadorConfiguracoes.getPaletaPadrao(), leitorConfiguracao.getInformacoesPaleta());
+
+        if (verificadorConfiguracao.isConfiguracaoErrada()) {
+            logger.severe("A configuração contém erros graves. Para evitar bugs no programa, ele será encerrado");
+            System.exit(1);
+        }
+    }
+
     public String pegarCorPaleta(String nomeVariavel) {
         return leitorConfiguracao.pegarCorPaleta(nomeVariavel);
     }

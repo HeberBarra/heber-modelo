@@ -27,6 +27,7 @@ public class Principal {
 
         configurador.criarArquivos();
         configurador.lerConfiguracoes();
+        configurador.verificarConfiguracoes();
 
         SpringApplication.run(Principal.class, args);
     }

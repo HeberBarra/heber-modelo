@@ -102,4 +102,20 @@ public class LeitorConfiguracao {
     public void setArquivoPaleta(String arquivoPaleta) {
         this.arquivoPaleta = arquivoPaleta;
     }
+
+    public TomlTable getInformacoesConfiguracoes() {
+        return informacoesConfiguracoes;
+    }
+
+    protected void setInformacoesConfiguracoes(TomlTable informacoesConfiguracoes) {
+        this.informacoesConfiguracoes = informacoesConfiguracoes;
+    }
+
+    public TomlTable getInformacoesPaleta() {
+        return informacoesPaleta;
+    }
+
+    protected void setInformacoesPaleta(TomlTable informacoesPaleta) {
+        this.informacoesPaleta = informacoesPaleta;
+    }
 }

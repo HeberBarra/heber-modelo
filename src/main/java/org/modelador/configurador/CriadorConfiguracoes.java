@@ -78,4 +78,12 @@ public class CriadorConfiguracoes {
             System.exit(0);
         }
     }
+
+    public Map<String, List<Map<String, String>>> getConfiguracaoPadrao() {
+        return configuracaoPadrao;
+    }
+
+    public Map<String, List<Map<String, String>>> getPaletaPadrao() {
+        return paletaPadrao;
+    }
 }
