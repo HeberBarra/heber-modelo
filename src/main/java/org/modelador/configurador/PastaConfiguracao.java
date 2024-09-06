@@ -27,6 +27,14 @@ public class PastaConfiguracao {
         String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
 
         if (pastaConfiguracao != null) {
+            if (pastaConfiguracao.startsWith("~")) {
+                pastaConfiguracao = pastaConfiguracao.replace("~", System.getProperty("user.home"));
+            }
+
+            if (pastaConfiguracao.startsWith("$HOME")) {
+                pastaConfiguracao = pastaConfiguracao.replace("$HOME", System.getProperty("user.home"));
+            }
+
             return pastaConfiguracao.endsWith("/") ? pastaConfiguracao : pastaConfiguracao + "/";
         }
 
