@@ -32,6 +32,10 @@
     {
       "nomeVariavel": "cor_borda_entidade",
       "valorPadraoVariavel": "#000000"
+    },
+    {
+      "nomeVariavel": "cor_chave_primaria",
+      "valorPadraoVariavel": "#0047AB"
     }
   ]
 }

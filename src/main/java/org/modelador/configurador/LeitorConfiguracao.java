@@ -79,6 +79,13 @@ public class LeitorConfiguracao {
         informacoesPaleta = lerArquivo(arquivoPaleta);
     }
 
+    public String[] pegarStringConfiguracao() {
+        String tomlConfiguracoes = informacoesConfiguracoes.toToml();
+        String tomlPaleta = informacoesPaleta.toToml();
+
+        return new String[] {tomlConfiguracoes, tomlPaleta};
+    }
+
     public String getPastaConfiguracao() {
         return pastaConfiguracao;
     }

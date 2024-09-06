@@ -1,5 +1,7 @@
 package org.modelador.configurador;
 
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import org.modelador.configurador.verificador.VerificadorConfiguracao;
 import org.modelador.logger.JavaLogger;
@@ -11,6 +13,7 @@ public class Configurador {
     private static final Logger logger = JavaLogger.obterLogger(Configurador.class.getName());
     private final CriadorConfiguracoes criadorConfiguracoes;
     private final VerificadorConfiguracao verificadorConfiguracao;
+    private final CombinadorConfiguracoes combinadorConfiguracoes;
     private final LeitorConfiguracao leitorConfiguracao;
 
     public Configurador() {
@@ -18,6 +21,7 @@ public class Configurador {
         verificadorConfiguracao = new VerificadorConfiguracao();
         leitorConfiguracao =
                 new LeitorConfiguracao(PastaConfiguracao.PASTA_CONFIGURACAO, ARQUIVO_CONFIGURACOES, ARQUIVO_PALETA);
+        combinadorConfiguracoes = new CombinadorConfiguracoes();
     }
 
     private void lerConfiguracaoPadrao() {
@@ -49,6 +53,38 @@ public class Configurador {
             logger.severe("A configuração contém erros graves. Para evitar bugs no programa, ele será encerrado");
             System.exit(1);
         }
+    }
+
+    public void mostrarConfiguracoes() {
+        String[] informacoesConfiguracao = leitorConfiguracao.pegarStringConfiguracao();
+
+        for (String informacao : informacoesConfiguracao) {
+            System.out.println(informacao);
+        }
+    }
+
+    public void combinarConfiguracoes() {
+        Map<String, List<Map<String, String>>> dadosConfiguracoes = combinadorConfiguracoes.combinarConfiguracoes(
+                criadorConfiguracoes.getConfiguracaoPadrao(),
+                leitorConfiguracao.getInformacoesConfiguracoes(),
+                "atributo",
+                "valorPadrao");
+        Map<String, List<Map<String, String>>> dadosPaleta = combinadorConfiguracoes.combinarConfiguracoes(
+                criadorConfiguracoes.getPaletaPadrao(),
+                leitorConfiguracao.getInformacoesPaleta(),
+                "nomeVariavel",
+                "valorPadraoVariavel");
+
+        String dadosConfiguracoesToml = ConversorToml.converterMapConfiguracoesParaStringToml(dadosConfiguracoes);
+        String dadosPaletaToml = ConversorToml.converterMapPaletaParaStringToml(dadosPaleta);
+
+        System.out.println(dadosPaletaToml);
+
+        criadorConfiguracoes.sobrescreverArquivoConfiguracoes(
+                PastaConfiguracao.PASTA_CONFIGURACAO, ARQUIVO_CONFIGURACOES, dadosConfiguracoesToml);
+        criadorConfiguracoes.sobrescreverArquivoPaleta(
+                PastaConfiguracao.PASTA_CONFIGURACAO, ARQUIVO_PALETA, dadosPaletaToml);
+        this.lerConfiguracoes();
     }
 
     public String pegarCorPaleta(String nomeVariavel) {

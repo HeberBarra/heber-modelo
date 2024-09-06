@@ -30,7 +30,8 @@ public class CriadorConfiguracoes {
     }
 
     public void criarPastaConfiguracao(String pastaConfiguracao) {
-        if (new File(pastaConfiguracao).mkdir()) {
+        File pasta = new File(pastaConfiguracao);
+        if (pasta.mkdirs()) {
             logger.info("Pasta %s criada com sucesso.%n".formatted(pastaConfiguracao));
         }
     }
@@ -45,9 +46,18 @@ public class CriadorConfiguracoes {
         }
     }
 
+    public void sobrescreverArquivoConfiguracoes(
+            String pastaConfiguracao, String arquivoConfiguracoes, String dadosToml) {
+        criarArquivo(dadosToml, pastaConfiguracao + "/" + arquivoConfiguracoes, false);
+    }
+
     public void criarArquivoConfiguracoes(String pastaConfiguracao, String arquivoConfiguracoes) {
         String dadosToml = ConversorToml.converterMapConfiguracoesParaStringToml(configuracaoPadrao);
         criarArquivo(dadosToml, pastaConfiguracao + "/" + arquivoConfiguracoes);
+    }
+
+    public void sobrescreverArquivoPaleta(String pastaConfiguracao, String arquivoPaleta, String dadosToml) {
+        criarArquivo(dadosToml, pastaConfiguracao + "/" + arquivoPaleta, false);
     }
 
     public void criarArquivoPaleta(String pastaConfiguracao, String arquivoPaleta) {
@@ -63,10 +73,14 @@ public class CriadorConfiguracoes {
         }
     }
 
-    public void criarArquivo(String dadosToml, String caminhoArquivo) {
+    private void criarArquivo(String dadosToml, String caminhoArquivo) {
+        criarArquivo(dadosToml, caminhoArquivo, true);
+    }
+
+    private void criarArquivo(String dadosToml, String caminhoArquivo, boolean naoSobreescrever) {
         File arquivo = new File(caminhoArquivo);
 
-        if (arquivo.length() != 0) {
+        if (naoSobreescrever && arquivo.length() != 0) {
             return;
         }
 

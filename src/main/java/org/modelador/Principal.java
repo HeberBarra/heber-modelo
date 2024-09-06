@@ -1,7 +1,6 @@
 package org.modelador;
 
 import org.modelador.configurador.Configurador;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,11 +24,18 @@ public class Principal {
             System.exit(0);
         }
 
+        if (args.length != 0 && args[0].equals("--show-config")) {
+            configurador.lerConfiguracoes();
+            configurador.mostrarConfiguracoes();
+            System.exit(0);
+        }
+
         configurador.criarArquivos();
         configurador.lerConfiguracoes();
         configurador.verificarConfiguracoes();
+        configurador.combinarConfiguracoes();
 
-        SpringApplication.run(Principal.class, args);
+        //        SpringApplication.run(Principal.class, args);
     }
 
     @RequestMapping({"/", "/index", "/index.html", "/home", "/home.html"})

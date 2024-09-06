@@ -48,6 +48,12 @@
       "atributo": "espessura_borda_entidade",
       "tipo": "Long",
       "valorPadrao": 1
+    },
+    {
+      "categoria": "mysql",
+      "atributo": "porta",
+      "tipo": "Long",
+      "valorPadrao": 3306
     }
   ]
 }
