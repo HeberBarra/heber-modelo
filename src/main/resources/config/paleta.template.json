@@ -1,0 +1,41 @@
+{
+  "$schema": "paleta.schema.json",
+  "atributos": [
+    {
+      "nomeVariavel": "cor_fundo",
+      "valorPadraoVariavel": "#EEEEEE"
+    },
+    {
+      "nomeVariavel": "cor_seletor_radial",
+      "valorPadraoVariavel": "#C0C0C0"
+    },
+    {
+      "nomeVariavel": "cor_hover",
+      "valorPadraoVariavel": "#00B9FF"
+    },
+    {
+      "nomeVariavel": "cor_grade",
+      "valorPadraoVariavel": "#A9A9A9"
+    },
+    {
+      "nomeVariavel": "cor_borda_grade",
+      "valorPadraoVariavel": "#000000"
+    },
+    {
+      "nomeVariavel": "cor_barra_lateral",
+      "valorPadraoVariavel": "#000000"
+    },
+    {
+      "nomeVariavel": "cor_entidade",
+      "valorPadraoVariavel": "#EEEEEE"
+    },
+    {
+      "nomeVariavel": "cor_borda_entidade",
+      "valorPadraoVariavel": "#000000"
+    },
+    {
+      "nomeVariavel": "cor_chave_primaria",
+      "valorPadraoVariavel": "#0047AB"
+    }
+  ]
+}

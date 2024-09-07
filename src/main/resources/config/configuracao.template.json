@@ -1,0 +1,59 @@
+{
+  "$schema": "configuracao.schema.json",
+  "atributos": [
+    {
+      "categoria": "seletor",
+      "atributo": "diametro",
+      "tipo": "Long",
+      "valorPadrao": 100
+    },
+    {
+      "categoria": "logger",
+      "atributo": "desativar",
+      "tipo": "Boolean",
+      "valorPadrao": false
+    },
+    {
+      "categoria": "grade",
+      "atributo": "tamanho_quadrado",
+      "tipo": "Long",
+      "valorPadrao": 20
+    },
+    {
+      "categoria": "grade",
+      "atributo": "espessura_borda",
+      "tipo": "Long",
+      "valorPadrao": 1
+    },
+    {
+      "categoria": "diagrama",
+      "atributo": "alinhar_a_grade",
+      "tipo": "Boolean",
+      "valorPadrao": true
+    },
+    {
+      "categoria": "diagrama",
+      "atributo": "altura_entidade",
+      "tipo": "Long",
+      "valorPadrao": 200
+    },
+    {
+      "categoria": "diagrama",
+      "atributo": "largura_entidade",
+      "tipo": "Long",
+      "valorPadrao": 300
+    },
+    {
+      "categoria": "diagrama",
+      "atributo": "espessura_borda_entidade",
+      "tipo": "Long",
+      "valorPadrao": 1
+    },
+    {
+      "categoria": "mysql",
+      "atributo": "porta",
+      "tipo": "Long",
+      "valorPadrao": 3306
+    }
+  ]
+}

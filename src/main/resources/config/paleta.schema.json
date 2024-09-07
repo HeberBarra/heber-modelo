@@ -1,0 +1,27 @@
+{
+  "$id": "",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "JSON Schema para o arquivo de validação da paleta de cores",
+  "type": ["object"],
+  "properties": {
+    "atributos": {
+      "type": ["array"],
+      "items": {
+        "type": ["object"],
+        "properties": {
+          "nomeVariavel": {
+            "description": "Define qual vai ser o nome da variável da paleta",
+            "type": ["string"]
+          },
+          "valorPadraoVariavel": {
+            "description": "Define qual vai ser o valor padrão da variável",
+            "pattern": "^#(?:[0-9a-fA-F]{3}){1,2}$",
+            "type": ["string"]
+          }
+        },
+        "required": ["nomeVariavel", "valorPadraoVariavel"]
+      }
+    }
+  },
+  "required": ["atributos"]
+}

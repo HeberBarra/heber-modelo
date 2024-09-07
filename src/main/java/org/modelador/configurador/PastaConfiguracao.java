@@ -1,22 +1,54 @@
 package org.modelador.configurador;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.File;
+import java.util.logging.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.modelador.Principal;
+import org.modelador.logger.JavaLogger;
 
-public enum PastaConfiguracao {
-    MAC(Paths.get(
-            "%s/Library/Application Support/%s/".formatted(System.getProperty("user.home"), Principal.NOME_PROGRAMA))),
-    UNIX(Paths.get("%s/.config/%s".formatted(System.getProperty("user.home"), Principal.NOME_PROGRAMA))),
-    WINDOWS(Paths.get("%s/%s".formatted(System.getenv("APPDATA"), Principal.NOME_PROGRAMA)));
+public class PastaConfiguracao {
 
-    private final Path caminhoPasta;
+    private static final Logger logger = JavaLogger.obterLogger(PastaConfiguracao.class.getName());
+    public static final String PASTA_CONFIGURACAO = decidirPastaConfiguracao();
 
-    PastaConfiguracao(Path caminhoPasta) {
-        this.caminhoPasta = caminhoPasta;
+    static {
+        criarPastaConfiguracao();
     }
 
-    public Path getCaminhoPasta() {
-        return caminhoPasta;
+    private static void criarPastaConfiguracao() {
+        if (new File(PASTA_CONFIGURACAO).mkdir()) {
+            logger.info("Pasta %s criada com sucesso".formatted(PASTA_CONFIGURACAO));
+        }
+    }
+
+    private static @NotNull String decidirPastaConfiguracao() {
+        String nomeSistema = System.getProperty("os.name").toLowerCase();
+        String pastaConfiguracao = System.getenv("%s_CONFIG_DIR".formatted(Principal.NOME_PROGRAMA.toUpperCase()));
+        String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
+
+        if (pastaConfiguracao != null) {
+            if (pastaConfiguracao.startsWith("~")) {
+                pastaConfiguracao = pastaConfiguracao.replace("~", System.getProperty("user.home"));
+            }
+
+            if (pastaConfiguracao.startsWith("$HOME")) {
+                pastaConfiguracao = pastaConfiguracao.replace("$HOME", System.getProperty("user.home"));
+            }
+
+            return pastaConfiguracao.endsWith("/") ? pastaConfiguracao : pastaConfiguracao + "/";
+        }
+
+        if (xdgConfigHome != null) {
+            return "%s/%s/".formatted(xdgConfigHome, Principal.NOME_PROGRAMA);
+        }
+
+        if (nomeSistema.contains("windows")) {
+            return "%s/%s/".formatted(System.getenv("APPDATA"), Principal.NOME_PROGRAMA);
+        }
+        if (nomeSistema.contains("mac") || nomeSistema.contains("darwin")) {
+            return "%s/Library/Preferences/%s/".formatted(System.getProperty("user.home"), Principal.NOME_PROGRAMA);
+        } else {
+            return "%s/.config/%s".formatted(System.getProperty("user.home"), Principal.NOME_PROGRAMA);
+        }
     }
 }

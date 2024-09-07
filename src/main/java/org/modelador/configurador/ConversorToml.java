@@ -1,34 +1,39 @@
 package org.modelador.configurador;
 
+import java.util.List;
 import java.util.Map;
-import org.tomlj.Toml;
-import org.tomlj.TomlTable;
 
 public class ConversorToml {
 
-    protected static final int NUMERO_ESPACOS = 2;
-    protected static final String INDENTACAO = " ".repeat(NUMERO_ESPACOS);
+    private static final int INDENTACAO = 2;
 
-    public static TomlTable converterStringParaToml(String tomlString) {
-        // TODO: Implementar conversor
-        return Toml.parse("");
+    public static String converterMapPaletaParaStringToml(Map<String, List<Map<String, String>>> dados) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("[paleta]\n");
+
+        for (Map<String, String> variavelPaleta : dados.get("paleta")) {
+            stringBuilder.append("%s%s=".formatted(" ".repeat(INDENTACAO), variavelPaleta.get("nomeVariavel")));
+            stringBuilder.append("\"%s\"%n".formatted(variavelPaleta.get("valorPadraoVariavel")));
+        }
+
+        return stringBuilder.toString();
     }
 
-    public static String converterMapParaString(Map<String, Map<String, Object>> dados) {
+    public static String converterMapConfiguracoesParaStringToml(Map<String, List<Map<String, String>>> dados) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (String chave : dados.keySet()) {
-            stringBuilder.append("[%s]\n".formatted(chave));
-            Map<String, Object> tabela = dados.get(chave);
+        for (String categoria : dados.keySet()) {
+            stringBuilder.append("[%s]%n".formatted(categoria));
 
-            for (String chaveTabela : tabela.keySet()) {
-                stringBuilder
-                        .append("%s%s=%s"
-                                .formatted(
-                                        INDENTACAO,
-                                        chaveTabela,
-                                        tabela.get(chaveTabela).toString()))
-                        .append("\n");
+            for (Map<String, String> informacoesAtributo : dados.get(categoria)) {
+                stringBuilder.append("%s%s=".formatted(" ".repeat(INDENTACAO), informacoesAtributo.get("atributo")));
+
+                if (informacoesAtributo.get("tipo").equals("String")) {
+                    stringBuilder.append("\"%s\"%n".formatted(informacoesAtributo.get("valorPadrao")));
+                    continue;
+                }
+
+                stringBuilder.append("%s%n".formatted(informacoesAtributo.get("valorPadrao")));
             }
         }
 

@@ -1,6 +1,6 @@
 package org.modelador;
 
-import org.modelador.programa.JanelaPrincipal;
+import org.modelador.configurador.Configurador;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
@@ -12,13 +12,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class Principal {
 
     public static final String NOME_PROGRAMA = "sheepnator";
-    public static JanelaPrincipal janelaPrincipal;
+    private static final Configurador configurador = new Configurador();
 
     public static void main(String[] args) {
         if (args.length != 0 && args[0].equals("--version")) {
             System.out.println(Principal.class.getPackage().getImplementationVersion());
             System.exit(0);
         }
+
+        if (args.length != 0 && args[0].equals("--gen-config")) {
+            configurador.criarArquivos();
+            System.exit(0);
+        }
+
+        if (args.length != 0 && args[0].equals("--show-config")) {
+            configurador.lerConfiguracoes();
+            configurador.mostrarConfiguracoes();
+            System.exit(0);
+        }
+
+        configurador.criarArquivos();
+        configurador.lerConfiguracoes();
+        configurador.verificarConfiguracoes();
+        configurador.combinarConfiguracoes();
 
         SpringApplication.run(Principal.class, args);
     }

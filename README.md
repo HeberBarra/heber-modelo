@@ -47,4 +47,4 @@ Atualmente a única forma de "instalar" o programa é compilando usando o Gradle
 
 [@HeberBarra](https://github.com/HeberBarra)\
 [@JoaoGabeee](https://github.com/JoaoGabeee)\
-[@MarioJunior01](https://github.com/MarioJunior01)
+[@Matheusjam](https://github.com/Mathusjam)
