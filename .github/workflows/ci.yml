@@ -1,0 +1,54 @@
+name: ci
+
+on: 
+  push:
+    branches:
+      - main
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    permissions:
+      contents: write
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Create jar file
+        run: ./gradlew bootJar
+      - name: Upload jar
+        uses: actions/upload-artifact@v4
+        with:
+          path: ./build/libs/sheepnator.jar
+          name: sheepnator.jar
+  
+  create-release:
+    permissions:
+      contents: write
+
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: sheepnator.jar
+
+      - name: Caculate Checksum
+        run: sha256sum sheepnator.jar > SHA256SUM
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            SHA256SUM
+            sheepnator.jar
+          make_latest: true
