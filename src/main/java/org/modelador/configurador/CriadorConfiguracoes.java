@@ -14,12 +14,10 @@ import org.modelador.configurador.verificador.json.AtributoJsonPaleta;
 import org.modelador.configurador.verificador.json.JsonVerificadorConfiguracoes;
 import org.modelador.configurador.verificador.json.JsonVerificadorPaleta;
 import org.modelador.logger.JavaLogger;
-import org.slf4j.LoggerFactory;
 
 public class CriadorConfiguracoes {
 
     private static final Logger logger = JavaLogger.obterLogger(CriadorConfiguracoes.class.getName());
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(CriadorConfiguracoes.class);
     private final Map<String, List<Map<String, String>>> configuracaoPadrao;
     private final Map<String, List<Map<String, String>>> paletaPadrao;
 

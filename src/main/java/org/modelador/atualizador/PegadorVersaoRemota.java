@@ -13,13 +13,11 @@ import java.net.URL;
 import java.util.logging.Logger;
 import javax.net.ssl.HttpsURLConnection;
 import org.modelador.logger.JavaLogger;
-import org.slf4j.LoggerFactory;
 
 public class PegadorVersaoRemota {
 
     private static final Logger logger = JavaLogger.obterLogger(PegadorVersaoRemota.class.getName());
     private static final URL URL_RELEASES_GITHUB;
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(PegadorVersaoRemota.class);
 
     static {
         try {
