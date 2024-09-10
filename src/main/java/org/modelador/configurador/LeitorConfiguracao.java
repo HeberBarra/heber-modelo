@@ -7,14 +7,12 @@ import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.modelador.logger.JavaLogger;
-import org.slf4j.LoggerFactory;
 import org.tomlj.Toml;
 import org.tomlj.TomlTable;
 
 public class LeitorConfiguracao {
 
     private static final Logger logger = JavaLogger.obterLogger(LeitorConfiguracao.class.getName());
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(LeitorConfiguracao.class);
     private String pastaConfiguracao;
     private String arquivoConfiguracoes;
     private String arquivoPaleta;

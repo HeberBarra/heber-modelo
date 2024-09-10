@@ -54,6 +54,12 @@
       "atributo": "porta",
       "tipo": "Long",
       "valorPadrao": 3306
+    },
+    {
+      "categoria": "atualizador",
+      "atributo": "atualizacao_automatica",
+      "tipo": "Boolean",
+      "valorPadrao": true
     }
   ]
 }

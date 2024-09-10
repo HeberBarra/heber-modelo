@@ -78,8 +78,6 @@ public class Configurador {
         String dadosConfiguracoesToml = ConversorToml.converterMapConfiguracoesParaStringToml(dadosConfiguracoes);
         String dadosPaletaToml = ConversorToml.converterMapPaletaParaStringToml(dadosPaleta);
 
-        System.out.println(dadosPaletaToml);
-
         criadorConfiguracoes.sobrescreverArquivoConfiguracoes(
                 PastaConfiguracao.PASTA_CONFIGURACAO, ARQUIVO_CONFIGURACOES, dadosConfiguracoesToml);
         criadorConfiguracoes.sobrescreverArquivoPaleta(

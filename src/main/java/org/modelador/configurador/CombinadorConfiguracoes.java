@@ -37,9 +37,6 @@ public class CombinadorConfiguracoes {
                     atributoUsuario = String.valueOf(valorAtributo);
                 }
 
-                System.out.println(atributo.get(nomeAtributo));
-                System.out.println(atributoUsuario);
-
                 if (atributoUsuario != null) {
                     atributo.replace(nomeValor, atributoUsuario);
                 }
