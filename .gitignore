@@ -43,3 +43,7 @@ bin/
 
 ### Logger ###
 log/
+
+### Program ###
+tmp/
+*.jar
