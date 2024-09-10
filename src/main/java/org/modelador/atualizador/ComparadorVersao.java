@@ -33,9 +33,6 @@ public class ComparadorVersao {
     }
 
     public int compararVersoes() {
-        System.out.println(versaoPrograma);
-        System.out.println(versaoRemota);
-
         if (versaoPrograma.equals(versaoRemota)) {
             return IGUAL;
         }

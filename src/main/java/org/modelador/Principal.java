@@ -1,5 +1,6 @@
 package org.modelador;
 
+import org.modelador.atualizador.Atualizador;
 import org.modelador.configurador.Configurador;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class Principal {
 
     public static final String NOME_PROGRAMA = "sheepnator";
-    private static final Configurador configurador = new Configurador();
+    public static final Configurador configurador = new Configurador();
 
     public static void main(String[] args) {
         if (args.length != 0 && args[0].equals("--version")) {
@@ -31,11 +32,19 @@ public class Principal {
             System.exit(0);
         }
 
+        if (args.length != 0 && args[0].equals("--update")) {
+            Atualizador atualizador = new Atualizador();
+            atualizador.baixarAtualizacao();
+            System.exit(0);
+        }
+
         configurador.criarArquivos();
         configurador.lerConfiguracoes();
         configurador.verificarConfiguracoes();
         configurador.combinarConfiguracoes();
 
+        Atualizador atualizador = new Atualizador();
+        atualizador.atualizar();
         SpringApplication.run(Principal.class, args);
     }
 

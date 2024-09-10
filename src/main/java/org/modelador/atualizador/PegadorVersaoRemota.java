@@ -13,11 +13,13 @@ import java.net.URL;
 import java.util.logging.Logger;
 import javax.net.ssl.HttpsURLConnection;
 import org.modelador.logger.JavaLogger;
+import org.slf4j.LoggerFactory;
 
 public class PegadorVersaoRemota {
 
     private static final Logger logger = JavaLogger.obterLogger(PegadorVersaoRemota.class.getName());
     private static final URL URL_RELEASES_GITHUB;
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(PegadorVersaoRemota.class);
 
     static {
         try {
@@ -58,9 +60,8 @@ public class PegadorVersaoRemota {
                 return "";
             }
         } catch (IOException e) {
-            logger.severe("Um erro ocorreu ao tentar se conectar ao GitHub. %s%n".formatted(e.getMessage()));
-            logger.severe("Encerrando o programa...\n");
-            System.exit(1);
+            logger.warning("Um erro ocorreu ao tentar se conectar ao GitHub. %s%n".formatted(e.getMessage()));
+            logger.warning("Verifique sua conexão de internet.");
             return "";
         }
 
@@ -82,6 +83,10 @@ public class PegadorVersaoRemota {
 
     public String pegarVersaoRemota() {
         String resposta = pegarResponseGitHub();
+
+        if (resposta.isEmpty()) {
+            return "";
+        }
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
