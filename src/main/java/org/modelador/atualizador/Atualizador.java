@@ -122,6 +122,7 @@ public class Atualizador {
             Files.move(
                     Path.of("./tmp/sheepnator.jar"), Path.of("./sheepnator.jar"), StandardCopyOption.REPLACE_EXISTING);
             logger.info("Programa atualizado com sucesso.\n");
+            logger.info("É necessário reiniciar o programa para que as atualizações tenham efeito.\n");
         } catch (IOException e) {
             logger.warning("Erro ao tentar mover o arquivo atualizado do programa.%s%n".formatted(e.getMessage()));
         }
