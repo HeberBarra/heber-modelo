@@ -1,6 +1,7 @@
 package org.modelador;
 
 import org.modelador.atualizador.Atualizador;
+import org.modelador.banco.EjetorArquivosBanco;
 import org.modelador.configurador.Configurador;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -42,6 +43,18 @@ public class Principal {
         configurador.lerConfiguracoes();
         configurador.verificarConfiguracoes();
         configurador.combinarConfiguracoes();
+
+        if (args.length != 0 && args[0].equals("--eject-database-scripts")) {
+            EjetorArquivosBanco ejetorArquivosBanco = new EjetorArquivosBanco();
+            ejetorArquivosBanco.ejetarScriptsConfiguracao();
+            System.exit(0);
+        }
+
+        if (args.length != 0 && args[0].equals("--eject-docker-compose")) {
+            EjetorArquivosBanco ejetorArquivosBanco = new EjetorArquivosBanco();
+            ejetorArquivosBanco.ejetarDockerCompose();
+            System.exit(0);
+        }
 
         Atualizador atualizador = new Atualizador();
         atualizador.atualizar();

@@ -45,5 +45,6 @@ bin/
 log/
 
 ### Program ###
+database/
 tmp/
 *.jar

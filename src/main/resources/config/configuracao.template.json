@@ -60,6 +60,24 @@
       "atributo": "atualizacao_automatica",
       "tipo": "Boolean",
       "valorPadrao": true
+    },
+    {
+      "categoria": "ejetor",
+      "atributo": "destino",
+      "tipo": "String",
+      "valorPadrao": "database/"
+    },
+    {
+      "categoria": "ejetor",
+      "atributo": "nome_arquivo_env",
+      "tipo": "String",
+      "valorPadrao": ".env"
+    },
+    {
+      "categoria": "ejetor",
+      "atributo": "copiar_arquivo_env",
+      "tipo": "Boolean",
+      "valorPadrao": true
     }
   ]
 }
