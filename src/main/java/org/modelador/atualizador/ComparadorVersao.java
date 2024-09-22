@@ -8,6 +8,7 @@ public class ComparadorVersao {
     public static final int MAIOR = 1;
     public static final int IGUAL = 0;
     public static final int MENOR = -1;
+    public static final int CANCELAR = -2;
     private static final String PREFIXO_VERSAO = "v";
     private String versaoPrograma;
     private String versaoRemota;
@@ -33,6 +34,8 @@ public class ComparadorVersao {
     }
 
     public int compararVersoes() {
+        if (versaoPrograma == null || versaoRemota == null) return CANCELAR;
+
         if (versaoPrograma.equals(versaoRemota)) {
             return IGUAL;
         }
@@ -69,7 +72,7 @@ public class ComparadorVersao {
     }
 
     public ComparadorVersao(String versaoPrograma, String versaoRemota) {
-        this.versaoPrograma = removerPrefixo(versaoPrograma);
+        if (versaoPrograma != null) this.versaoPrograma = removerPrefixo(versaoPrograma);
         this.versaoRemota = removerPrefixo(versaoRemota);
     }
 
