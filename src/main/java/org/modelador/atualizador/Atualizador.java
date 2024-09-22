@@ -18,6 +18,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.logging.Logger;
 import org.modelador.Principal;
 import org.modelador.calculadorhash.CalculadorHash;
+import org.modelador.codigosaida.CodigoSaida;
 import org.modelador.logger.JavaLogger;
 
 public class Atualizador {
@@ -37,7 +38,7 @@ public class Atualizador {
         } catch (MalformedURLException | URISyntaxException e) {
             logger.severe("Ocorreu um erro ao tentar criar as URLs necessárias. %s%n".formatted(e.getMessage()));
             logger.severe("Encerrando o programa...\n");
-            System.exit(1);
+            System.exit(CodigoSaida.ERRO_CRIACAO_URLS.getCodigo());
             throw new RuntimeException();
         }
     }

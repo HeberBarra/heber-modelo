@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 import org.modelador.Principal;
 import org.modelador.atualizador.Atualizador;
 import org.modelador.banco.EjetorArquivosBanco;
+import org.modelador.codigosaida.CodigoSaida;
 import org.modelador.configurador.Configurador;
 import org.modelador.logger.JavaLogger;
 
@@ -21,16 +22,16 @@ public class ExecutadorLogicaArgumentos {
 
         if (versao == null) {
             logger.warning("Não foi pegar a versão atual do programa.\n");
-            System.exit(1);
+            System.exit(CodigoSaida.ERRO_PEGAR_VERSAO.getCodigo());
         }
 
         System.out.println(versao);
-        System.exit(0);
+        System.exit(CodigoSaida.OK.getCodigo());
     }
 
     public void gerarConfiguracoes() {
         configurador.criarArquivos();
-        System.exit(0);
+        System.exit(CodigoSaida.OK.getCodigo());
     }
 
     public void mostrarConfiguracoes() {
@@ -41,7 +42,7 @@ public class ExecutadorLogicaArgumentos {
     public void atualizarPrograma() {
         Atualizador atualizador = new Atualizador();
         atualizador.baixarAtualizacao();
-        System.exit(0);
+        System.exit(CodigoSaida.OK.getCodigo());
     }
 
     public void ejetarArquivosBancoDados() {
@@ -49,7 +50,7 @@ public class ExecutadorLogicaArgumentos {
         configurador.lerConfiguracoes();
         EjetorArquivosBanco ejetorArquivosBanco = new EjetorArquivosBanco();
         ejetorArquivosBanco.ejetarScriptsConfiguracao();
-        System.exit(0);
+        System.exit(CodigoSaida.OK.getCodigo());
     }
 
     public void ejetarDockerCompose() {
@@ -57,6 +58,6 @@ public class ExecutadorLogicaArgumentos {
         configurador.lerConfiguracoes();
         EjetorArquivosBanco ejetorArquivosBanco = new EjetorArquivosBanco();
         ejetorArquivosBanco.ejetarDockerCompose();
-        System.exit(0);
+        System.exit(CodigoSaida.OK.getCodigo());
     }
 }

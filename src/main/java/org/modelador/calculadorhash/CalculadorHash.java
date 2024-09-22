@@ -3,6 +3,7 @@ package org.modelador.calculadorhash;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Logger;
+import org.modelador.codigosaida.CodigoSaida;
 import org.modelador.logger.JavaLogger;
 
 // https://www.baeldung.com/sha-256-hashing-java
@@ -35,7 +36,7 @@ public class CalculadorHash {
         } catch (NoSuchAlgorithmException e) {
             logger.severe("Algoritmo de hash inválido. %s%n".formatted(e.getMessage()));
             logger.severe("Encerrando o programa...");
-            System.exit(1);
+            System.exit(CodigoSaida.ALGORITMO_INVALIDO.getCodigo());
             throw new RuntimeException(e);
         }
 
@@ -49,7 +50,7 @@ public class CalculadorHash {
         } catch (NoSuchAlgorithmException e) {
             logger.severe("Algoritmo de hash inválido. %s%n".formatted(e.getMessage()));
             logger.severe("Encerrando o programa...");
-            System.exit(1);
+            System.exit(CodigoSaida.ALGORITMO_INVALIDO.getCodigo());
             throw new RuntimeException(e);
         }
 
