@@ -12,6 +12,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.logging.Logger;
 import javax.net.ssl.HttpsURLConnection;
+import org.modelador.codigosaida.CodigoSaida;
 import org.modelador.logger.JavaLogger;
 
 public class PegadorVersaoRemota {
@@ -26,7 +27,7 @@ public class PegadorVersaoRemota {
         } catch (URISyntaxException | MalformedURLException e) {
             logger.severe("A URL contém um erro grave. %s%n".formatted(e.getMessage()));
             logger.severe("Encerrando o programa...\n");
-            System.exit(1);
+            System.exit(CodigoSaida.ERRO_CRIACAO_URLS.getCodigo());
             throw new RuntimeException();
         }
     }
@@ -39,7 +40,7 @@ public class PegadorVersaoRemota {
         } catch (IOException e) {
             logger.severe("Um erro ocorreu ao tentar se conectar ao GitHub. %s%n".formatted(e.getMessage()));
             logger.severe("Encerrando o programa...\n");
-            System.exit(1);
+            System.exit(CodigoSaida.ERRO_CONEXAO.getCodigo());
             return "";
         }
 
@@ -48,7 +49,7 @@ public class PegadorVersaoRemota {
         } catch (ProtocolException e) {
             logger.severe("Protocolo inválido. %s%n".formatted(e.getMessage()));
             logger.severe("Encerrando o programa...");
-            System.exit(1);
+            System.exit(CodigoSaida.PROTOCOLO_INVALIDO.getCodigo());
             return "";
         }
 
@@ -74,7 +75,7 @@ public class PegadorVersaoRemota {
         } catch (IOException e) {
             logger.severe("Ocorreu um erro ao tentar ler o corpo da resposta. %s%n".formatted(e.getMessage()));
             logger.severe("Encerrando o programa...\n");
-            System.exit(1);
+            System.exit(CodigoSaida.ERRO_LEITURA_RESPONSE.getCodigo());
             return "";
         }
     }
@@ -93,7 +94,7 @@ public class PegadorVersaoRemota {
         } catch (JsonProcessingException e) {
             logger.severe("Ocorreu um erro ao tentar converter a resposta para json. %s%n".formatted(e.getMessage()));
             logger.severe("Encerrando o programa...\n");
-            System.exit(1);
+            System.exit(CodigoSaida.ERRO_CONVERSAO_RESPONSE.getCodigo());
         }
         return "";
     }

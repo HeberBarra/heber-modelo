@@ -3,6 +3,7 @@ package org.modelador.configurador;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import org.modelador.codigosaida.CodigoSaida;
 import org.modelador.configurador.verificador.VerificadorConfiguracao;
 import org.modelador.logger.JavaLogger;
 
@@ -51,7 +52,7 @@ public class Configurador {
 
         if (verificadorConfiguracao.isConfiguracaoErrada()) {
             logger.severe("A configuração contém erros graves. Para evitar bugs no programa, ele será encerrado");
-            System.exit(1);
+            System.exit(CodigoSaida.ERRO_CONFIGURACOES.getCodigo());
         }
     }
 

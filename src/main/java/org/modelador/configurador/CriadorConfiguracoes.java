@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import org.modelador.codigosaida.CodigoSaida;
 import org.modelador.configurador.verificador.json.AtributoJsonConfiguracao;
 import org.modelador.configurador.verificador.json.AtributoJsonPaleta;
 import org.modelador.configurador.verificador.json.JsonVerificadorConfiguracoes;
@@ -87,7 +88,7 @@ public class CriadorConfiguracoes {
         } catch (IOException e) {
             logger.severe("Falha ao tentar criar o arquivo %s. Erro: %s.".formatted(caminhoArquivo, e.getMessage()));
             logger.severe("Encerrando o programa...");
-            System.exit(0);
+            System.exit(CodigoSaida.ERRO_CRIACAO_CONFIG.getCodigo());
         }
     }
 

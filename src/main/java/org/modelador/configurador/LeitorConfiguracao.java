@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.modelador.codigosaida.CodigoSaida;
 import org.modelador.logger.JavaLogger;
 import org.tomlj.Toml;
 import org.tomlj.TomlTable;
@@ -63,7 +64,7 @@ public class LeitorConfiguracao {
         } catch (IOException e) {
             logger.severe("Falha ao tentar ler o arquivo %s. Erro: %s%n".formatted(nomeArquivo, e.getMessage()));
             logger.severe("Devido a uma falha grave, o program será encerrado");
-            System.exit(0);
+            System.exit(CodigoSaida.ERRO_LEITURA_ARQUIVO.getCodigo());
         }
 
         return null;

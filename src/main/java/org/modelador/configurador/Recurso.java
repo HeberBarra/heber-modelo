@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.modelador.codigosaida.CodigoSaida;
 import org.modelador.logger.JavaLogger;
 
 public class Recurso {
@@ -21,7 +22,7 @@ public class Recurso {
         if (recurso == null) {
             logger.severe("Falha ao tentar ler o arquivo: %s. Recurso não encontrado.".formatted(caminhoRecurso));
             logger.severe("Encerrando o programa");
-            System.exit(1);
+            System.exit(CodigoSaida.RECURSO_NAO_ENCONTRADO.getCodigo());
         }
 
         return recurso;
@@ -50,7 +51,7 @@ public class Recurso {
         } catch (IOException e) {
             logger.severe("Falha ao tentar criar arquivo temporário. %n%s".formatted(e.getMessage()));
             logger.severe("Encerrando o programa...");
-            System.exit(1);
+            System.exit(CodigoSaida.ERRO_CRIACAO_ARQUIVO_TEMP.getCodigo());
         }
 
         return arquivoRecurso;
