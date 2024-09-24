@@ -34,4 +34,20 @@ public class Principal {
     String index(ModelMap modelMap) {
         return "index";
     }
+
+    @RequestMapping({"/login", "/login.html"})
+    String login(ModelMap modelMap) {
+        return "login";
+    }
+
+    @RequestMapping({"/cadastro", "/cadastro.html"})
+    String cadastro(ModelMap modelMap) {
+        return "cadastro";
+    }
+
+    @RequestMapping({"/redefinirsenha", "/redefinirsenha.html"})
+    String redefinirSenha(ModelMap modelMap) {
+        return "redefinirsenha";
+    }
+
 }
