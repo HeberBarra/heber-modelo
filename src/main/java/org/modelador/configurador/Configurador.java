@@ -90,6 +90,10 @@ public class Configurador {
         return leitorConfiguracao.pegarCorPaleta(nomeVariavel);
     }
 
+    public Map<String, String> pegarInformacoesPaleta() {
+        return leitorConfiguracao.pegarVariaveisPaleta();
+    }
+
     public <T> T pegarValorConfiguracao(String categoria, String atributo, Class<T> tipo) {
         return leitorConfiguracao.pegarValorConfiguracao(categoria, atributo, tipo);
     }
