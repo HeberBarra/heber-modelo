@@ -4,12 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-ts": "tsc --watch",
+    "build-scss": "sass --no-source-map --watch ./src/main/resources/static/scss:./src/main/resources/static/css --style compressed",
+    "minify-js": "grunt --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "grunt": "^1.6.1",
+    "grunt-cli": "^1.5.0",
+    "grunt-contrib-uglify": "^5.2.2",
+    "grunt-contrib-watch": "^1.1.0",
     "sass": "^1.79.3",
     "typescript": "^5.6.2"
   }
