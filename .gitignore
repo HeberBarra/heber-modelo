@@ -47,3 +47,6 @@ log/
 ### Program ###
 tmp/
 *.jar
+
+node_modules/
+

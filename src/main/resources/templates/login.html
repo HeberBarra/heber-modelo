@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style th:text="${paleta}"></style>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+
+<body>
+    <header>
+        <button>Menu</button>
+        <h1>Sheepnator</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">HOME</a>
+    </nav>
+
+    <main>
+        <form action="" method="post">
+            <label> E-mail: <input type="email" name="email" placeholder="seuemail@email.com" required></label>
+            <label> Senha: <input type="password" name="senha" placeholder="digite sua senha" required> <a href="redefinirsenha.html">Redefinir senha</a> </label>
+            <button>continuar</button>
+            <span>Não tem cadastro? <a href="cadastro.html">Cadastre-se</a></span>
+        </form>
+    </main>
+</body>
+
+</html>

@@ -2,6 +2,8 @@ package org.modelador.configurador;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -56,6 +58,18 @@ public class LeitorConfiguracao {
 
     public @Nullable String pegarCorPaleta(String nomeVariavel) {
         return Objects.requireNonNull(informacoesPaleta.getTable("paleta")).getString(nomeVariavel);
+    }
+
+    public @NotNull Map<String, String> pegarVariaveisPaleta() {
+        Map<String, String> informacoes = new LinkedHashMap<>();
+        Map<String, Object> valores =
+                Objects.requireNonNull(informacoesPaleta.getTable("paleta")).toMap();
+
+        for (String chave : valores.keySet()) {
+            informacoes.put(chave, String.valueOf(valores.get(chave)));
+        }
+
+        return informacoes;
     }
 
     private @NotNull TomlTable lerArquivo(String nomeArquivo) {
