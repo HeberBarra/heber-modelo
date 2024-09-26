@@ -1,6 +1,6 @@
 services:
   mysql-server:
-    image: mysql:8.0.19
+    image: mysql:9.0.1
     container_name: diagrama-mysql
     restart: always
     environment:

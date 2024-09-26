@@ -65,7 +65,7 @@
       "categoria": "ejetor",
       "atributo": "destino",
       "tipo": "String",
-      "valorPadrao": "database/"
+      "valorPadrao": "/tmp/database/"
     },
     {
       "categoria": "ejetor",
