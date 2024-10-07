@@ -77,4 +77,10 @@ public class Principal {
 
         return "editor";
     }
+
+    @RequestMapping({"privacidade", "politicadeprivacidade", "politicaprivacidade"})
+    String politicaPrivacidade(ModelMap modelMap) {
+        injetarPaleta(modelMap);
+        return "politicaprivacidade";
+    }
 }
