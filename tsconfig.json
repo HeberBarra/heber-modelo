@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",                             
+    "module": "CommonJS",
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "rootDir": "src/main/resources/static/typescript/",
+    "outDir": "src/main/resources/static/javascript",
+    "removeComments": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  }
+}
