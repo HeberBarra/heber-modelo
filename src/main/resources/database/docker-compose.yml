@@ -13,7 +13,6 @@ services:
     volumes:
       - "mysql-volume:/var/lib/mysql"
       - "./init:/docker-entrypoint-initdb.d"
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb_unicode_ci
 
 volumes:
   mysql-volume:
