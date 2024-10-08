@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @SpringBootApplication
 public class Principal {
 
-    public static final String NOME_PROGRAMA = "sheepnator";
+    public static final String NOME_PROGRAMA = "Heber-Modelo";
     public static final Configurador configurador = new Configurador();
 
     public static void main(String[] args) {
@@ -78,7 +78,7 @@ public class Principal {
         return "editor";
     }
 
-    @RequestMapping({"privacidade", "politicadeprivacidade", "politicaprivacidade"})
+    @RequestMapping({"privacidade", "privacidade.html", "politicaprivacidade", "politicaprivacidade.html"})
     String politicaPrivacidade(ModelMap modelMap) {
         injetarPaleta(modelMap);
         return "politicaprivacidade";

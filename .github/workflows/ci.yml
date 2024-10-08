@@ -27,8 +27,8 @@ jobs:
       - name: Upload jar
         uses: actions/upload-artifact@v4
         with:
-          path: ./build/libs/sheepnator.jar
-          name: sheepnator.jar
+          path: ./build/libs/heber-modelo.jar
+          name: heber-modelo.jar
   
   create-release:
     permissions:
@@ -40,15 +40,15 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          name: sheepnator.jar
+          name: heber-modelo.jar
 
-      - name: Caculate Checksum
-        run: sha256sum sheepnator.jar > SHA256SUM
+      - name: Calculate Checksum
+        run: sha256sum heber-modelo.jar > SHA256SUM
 
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
             SHA256SUM
-            sheepnator.jar
+            heber-modelo.jar
           make_latest: true

@@ -22,7 +22,7 @@ public class PegadorVersaoRemota {
 
     static {
         try {
-            URI releasesGithub = new URI("https://api.github.com/repos/HeberBarra/sheepnator/releases/latest");
+            URI releasesGithub = new URI("https://api.github.com/repos/HeberBarra/heber-modelo/releases/latest");
             URL_RELEASES_GITHUB = releasesGithub.toURL();
         } catch (URISyntaxException | MalformedURLException e) {
             logger.severe("A URL contém um erro grave. %s%n".formatted(e.getMessage()));

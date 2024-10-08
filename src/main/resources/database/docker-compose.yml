@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       - LANG=C.UTF-8
-      - MYSQL_DATABASE=Sheepnator
+      - MYSQL_DATABASE=db_HeberModelo
     env_file:
       - .env
     ports:
