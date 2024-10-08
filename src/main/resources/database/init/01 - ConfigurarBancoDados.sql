@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS Sheepnator DEFAULT CHARACTER SET = utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS db_HeberModelo DEFAULT CHARACTER SET = utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
 
-USE Sheepnator;
+USE db_HeberModelo;
 
 CREATE TABLE IF NOT EXISTS tbUsuario (
     matricula_usuario NUMERIC(11),

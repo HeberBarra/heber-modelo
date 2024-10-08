@@ -1,11 +1,11 @@
 services:
   mysql-server:
-    image: mysql:8.0.19
+    image: mysql:9.0.1
     container_name: diagrama-mysql
     restart: always
     environment:
       - LANG=C.UTF-8
-      - MYSQL_DATABASE=Sheepnator
+      - MYSQL_DATABASE=db_HeberModelo
     env_file:
       - .env
     ports:

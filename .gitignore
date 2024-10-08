@@ -45,6 +45,8 @@ bin/
 log/
 
 ### Program ###
-database/
 tmp/
 *.jar
+
+node_modules/
+db/

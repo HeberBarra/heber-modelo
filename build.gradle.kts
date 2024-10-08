@@ -13,12 +13,14 @@ repositories {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_23
+    targetCompatibility = JavaVersion.VERSION_23
 }
 
 dependencies {
-    implementation("org.apache.pdfbox:pdfbox:3.0.3")
+    implementation("org.apache.pdfbox:pdfbox:3.0.3") {
+        exclude("commons-logging", "commons-logging")
+    }
     implementation("org.fusesource.jansi:jansi:2.4.1")
     implementation("org.jetbrains:annotations:24.1.0")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
@@ -46,5 +48,6 @@ tasks.test {
 }
 
 tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    exclude("static/scss/")
     this.archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
 }

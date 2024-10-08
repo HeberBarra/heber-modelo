@@ -44,7 +44,7 @@ public class EjetorArquivosBanco {
         try (InputStream arquivoExtraido = Recurso.pegarRecurso(arquivo)) {
             String nomeArquivo = Arrays.stream(arquivo.split("/")).toList().getLast();
             File arquivoDestino = new File(pastaDestino + nomeArquivo);
-            if (arquivoDestino.getParentFile().mkdirs()) logger.info("Pastas criadas com sucesso.%n");
+            if (arquivoDestino.getParentFile().mkdirs()) logger.info("Pastas criadas com sucesso.\n");
 
             if (arquivoDestino.createNewFile())
                 logger.info("Arquivo %s criado com sucesso.%n".formatted(arquivoDestino));

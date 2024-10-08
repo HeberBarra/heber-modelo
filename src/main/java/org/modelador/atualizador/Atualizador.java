@@ -31,8 +31,8 @@ public class Atualizador {
     static {
         try {
             URI arquivoJar =
-                    new URI("https://github.com/HeberBarra/sheepnator/releases/latest/download/sheepnator.jar");
-            URI arquivoSha256 = new URI("https://github.com/HeberBarra/sheepnator/releases/latest/download/SHA256SUM");
+                    new URI("https://github.com/HeberBarra/heber-modelo/releases/latest/download/heber-modelo.jar");
+            URI arquivoSha256 = new URI("https://github.com/HeberBarra/heber-modelo/releases/latest/download/SHA256SUM");
             URL_ARQUIVO_JAR = arquivoJar.toURL();
             URL_ARQUIVO_SHA256 = arquivoSha256.toURL();
         } catch (MalformedURLException | URISyntaxException e) {
@@ -80,12 +80,12 @@ public class Atualizador {
             logger.info("Pasta temporária para downloads foi criada com sucesso.\n");
         }
 
-        baixarArquivo(pastaTemporaria, URL_ARQUIVO_JAR, "sheepnator.jar");
+        baixarArquivo(pastaTemporaria, URL_ARQUIVO_JAR, "heber-modelo.jar");
         baixarArquivo(pastaTemporaria, URL_ARQUIVO_SHA256, "SHA256SUM");
 
         String hashArquivoJar = "";
         try {
-            byte[] dados = Files.readAllBytes(new File("./tmp/sheepnator.jar").toPath());
+            byte[] dados = Files.readAllBytes(new File("./tmp/heber-modelo.jar").toPath());
             CalculadorHash calculadorHash = new CalculadorHash();
             hashArquivoJar = calculadorHash.calcularHash256(dados);
         } catch (IOException e) {
@@ -96,7 +96,7 @@ public class Atualizador {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("./tmp/SHA256SUM"))) {
             String linha;
             while ((linha = bufferedReader.readLine()) != null) {
-                if (linha.contains("sheepnator.jar")) {
+                if (linha.contains("heber-modelo.jar")) {
                     break;
                 }
             }
@@ -121,7 +121,7 @@ public class Atualizador {
 
         try {
             Files.move(
-                    Path.of("./tmp/sheepnator.jar"), Path.of("./sheepnator.jar"), StandardCopyOption.REPLACE_EXISTING);
+                    Path.of("./tmp/heber-modelo.jar"), Path.of("./heber-modelo.jar"), StandardCopyOption.REPLACE_EXISTING);
             logger.info("Programa atualizado com sucesso.\n");
             logger.info("É necessário reiniciar o programa para que as atualizações tenham efeito.\n");
         } catch (IOException e) {

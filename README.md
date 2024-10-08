@@ -1,4 +1,4 @@
-# Sheepnator
+# Heber-Modelo
 
 ## 0 Licença(s)
 
@@ -13,11 +13,11 @@ Desenvolvido por estudantes do Curso Técnico em Informática do Instituto Feder
 
 #### Diretório de configurações:
 
-**Windows:** %APPDATA%\\sheepnator\\
+**Windows:** %APPDATA%\\heber-modelo\\
 
-**Mac:** $HOME/Library/Application Support/sheepnator/
+**Mac:** $HOME/Library/Application Support/heber-modelo/
 
-**Unix:** $HOME/.config/sheepnator/
+**Unix:** $HOME/.config/heber-modelo/
 
 O programa disponibiliza algumas opções de configuração, que são feitas usando [TOML(Tom's Obvious Minimal Language)](https://toml.io/en/). Os arquivos são criados automaticamente pelo programa caso não existam, baseados nas templates do programa.
 
@@ -28,7 +28,7 @@ O programa disponibiliza algumas opções de configuração, que são feitas usa
 
 ## 3 Instalação
 
-Atualmente a única forma de "instalar" o programa é compilando usando o Gradle, para melhor compatibilidade é necessário usar a versão 21 do JDK. Recomendo usar a task jar do Gradle para gerar o arquivo jar, permitindo assim uma maior praticidade.   
+O programa é disponibilizado como um arquivo jar, sendo possível baixar o programa através da aba releases do GitHub, ou clonando o repositório e compilando o programa usando gradle bootJar.
 
 ## 4 Funcionalidades Planejadas/Propostas
 
@@ -40,8 +40,9 @@ Atualmente a única forma de "instalar" o programa é compilando usando o Gradle
 - [ ] Estilos diferentes de fundo/grade
 - [ ] Exportação para PDF, SVG, PNG e XML
 - [ ] Alinhar com a grade
-- [ ] Versionamento Semântico
-- [ ] Auto atualização
+- [x] Auto atualização*
+
+\*Por causa da mudança de nome, versões anteriores a 0.0.5 não conseguem atualizar.
 
 ## 5 Autores
 
