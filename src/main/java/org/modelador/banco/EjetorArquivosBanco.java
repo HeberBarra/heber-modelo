@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.logging.Logger;
-import org.modelador.Principal;
+import org.modelador.configurador.Configurador;
 import org.modelador.configurador.Recurso;
 import org.modelador.logger.JavaLogger;
 
@@ -20,10 +20,12 @@ public class EjetorArquivosBanco {
     public static final String CONFIGURAR_BANCO = PASTA_SCRIPTS + "01 - ConfigurarBancoDados.sql";
     public static final String CONFIGURAR_USERS = PASTA_SCRIPTS + "02 - CriarUsuarios.sh";
     public static final String ARQUIVO_DOCKER_COMPOSE = PASTA_ARQUIVOS_BANCO + "docker-compose.yml";
+    private final Configurador configurador;
     private String destinoArquivos;
 
     public EjetorArquivosBanco() {
-        this.destinoArquivos = Principal.configurador.pegarValorConfiguracao("ejetor", "destino", String.class);
+        this.configurador = Configurador.getInstance();
+        this.destinoArquivos = configurador.pegarValorConfiguracao("ejetor", "destino", String.class);
     }
 
     public void ejetarScriptsConfiguracao() {
@@ -35,7 +37,7 @@ public class EjetorArquivosBanco {
     public void ejetarDockerCompose() {
         ejetarArquivo(destinoArquivos, ARQUIVO_DOCKER_COMPOSE);
 
-        if (Principal.configurador.pegarValorConfiguracao("ejetor", "copiar_arquivo_env", boolean.class)) {
+        if (configurador.pegarValorConfiguracao("ejetor", "copiar_arquivo_env", boolean.class)) {
             copiarArquivoDotEnv();
         }
     }
@@ -57,7 +59,7 @@ public class EjetorArquivosBanco {
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void copiarArquivoDotEnv() {
-        String nomeEnv = Principal.configurador.pegarValorConfiguracao("ejetor", "nome_arquivo_env", String.class);
+        String nomeEnv = configurador.pegarValorConfiguracao("ejetor", "nome_arquivo_env", String.class);
         Path arquivoEnv = new File(nomeEnv).getAbsoluteFile().toPath();
         File arquivoLink = new File(destinoArquivos, "/.env");
         Path caminhoLink = arquivoLink.toPath();

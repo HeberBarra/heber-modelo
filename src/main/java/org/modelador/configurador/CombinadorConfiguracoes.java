@@ -4,13 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
-import org.modelador.logger.JavaLogger;
 import org.tomlj.TomlTable;
 
 public class CombinadorConfiguracoes {
-
-    private static final Logger logger = JavaLogger.obterLogger(CombinadorConfiguracoes.class.getName());
 
     public Map<String, List<Map<String, String>>> combinarConfiguracoes(
             Map<String, List<Map<String, String>>> configuracaoPadrao,

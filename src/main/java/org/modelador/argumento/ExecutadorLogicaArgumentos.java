@@ -1,7 +1,6 @@
 package org.modelador.argumento;
 
 import java.util.logging.Logger;
-import org.modelador.Principal;
 import org.modelador.atualizador.Atualizador;
 import org.modelador.banco.EjetorArquivosBanco;
 import org.modelador.codigosaida.CodigoSaida;
@@ -14,7 +13,7 @@ public class ExecutadorLogicaArgumentos {
     private final Configurador configurador;
 
     public ExecutadorLogicaArgumentos() {
-        configurador = Principal.configurador;
+        configurador = Configurador.getInstance();
     }
 
     public void mostrarVersao() {

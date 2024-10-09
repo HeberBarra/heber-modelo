@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class Principal {
 
     public static final String NOME_PROGRAMA = "Heber-Modelo";
-    public static final Configurador configurador = new Configurador();
+    private static Configurador configurador = Configurador.getInstance();
 
     public static void main(String[] args) {
         AnalisadorArgumentos analisadorArgumentos = new AnalisadorArgumentos(args);

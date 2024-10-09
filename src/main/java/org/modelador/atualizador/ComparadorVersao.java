@@ -35,10 +35,7 @@ public class ComparadorVersao {
 
     public int compararVersoes() {
         if (versaoPrograma == null || versaoRemota == null) return CANCELAR;
-
-        if (versaoPrograma.equals(versaoRemota)) {
-            return IGUAL;
-        }
+        if (versaoPrograma.equals(versaoRemota)) return IGUAL;
 
         List<String> partesVersaoPrograma = pegarPartesVersao(versaoPrograma);
         List<String> partesVersaoRemota = pegarPartesVersao(versaoRemota);

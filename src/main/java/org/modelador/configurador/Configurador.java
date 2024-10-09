@@ -7,22 +7,31 @@ import org.modelador.codigosaida.CodigoSaida;
 import org.modelador.configurador.verificador.VerificadorConfiguracao;
 import org.modelador.logger.JavaLogger;
 
-public class Configurador {
+public final class Configurador {
 
     public static final String ARQUIVO_PALETA = "paleta.toml";
     public static final String ARQUIVO_CONFIGURACOES = "config.toml";
     private static final Logger logger = JavaLogger.obterLogger(Configurador.class.getName());
+    private static volatile Configurador configurador;
     private final CriadorConfiguracoes criadorConfiguracoes;
     private final VerificadorConfiguracao verificadorConfiguracao;
     private final CombinadorConfiguracoes combinadorConfiguracoes;
     private final LeitorConfiguracao leitorConfiguracao;
 
-    public Configurador() {
+    private Configurador() {
         criadorConfiguracoes = new CriadorConfiguracoes();
         verificadorConfiguracao = new VerificadorConfiguracao();
         leitorConfiguracao =
                 new LeitorConfiguracao(PastaConfiguracao.PASTA_CONFIGURACAO, ARQUIVO_CONFIGURACOES, ARQUIVO_PALETA);
         combinadorConfiguracoes = new CombinadorConfiguracoes();
+    }
+
+    public static synchronized Configurador getInstance() {
+        if (configurador == null) {
+            configurador = new Configurador();
+        }
+
+        return configurador;
     }
 
     private void lerConfiguracaoPadrao() {

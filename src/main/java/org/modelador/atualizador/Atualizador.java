@@ -16,9 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.logging.Logger;
-import org.modelador.Principal;
 import org.modelador.calculadorhash.CalculadorHash;
 import org.modelador.codigosaida.CodigoSaida;
+import org.modelador.configurador.Configurador;
 import org.modelador.logger.JavaLogger;
 
 public class Atualizador {
@@ -26,6 +26,7 @@ public class Atualizador {
     public static final URL URL_ARQUIVO_JAR;
     public static final URL URL_ARQUIVO_SHA256;
     private static final Logger logger = JavaLogger.obterLogger(Atualizador.class.getName());
+    private final Configurador configurador;
     private final ComparadorVersao comparadorVersao;
 
     static {
@@ -44,6 +45,7 @@ public class Atualizador {
     }
 
     public Atualizador() {
+        configurador = Configurador.getInstance();
         PegadorVersaoRemota pegadorVersaoRemota = new PegadorVersaoRemota();
         String versaoPrograma = Atualizador.class.getPackage().getImplementationVersion();
         String versaoRemota = pegadorVersaoRemota.pegarVersaoRemota();
@@ -66,7 +68,7 @@ public class Atualizador {
         }
 
         logger.info("Atualização disponível.\n");
-        if (Principal.configurador.pegarValorConfiguracao("atualizador", "atualizacao_automatica", boolean.class)) {
+        if (configurador.pegarValorConfiguracao("atualizador", "atualizacao_automatica", boolean.class)) {
             baixarAtualizacao();
             return;
         }
