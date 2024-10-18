@@ -33,7 +33,8 @@ public class Atualizador {
         try {
             URI arquivoJar =
                     new URI("https://github.com/HeberBarra/heber-modelo/releases/latest/download/heber-modelo.jar");
-            URI arquivoSha256 = new URI("https://github.com/HeberBarra/heber-modelo/releases/latest/download/SHA256SUM");
+            URI arquivoSha256 =
+                    new URI("https://github.com/HeberBarra/heber-modelo/releases/latest/download/SHA256SUM");
             URL_ARQUIVO_JAR = arquivoJar.toURL();
             URL_ARQUIVO_SHA256 = arquivoSha256.toURL();
         } catch (MalformedURLException | URISyntaxException e) {
@@ -123,7 +124,9 @@ public class Atualizador {
 
         try {
             Files.move(
-                    Path.of("./tmp/heber-modelo.jar"), Path.of("./heber-modelo.jar"), StandardCopyOption.REPLACE_EXISTING);
+                    Path.of("./tmp/heber-modelo.jar"),
+                    Path.of("./heber-modelo.jar"),
+                    StandardCopyOption.REPLACE_EXISTING);
             logger.info("Programa atualizado com sucesso.\n");
             logger.info("É necessário reiniciar o programa para que as atualizações tenham efeito.\n");
         } catch (IOException e) {

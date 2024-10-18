@@ -1,22 +1,23 @@
 package org.modelador.argumento;
 
 import java.util.List;
-import java.util.Map;
+import java.util.logging.Logger;
+import org.modelador.logger.JavaLogger;
 
-public class Argumento {
+public abstract class Argumento {
 
-    private List<String> flagsPermitidas;
-    private String descricao;
+    protected Logger logger;
+    protected List<String> flagsPermitidas;
+    protected String descricao;
 
-    public Argumento(List<String> flagsPermitidas, String descricao) {
-        this.flagsPermitidas = flagsPermitidas;
-        this.descricao = descricao;
+    public Argumento() {
+        this.logger = JavaLogger.obterLogger(this.getClass().getName());
     }
 
-    public void autoRegistrar(Map<String, Argumento> mapArgumentos) {
-        for (String flag : flagsPermitidas) {
-            mapArgumentos.put(flag, this);
-        }
+    public abstract void executar();
+
+    public boolean contemFlag(String flag) {
+        return flagsPermitidas.contains(flag);
     }
 
     public List<String> getFlagsPermitidas() {

@@ -1,7 +1,8 @@
 package org.modelador;
 
 import java.util.Map;
-import org.modelador.argumento.AnalisadorArgumentos;
+
+import org.modelador.argumento.ExecutadorArgumentos;
 import org.modelador.atualizador.Atualizador;
 import org.modelador.configurador.Configurador;
 import org.springframework.boot.SpringApplication;
@@ -15,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class Principal {
 
     public static final String NOME_PROGRAMA = "Heber-Modelo";
-    private static Configurador configurador = Configurador.getInstance();
+    private static final Configurador configurador = Configurador.getInstance();
 
     public static void main(String[] args) {
-        AnalisadorArgumentos analisadorArgumentos = new AnalisadorArgumentos(args);
-        analisadorArgumentos.analisarArgumentos();
+        ExecutadorArgumentos executadorArgumentos = new ExecutadorArgumentos(args);
+        executadorArgumentos.executarFlags();
 
         configurador.criarArquivos();
         configurador.lerConfiguracoes();
