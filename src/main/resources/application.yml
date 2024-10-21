@@ -15,3 +15,5 @@ logging:
   charset:
     console: UTF-8
     file: UTF-8
+  pattern:
+    dateformat: E MMM dd hh:mm:ss z yy
