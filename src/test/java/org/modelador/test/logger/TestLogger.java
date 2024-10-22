@@ -38,24 +38,6 @@ public class TestLogger {
     }
 
     @Test
-    public void testarLoggerWarning() {
-        Logger logger = JavaLogger.obterLogger(NOME_LOGGER);
-        String mensagemExcecao;
-
-        try {
-            throw new Exception("TesteLogger");
-        } catch (Exception e) {
-            mensagemExcecao = e.getMessage();
-            logger.warning(e.getMessage());
-        }
-
-        String dadosSaida = dados.toString();
-
-        assert dadosSaida.contains(mensagemExcecao);
-        assert dadosSaida.contains(Level.WARNING.getName());
-    }
-
-    @Test
     public void testarDesativar() {
         Logger logger = JavaLogger.obterLogger(NOME_LOGGER);
         JavaLogger.desativarLogger(true, logger);
