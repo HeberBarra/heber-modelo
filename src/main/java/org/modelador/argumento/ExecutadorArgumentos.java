@@ -1,13 +1,12 @@
 package org.modelador.argumento;
 
-import org.modelador.codigosaida.CodigoSaida;
-import org.modelador.logger.JavaLogger;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
+import org.modelador.codigosaida.CodigoSaida;
+import org.modelador.logger.JavaLogger;
 
 public class ExecutadorArgumentos {
 
@@ -25,18 +24,17 @@ public class ExecutadorArgumentos {
     public void executarFlags() {
         coletorClassesArgumentos.coletarArgumentos();
 
-        for (String argumento: args) {
+        for (String argumento : args) {
             executarFlagArgumento(argumento);
         }
     }
 
     private void executarFlagArgumento(String flagArgumento) {
-        if (cacheArgumentos.contains(flagArgumento))
-            return;
+        if (cacheArgumentos.contains(flagArgumento)) return;
 
         cacheArgumentos.add(flagArgumento);
         Set<Class<Argumento>> argumentos = coletorClassesArgumentos.getArgumentos();
-        for (Class<Argumento> argumentoClass: argumentos) {
+        for (Class<Argumento> argumentoClass : argumentos) {
             Argumento argumento;
             try {
                 Constructor<Argumento> argumentoConstructor = argumentoClass.getConstructor();
@@ -67,10 +65,8 @@ public class ExecutadorArgumentos {
                 argumento.executar();
                 return;
             }
-
         }
 
         logger.warning("A flag %s não corresponde a nenhuma flag permitida pelo programa.".formatted(flagArgumento));
     }
-
 }

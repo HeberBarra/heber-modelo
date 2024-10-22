@@ -1,7 +1,6 @@
 package org.modelador;
 
 import java.util.Map;
-
 import org.modelador.argumento.ExecutadorArgumentos;
 import org.modelador.atualizador.Atualizador;
 import org.modelador.configurador.Configurador;

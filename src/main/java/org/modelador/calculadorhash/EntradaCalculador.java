@@ -7,5 +7,4 @@ public record EntradaCalculador(String entrada, String saida) {
     public byte[] getEntradaBytes() {
         return entrada.getBytes(StandardCharsets.UTF_8);
     }
-
 }
