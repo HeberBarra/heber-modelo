@@ -8,6 +8,12 @@ import java.util.logging.Logger;
 import org.modelador.codigosaida.CodigoSaida;
 import org.modelador.logger.JavaLogger;
 
+/**
+ * Executa funções conforme os argumentos passados pela linha de comando.
+ * <p>
+ * Cada flag é executada em sequência e pode ser executada apenas uma vez, a menos que encerre o programa.
+ * Para evitar repetições as flags que já foram executas são salvas num cache.
+ * */
 public class ExecutadorArgumentos {
 
     private static final Logger logger = JavaLogger.obterLogger(ExecutadorArgumentos.class.getName());
@@ -21,6 +27,9 @@ public class ExecutadorArgumentos {
         this.args = args;
     }
 
+    /**
+     * Executa as flags passadas de forma sequencial
+     * */
     public void executarFlags() {
         coletorClassesArgumentos.coletarArgumentos();
 
@@ -29,6 +38,13 @@ public class ExecutadorArgumentos {
         }
     }
 
+    /**
+     * Tenta executar a lógica associada a flag passada, caso ocorra algum erro é gerado um log informando o erro,
+     * caso o erro seja grave o programa será encerrado com o código de saída apropriado: {@link CodigoSaida}
+     * <p>
+     * Caso uma flag seja passada duas ou mais vezes, a lógica associada será executada apenas uma vez
+     * @param flagArgumento a flag a ser executada
+     * */
     private void executarFlagArgumento(String flagArgumento) {
         if (cacheArgumentos.contains(flagArgumento)) return;
 

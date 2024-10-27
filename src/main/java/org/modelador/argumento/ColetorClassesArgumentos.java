@@ -8,6 +8,13 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 
+/**
+ * Coleta todas as classes que herdam de {@link Argumento}.
+ * <p>
+ * Utiliza o anti pattern <b>Singleton</b> para garantir que a classe não consumirá mais memória do que o necessário
+ * <p>
+ * NOTE: Futuramente adicionado suporte para coleção de classes que herdam de {@link Argumento} criadas por usuários, para prover melhor suporte a plugins
+ * */
 public class ColetorClassesArgumentos {
 
     private static final Logger logger = JavaLogger.obterLogger(ColetorClassesArgumentos.class.getName());
@@ -26,6 +33,9 @@ public class ColetorClassesArgumentos {
         return coletorClassesArgumentos;
     }
 
+    /**
+     * Escaneia o pacote argumento e coleta todas as classes que herdam de {@link Argumento} e salva elas num {@code Set} para evitar duplicatas
+     * */
     @SuppressWarnings("unchecked")
     public void coletarArgumentos() {
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
