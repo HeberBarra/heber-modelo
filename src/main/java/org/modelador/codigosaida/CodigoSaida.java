@@ -1,5 +1,8 @@
 package org.modelador.codigosaida;
 
+/**
+ * Define o que cada código de saída significa
+ * */
 public enum CodigoSaida {
     OK(0),
     ERRO_CRIACAO_CONFIG(1),
