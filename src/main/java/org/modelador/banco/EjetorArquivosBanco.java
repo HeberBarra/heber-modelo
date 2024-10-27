@@ -100,5 +100,4 @@ public class EjetorArquivosBanco {
             throw new RuntimeException(e);
         }
     }
-
 }
