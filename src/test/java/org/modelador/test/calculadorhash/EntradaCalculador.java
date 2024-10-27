@@ -1,4 +1,4 @@
-package org.modelador.calculadorhash;
+package org.modelador.test.calculadorhash;
 
 import java.nio.charset.StandardCharsets;
 

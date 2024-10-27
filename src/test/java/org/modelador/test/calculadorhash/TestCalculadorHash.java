@@ -2,7 +2,6 @@ package org.modelador.test.calculadorhash;
 
 import org.junit.jupiter.api.Test;
 import org.modelador.calculadorhash.CalculadorHash;
-import org.modelador.calculadorhash.EntradaCalculador;
 
 public class TestCalculadorHash {
 
