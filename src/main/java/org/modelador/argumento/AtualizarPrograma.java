@@ -4,6 +4,9 @@ import java.util.List;
 import org.modelador.atualizador.Atualizador;
 import org.modelador.codigosaida.CodigoSaida;
 
+/**
+ *  Baixa a última atualização do programa, se houver.
+ * */
 public class AtualizarPrograma extends Argumento {
 
     public AtualizarPrograma() {
@@ -11,6 +14,10 @@ public class AtualizarPrograma extends Argumento {
         this.flagsPermitidas = List.of("--atualizar", "--update");
     }
 
+    /**
+     * Atualiza o programa para a versão mais recente e encerra o programa,
+     * para garantir que o usuário utilize a atualizada
+     * */
     @Override
     public void executar() {
         Atualizador atualizador = new Atualizador();
