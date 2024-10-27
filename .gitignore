@@ -50,3 +50,6 @@ tmp/
 
 node_modules/
 db/
+
+### Doxygen ###
+doc-doxygen/
