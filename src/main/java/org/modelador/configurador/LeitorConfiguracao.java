@@ -6,8 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.modelador.codigosaida.CodigoSaida;
 import org.modelador.logger.JavaLogger;
 import org.tomlj.Toml;
@@ -34,7 +32,7 @@ public class LeitorConfiguracao {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> @Nullable T pegarValorConfiguracao(String categoria, String atributo, Class<T> tipo) {
+    public <T> T pegarValorConfiguracao(String categoria, String atributo, Class<T> tipo) {
         TomlTable tabelaCategoria = informacoesConfiguracoes.getTable(categoria);
 
         if (tabelaCategoria == null) {
@@ -56,11 +54,11 @@ public class LeitorConfiguracao {
         }
     }
 
-    public @Nullable String pegarCorPaleta(String nomeVariavel) {
+    public String pegarCorPaleta(String nomeVariavel) {
         return Objects.requireNonNull(informacoesPaleta.getTable("paleta")).getString(nomeVariavel);
     }
 
-    public @NotNull Map<String, String> pegarVariaveisPaleta() {
+    public Map<String, String> pegarVariaveisPaleta() {
         Map<String, String> informacoes = new LinkedHashMap<>();
         Map<String, Object> valores =
                 Objects.requireNonNull(informacoesPaleta.getTable("paleta")).toMap();
@@ -72,7 +70,7 @@ public class LeitorConfiguracao {
         return informacoes;
     }
 
-    private @NotNull TomlTable lerArquivo(String nomeArquivo) {
+    private TomlTable lerArquivo(String nomeArquivo) {
         try {
             return Toml.parse(Path.of(pastaConfiguracao, nomeArquivo));
         } catch (IOException e) {

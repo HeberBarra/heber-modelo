@@ -22,7 +22,6 @@ dependencies {
         exclude("commons-logging", "commons-logging")
     }
     implementation("org.fusesource.jansi:jansi:2.4.1")
-    implementation("org.jetbrains:annotations:24.1.0")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.tomlj:tomlj:1.1.1")

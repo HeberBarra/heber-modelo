@@ -7,7 +7,6 @@ import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import org.fusesource.jansi.Ansi;
-import org.jetbrains.annotations.NotNull;
 
 public class FormatadorJavaLogger extends Formatter {
 
@@ -37,7 +36,7 @@ public class FormatadorJavaLogger extends Formatter {
     }
 
     @Override
-    public String format(@NotNull LogRecord record) {
+    public String format(LogRecord record) {
         String nomeLevel = record.getLevel().toString();
 
         if (!desativarCores) {

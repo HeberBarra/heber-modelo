@@ -7,8 +7,6 @@ import java.util.logging.FileHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public class JavaLogger {
 
@@ -43,7 +41,7 @@ public class JavaLogger {
         JavaLogger.pastaLogs = pastaLogs;
     }
 
-    public static @NotNull Logger obterLogger(@NotNull String nome) {
+    public static Logger obterLogger(String nome) {
         Logger logger = Logger.getLogger(nome);
 
         logger.addHandler(consoleHandler);
@@ -52,7 +50,7 @@ public class JavaLogger {
         return logger;
     }
 
-    protected static @NotNull ConsoleHandler criarConsoleHandler() {
+    protected static ConsoleHandler criarConsoleHandler() {
         ConsoleHandler consoleHandler = new ConsoleHandler();
         consoleHandler.setFormatter(new FormatadorJavaLogger());
         consoleHandler.setFilter(new JavaLoggerFiltro());
@@ -60,7 +58,7 @@ public class JavaLogger {
         return consoleHandler;
     }
 
-    protected static @Nullable FileHandler criarFileHandler(@NotNull String nomeArquivo) {
+    protected static FileHandler criarFileHandler(String nomeArquivo) {
         try {
             logger.finest(String.valueOf(pastaLogs.mkdir()));
             return new JavaLoggerArquivo(pastaLogs, nomeArquivo);
@@ -71,7 +69,7 @@ public class JavaLogger {
         }
     }
 
-    public static void desativarLogger(boolean deveDesativar, @NotNull Logger logger) {
+    public static void desativarLogger(boolean deveDesativar, Logger logger) {
         if (deveDesativar) {
             logger.setLevel(Level.OFF);
         }

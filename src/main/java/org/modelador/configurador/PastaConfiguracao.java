@@ -2,7 +2,6 @@ package org.modelador.configurador;
 
 import java.io.File;
 import java.util.logging.Logger;
-import org.jetbrains.annotations.NotNull;
 import org.modelador.Principal;
 import org.modelador.logger.JavaLogger;
 
@@ -21,7 +20,7 @@ public class PastaConfiguracao {
         }
     }
 
-    private static @NotNull String decidirPastaConfiguracao() {
+    private static String decidirPastaConfiguracao() {
         String nomeSistema = System.getProperty("os.name").toLowerCase();
         String pastaConfiguracao = System.getenv("%s_CONFIG_DIR".formatted(Principal.NOME_PROGRAMA.toUpperCase()));
         String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
