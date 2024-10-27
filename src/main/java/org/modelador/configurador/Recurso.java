@@ -7,15 +7,24 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.logging.Logger;
-import org.jetbrains.annotations.NotNull;
 import org.modelador.codigosaida.CodigoSaida;
 import org.modelador.logger.JavaLogger;
 
+/**
+ * Provê acesso facilitado a um arquivo dentro de resources/ gerando uma cópia temporária do recurso solicitado.
+ * Não há necessidade de criar um objeto dessa classe.
+ * */
 public class Recurso {
 
     private static final Logger logger = JavaLogger.obterLogger(Recurso.class.getName());
 
-    public static @NotNull InputStream pegarRecurso(@NotNull String caminhoRecurso) {
+    /**
+     * Provê o recurso solicitado como um {@link InputStream}. Caso não seja possível pegar o recurso solicitado,
+     * o programa é encerrado com o código de saída apropriado: {@link CodigoSaida}.
+     * @param caminhoRecurso o caminho até o recurso solicitado, deve-se omitir src/main/resources/ e resources/
+     * @return uma {@link InputStream} com os dados do recurso solicitado
+     * */
+    public static InputStream pegarRecurso(String caminhoRecurso) {
         ClassLoader classLoader = Recurso.class.getClassLoader();
         InputStream recurso = classLoader.getResourceAsStream(caminhoRecurso);
 
@@ -28,7 +37,14 @@ public class Recurso {
         return recurso;
     }
 
-    public static @NotNull File pegarArquivoRecurso(String caminhoRecurso) {
+    /**
+     * Provê o recurso solicitado como um {@link File}. Encerra o programa com o código de erro apropriado caso não
+     * seja possível criar o arquivo temporário: {@link CodigoSaida}.
+     * @param caminhoRecurso o caminho até o recurso solicitado
+     * @return um {@link File} que contém os dados do recurso solicitado
+     * @see #pegarRecurso(String)
+     * */
+    public static File pegarArquivoRecurso(String caminhoRecurso) {
         StringBuilder nomeArquivo = new StringBuilder();
         String[] partesArquivo = caminhoRecurso.split("\\.");
         String extensaoArquivo = "";
@@ -57,7 +73,12 @@ public class Recurso {
         return arquivoRecurso;
     }
 
-    public static @NotNull Path pegarCaminhoRecurso(@NotNull String caminhoRecurso) {
+    /**
+     * Provê o recurso como um {@link Path} que possui os dados do recurso solicitado
+     * @param caminhoRecurso o caminho até o recurso solicitado
+     * @return um {@link Path} que possui os dados do recurso solicitado
+     * */
+    public static Path pegarCaminhoRecurso(String caminhoRecurso) {
         return pegarArquivoRecurso(caminhoRecurso).toPath();
     }
 }
