@@ -7,6 +7,7 @@ import org.modelador.configurador.Configurador;
 
 /**
  * Ejeta o arquivo docker compose
+ * @since v0.0.4-SNAPSHOT
  * */
 public class EjetorArquivosDocker extends Argumento {
 

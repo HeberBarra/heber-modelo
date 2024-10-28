@@ -6,6 +6,7 @@ import org.modelador.configurador.Configurador;
 
 /**
  * Gera os arquivos de configuração do programa
+ * @since v0.0.4-SNAPSHOT
  * */
 public class GerarConfiguracoes extends Argumento {
 

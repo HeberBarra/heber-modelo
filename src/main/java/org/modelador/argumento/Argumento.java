@@ -11,6 +11,7 @@ import org.modelador.logger.JavaLogger;
  * <p>
  * Também recomenda-se chamar o construtor dessa classe utilizando super() para evitar problemas
  * e graves diferenças entre as filhas
+ * @since v0.0.4-SNAPSHOT
  * */
 public abstract class Argumento {
 

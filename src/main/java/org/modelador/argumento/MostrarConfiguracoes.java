@@ -5,6 +5,7 @@ import org.modelador.configurador.Configurador;
 
 /**
  * Exibe as configurações do programa
+ * @since v0.0.4-SNAPSHOT
  * */
 public class MostrarConfiguracoes extends Argumento {
 

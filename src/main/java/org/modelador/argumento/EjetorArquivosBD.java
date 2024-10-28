@@ -7,6 +7,7 @@ import org.modelador.configurador.Configurador;
 
 /**
  * Ejeta os arquivos de configuração da base de dados
+ * @since v0.0.4-SNAPSHOT
  * */
 public class EjetorArquivosBD extends Argumento {
 

@@ -14,6 +14,7 @@ import org.springframework.core.type.filter.AssignableTypeFilter;
  * Utiliza o anti pattern <b>Singleton</b> para garantir que a classe não consumirá mais memória do que o necessário
  * <p>
  * NOTE: Futuramente adicionado suporte para coleção de classes que herdam de {@link Argumento} criadas por usuários, para prover melhor suporte a plugins
+ * @since v0.0.4-SNAPSHOT
  * */
 public class ColetorClassesArgumentos {
 

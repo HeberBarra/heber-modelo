@@ -5,6 +5,7 @@ import org.modelador.codigosaida.CodigoSaida;
 
 /**
  * Mostra a versão do programa
+ * @since v0.0.4-SNAPSHOT
  * */
 public class MostrarVersao extends Argumento {
 

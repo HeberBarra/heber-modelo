@@ -5,7 +5,8 @@ import org.modelador.atualizador.Atualizador;
 import org.modelador.codigosaida.CodigoSaida;
 
 /**
- *  Baixa a última atualização do programa, se houver.
+ * Baixa a última atualização do programa, se houver.
+ * @since v0.0.4-SNAPSHOT
  * */
 public class AtualizarPrograma extends Argumento {
 

@@ -13,6 +13,7 @@ import org.modelador.logger.JavaLogger;
  * <p>
  * Cada flag é executada em sequência e pode ser executada apenas uma vez, a menos que encerre o programa.
  * Para evitar repetições as flags que já foram executas são salvas num cache.
+ * @since v0.0.4-SNAPSHOT
  * */
 public class ExecutadorArgumentos {
 
@@ -40,7 +41,8 @@ public class ExecutadorArgumentos {
 
     /**
      * Tenta executar a lógica associada a flag passada, caso ocorra algum erro é gerado um log informando o erro,
-     * caso o erro seja grave o programa será encerrado com o código de saída apropriado: {@link CodigoSaida}
+     * caso o erro seja grave o programa será encerrado com um dos seguintes códigos de saída:
+     * {@link CodigoSaida#ERRO_PEGAR_CONSTRUTOR}, {@link CodigoSaida#ERRO_CRIACAO_OBJETO}, {@link CodigoSaida#ACESSO_NEGADO}
      * <p>
      * Caso uma flag seja passada duas ou mais vezes, a lógica associada será executada apenas uma vez
      * @param flagArgumento a flag a ser executada
