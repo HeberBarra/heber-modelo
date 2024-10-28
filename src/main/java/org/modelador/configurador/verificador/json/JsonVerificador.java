@@ -3,6 +3,10 @@ package org.modelador.configurador.verificador.json;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
+/**
+ * Representa um arquivo JSON de verificação para um conjunto configurações.
+ * @since v0.0.2-SNAPSHOT
+ * */
 public abstract class JsonVerificador<T extends AtributoJson> {
 
     @JsonProperty("$schema")

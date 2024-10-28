@@ -10,6 +10,11 @@ import org.modelador.configurador.verificador.json.JsonVerificadorPaleta;
 import org.modelador.logger.JavaLogger;
 import org.tomlj.TomlTable;
 
+/**
+ * Analisa a configuração do usuário, e reporta os erros encontrados.
+ * A variável {@link VerificadorConfiguracao#configuracaoErrada} é definida como {@code true} caso haja algum erro grave.
+ * @since v0.0.2-SNAPSHOT
+ * */
 public class VerificadorConfiguracao {
 
     private static final Logger logger = JavaLogger.obterLogger(VerificadorConfiguracao.class.getName());
@@ -25,10 +30,18 @@ public class VerificadorConfiguracao {
                 JsonVerificadorPaleta.class, Recurso.pegarArquivoRecurso("config/paleta.template.json")));
     }
 
+    /**
+     * Lê os arquivos de modelo de configuração.
+     * @see LeitorArquivoVerificacao
+     * */
     public void lerArquivosTemplate() {
         leitores.forEach(LeitorArquivoVerificacao::lerArquivo);
     }
 
+    /**
+     * Mostra na tela as informações de todos os leitores disponíveis.
+     * @see LeitorArquivoVerificacao
+     * */
     public void mostrarInformacoes() {
         leitores.forEach(leitor -> System.out.println(leitor.getInformacoesJson()));
     }
@@ -43,6 +56,11 @@ public class VerificadorConfiguracao {
         return (LeitorArquivoVerificacao<JsonVerificadorConfiguracoes>) leitores.getFirst();
     }
 
+    /**
+     * Verifica o arquivo de configuração e reporta os erros encontrados ao usuário.
+     * @param configuracaoPadrao a configuração padrão do programa, que serve de base para a verificação
+     * @param dados a configuração feita pelo usuário
+     * */
     public void verificarArquivoConfiguracoes(
             Map<String, List<Map<String, String>>> configuracaoPadrao, TomlTable dados) {
         configuracaoErrada = false;
@@ -67,6 +85,12 @@ public class VerificadorConfiguracao {
         }
     }
 
+    /**
+     * Verifica se um atributo existe ou não, e se o seu valor é válido.
+     * @param atributos todos os atributos da configuração padrão
+     * @param nomeAtributo o nome do atributo a ser verificado
+     * @param valor o valor do atributo a ser verificado
+     * */
     private void verificarAtributoConfiguracao(List<Map<String, String>> atributos, String nomeAtributo, Object valor) {
         int quantidade = 0;
 
@@ -100,6 +124,11 @@ public class VerificadorConfiguracao {
         configuracaoErrada = true;
     }
 
+    /**
+     * Verifica o arquivo da paleta de cores e reporta os erros encontrados ao usuário, caso a tabela "paleta" não seja encontrada um erro grave é reportado.
+     * @param paletaPadrao a paleta de cores padrão do programa
+     * @param dados a configuração da paleta feita pelo usuário
+     * */
     public void verificarArquivoPaleta(Map<String, List<Map<String, String>>> paletaPadrao, TomlTable dados) {
         TomlTable tabelaPaleta = dados.getTable("paleta");
         List<Map<String, String>> variaveisTabelaPadrao = paletaPadrao.get("paleta");
@@ -115,6 +144,13 @@ public class VerificadorConfiguracao {
         }
     }
 
+    /**
+     * Verifica uma variável específica da paleta de cores, caso o valor da variável não esteja no formato apropriado um erro grave é reportado.
+     * O valor de cada variável deve seguir o seguinte formato: {@code #000000}
+     * @param variaveis as variáveis da paleta padrão
+     * @param nomeVariavel o nome da variável a ser verificada
+     * @param valor o valor da variável a ser verificada
+     * */
     private void verificarVariavelPaleta(List<Map<String, String>> variaveis, String nomeVariavel, Object valor) {
         String regexPaleta = "^#(?:[0-9a-fA-F]{3}){1,2}$";
         int quantidade = 0;

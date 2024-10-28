@@ -7,6 +7,10 @@ import java.util.logging.Logger;
 import org.modelador.configurador.verificador.json.JsonVerificador;
 import org.modelador.logger.JavaLogger;
 
+/**
+ * Responsável por ler e salvar os dados de um modelo de configuração
+ * @since v0.0.2-SNAPSHOT
+ * */
 public class LeitorArquivoVerificacao<T extends JsonVerificador<?>> {
 
     private final Class<T> tipoVerificador;
@@ -19,6 +23,9 @@ public class LeitorArquivoVerificacao<T extends JsonVerificador<?>> {
         this.arquivoVerificador = arquivoVerificador;
     }
 
+    /**
+     * O lê o arquivo de verificação e salvas as informações lidas.
+     * */
     public void lerArquivo() {
         ObjectMapper objectMapper = new ObjectMapper();
 

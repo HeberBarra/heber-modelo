@@ -11,6 +11,10 @@ import org.modelador.logger.JavaLogger;
 import org.tomlj.Toml;
 import org.tomlj.TomlTable;
 
+/**
+ * Lê os arquivos de configuração e a configuração padrão do programa.
+ * @since v0.0.2-SNAPSHOT
+ * */
 public class LeitorConfiguracao {
 
     private static final Logger logger = JavaLogger.obterLogger(LeitorConfiguracao.class.getName());
@@ -26,11 +30,21 @@ public class LeitorConfiguracao {
         this.arquivoPaleta = arquivoPaleta;
     }
 
+    /**
+     * Lê os arquivos de configuração do programa e salva as informações lidas
+     * */
     public void lerArquivos() {
         lerArquivoConfiguracoes();
         lerArquivoPaleta();
     }
 
+    /**
+     * Pega o valor de um atributo específico, sendo necessário indicar o nome, a tabela e o tipo do atributo
+     * @param categoria a tabela/categoria na qual se encontra o atributo
+     * @param atributo o nome do atributo desejado
+     * @param tipo o tipo do atributo, devendo ser de um dos seguintes tipos: {@code String}, {@code long}, {@code double} ou {@code boolean}
+     * @return o valor do atributo requirido ou {@code null} caso valor não tenha sido encontrado.
+     * */
     @SuppressWarnings("unchecked")
     public <T> T pegarValorConfiguracao(String categoria, String atributo, Class<T> tipo) {
         TomlTable tabelaCategoria = informacoesConfiguracoes.getTable(categoria);
@@ -54,10 +68,19 @@ public class LeitorConfiguracao {
         }
     }
 
+    /**
+     * Pega o código hexadecimal da cor específica da paleta.
+     * @param nomeVariavel o nome da variável na paleta de cores
+     * @return o código hexadecimal da cor
+     * */
     public String pegarCorPaleta(String nomeVariavel) {
         return Objects.requireNonNull(informacoesPaleta.getTable("paleta")).getString(nomeVariavel);
     }
 
+    /**
+     * Pega todas as variáveis da paleta com seus respectivos códigos hexadecimais
+     * @return um {@link Map} cuja chave é o nome da variável e o valor é o código hexadecimal
+     * */
     public Map<String, String> pegarVariaveisPaleta() {
         Map<String, String> informacoes = new LinkedHashMap<>();
         Map<String, Object> valores =
@@ -70,6 +93,12 @@ public class LeitorConfiguracao {
         return informacoes;
     }
 
+    /**
+     * Lê um arquivo TOML e retorna as informações lidas como uma tabela TOML
+     * Caso ocorra um erro durante a leitura do arquivo, o programa será encerrado com o seguinte código de saída: {@link CodigoSaida#ERRO_LEITURA_ARQUIVO}
+     * @param nomeArquivo o nome do arquivo que deve ser lido
+     * @return as informações lidas como uma tabela TOML
+     * */
     private TomlTable lerArquivo(String nomeArquivo) {
         try {
             return Toml.parse(Path.of(pastaConfiguracao, nomeArquivo));

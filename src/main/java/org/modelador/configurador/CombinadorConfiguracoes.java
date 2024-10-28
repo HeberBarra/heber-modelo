@@ -6,8 +6,20 @@ import java.util.List;
 import java.util.Map;
 import org.tomlj.TomlTable;
 
+/**
+ * Responsável por combinar uma configuração existente com novas opções de configuração.
+ * @since v0.0.2-SNAPSHOT
+ * */
 public class CombinadorConfiguracoes {
 
+    /**
+     * Combina a configuração padrão do programa com a configuração feita pelo usuário, respeitando os valores modificados.
+     * @param configuracaoPadrao a configuração padrão do programa
+     * @param configuracao a configuração do usuário
+     * @param nomeAtributo o nome do atributo no modelo da configuração padrão
+     * @param nomeValor o nome dos valores no modelo da configuração padrão
+     * @return um {@link Map} com o resultado da combinação das configurações
+     * */
     public Map<String, List<Map<String, String>>> combinarConfiguracoes(
             Map<String, List<Map<String, String>>> configuracaoPadrao,
             TomlTable configuracao,
