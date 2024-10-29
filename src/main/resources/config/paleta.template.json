@@ -10,8 +10,12 @@
       "valorPadraoVariavel": "#FFFFFF"
     },
     {
-    "nomeVariavel": "cor_botao",
-    "valorPadraoVariavel": "#5E01AF"
+      "nomeVariavel": "cor_botao",
+      "valorPadraoVariavel": "#5E01AF"
+    },
+    {
+      "nomeVariavel": "cor_letra",
+      "valorPadraoVariavel": "#FFFFFF"
     }
   ]
 }

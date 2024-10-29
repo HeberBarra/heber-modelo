@@ -31,7 +31,11 @@ public class Principal {
         SpringApplication.run(Principal.class, args);
     }
 
-    public static void injetarPaleta(ModelMap modelMap) {
+    private static void injetarNomePrograma(ModelMap modelMap) {
+        modelMap.addAttribute("programa", "<h1>%s</h1>".formatted(NOME_PROGRAMA.replace("-", " ")));
+    }
+
+    private static void injetarPaleta(ModelMap modelMap) {
         Map<String, String> variaveisPaleta = configurador.pegarInformacoesPaleta();
         StringBuilder stringBuilder = new StringBuilder(":root {\n");
 
@@ -45,6 +49,7 @@ public class Principal {
 
     @RequestMapping({"/", "/index", "/index.html", "/home", "/home.html"})
     String index(ModelMap modelMap) {
+        injetarNomePrograma(modelMap);
         injetarPaleta(modelMap);
 
         return "index";
@@ -52,6 +57,7 @@ public class Principal {
 
     @RequestMapping({"/login", "/login.html"})
     String login(ModelMap modelMap) {
+        injetarNomePrograma(modelMap);
         injetarPaleta(modelMap);
 
         return "login";
@@ -59,6 +65,7 @@ public class Principal {
 
     @RequestMapping({"/cadastro", "/cadastro.html"})
     String cadastro(ModelMap modelMap) {
+        injetarNomePrograma(modelMap);
         injetarPaleta(modelMap);
 
         return "cadastro";
@@ -66,6 +73,7 @@ public class Principal {
 
     @RequestMapping({"/redefinirsenha", "/redefinirsenha.html"})
     String redefinirSenha(ModelMap modelMap) {
+        injetarNomePrograma(modelMap);
         injetarPaleta(modelMap);
 
         return "redefinirsenha";
@@ -73,6 +81,7 @@ public class Principal {
 
     @RequestMapping({"editor", "editor.html"})
     String editor(ModelMap modelMap) {
+        injetarNomePrograma(modelMap);
         injetarPaleta(modelMap);
 
         return "editor";
@@ -80,6 +89,7 @@ public class Principal {
 
     @RequestMapping({"privacidade", "privacidade.html", "politicaprivacidade", "politicaprivacidade.html"})
     String politicaPrivacidade(ModelMap modelMap) {
+        injetarNomePrograma(modelMap);
         injetarPaleta(modelMap);
         return "politicaprivacidade";
     }

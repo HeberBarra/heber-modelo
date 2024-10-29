@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "Cookie";
+  src: local("Cookie"), url("/fonts/Cookie/Cookie-Regular.ttf") format('truetype');
+}
+
+header {
+  width: 100%;
+  max-height: 5rem;
+  display: grid;
+  grid-template-columns: 5% 90% 5%;
+  background: var(--cor-cabecalho);
+  color: var(--cor-letra);
+  padding: 0.7rem;
+  text-align: left;
+  font-family: "Cookie", Roboto, cursive;
+  font-size: 2rem;
+
+  h1 {
+    grid-column: 2;
+  }
+}
