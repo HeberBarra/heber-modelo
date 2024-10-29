@@ -10,6 +10,7 @@ import org.modelador.logger.JavaLogger;
  * Baseado em: <a href="https://www.baeldung.com/sha-256-hashing-java">SHA-256 Java</a>
  * <p>
  * Utilizado para calcular o hash utilizando vários algoritmos, veja os métodos disponíveis para descobrir os algoritmos disponíveis
+ * @since v0.0.3-SNAPSHOT
  * */
 public class CalculadorHash {
 

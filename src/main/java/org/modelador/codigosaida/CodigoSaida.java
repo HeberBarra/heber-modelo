@@ -2,6 +2,7 @@ package org.modelador.codigosaida;
 
 /**
  * Define o que cada código de saída significa
+ * @since v0.0.4-SNAPSHOT
  * */
 public enum CodigoSaida {
     OK(0),

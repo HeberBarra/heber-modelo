@@ -16,6 +16,10 @@ import org.modelador.Principal;
 import org.modelador.codigosaida.CodigoSaida;
 import org.modelador.logger.JavaLogger;
 
+/**
+ * Pega a versão semântica da última release do repositório remoto.
+ * @since v0.0.3-SNAPSHOT
+ * */
 public class PegadorVersaoRemota {
 
     private static final Logger logger = JavaLogger.obterLogger(PegadorVersaoRemota.class.getName());
@@ -34,6 +38,14 @@ public class PegadorVersaoRemota {
         }
     }
 
+    /**
+     * Envia uma request HTTPS ao repositório do GitHub e retorna a response obtida. Caso ocorra algum erro durante a
+     * request o programa pode ser encerrando com um dos seguintes erros: {@link CodigoSaida#ERRO_CONEXAO},
+     * {@link CodigoSaida#PROTOCOLO_INVALIDO}, {@link CodigoSaida#ERRO_LEITURA_RESPONSE}, {@link CodigoSaida#ERRO_CONVERSAO_RESPONSE}
+     * <p>
+     * Caso a request tenha sido bem sucedida retorna o corpo da response, caso contrário retorna uma string vazia.
+     * @return o corpo da response obtida ou string vazia se tiver ocorrido algum erro
+     * */
     private String pegarResponseGitHub() {
         HttpsURLConnection connection;
         StringBuilder stringBuilder = new StringBuilder();
@@ -82,6 +94,11 @@ public class PegadorVersaoRemota {
         }
     }
 
+    /**
+     * Envia uma request ao repositório remoto e pega o atributo versão da response.
+     * @return a última versão semântica do programa
+     * @see PegadorVersaoRemota#pegarResponseGitHub()
+     * */
     public String pegarVersaoRemota() {
         String resposta = pegarResponseGitHub();
 

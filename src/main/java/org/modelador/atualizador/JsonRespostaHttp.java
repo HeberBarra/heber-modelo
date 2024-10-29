@@ -4,6 +4,10 @@ import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Utilizado para mapear uma resposta HTTP para uma classe.
+ * @since v0.0.3-SNAPSHOT
+ * */
 public class JsonRespostaHttp {
 
     private String name;

@@ -17,6 +17,7 @@ import org.modelador.logger.JavaLogger;
  * possa utilizá-los mais facilmente.
  * <p>
  * Considere "ejetar" nesse contexto, como fazer uma cópia de um arquivo.
+ * @since v0.0.4-SNAPSHOT
  * */
 public class EjetorArquivosBanco {
 
@@ -80,7 +81,7 @@ public class EjetorArquivosBanco {
     }
 
     /**
-     * Criar um link simbólico para o arquivo env especificado nas configurações do programa, permitindo assim passar
+     * Cria um link simbólico para o arquivo env especificado nas configurações do programa, permitindo assim passar
      * segredos para os arquivos ejetados mais facilmente.*/
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void copiarArquivoDotEnv() {

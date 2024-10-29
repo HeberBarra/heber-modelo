@@ -22,6 +22,10 @@ import org.modelador.codigosaida.CodigoSaida;
 import org.modelador.configurador.Configurador;
 import org.modelador.logger.JavaLogger;
 
+/**
+ * Responsável por lidar com as atualizações automáticas do programa.
+ * @since v0.0.3-SNAPSHOT
+ * */
 public class Atualizador {
 
     public static final URL URL_ARQUIVO_JAR;
@@ -32,8 +36,8 @@ public class Atualizador {
 
     static {
         try {
-            URI arquivoJar = new URI("https://github.com/HeberBarra/%s/releases/latest/download/heber-modelo.jar"
-                    .formatted(Principal.NOME_PROGRAMA.toLowerCase()));
+            URI arquivoJar = new URI("https://github.com/HeberBarra/%s/releases/latest/download/%s.jar"
+                    .formatted(Principal.NOME_PROGRAMA.toLowerCase(), Principal.NOME_PROGRAMA.toLowerCase()));
             URI arquivoSha256 = new URI("https://github.com/HeberBarra/%s/releases/latest/download/SHA256SUM"
                     .formatted(Principal.NOME_PROGRAMA.toLowerCase()));
             URL_ARQUIVO_JAR = arquivoJar.toURL();
@@ -59,10 +63,17 @@ public class Atualizador {
         comparadorVersao = new ComparadorVersao(versaoPrograma, versaoRemota);
     }
 
+    /**
+     * Verifica se há alguma atualização disponível.
+     * @return {@code true} caso haja uma atualização disponível.
+     * */
     public boolean verificarAtualizacao() {
         return comparadorVersao.compararVersoes() == ComparadorVersao.MAIOR;
     }
 
+    /**
+     * Atualiza automaticamente o programa caso as atualizações automáticas estejam habilitadas na configuração do programa.
+     * */
     public void atualizar() {
         if (!verificarAtualizacao()) {
             logger.info("Não há nenhuma atualização disponível.\n");
@@ -78,6 +89,13 @@ public class Atualizador {
         logger.info("Atualização automática está desativada, utilize --update para atualizar o programa.");
     }
 
+    /**
+     * Baixa a última versão do programa, e substitui o programa atual pelo mais recente.
+     * <p>
+     * Verifica a integridade dos arquivos, se houver algum erro de integridade, ou não seja possível ler o arquivo de verificação, a atualização é cancelada.
+     * <p>
+     * Limpa os arquivos temporários gerados após atualizar o programa.
+     * */
     public void baixarAtualizacao() {
         File pastaTemporaria = new File("./tmp");
         if (pastaTemporaria.mkdir()) {
@@ -137,6 +155,10 @@ public class Atualizador {
         limparArquivosTemporarios(pastaTemporaria);
     }
 
+    /**
+     * Remove uma pasta e todos os seus arquivos e subpastas.
+     * @param pastaTemporaria a pasta que deve ser limpa
+     * */
     private void limparArquivosTemporarios(File pastaTemporaria) {
         File[] arquivos = pastaTemporaria.listFiles();
 
@@ -163,6 +185,12 @@ public class Atualizador {
         }
     }
 
+    /**
+     * Baixa um arquivo da URL específicada e salva ele numa pasta.
+     * @param pastaTemporaria a pasta na qual o arquivo deve ser salvo
+     * @param urlArquivo a URL de download do arquivo
+     * @param nomeArquivo o nome que o arquivo deve ter
+     * */
     private void baixarArquivo(File pastaTemporaria, URL urlArquivo, String nomeArquivo) {
         try (FileOutputStream fileOutputStream = new FileOutputStream(pastaTemporaria.getPath() + "/" + nomeArquivo)) {
             ReadableByteChannel byteChannel = Channels.newChannel(urlArquivo.openStream());

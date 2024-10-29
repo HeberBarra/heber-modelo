@@ -1,5 +1,9 @@
 package org.modelador.atualizador;
 
+/**
+ * Define o valor de cada um dos sufixos das versões semânticas.
+ * @since v0.0.3-SNAPSHOT
+ * */
 public enum SufixoVersao {
     SNAPSHOT(0),
     ALPHA(1),
