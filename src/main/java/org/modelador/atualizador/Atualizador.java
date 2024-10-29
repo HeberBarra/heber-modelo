@@ -16,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.logging.Logger;
+import org.modelador.Principal;
 import org.modelador.calculadorhash.CalculadorHash;
 import org.modelador.codigosaida.CodigoSaida;
 import org.modelador.configurador.Configurador;
@@ -31,10 +32,10 @@ public class Atualizador {
 
     static {
         try {
-            URI arquivoJar =
-                    new URI("https://github.com/HeberBarra/heber-modelo/releases/latest/download/heber-modelo.jar");
-            URI arquivoSha256 =
-                    new URI("https://github.com/HeberBarra/heber-modelo/releases/latest/download/SHA256SUM");
+            URI arquivoJar = new URI("https://github.com/HeberBarra/%s/releases/latest/download/heber-modelo.jar"
+                    .formatted(Principal.NOME_PROGRAMA.toLowerCase()));
+            URI arquivoSha256 = new URI("https://github.com/HeberBarra/%s/releases/latest/download/SHA256SUM"
+                    .formatted(Principal.NOME_PROGRAMA.toLowerCase()));
             URL_ARQUIVO_JAR = arquivoJar.toURL();
             URL_ARQUIVO_SHA256 = arquivoSha256.toURL();
         } catch (MalformedURLException | URISyntaxException e) {
