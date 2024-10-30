@@ -15,6 +15,12 @@ header {
   font-family: "Cookie", Roboto, cursive;
   font-size: 2rem;
 
+  button {
+    grid-column: 1;
+    max-height: 80%;
+    max-width: 80%;
+  }
+
   h1 {
     grid-column: 2;
   }
