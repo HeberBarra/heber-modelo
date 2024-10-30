@@ -48,6 +48,10 @@ button {
     padding: 0;
   }
 
+  &:hover {
+    background: var(--cor-botao-hover);
+  }
+
   a {
     display: flex;
     align-items: center;
