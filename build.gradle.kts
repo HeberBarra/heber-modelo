@@ -18,13 +18,16 @@ java {
 }
 
 dependencies {
+    implementation("io.github.cdimascio:dotenv-java:3.0.0")
     implementation("org.apache.pdfbox:pdfbox:3.0.3") {
         exclude("commons-logging", "commons-logging")
     }
     implementation("org.fusesource.jansi:jansi:2.4.1")
+    implementation("org.hibernate:hibernate-core:6.6.1.Final")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.tomlj:tomlj:1.1.1")
+    implementation("mysql:mysql-connector-java:8.0.33")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
