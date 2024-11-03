@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS tbUsuario (
     email_usuario VARCHAR(50) NOT NULL,
     nome_usuario VARCHAR(50) NOT NULL,
     senha_usuario TEXT NOT NULL,
-    tipo_usuario CHARACTER(1) NOT NULL,
+    tipo_usuario CHARACTER(1) DEFAULT 'E',
     CONSTRAINT un_EmailtbUsuario UNIQUE (email_usuario),
     CONSTRAINT un_NometbUsuario UNIQUE (nome_usuario),
     CONSTRAINT ck_TipotbUsuario CHECK (tipo_usuario IN ('E', 'P')),
