@@ -5,11 +5,12 @@ plugins {
     id("io.spring.dependency-management") version "1.1.6"
 }
 
-group = "org.modelador"
-version = "0.0.5-SNAPSHOT"
+group = "io.github.heberbarra"
+version = "0.0.6-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 java {
@@ -18,6 +19,7 @@ java {
 }
 
 dependencies {
+    implementation("io.github.heberbarra:heber-modelo-api:0.0.6-SNAPSHOT")
     implementation("io.github.cdimascio:dotenv-java:3.0.0")
     implementation("org.apache.pdfbox:pdfbox:3.0.3") {
         exclude("commons-logging", "commons-logging")
