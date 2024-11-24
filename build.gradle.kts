@@ -1,15 +1,16 @@
 plugins {
     java
-    id("com.diffplug.spotless") version "6.25.0"
-    id("org.springframework.boot") version "3.3.2"
-    id("io.spring.dependency-management") version "1.1.6"
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.springboot)
+    alias(libs.plugins.springdependency)
 }
 
-group = "org.modelador"
-version = "0.0.4-SNAPSHOT"
+group = "io.github.heberbarra"
+version = "0.0.6-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 java {
@@ -18,14 +19,17 @@ java {
 }
 
 dependencies {
-    implementation("org.apache.pdfbox:pdfbox:3.0.3") {
+    implementation(libs.apachePDFBox) {
         exclude("commons-logging", "commons-logging")
     }
-    implementation("org.fusesource.jansi:jansi:2.4.1")
-    implementation("org.jetbrains:annotations:24.1.0")
+    implementation(libs.cdimascioDotenv)
+    implementation(libs.fusesourceJansi)
+    implementation(libs.hibernateCore)
+    implementation(libs.heberModeloAPI)
+    implementation(libs.tomlj)
+    implementation(libs.mysqlConnector)
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.tomlj:tomlj:1.1.1")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -49,5 +53,6 @@ tasks.test {
 
 tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     exclude("static/scss/")
+    exclude("static/typescript")
     this.archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
 }

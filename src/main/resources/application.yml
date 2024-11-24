@@ -1,0 +1,19 @@
+spring:
+  thymeleaf:
+    cache: false
+  web:
+    resources:
+      static-locations:
+        - "file:src/main/resources/static"
+        - "classpath:/static/"
+  mandatory-file-encoding: UTF-8
+  output:
+    ansi:
+      enabled: always
+
+logging:
+  charset:
+    console: UTF-8
+    file: UTF-8
+  pattern:
+    dateformat: E MMM dd hh:mm:ss z yy

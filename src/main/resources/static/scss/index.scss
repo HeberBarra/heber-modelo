@@ -1,0 +1,15 @@
+@import "estiloComum";
+@import "estiloHeader";
+
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-direction: column;
+}
+
+button {
+  width: 40%;
+  font-size: 1.5rem;
+}
