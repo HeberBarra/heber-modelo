@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.heberbarra"
-version = "0.0.6-SNAPSHOT"
+version = "0.0.7-SNAPSHOT"
 
 repositories {
     mavenCentral()
