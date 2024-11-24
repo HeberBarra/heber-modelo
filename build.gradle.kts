@@ -1,8 +1,8 @@
 plugins {
     java
-    id("com.diffplug.spotless") version "6.25.0"
-    id("org.springframework.boot") version "3.3.2"
-    id("io.spring.dependency-management") version "1.1.6"
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.springboot)
+    alias(libs.plugins.springdependency)
 }
 
 group = "io.github.heberbarra"
@@ -19,17 +19,17 @@ java {
 }
 
 dependencies {
-    implementation("io.github.heberbarra:heber-modelo-api:0.0.6-SNAPSHOT")
-    implementation("io.github.cdimascio:dotenv-java:3.0.0")
-    implementation("org.apache.pdfbox:pdfbox:3.0.3") {
+    implementation(libs.apachePDFBox) {
         exclude("commons-logging", "commons-logging")
     }
-    implementation("org.fusesource.jansi:jansi:2.4.1")
-    implementation("org.hibernate:hibernate-core:6.6.1.Final")
+    implementation(libs.cdimascioDotenv)
+    implementation(libs.fusesourceJansi)
+    implementation(libs.hibernateCore)
+    implementation(libs.heberModeloAPI)
+    implementation(libs.tomlj)
+    implementation(libs.mysqlConnector)
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.tomlj:tomlj:1.1.1")
-    implementation("mysql:mysql-connector-java:8.0.33")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
@@ -53,5 +53,6 @@ tasks.test {
 
 tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     exclude("static/scss/")
+    exclude("static/typescript")
     this.archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
 }
