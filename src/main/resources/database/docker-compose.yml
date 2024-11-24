@@ -1,6 +1,8 @@
 services:
   mysql-server:
-    image: mysql:9.0.1
+    build:
+      dockerfile: Dockerfile
+      context: .
     container_name: diagrama-mysql
     restart: always
     environment:
