@@ -78,6 +78,24 @@
       "atributo": "copiar_arquivo_env",
       "tipo": "Boolean",
       "valorPadrao": true
+    },
+    {
+      "categoria": "programa",
+      "atributo": "porta",
+      "tipo": "Long",
+      "valorPadrao": 8080
+    },
+    {
+      "categoria": "programa",
+      "atributo": "dominio",
+      "tipo": "String",
+      "valorPadrao": "localhost"
+    },
+    {
+      "categoria": "programa",
+      "atributo": "abrir_navegador_automaticamente",
+      "tipo": "Boolean",
+      "valorPadrao": true
     }
   ]
 }
