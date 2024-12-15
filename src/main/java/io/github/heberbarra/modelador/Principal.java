@@ -3,19 +3,29 @@ package io.github.heberbarra.modelador;
 import io.github.heberbarra.modelador.argumento.executador.ExecutadorArgumentos;
 import io.github.heberbarra.modelador.atualizador.AtualizadorPrograma;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
+import io.github.heberbarra.modelador.configurador.WatcherPastaConfiguracao;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@EnableAsync
 @Controller
 @SpringBootApplication
 public class Principal {
 
     public static final String NOME_PROGRAMA = "Heber-Modelo";
     private static final ConfiguradorPrograma configurador = ConfiguradorPrograma.getInstance();
+
+    @Autowired
+    private TaskExecutor taskExecutor;
 
     public static void main(String[] args) {
         ExecutadorArgumentos executadorArgumentos = new ExecutadorArgumentos(args);
@@ -29,6 +39,12 @@ public class Principal {
         AtualizadorPrograma atualizador = new AtualizadorPrograma();
         atualizador.atualizar();
         SpringApplication.run(Principal.class, args);
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void iniciarWatcherConfig() {
+        WatcherPastaConfiguracao watcherPastaConfiguracao = new WatcherPastaConfiguracao();
+        taskExecutor.execute(watcherPastaConfiguracao);
     }
 
     private static void injetarNomePrograma(ModelMap modelMap, String nomePagina) {
