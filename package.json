@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "grunt": "^1.6.1",
     "grunt-cli": "^1.5.0",
