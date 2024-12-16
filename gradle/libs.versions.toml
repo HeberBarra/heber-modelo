@@ -5,7 +5,7 @@
 
 [libraries]
     apachePDFBox = { module = "org.apache.pdfbox:pdfbox", version = "3.0.3" }
-    cdimascioDotenv = { module = "io.github.cdimascio:dotenv-java", version = "3.0.2" }
+    cdimascioDotenv = { module = "io.github.cdimascio:dotenv-java", version = "3.1.0" }
     fusesourceJansi = { module = "org.fusesource.jansi:jansi", version = "2.4.1" }
     heberModeloAPI = { module = "io.github.heberbarra:heber-modelo-api", version = "0.0.6-SNAP"}
     hibernateCore = { module = "org.hibernate:hibernate-core", version = "6.6.3.Final" }
