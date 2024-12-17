@@ -5,6 +5,7 @@ import io.github.heberbarra.modelador.atualizador.AtualizadorPrograma;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.configurador.WatcherPastaConfiguracao;
 import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.token.GeradorToken;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
@@ -30,6 +31,7 @@ public class Principal {
     public static final String NOME_PROGRAMA = "Heber-Modelo";
     private static final Logger logger = JavaLogger.obterLogger(Principal.class.getName());
     private static final ConfiguradorPrograma configurador = ConfiguradorPrograma.getInstance();
+    private static String token;
 
     @Autowired
     private TaskExecutor taskExecutor;
@@ -43,6 +45,10 @@ public class Principal {
         configurador.verificarConfiguracoes();
         configurador.combinarConfiguracoes();
 
+        GeradorToken geradorToken = new GeradorToken();
+        geradorToken.gerarToken();
+        token = geradorToken.getToken();
+        System.out.println(token);
         AtualizadorPrograma atualizador = new AtualizadorPrograma();
         atualizador.atualizar();
         SpringApplication.run(Principal.class, args);
@@ -88,6 +94,10 @@ public class Principal {
         }
     }
 
+    private static void injetarTokenDesligar(ModelMap modelMap) {
+        modelMap.addAttribute("desligar", "desligar.html?token=" + token);
+    }
+
     private static void injetarNomePrograma(ModelMap modelMap, String nomePagina) {
         modelMap.addAttribute("programa", NOME_PROGRAMA.replace("-", " ") + nomePagina);
     }
@@ -106,6 +116,7 @@ public class Principal {
 
     @RequestMapping({"/", "/index", "/index.html", "/home", "/home.html"})
     String index(ModelMap modelMap) {
+        injetarTokenDesligar(modelMap);
         injetarNomePrograma(modelMap, "");
         injetarPaleta(modelMap);
 
@@ -114,6 +125,7 @@ public class Principal {
 
     @RequestMapping({"/login", "/login.html"})
     String login(ModelMap modelMap) {
+        injetarTokenDesligar(modelMap);
         injetarNomePrograma(modelMap, " - Login");
         injetarPaleta(modelMap);
 
@@ -122,6 +134,7 @@ public class Principal {
 
     @RequestMapping({"/cadastro", "/cadastro.html"})
     String cadastro(ModelMap modelMap) {
+        injetarTokenDesligar(modelMap);
         injetarNomePrograma(modelMap, " - Cadastro");
         injetarPaleta(modelMap);
 
@@ -130,6 +143,7 @@ public class Principal {
 
     @RequestMapping({"/redefinirsenha", "/redefinirsenha.html"})
     String redefinirSenha(ModelMap modelMap) {
+        injetarTokenDesligar(modelMap);
         injetarNomePrograma(modelMap, " - Redefinir Senha");
         injetarPaleta(modelMap);
 
@@ -138,6 +152,7 @@ public class Principal {
 
     @RequestMapping({"editor", "editor.html"})
     String editor(ModelMap modelMap) {
+        injetarTokenDesligar(modelMap);
         injetarNomePrograma(modelMap, " - Editor de Diagramas");
         injetarPaleta(modelMap);
 
@@ -146,8 +161,10 @@ public class Principal {
 
     @RequestMapping({"privacidade", "privacidade.html", "politicaprivacidade", "politicaprivacidade.html"})
     String politicaPrivacidade(ModelMap modelMap) {
+        injetarTokenDesligar(modelMap);
         injetarNomePrograma(modelMap, " - Política de Privacidade");
         injetarPaleta(modelMap);
+
         return "politicaprivacidade";
     }
 }
