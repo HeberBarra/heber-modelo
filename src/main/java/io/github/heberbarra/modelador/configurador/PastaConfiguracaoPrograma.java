@@ -2,6 +2,7 @@ package io.github.heberbarra.modelador.configurador;
 
 import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.recurso.AcessadorRecursos;
 import java.io.File;
 import java.util.logging.Logger;
 
@@ -23,9 +24,11 @@ public class PastaConfiguracaoPrograma extends PastaConfiguracao {
 
     private static final Logger logger = JavaLogger.obterLogger(PastaConfiguracaoPrograma.class.getName());
     private final String pasta = decidirPastaConfiguracao();
+    private final AcessadorRecursos acessadorRecursos;
 
     public PastaConfiguracaoPrograma() {
         super();
+        acessadorRecursos = new AcessadorRecursos();
     }
 
     public void criarPastaConfiguracao() {
@@ -36,8 +39,10 @@ public class PastaConfiguracaoPrograma extends PastaConfiguracao {
 
     public String decidirPastaConfiguracao() {
         String nomeSistema = System.getProperty("os.name").toLowerCase();
-        String pastaConfiguracao = System.getenv(
-                "%s_CONFIG_DIR".formatted(Principal.NOME_PROGRAMA.toUpperCase().replace("-", "_")));
+        String pastaConfiguracao = acessadorRecursos != null
+                ? acessadorRecursos.pegarValorVariavelAmbiente("%s_CONFIG_DIR"
+                        .formatted(Principal.NOME_PROGRAMA.toUpperCase().replace("-", "_")))
+                : null;
         String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
 
         if (pastaConfiguracao != null) {

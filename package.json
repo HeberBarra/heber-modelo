@@ -6,11 +6,13 @@
   "scripts": {
     "build-ts": "tsc --watch",
     "build-scss": "sass --no-source-map --watch ./src/main/resources/static/scss:./src/main/resources/static/css --style compressed",
+    "compile-scss": "sass --no-source-map ./src/main/resources/static/scss:./src/main/resources/static/css",
+    "compile-ts": "tsc",
     "minify-js": "grunt --watch"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "authors": ["Heber Ferreira Barra", "João Gabriel de Cristo", "Matheus Jun Alves Matuda"],
+  "license": "MIT",
   "devDependencies": {
     "grunt": "^1.6.1",
     "grunt-cli": "^1.5.0",

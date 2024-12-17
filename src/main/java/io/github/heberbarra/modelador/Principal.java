@@ -2,20 +2,41 @@ package io.github.heberbarra.modelador;
 
 import io.github.heberbarra.modelador.argumento.executador.ExecutadorArgumentos;
 import io.github.heberbarra.modelador.atualizador.AtualizadorPrograma;
+import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
+import io.github.heberbarra.modelador.configurador.WatcherPastaConfiguracao;
+import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.token.GeradorToken;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+@EnableAsync
 @Controller
 @SpringBootApplication
 public class Principal {
 
     public static final String NOME_PROGRAMA = "Heber-Modelo";
+    private static final Logger logger = JavaLogger.obterLogger(Principal.class.getName());
     private static final ConfiguradorPrograma configurador = ConfiguradorPrograma.getInstance();
+    private static String tokenSecreto;
+
+    @Autowired
+    private TaskExecutor taskExecutor;
 
     public static void main(String[] args) {
         ExecutadorArgumentos executadorArgumentos = new ExecutadorArgumentos(args);
@@ -26,9 +47,57 @@ public class Principal {
         configurador.verificarConfiguracoes();
         configurador.combinarConfiguracoes();
 
+        GeradorToken geradorToken = new GeradorToken();
+        geradorToken.gerarToken();
+        tokenSecreto = geradorToken.getToken();
+        System.out.println(tokenSecreto);
         AtualizadorPrograma atualizador = new AtualizadorPrograma();
         atualizador.atualizar();
         SpringApplication.run(Principal.class, args);
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void iniciarWatcherConfig() {
+        WatcherPastaConfiguracao watcherPastaConfiguracao = new WatcherPastaConfiguracao();
+        taskExecutor.execute(watcherPastaConfiguracao);
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void abrirWebBrowser() throws IOException {
+        if (!configurador.pegarValorConfiguracao("programa", "abrir_navegador_automaticamente", boolean.class)) return;
+
+        logger.info("Abrindo navegador padrão");
+        URI uriPrograma;
+        try {
+            String dominioPrograma = configurador.pegarValorConfiguracao("programa", "dominio", String.class);
+            long portaPrograma = configurador.pegarValorConfiguracao("programa", "porta", long.class);
+            uriPrograma = new URI("http://%s:%d".formatted(dominioPrograma, portaPrograma));
+        } catch (URISyntaxException e) {
+            logger.warning(
+                    "Ocorreu um erro ao tentar determinar a URL do programa. Será necessário abrir a página do programa manualmente. Erro: %s"
+                            .formatted(e.getMessage()));
+            return;
+        }
+
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+            Desktop.getDesktop().browse(uriPrograma);
+            return;
+        }
+
+        String nomeSistemaOperacional = System.getProperty("os.name");
+        Runtime runtime = Runtime.getRuntime();
+
+        if (nomeSistemaOperacional.contains("mac")) {
+            runtime.exec(new String[] {"open", uriPrograma.toString()});
+        } else if (nomeSistemaOperacional.contains("nix") || nomeSistemaOperacional.contains("nux")) {
+            runtime.exec(new String[] {"xdg-open", uriPrograma.toString()});
+        } else {
+            logger.warning("Não foi possível abrir o programa automaticamente no navegador principal.");
+        }
+    }
+
+    private static void injetarTokenDesligar(ModelMap modelMap) {
+        modelMap.addAttribute("desligar", "desligar.html?token=" + tokenSecreto);
     }
 
     private static void injetarNomePrograma(ModelMap modelMap, String nomePagina) {
@@ -49,6 +118,7 @@ public class Principal {
 
     @RequestMapping({"/", "/index", "/index.html", "/home", "/home.html"})
     String index(ModelMap modelMap) {
+        injetarTokenDesligar(modelMap);
         injetarNomePrograma(modelMap, "");
         injetarPaleta(modelMap);
 
@@ -57,6 +127,7 @@ public class Principal {
 
     @RequestMapping({"/login", "/login.html"})
     String login(ModelMap modelMap) {
+        injetarTokenDesligar(modelMap);
         injetarNomePrograma(modelMap, " - Login");
         injetarPaleta(modelMap);
 
@@ -65,6 +136,7 @@ public class Principal {
 
     @RequestMapping({"/cadastro", "/cadastro.html"})
     String cadastro(ModelMap modelMap) {
+        injetarTokenDesligar(modelMap);
         injetarNomePrograma(modelMap, " - Cadastro");
         injetarPaleta(modelMap);
 
@@ -73,6 +145,7 @@ public class Principal {
 
     @RequestMapping({"/redefinirsenha", "/redefinirsenha.html"})
     String redefinirSenha(ModelMap modelMap) {
+        injetarTokenDesligar(modelMap);
         injetarNomePrograma(modelMap, " - Redefinir Senha");
         injetarPaleta(modelMap);
 
@@ -81,6 +154,7 @@ public class Principal {
 
     @RequestMapping({"editor", "editor.html"})
     String editor(ModelMap modelMap) {
+        injetarTokenDesligar(modelMap);
         injetarNomePrograma(modelMap, " - Editor de Diagramas");
         injetarPaleta(modelMap);
 
@@ -89,8 +163,27 @@ public class Principal {
 
     @RequestMapping({"privacidade", "privacidade.html", "politicaprivacidade", "politicaprivacidade.html"})
     String politicaPrivacidade(ModelMap modelMap) {
+        injetarTokenDesligar(modelMap);
         injetarNomePrograma(modelMap, " - Política de Privacidade");
         injetarPaleta(modelMap);
+
         return "politicaprivacidade";
+    }
+
+    @RequestMapping({"desligar", "desligar.html"})
+    String desligar(ModelMap modelMap, @RequestParam("token") String token) {
+        injetarTokenDesligar(modelMap);
+        injetarPaleta(modelMap);
+
+        if (tokenSecreto.equals(token)) {
+            logger.info("Encerrando o programa");
+            injetarNomePrograma(modelMap, " - Desligar");
+            System.exit(CodigoSaida.OK.getCodigo());
+            return "desligar";
+        }
+
+        injetarNomePrograma(modelMap, "");
+        logger.severe("Alguém tentou encerrar o programa sem utilizar o token secreto");
+        return "index";
     }
 }
