@@ -23,6 +23,16 @@ jobs:
           distribution: 'corretto'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4.1.0
+        with:
+          node-version: 'latest'
+      - name: Download dependencies
+        run: npm install
+      - name: Compile SCSS
+        run: npm run compile-scss
+      - name: Compile Typescript
+        run: npm run compile-ts
       - name: Create jar file
         run: ./gradlew bootJar
       - name: Upload jar
