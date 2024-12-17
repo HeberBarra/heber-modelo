@@ -2,6 +2,7 @@ package io.github.heberbarra.modelador;
 
 import io.github.heberbarra.modelador.argumento.executador.ExecutadorArgumentos;
 import io.github.heberbarra.modelador.atualizador.AtualizadorPrograma;
+import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.configurador.WatcherPastaConfiguracao;
 import io.github.heberbarra.modelador.logger.JavaLogger;
@@ -22,6 +23,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @EnableAsync
 @Controller
@@ -31,7 +33,7 @@ public class Principal {
     public static final String NOME_PROGRAMA = "Heber-Modelo";
     private static final Logger logger = JavaLogger.obterLogger(Principal.class.getName());
     private static final ConfiguradorPrograma configurador = ConfiguradorPrograma.getInstance();
-    private static String token;
+    private static String tokenSecreto;
 
     @Autowired
     private TaskExecutor taskExecutor;
@@ -47,8 +49,8 @@ public class Principal {
 
         GeradorToken geradorToken = new GeradorToken();
         geradorToken.gerarToken();
-        token = geradorToken.getToken();
-        System.out.println(token);
+        tokenSecreto = geradorToken.getToken();
+        System.out.println(tokenSecreto);
         AtualizadorPrograma atualizador = new AtualizadorPrograma();
         atualizador.atualizar();
         SpringApplication.run(Principal.class, args);
@@ -95,7 +97,7 @@ public class Principal {
     }
 
     private static void injetarTokenDesligar(ModelMap modelMap) {
-        modelMap.addAttribute("desligar", "desligar.html?token=" + token);
+        modelMap.addAttribute("desligar", "desligar.html?token=" + tokenSecreto);
     }
 
     private static void injetarNomePrograma(ModelMap modelMap, String nomePagina) {
@@ -166,5 +168,22 @@ public class Principal {
         injetarPaleta(modelMap);
 
         return "politicaprivacidade";
+    }
+
+    @RequestMapping({"desligar", "desligar.html"})
+    String desligar(ModelMap modelMap, @RequestParam("token") String token) {
+        injetarTokenDesligar(modelMap);
+        injetarPaleta(modelMap);
+
+        if (tokenSecreto.equals(token)) {
+            logger.info("Encerrando o programa");
+            injetarNomePrograma(modelMap, " - Desligar");
+            System.exit(CodigoSaida.OK.getCodigo());
+            return "desligar";
+        }
+
+        injetarNomePrograma(modelMap, "");
+        logger.severe("Alguém tentou encerrar o programa sem utilizar o token secreto");
+        return "index";
     }
 }
