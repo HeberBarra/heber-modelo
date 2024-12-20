@@ -50,7 +50,7 @@ public class Principal {
         GeradorToken geradorToken = new GeradorToken();
         geradorToken.gerarToken();
         tokenSecreto = geradorToken.getToken();
-        System.out.println(tokenSecreto);
+
         AtualizadorPrograma atualizador = new AtualizadorPrograma();
         atualizador.atualizar();
         SpringApplication.run(Principal.class, args);
