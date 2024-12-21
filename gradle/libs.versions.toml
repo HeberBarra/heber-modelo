@@ -9,5 +9,5 @@
     fusesourceJansi = { module = "org.fusesource.jansi:jansi", version = "2.4.1" }
     heberModeloAPI = { module = "io.github.heberbarra:heber-modelo-api", version = "0.0.6-SNAP"}
     hibernateCore = { module = "org.hibernate:hibernate-core", version = "6.6.3.Final" }
-    mysqlConnector = { module = "mysql:mysql-connector-java", version = "8.0.33" }
+    mysqlConnector = { module = "com.mysql:mysql-connector-j", version = "9.1.0" }
     tomlj = { module = "org.tomlj:tomlj", version = "1.1.1" }
