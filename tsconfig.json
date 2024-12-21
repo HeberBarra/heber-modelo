@@ -5,7 +5,7 @@
     "declaration": false,
     "declarationMap": false,
     "sourceMap": false,
-    "rootDir": "./src/",
+    "rootDir": "./src/main/resources/static/typescript",
     "outDir": "./src/main/resources/static/javascript",
     "removeComments": true,
     "esModuleInterop": true,
