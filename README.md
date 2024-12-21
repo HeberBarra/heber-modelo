@@ -6,7 +6,7 @@
 
 ## 1 Introdução
 
-Projeto baseado no [brModelo](https://github.com/chcandido/brModelo) , visando criar uma ferramenta mais moderna, corrigindo algumas falhas, melhorando a experiência do usuário e permitindo maior customização. 
+Projeto baseado no [brModelo](https://github.com/chcandido/brModelo), visando criar uma ferramenta mais moderna, corrigindo algumas falhas, melhorando a experiência do usuário e permitindo maior customização. 
 Desenvolvido por estudantes do Curso Técnico em Informática do Instituto Federal do Paraná - Campus Curitiba, como projeto de conclusão de curso.
 
 ## 2 Configurações
@@ -19,7 +19,7 @@ Desenvolvido por estudantes do Curso Técnico em Informática do Instituto Feder
 
 **Unix:** $HOME/.config/heber-modelo/
 
-O programa disponibiliza algumas opções de configuração, que são feitas usando [TOML(Tom's Obvious Minimal Language)](https://toml.io/en/). Os arquivos são criados automaticamente pelo programa caso não existam, baseados nas templates do programa.
+O programa disponibiliza algumas opções de configuração, que são feitas usando [TOML(Tom's Obvious Minimal Language)](https://toml.io/en/). Os arquivos são criados automaticamente pelo programa caso não existam, baseados nos templates do programa.
 
 #### Arquivos de configurações:
 
@@ -34,7 +34,7 @@ O programa é disponibilizado como um arquivo jar, sendo possível baixar o prog
 
 - [ ] Seletor Radial
 - [ ] Formatação automática
-- [ ] Suporte para temas
+- [x] Suporte para temas
 - [ ] Suporte para key maps customizados
 - [ ] Formatação automática de atributos
 - [ ] Estilos diferentes de fundo/grade
@@ -42,7 +42,7 @@ O programa é disponibilizado como um arquivo jar, sendo possível baixar o prog
 - [ ] Alinhar com a grade
 - [x] Auto atualização*
 
-\*Por causa da mudança de nome, versões anteriores a 0.0.5 não conseguem atualizar.
+\*Devido à mudança de nome do programa, versões anteriores a 0.0.5 não conseguem atualizar.
 
 ## 5 Autores
 

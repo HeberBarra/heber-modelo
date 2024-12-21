@@ -76,7 +76,6 @@ public class AtualizadorPrograma implements Atualizador {
      * */
     public void atualizar() {
         if (!verificarAtualizacao()) {
-            logger.info("Não há nenhuma atualização disponível.\n");
             return;
         }
 
