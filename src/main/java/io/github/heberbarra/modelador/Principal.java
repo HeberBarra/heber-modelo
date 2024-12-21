@@ -8,6 +8,7 @@ import io.github.heberbarra.modelador.configurador.WatcherPastaConfiguracao;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.token.GeradorToken;
 import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -39,6 +40,7 @@ public class Principal {
     private TaskExecutor taskExecutor;
 
     public static void main(String[] args) {
+        criarArquivoDotEnv();
         ExecutadorArgumentos executadorArgumentos = new ExecutadorArgumentos(args);
         executadorArgumentos.executarFlags();
 
@@ -54,6 +56,19 @@ public class Principal {
         AtualizadorPrograma atualizador = new AtualizadorPrograma();
         atualizador.atualizar();
         SpringApplication.run(Principal.class, args);
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private static void criarArquivoDotEnv() {
+        File dotEnv = new File(".env");
+
+        if (!dotEnv.exists()) {
+            try {
+                dotEnv.createNewFile();
+            } catch (IOException e) {
+                logger.severe("Falha ao tentar criar o arquivo .env. Erro: %s".formatted(e.getMessage()));
+            }
+        }
     }
 
     @EventListener(ApplicationReadyEvent.class)
