@@ -1,7 +1,7 @@
 [plugins]
     spotless = { id = "com.diffplug.spotless", version = "6.25.0" }
+    springdependency = { id = "io.spring.dependency-management", version = "1.1.7" }
     springboot = { id = "org.springframework.boot", version = "3.4.1" }
-    springdependency = { id = "io.spring.dependency-management", version = "1.1.6" }
 
 [libraries]
     apachePDFBox = { module = "org.apache.pdfbox:pdfbox", version = "3.0.3" }
