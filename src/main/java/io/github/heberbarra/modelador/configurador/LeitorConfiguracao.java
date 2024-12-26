@@ -115,8 +115,16 @@ public class LeitorConfiguracao {
         informacoesConfiguracoes = lerArquivo(arquivoConfiguracoes);
     }
 
+    public TomlTable lerArquivoConfiguracoesSemSalvar() {
+        return lerArquivo(arquivoConfiguracoes);
+    }
+
     private void lerArquivoPaleta() {
         informacoesPaleta = lerArquivo(arquivoPaleta);
+    }
+
+    public TomlTable lerArquivoPaletaSemSalvar() {
+        return lerArquivo(arquivoPaleta);
     }
 
     public String[] pegarStringConfiguracao() {
