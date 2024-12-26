@@ -7,12 +7,14 @@ import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.configurador.WatcherPastaConfiguracao;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.token.GeradorToken;
+import jakarta.annotation.PostConstruct;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.logging.Handler;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -68,6 +70,15 @@ public class Principal {
             } catch (IOException e) {
                 logger.severe("Falha ao tentar criar o arquivo .env. Erro: %s".formatted(e.getMessage()));
             }
+        }
+    }
+
+    @PostConstruct
+    public static void configurarLogger() {
+        Logger loggerGlobal = Logger.getLogger("");
+
+        for (Handler handler : loggerGlobal.getHandlers()) {
+            loggerGlobal.removeHandler(handler);
         }
     }
 

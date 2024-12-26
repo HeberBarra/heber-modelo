@@ -16,7 +16,6 @@ logging:
     console: UTF-8
     file: UTF-8
   level:
-    root: ERROR
     org:
       hibernate: ERROR
   pattern:

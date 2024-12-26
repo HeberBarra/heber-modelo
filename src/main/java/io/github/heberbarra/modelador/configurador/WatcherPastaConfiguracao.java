@@ -84,7 +84,6 @@ public class WatcherPastaConfiguracao extends Thread {
 
                 recarregarConfiguracao();
             }
-
             isKeyValid = watchKey.reset();
         } while (isKeyValid);
     }
