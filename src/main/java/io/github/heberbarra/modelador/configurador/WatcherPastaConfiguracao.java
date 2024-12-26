@@ -9,21 +9,40 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.logging.Logger;
+import org.tomlj.TomlTable;
 
 public class WatcherPastaConfiguracao extends Thread {
 
     private static final Logger logger = JavaLogger.obterLogger(WatcherPastaConfiguracao.class.getName());
     private static final int DELAY_RELOAD = 500;
-    private final Configurador configurador;
+    private final ConfiguradorPrograma configurador;
+    private final CriadorConfiguracoes criadorConfiguracoes;
+    private final LeitorConfiguracao leitorConfiguracao;
+    private final VerificadorConfiguracaoPrograma verificadorConfiguracaoPrograma;
     private final Path pastaConfiguracao;
 
     public WatcherPastaConfiguracao() {
         configurador = ConfiguradorPrograma.getInstance();
+        criadorConfiguracoes = configurador.getCriadorConfiguracoes();
+        leitorConfiguracao = configurador.getLeitorConfiguracao();
+        verificadorConfiguracaoPrograma = new VerificadorConfiguracaoPrograma();
         pastaConfiguracao = Path.of(new PastaConfiguracaoPrograma().decidirPastaConfiguracao());
     }
 
     public void recarregarConfiguracao() {
-        configurador.lerConfiguracao();
+        TomlTable configuracoes = leitorConfiguracao.lerArquivoConfiguracoesSemSalvar();
+        TomlTable paleta = leitorConfiguracao.lerArquivoPaletaSemSalvar();
+
+        verificadorConfiguracaoPrograma.verificarArquivoConfiguracao(
+                criadorConfiguracoes.getConfiguracaoPadrao(), configuracoes);
+        verificadorConfiguracaoPrograma.verificarArquivoPaleta(criadorConfiguracoes.getPaletaPadrao(), paleta);
+
+        if (verificadorConfiguracaoPrograma.configuracoesContemErrosGraves()) {
+            logger.warning("As configurações do programa não serão recarregadas, pois elas contém erros graves.");
+        } else {
+            configurador.lerConfiguracao();
+            logger.info("Configurações recarregadas");
+        }
     }
 
     @SuppressWarnings("CatchMayIgnoreException")
@@ -64,9 +83,7 @@ public class WatcherPastaConfiguracao extends Thread {
                 }
 
                 recarregarConfiguracao();
-                logger.info("Configurações recarregadas");
             }
-
             isKeyValid = watchKey.reset();
         } while (isKeyValid);
     }

@@ -168,4 +168,12 @@ public final class ConfiguradorPrograma implements Configurador {
     public <T> T pegarValorConfiguracao(String categoria, String atributo, Class<T> tipo) {
         return leitorConfiguracao.pegarValorConfiguracao(categoria, atributo, tipo);
     }
+
+    public CriadorConfiguracoes getCriadorConfiguracoes() {
+        return criadorConfiguracoes;
+    }
+
+    public LeitorConfiguracao getLeitorConfiguracao() {
+        return leitorConfiguracao;
+    }
 }

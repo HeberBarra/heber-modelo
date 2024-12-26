@@ -10,4 +10,5 @@
     heberModeloAPI = { module = "io.github.heberbarra:heber-modelo-api", version = "0.0.7-SNAP"}
     hibernateCore = { module = "org.hibernate:hibernate-core", version = "6.6.4.Final" }
     mysqlConnector = { module = "com.mysql:mysql-connector-j", version = "9.1.0" }
+    slf4jnop = { module = "org.slf4j:slf4j-nop", version = "2.1.0-alpha1" }
     tomlj = { module = "org.tomlj:tomlj", version = "1.1.1" }

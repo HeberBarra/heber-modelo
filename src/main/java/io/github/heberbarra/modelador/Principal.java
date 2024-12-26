@@ -7,12 +7,14 @@ import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.configurador.WatcherPastaConfiguracao;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.token.GeradorToken;
+import jakarta.annotation.PostConstruct;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.logging.Handler;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -71,6 +73,15 @@ public class Principal {
         }
     }
 
+    @PostConstruct
+    public static void configurarLogger() {
+        Logger loggerGlobal = Logger.getLogger("");
+
+        for (Handler handler : loggerGlobal.getHandlers()) {
+            loggerGlobal.removeHandler(handler);
+        }
+    }
+
     @EventListener(ApplicationReadyEvent.class)
     public void iniciarWatcherConfig() {
         WatcherPastaConfiguracao watcherPastaConfiguracao = new WatcherPastaConfiguracao();
@@ -111,15 +122,15 @@ public class Principal {
         }
     }
 
-    private static void injetarTokenDesligar(ModelMap modelMap) {
+    public static void injetarTokenDesligar(ModelMap modelMap) {
         modelMap.addAttribute("desligar", "desligar.html?token=" + tokenSecreto);
     }
 
-    private static void injetarNomePrograma(ModelMap modelMap, String nomePagina) {
+    public static void injetarNomePrograma(ModelMap modelMap, String nomePagina) {
         modelMap.addAttribute("programa", NOME_PROGRAMA.replace("-", " ") + nomePagina);
     }
 
-    private static void injetarPaleta(ModelMap modelMap) {
+    public static void injetarPaleta(ModelMap modelMap) {
         Map<String, String> variaveisPaleta = configurador.pegarInformacoesPaleta();
         StringBuilder stringBuilder = new StringBuilder(":root {\n");
 

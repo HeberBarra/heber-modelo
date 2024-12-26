@@ -74,4 +74,8 @@ public class JavaLogger {
             logger.setLevel(Level.OFF);
         }
     }
+
+    public static ConsoleHandler getConsoleHandler() {
+        return consoleHandler;
+    }
 }
