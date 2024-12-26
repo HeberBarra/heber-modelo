@@ -111,15 +111,15 @@ public class Principal {
         }
     }
 
-    private static void injetarTokenDesligar(ModelMap modelMap) {
+    public static void injetarTokenDesligar(ModelMap modelMap) {
         modelMap.addAttribute("desligar", "desligar.html?token=" + tokenSecreto);
     }
 
-    private static void injetarNomePrograma(ModelMap modelMap, String nomePagina) {
+    public static void injetarNomePrograma(ModelMap modelMap, String nomePagina) {
         modelMap.addAttribute("programa", NOME_PROGRAMA.replace("-", " ") + nomePagina);
     }
 
-    private static void injetarPaleta(ModelMap modelMap) {
+    public static void injetarPaleta(ModelMap modelMap) {
         Map<String, String> variaveisPaleta = configurador.pegarInformacoesPaleta();
         StringBuilder stringBuilder = new StringBuilder(":root {\n");
 
