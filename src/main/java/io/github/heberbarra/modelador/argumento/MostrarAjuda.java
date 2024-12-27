@@ -10,6 +10,10 @@ import java.util.Set;
 import java.util.logging.Logger;
 import org.fusesource.jansi.Ansi;
 
+/**
+ * Mostra as flags disponíveis no programa junto de suas respectivas descrições.
+ * @since v0.0.9-SNAPSHOT
+ * */
 public class MostrarAjuda extends Argumento {
 
     private static final Logger logger = JavaLogger.obterLogger(MostrarAjuda.class.getName());
@@ -21,6 +25,10 @@ public class MostrarAjuda extends Argumento {
         this.flagsPermitidas = List.of("--ajuda", "--help", "-h");
     }
 
+    /**
+     * Exibe no {@code stdout} todas as flags do programa, junto dos valores permitidos e suas descrições.
+     * Após isso encerra o programa
+     * */
     @Override
     public void run() {
         Set<Class<Argumento>> argumentos = coletorClassesArgumentos.getArgumentos();
