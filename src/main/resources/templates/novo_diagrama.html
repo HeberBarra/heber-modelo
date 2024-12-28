@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Novo Diagrama</title>
+    <style th:text="${paleta}"></style>
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="shortcut icon" th:href="@{icons/favicon.svg}" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <button><a href="index.html">HOME</a></button>
+        <h1 th:utext="${programa}"></h1>
+    </header>
+    <main>
+        <form method="post">
+            <label>Nome do Arquivo:<input type="text" name="nome-arquivo"></label>
+            <label>Autor:<input type="text" name="autor" required></label>
+            <label>E-Mail:<input type="email" name="email"></label>
+            <h2>Diagramas:</h2>
+            <h3>UML:</h3>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+            </div>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+            </div>
+            <h3>Banco de Dados:</h3>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+            </div>
+            <h3>Outros</h3>
+            <div class="checkbox-group">
+                <label><input type="checkbox" name=""></label>
+                <label><input type="checkbox" name=""></label>
+            </div>
+        </form>
+    </main>
+    <footer></footer>
+</body>
+</html>

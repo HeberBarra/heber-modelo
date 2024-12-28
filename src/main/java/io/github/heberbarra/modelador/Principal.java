@@ -212,4 +212,12 @@ public class Principal {
         logger.severe("Alguém tentou encerrar o programa sem utilizar o token secreto");
         return "index";
     }
+
+    @RequestMapping({"novodiagrama.html", "novodiagrama"})
+    String novoDiagrama(ModelMap modelMap) {
+        injetarPaleta(modelMap);
+        injetarNomePrograma(modelMap, " - Criar Novo Diagrama");
+
+        return "novo_diagrama";
+    }
 }
