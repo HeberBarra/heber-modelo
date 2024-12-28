@@ -15,13 +15,14 @@ main {
     font-size: 1.2rem;
   }
 
-  ul, ol {
+  ul,
+  ol {
     justify-self: center;
     width: 94%;
   }
 
-  p, li {
+  p,
+  li {
     text-align: justify;
   }
-
 }
