@@ -189,11 +189,10 @@ public class Principal {
 
     @RequestMapping({"privacidade", "privacidade.html", "politicaprivacidade", "politicaprivacidade.html"})
     String politicaPrivacidade(ModelMap modelMap) {
-        injetarTokenDesligar(modelMap);
         injetarNomePrograma(modelMap, " - Política de Privacidade");
         injetarPaleta(modelMap);
 
-        return "politicaprivacidade";
+        return "politicaPrivacidade";
     }
 
     @RequestMapping({"desligar", "desligar.html"})
