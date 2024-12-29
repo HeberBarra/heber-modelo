@@ -217,6 +217,6 @@ public class Principal {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Criar Novo Diagrama");
 
-        return "novo_diagrama";
+        return "novoDiagrama";
     }
 }
