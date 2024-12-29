@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.heberbarra"
-version = "0.0.9-SNAPSHOT"
+version = "0.0.10-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -38,7 +38,7 @@ dependencies {
 configurations {
     all {
         exclude("org.springframework.boot", "spring-boot-starter-logging")
-        exclude("org.jboss.logging", "jbosslogging:3.5.0.Final");
+        exclude("org.jboss.logging", "jbosslogging:3.5.0.Final")
     }
 }
 

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Handler;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class JavaLogger {
@@ -66,12 +65,6 @@ public class JavaLogger {
         } catch (IOException e) {
             logger.warning("Falha ao criar logger: %s".formatted(e.getMessage()));
             return null;
-        }
-    }
-
-    public static void desativarLogger(boolean deveDesativar, Logger logger) {
-        if (deveDesativar) {
-            logger.setLevel(Level.OFF);
         }
     }
 

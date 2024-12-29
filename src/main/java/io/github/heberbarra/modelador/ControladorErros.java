@@ -14,7 +14,7 @@ public class ControladorErros implements ErrorController {
     public String handleError(HttpServletRequest request, ModelMap modelMap) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         Object errorMessage = request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
-        Principal.injetarPaleta(modelMap);
+        ControladorWeb.injetarPaleta(modelMap);
         modelMap.addAttribute("status", status);
         modelMap.addAttribute("error", errorMessage);
 
