@@ -8,8 +8,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Logger;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.web.server.ConfigurableWebServerFactory;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.context.annotation.Configuration;
 
-public class Principal {
+@Configuration
+public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServerFactory> {
 
     private static final Logger logger = JavaLogger.obterLogger(Principal.class.getName());
     public static final String NOME_PROGRAMA = "Heber-Modelo";
@@ -41,5 +45,10 @@ public class Principal {
                 logger.severe("Falha ao tentar criar o arquivo .env. Erro: %s".formatted(e.getMessage()));
             }
         }
+    }
+
+    @Override
+    public void customize(ConfigurableWebServerFactory factory) {
+        factory.setPort(Math.toIntExact(configurador.pegarValorConfiguracao("programa", "porta", long.class)));
     }
 }

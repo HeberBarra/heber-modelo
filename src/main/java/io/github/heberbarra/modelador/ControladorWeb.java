@@ -81,6 +81,13 @@ public class ControladorWeb {
     }
 
     @EventListener(ApplicationReadyEvent.class)
+    public void exibirMensagemProgramaPronto() {
+        String host = configurador.pegarValorConfiguracao("programa", "dominio", String.class);
+        int porta = Math.toIntExact(configurador.pegarValorConfiguracao("programa", "porta", long.class));
+        logger.info("Programa iniciado em %s:%d".formatted(host, porta));
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
     public void abrirWebBrowser() throws IOException {
         if (!configurador.pegarValorConfiguracao("programa", "abrir_navegador_automaticamente", boolean.class)) return;
 
