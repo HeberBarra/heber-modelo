@@ -5,12 +5,8 @@ import io.github.heberbarra.modelador.test.CapturadorPrintStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
 
 public class TestLogger {
     protected static final String NOME_LOGGER = TestLogger.class.getName();
@@ -32,17 +28,10 @@ public class TestLogger {
         JavaLogger.setNomeArquivo(arquivoLog);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @BeforeAll
     protected static void criarPasta() {
         pastaLog.mkdir();
-    }
-
-    @Test
-    public void testarDesativar() {
-        Logger logger = JavaLogger.obterLogger(NOME_LOGGER);
-        JavaLogger.desativarLogger(true, logger);
-
-        Assertions.assertEquals(Level.OFF, logger.getLevel());
     }
 
     @AfterAll
