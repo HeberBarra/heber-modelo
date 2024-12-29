@@ -21,7 +21,7 @@ def pegar_versao() -> str:
 
 
 def criar_tag(versao: str, mensagem: str) -> None:
-    comando_criar_tag = ['git', 'tag', '-a', versao, '-m', f'"{mensagem}"']
+    comando_criar_tag = ['git', 'tag', '-a', versao, '-m', f'{mensagem}']
 
     try:
         resultado = subprocess.check_output(comando_criar_tag).decode('utf-8')
