@@ -1,21 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Heber-Modelo</title>
     <style th:text="${paleta}"></style>
-    <link rel="stylesheet" th:href="@{/css/index.css}">
-    <link rel="shortcut icon" th:href="@{icons/favicon.svg}" type="image/x-icon">
-</head>
-<body>
+    <link rel="stylesheet" th:href="@{/css/index.css}" />
+    <link rel="shortcut icon" th:href="@{icons/favicon.svg}" type="image/x-icon" />
+  </head>
+  <body>
     <header><h1 th:utext="${programa}"></h1></header>
     <main>
-        <button><a href="editor.html">MODO SOLO</a></button>
-        <button><a>MODO CONJUNTO</a></button>
-        <button><a>MODO AVALIAÇÃO</a></button>
-        <button><a href="politicaprivacidade.html">POLÍTICA DE PRIVACIDADE</a></button>
+      <button><a href="novodiagrama.html">CRIAR NOVO DIAGRAMA</a></button>
+      <button><a>MODO CONJUNTO</a></button>
+      <button><a>MODO AVALIAÇÃO</a></button>
+      <button><a href="politicaprivacidade.html">POLÍTICA DE PRIVACIDADE</a></button>
+      <button><a href="termos">TERMOS GERAIS DE USO</a></button>
     </main>
-    <footer>Licença MIT &copy; Heber Ferreira Barra; João Gabriel de Cristo; Matheus Jun Alves Matuda. <a th:href="${desligar}">Encerrar programa</a></footer>
-</body>
+    <footer>
+      Licença MIT &copy; Heber Ferreira Barra; João Gabriel de Cristo; Matheus Jun Alves Matuda.
+      <a th:href="${desligar}">Encerrar programa</a>
+    </footer>
+  </body>
 </html>

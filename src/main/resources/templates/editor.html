@@ -1,15 +1,18 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <style th:text="${paleta}"></style>
-    <link rel="stylesheet" th:href="@{/css/editor.css}">
-    <link rel="shortcut icon" th:href="@{icons/favicon.svg}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{/css/editor.css}" />
+    <link rel="shortcut icon" th:href="@{icons/favicon.svg}" type="image/x-icon" />
     <title>Editor</title>
-</head>
-<body>
+  </head>
+  <body>
     <header><h1 th:utext="${programa}"></h1></header>
-    <footer>Licença MIT &copy; Heber Ferreira Barra; João Gabriel de Cristo; Matheus Jun Alves Matuda. <a th:href="${desligar}">Encerrar programa</a></footer>
-</body>
+    <footer>
+      Licença MIT &copy; Heber Ferreira Barra; João Gabriel de Cristo; Matheus Jun Alves Matuda.
+      <a th:href="${desligar}">Encerrar programa</a>
+    </footer>
+  </body>
 </html>
