@@ -195,6 +195,14 @@ public class Principal {
         return "politicaPrivacidade";
     }
 
+    @RequestMapping({"termos", "termos.html"})
+    String termosGerais(ModelMap modelMap) {
+        injetarNomePrograma(modelMap, " - Termos Gerais de Uso");
+        injetarPaleta(modelMap);
+
+        return "termosGerais";
+    }
+
     @RequestMapping({"desligar", "desligar.html"})
     String desligar(ModelMap modelMap, @RequestParam("token") String token) {
         injetarTokenDesligar(modelMap);
