@@ -1,6 +1,8 @@
 @font-face {
   font-family: "Cookie";
-  src: local("Cookie"), url("/fonts/Cookie/Cookie-Regular.ttf") format('truetype');
+  src:
+    local("Cookie"),
+    url("/fonts/Cookie/Cookie-Regular.ttf") format("truetype");
 }
 
 header {

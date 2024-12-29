@@ -20,6 +20,9 @@ importers:
       grunt-contrib-watch:
         specifier: ^1.1.0
         version: 1.1.0
+      prettier:
+        specifier: ^3.4.2
+        version: 3.4.2
       sass:
         specifier: ^1.83.0
         version: 1.83.0
@@ -570,6 +573,11 @@ packages:
   pify@4.0.1:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
+
+  prettier@3.4.2:
+    resolution: {integrity: sha512-e9MewbtFo+Fevyuxn/4rrcDAaq0IYxPGLvObpQjiZBMAzB9IGmzlnG9RZy3FFas+eBMu2vA0CszMeduow5dIuQ==}
+    engines: {node: '>=14'}
+    hasBin: true
 
   pretty-bytes@5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
@@ -1239,6 +1247,8 @@ snapshots:
   picomatch@2.3.1: {}
 
   pify@4.0.1: {}
+
+  prettier@3.4.2: {}
 
   pretty-bytes@5.6.0: {}
 

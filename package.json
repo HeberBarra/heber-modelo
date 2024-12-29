@@ -11,13 +11,18 @@
     "minify-js": "grunt --watch"
   },
   "keywords": [],
-  "authors": ["Heber Ferreira Barra", "João Gabriel de Cristo", "Matheus Jun Alves Matuda"],
+  "authors": [
+    "Heber Ferreira Barra",
+    "João Gabriel de Cristo",
+    "Matheus Jun Alves Matuda"
+  ],
   "license": "MIT",
   "devDependencies": {
     "grunt": "^1.6.1",
     "grunt-cli": "^1.5.0",
     "grunt-contrib-uglify": "^5.2.2",
     "grunt-contrib-watch": "^1.1.0",
+    "prettier": "^3.4.2",
     "sass": "^1.83.0",
     "typescript": "^5.7.2"
   }

@@ -189,11 +189,18 @@ public class Principal {
 
     @RequestMapping({"privacidade", "privacidade.html", "politicaprivacidade", "politicaprivacidade.html"})
     String politicaPrivacidade(ModelMap modelMap) {
-        injetarTokenDesligar(modelMap);
         injetarNomePrograma(modelMap, " - Política de Privacidade");
         injetarPaleta(modelMap);
 
-        return "politicaprivacidade";
+        return "politicaPrivacidade";
+    }
+
+    @RequestMapping({"termos", "termos.html"})
+    String termosGerais(ModelMap modelMap) {
+        injetarNomePrograma(modelMap, " - Termos Gerais de Uso");
+        injetarPaleta(modelMap);
+
+        return "termosGerais";
     }
 
     @RequestMapping({"desligar", "desligar.html"})
@@ -211,5 +218,13 @@ public class Principal {
         injetarNomePrograma(modelMap, "");
         logger.severe("Alguém tentou encerrar o programa sem utilizar o token secreto");
         return "index";
+    }
+
+    @RequestMapping({"novodiagrama.html", "novodiagrama"})
+    String novoDiagrama(ModelMap modelMap) {
+        injetarPaleta(modelMap);
+        injetarNomePrograma(modelMap, " - Criar Novo Diagrama");
+
+        return "novoDiagrama";
     }
 }

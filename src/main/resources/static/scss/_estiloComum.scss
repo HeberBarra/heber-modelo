@@ -14,7 +14,10 @@ header {
   align-self: flex-start;
 }
 
-main, footer, nav, aside {
+main,
+footer,
+nav,
+aside {
   font-family: Arial, serif;
 }
 
@@ -40,7 +43,8 @@ button {
   background: var(--cor-botao);
   padding: 0.5rem;
 
-  &, & > a {
+  &,
+  & > a {
     color: var(--cor-letra);
   }
 
