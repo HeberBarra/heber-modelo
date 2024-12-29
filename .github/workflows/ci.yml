@@ -1,6 +1,6 @@
 name: ci
 
-on: 
+on:
   push:
     branches:
       - main
@@ -13,7 +13,7 @@ jobs:
       contents: write
 
     runs-on: ubuntu-22.04
-    if: startsWith(github.ref, 'refs/tags')
+    if: startsWith(github.ref, 'refs/tags') && github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v4.2.2
       - name: Setup Java
@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: 'latest'
       - name: Download dependencies
-        run: npm install
+        run: npm ci
       - name: Compile SCSS
         run: npm run compile-scss
       - name: Compile Typescript
