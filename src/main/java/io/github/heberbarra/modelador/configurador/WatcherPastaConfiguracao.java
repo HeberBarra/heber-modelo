@@ -11,7 +11,7 @@ import java.nio.file.WatchService;
 import java.util.logging.Logger;
 import org.tomlj.TomlTable;
 
-public class WatcherPastaConfiguracao extends Thread {
+public class WatcherPastaConfiguracao implements Runnable {
 
     private static final Logger logger = JavaLogger.obterLogger(WatcherPastaConfiguracao.class.getName());
     private static final int DELAY_RELOAD = 500;

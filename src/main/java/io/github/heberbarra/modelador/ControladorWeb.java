@@ -14,13 +14,13 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,14 +28,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 @EnableAsync
 @Controller
 @SpringBootApplication
+@Service
 public class ControladorWeb {
 
     private static final Logger logger = JavaLogger.obterLogger(ControladorWeb.class.getName());
     private static final String TOKEN_SECRETO;
     private static final Configurador configurador;
+    private final TaskExecutor taskExecutor;
 
-    @Autowired
-    private TaskExecutor taskExecutor;
+    public ControladorWeb(TaskExecutor taskExecutor) {
+        this.taskExecutor = taskExecutor;
+    }
 
     static {
         configurador = ConfiguradorPrograma.getInstance();
@@ -146,12 +149,12 @@ public class ControladorWeb {
         return "login";
     }
 
-    @RequestMapping({"/redefinirsenha", "/redefinirSenha.html"})
+    @RequestMapping({"/redefinir", "/redefinir.html"})
     public String redefinirSenha(ModelMap modelMap) {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Redefinir Senha");
 
-        return "redefinirSenha";
+        return "redefinir";
     }
 
     @RequestMapping({"/editor", "/editor.html"})
@@ -162,12 +165,12 @@ public class ControladorWeb {
         return "editor";
     }
 
-    @RequestMapping({"/novodiagrama", "/novodiagrama.html"})
+    @RequestMapping({"/novo", "/novo.html"})
     public String novoDiagrama(ModelMap modelMap) {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Criar Novo Diagrama");
 
-        return "novoDiagrama";
+        return "novo";
     }
 
     @RequestMapping({"/desligar", "/desligar.html"})
@@ -192,7 +195,7 @@ public class ControladorWeb {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, "Política de Privacidade");
 
-        return "politicaPrivacidade";
+        return "privacidade";
     }
 
     @RequestMapping({"/termos", "/termos.html"})
@@ -200,6 +203,6 @@ public class ControladorWeb {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Termos Gerais de Uso");
 
-        return "termosGerais";
+        return "termos";
     }
 }
