@@ -1,11 +1,4 @@
 spring:
-  thymeleaf:
-    cache: false
-  web:
-    resources:
-      static-locations:
-        - "file:src/main/resources/static"
-        - "classpath:/static/"
   mandatory-file-encoding: UTF-8
   output:
     ansi:
@@ -19,4 +12,5 @@ logging:
     org:
       hibernate: ERROR
   pattern:
+    console:
     dateformat: E MMM dd hh:mm:ss z yy
