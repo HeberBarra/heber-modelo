@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,10 +9,13 @@
     <title>Editor</title>
   </head>
   <body>
-    <header><h1 th:utext="${programa}"></h1></header>
+    <header>
+      <button id="home"><a href="index.html">HOME</a></button>
+      <h1 th:utext="${programa}"></h1>
+    </header>
+    <main></main>
     <footer>
       Licença MIT &copy; Heber Ferreira Barra; João Gabriel de Cristo; Matheus Jun Alves Matuda.
-      <a th:href="${desligar}">Encerrar programa</a>
     </footer>
   </body>
 </html>
