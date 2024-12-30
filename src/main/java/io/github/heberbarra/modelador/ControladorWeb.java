@@ -193,7 +193,7 @@ public class ControladorWeb {
     @RequestMapping({"/privacidade", "/privacidade.html", "/politicaprivacidade", "/politicaprivacidade.html"})
     public String politicaPrivacidade(ModelMap modelMap) {
         injetarPaleta(modelMap);
-        injetarNomePrograma(modelMap, "Política de Privacidade");
+        injetarNomePrograma(modelMap, " - Política de Privacidade");
 
         return "privacidade";
     }

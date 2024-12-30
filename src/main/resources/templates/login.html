@@ -1,22 +1,11 @@
 <!doctype html>
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style th:text="${paleta}"></style>
+  <head th:insert="~{/fragments/head :: head}">
     <link rel="stylesheet" th:href="@{/css/login.css}" />
-    <link rel="shortcut icon" th:href="@{icons/favicon.svg}" type="image/x-icon" />
     <title>Login</title>
   </head>
-
   <body>
-    <header>
-      <button>Menu</button>
-      <h1>Heber-Modelo</h1>
-    </header>
-    <nav>
-      <a href="index.html">HOME</a>
-    </nav>
+    <header th:replace="~{fragments/header :: header}"></header>
     <main>
       <form action="" method="post">
         <label>
@@ -30,9 +19,5 @@
         <span>Não tem cadastro? <a href="cadastro.html">Cadastre-se</a></span>
       </form>
     </main>
-    <footer>
-      Licença MIT &copy; Heber Ferreira Barra; João Gabriel de Cristo; Matheus Jun Alves Matuda.
-      <a th:href="${desligar}">Encerrar programa</a>
-    </footer>
   </body>
 </html>
