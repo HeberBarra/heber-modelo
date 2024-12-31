@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -36,7 +37,7 @@ public class ControladorWeb {
     private static final Configurador configurador;
     private final TaskExecutor taskExecutor;
 
-    public ControladorWeb(TaskExecutor taskExecutor) {
+    public ControladorWeb(@Qualifier("applicationTaskExecutor") TaskExecutor taskExecutor) {
         this.taskExecutor = taskExecutor;
     }
 
@@ -90,6 +91,7 @@ public class ControladorWeb {
         logger.info("Programa iniciado em %s:%d".formatted(host, porta));
     }
 
+    @SuppressWarnings("HttpUrlsUsage")
     @EventListener(ApplicationReadyEvent.class)
     public void abrirWebBrowser() throws IOException {
         if (!configurador.pegarValorConfiguracao("programa", "abrir_navegador_automaticamente", boolean.class)) return;
@@ -190,7 +192,7 @@ public class ControladorWeb {
         return "index";
     }
 
-    @RequestMapping({"/privacidade", "/privacidade.html", "/politicaprivacidade", "/politicaprivacidade.html"})
+    @RequestMapping({"/privacidade", "/privacidade.html"})
     public String politicaPrivacidade(ModelMap modelMap) {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Política de Privacidade");
