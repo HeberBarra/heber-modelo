@@ -113,14 +113,14 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
 
         if (quantidade == 0) {
             logger.warning(Principal.tradutor
-                    .traduzirMensagem("error.config.atribute.invalid")
+                    .traduzirMensagem("error.config.attribute.invalid")
                     .formatted(nomeAtributo));
             return;
         }
 
         if (quantidade > 1) {
             logger.warning(Principal.tradutor
-                    .traduzirMensagem("error.config.atribute.multiple.occurrences")
+                    .traduzirMensagem("error.config.attribute.multiple.occurrences")
                     .formatted(nomeAtributo, quantidade));
         }
 
@@ -132,7 +132,7 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
         }
 
         logger.warning(Principal.tradutor
-                .traduzirMensagem("error.config.atribute.invalid.type")
+                .traduzirMensagem("error.config.attribute.invalid.type")
                 .formatted(nomeAtributo, tipoPadraoAtributo));
         configuracaoErrada = true;
     }

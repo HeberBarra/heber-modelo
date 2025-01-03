@@ -104,7 +104,7 @@ public class ControladorWeb {
             uriPrograma = new URI("http://%s:%d".formatted(dominioPrograma, portaPrograma));
         } catch (URISyntaxException e) {
             logger.warning(Principal.tradutor
-                    .traduzirMensagem("error.browser.cant.create.url")
+                    .traduzirMensagem("error.browser.cannot.create.url")
                     .formatted(e.getMessage()));
             return;
         }
@@ -122,7 +122,7 @@ public class ControladorWeb {
         } else if (nomeSistemaOperacional.contains("nix") || nomeSistemaOperacional.contains("nux")) {
             runtime.exec(new String[] {"xdg-open", uriPrograma.toString()});
         } else {
-            logger.warning(Principal.tradutor.traduzirMensagem("error.browser.cant.open"));
+            logger.warning(Principal.tradutor.traduzirMensagem("error.browser.cannot.open"));
         }
     }
 

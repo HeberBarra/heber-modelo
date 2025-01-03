@@ -66,7 +66,7 @@ public class LeitorConfiguracao {
         } else if (tipo == String.class) {
             return (T) tabelaCategoria.getString(atributo);
         } else {
-            logger.warning(Principal.tradutor.traduzirMensagem("error.config.atribute.get.invalid.type"));
+            logger.warning(Principal.tradutor.traduzirMensagem("error.config.attribute.get.invalid.type"));
             return null;
         }
     }
