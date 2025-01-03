@@ -41,6 +41,11 @@ form {
   }
 }
 
+#privacidade, #politica {
+  display: inline-block;
+  color: var(--cor-fonte);
+}
+
 
 div {
   align-self: flex-end;
