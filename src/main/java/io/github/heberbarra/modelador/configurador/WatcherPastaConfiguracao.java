@@ -1,5 +1,6 @@
 package io.github.heberbarra.modelador.configurador;
 
+import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -11,7 +12,7 @@ import java.nio.file.WatchService;
 import java.util.logging.Logger;
 import org.tomlj.TomlTable;
 
-public class WatcherPastaConfiguracao extends Thread {
+public class WatcherPastaConfiguracao implements Runnable {
 
     private static final Logger logger = JavaLogger.obterLogger(WatcherPastaConfiguracao.class.getName());
     private static final int DELAY_RELOAD = 500;
@@ -38,10 +39,10 @@ public class WatcherPastaConfiguracao extends Thread {
         verificadorConfiguracaoPrograma.verificarArquivoPaleta(criadorConfiguracoes.getPaletaPadrao(), paleta);
 
         if (verificadorConfiguracaoPrograma.configuracoesContemErrosGraves()) {
-            logger.warning("As configurações do programa não serão recarregadas, pois elas contém erros graves.");
+            logger.warning(Principal.tradutor.traduzirMensagem("error.config.reload"));
         } else {
             configurador.lerConfiguracao();
-            logger.info("Configurações recarregadas");
+            logger.info(Principal.tradutor.traduzirMensagem("config.reloaded"));
         }
     }
 
@@ -54,8 +55,8 @@ public class WatcherPastaConfiguracao extends Thread {
             watcher = FileSystems.getDefault().newWatchService();
             pastaConfiguracao.register(watcher, StandardWatchEventKinds.ENTRY_MODIFY);
         } catch (IOException e) {
-            logger.warning(("Falha ao tentar criar o observador da pasta de configuração. "
-                            + "Recarregamento automático das configurações ficará indisponível. Erro: %s")
+            logger.warning(Principal.tradutor
+                    .traduzirMensagem("error.config.create.watcher")
                     .formatted(e.getMessage()));
             return;
         }
@@ -75,7 +76,7 @@ public class WatcherPastaConfiguracao extends Thread {
                     return;
                 }
 
-                logger.info("Configurações mudaram");
+                logger.info(Principal.tradutor.traduzirMensagem("config.changed"));
 
                 try {
                     Thread.sleep(DELAY_RELOAD);

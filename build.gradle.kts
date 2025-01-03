@@ -25,21 +25,13 @@ dependencies {
     implementation(libs.fusesourceJansi)
     implementation(libs.hibernateCore)
     implementation(libs.heberModeloAPI)
-    implementation(libs.tomlj)
-    implementation(libs.slf4jnop)
+    implementation(libs.jetbrainsAnnotations)
     implementation(libs.mysqlConnector)
+    implementation(libs.tomlj)
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
-
-configurations {
-    all {
-        exclude("org.springframework.boot", "spring-boot-starter-logging")
-        exclude("org.jboss.logging", "jbosslogging:3.5.0.Final")
-    }
 }
 
 spotless {

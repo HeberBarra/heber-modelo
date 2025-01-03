@@ -1,5 +1,6 @@
 package io.github.heberbarra.modelador.configurador;
 
+import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.toml.ConversorToml;
 import io.github.heberbarra.modelador.configurador.toml.ConversorTomlPrograma;
@@ -91,7 +92,7 @@ public final class ConfiguradorPrograma implements Configurador {
                 criadorConfiguracoes.getPaletaPadrao(), leitorConfiguracao.getInformacoesPaleta());
 
         if (verificadorConfiguracao.configuracoesContemErrosGraves()) {
-            logger.severe("A configuração contém erros graves. Para evitar bugs no programa, ele será encerrado");
+            logger.severe(Principal.tradutor.traduzirMensagem("error.config.end.app"));
             System.exit(CodigoSaida.ERRO_CONFIGURACOES.getCodigo());
         }
     }

@@ -1,6 +1,7 @@
 package io.github.heberbarra.modelador.recurso;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import java.io.File;
@@ -22,8 +23,10 @@ public class AcessadorRecursos implements Recurso {
         InputStream recurso = classLoader.getResourceAsStream(caminhoRecurso);
 
         if (recurso == null) {
-            logger.severe("Falha ao tentar ler o arquivo: %s. Recurso não encontrado.".formatted(caminhoRecurso));
-            logger.severe("Encerrando o programa");
+            logger.severe(
+                    Principal.tradutor.traduzirMensagem("error.resource.read").formatted(caminhoRecurso)
+                            + "Recurso não encontrado.");
+            logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.RECURSO_NAO_ENCONTRADO.getCodigo());
         }
 
@@ -52,8 +55,10 @@ public class AcessadorRecursos implements Recurso {
 
             return arquivoRecurso;
         } catch (IOException e) {
-            logger.severe("Falha ao tentar criar arquivo temporário. %n%s".formatted(e.getMessage()));
-            logger.severe("Encerrando o programa...");
+            logger.severe(Principal.tradutor
+                    .traduzirMensagem("error.file.create.temp")
+                    .formatted(e.getMessage()));
+            logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ERRO_CRIACAO_ARQUIVO_TEMP.getCodigo());
         }
 

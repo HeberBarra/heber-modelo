@@ -33,7 +33,9 @@ public class PastaConfiguracaoPrograma extends PastaConfiguracao {
 
     public void criarPastaConfiguracao() {
         if (new File(pasta).mkdir()) {
-            logger.info("Pasta %s criada com sucesso".formatted(pasta));
+            logger.info(Principal.tradutor
+                    .traduzirMensagem("file.dir.creation.success")
+                    .formatted(pasta));
         }
     }
 

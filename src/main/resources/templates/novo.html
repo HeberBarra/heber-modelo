@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
+  <head>
+    <!--suppress HtmlUnknownTag -->
+    <div th:replace="~{fragments/head :: head}"></div>
+    <title>Novo Diagrama</title>
+  </head>
+  <body>
+    <header th:replace="~{fragments/header :: header}"></header>
+    <main>
+      <form method="post">
+        <label>Nome do Arquivo:<input type="text" name="nome-arquivo" /></label>
+        <label>Autor:<input type="text" name="autor" required /></label>
+        <label>E-Mail:<input type="email" name="email" /></label>
+        <h2>Diagramas:</h2>
+        <h3>UML:</h3>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+        </div>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+        </div>
+        <h3>Banco de Dados:</h3>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+        </div>
+        <h3>Outros</h3>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="" /></label>
+          <label><input type="checkbox" name="" /></label>
+        </div>
+        <button type="reset">CANCELAR</button>
+        <button type="submit">CRIAR</button>
+      </form>
+    </main>
+    <footer></footer>
+  </body>
+</html>
