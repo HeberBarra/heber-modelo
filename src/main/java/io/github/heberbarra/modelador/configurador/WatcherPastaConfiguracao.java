@@ -1,5 +1,6 @@
 package io.github.heberbarra.modelador.configurador;
 
+import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -38,10 +39,10 @@ public class WatcherPastaConfiguracao implements Runnable {
         verificadorConfiguracaoPrograma.verificarArquivoPaleta(criadorConfiguracoes.getPaletaPadrao(), paleta);
 
         if (verificadorConfiguracaoPrograma.configuracoesContemErrosGraves()) {
-            logger.warning("As configurações do programa não serão recarregadas, pois elas contém erros graves.");
+            logger.warning(Principal.tradutor.traduzirMensagem("error.config.reload"));
         } else {
             configurador.lerConfiguracao();
-            logger.info("Configurações recarregadas");
+            logger.info(Principal.tradutor.traduzirMensagem("config.reloaded"));
         }
     }
 
@@ -54,8 +55,8 @@ public class WatcherPastaConfiguracao implements Runnable {
             watcher = FileSystems.getDefault().newWatchService();
             pastaConfiguracao.register(watcher, StandardWatchEventKinds.ENTRY_MODIFY);
         } catch (IOException e) {
-            logger.warning(("Falha ao tentar criar o observador da pasta de configuração. "
-                            + "Recarregamento automático das configurações ficará indisponível. Erro: %s")
+            logger.warning(Principal.tradutor
+                    .traduzirMensagem("error.config.create.watcher")
                     .formatted(e.getMessage()));
             return;
         }
@@ -75,7 +76,7 @@ public class WatcherPastaConfiguracao implements Runnable {
                     return;
                 }
 
-                logger.info("Configurações mudaram");
+                logger.info(Principal.tradutor.traduzirMensagem("config.changed"));
 
                 try {
                     Thread.sleep(DELAY_RELOAD);

@@ -96,16 +96,16 @@ public class ControladorWeb {
     public void abrirWebBrowser() throws IOException {
         if (!configurador.pegarValorConfiguracao("programa", "abrir_navegador_automaticamente", boolean.class)) return;
 
-        logger.info("Abrindo navegador padrão");
+        logger.info(Principal.tradutor.traduzirMensagem("app.opening.browser"));
         URI uriPrograma;
         try {
             String dominioPrograma = configurador.pegarValorConfiguracao("programa", "dominio", String.class);
             long portaPrograma = configurador.pegarValorConfiguracao("programa", "porta", long.class);
             uriPrograma = new URI("http://%s:%d".formatted(dominioPrograma, portaPrograma));
         } catch (URISyntaxException e) {
-            logger.warning(
-                    "Ocorreu um erro ao tentar determinar a URL do programa. Será necessário abrir a página do programa manualmente. Erro: %s"
-                            .formatted(e.getMessage()));
+            logger.warning(Principal.tradutor
+                    .traduzirMensagem("error.browser.cant.create.url")
+                    .formatted(e.getMessage()));
             return;
         }
 
@@ -122,7 +122,7 @@ public class ControladorWeb {
         } else if (nomeSistemaOperacional.contains("nix") || nomeSistemaOperacional.contains("nux")) {
             runtime.exec(new String[] {"xdg-open", uriPrograma.toString()});
         } else {
-            logger.warning("Não foi possível abrir o programa automaticamente no navegador principal.");
+            logger.warning(Principal.tradutor.traduzirMensagem("error.browser.cant.open"));
         }
     }
 
@@ -181,7 +181,7 @@ public class ControladorWeb {
         injetarPaleta(modelMap);
 
         if (TOKEN_SECRETO.equals(token)) {
-            logger.info("Encerrando o programa");
+            logger.info(Principal.tradutor.traduzirMensagem("app.end"));
             injetarNomePrograma(modelMap, " - Desligar");
             System.exit(CodigoSaida.OK.getCodigo());
             return "desligar";

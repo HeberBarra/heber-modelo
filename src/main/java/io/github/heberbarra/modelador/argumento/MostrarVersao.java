@@ -32,7 +32,7 @@ public class MostrarVersao extends Argumento {
         String versao = Principal.class.getPackage().getImplementationVersion();
 
         if (versao == null) {
-            logger.info("Não foi possível pegar a versão atual do programa.");
+            logger.info(Principal.tradutor.traduzirMensagem("error.flag.get.version"));
             System.exit(CodigoSaida.ERRO_PEGAR_VERSAO.getCodigo());
         }
 

@@ -1,5 +1,6 @@
 package io.github.heberbarra.modelador.banco;
 
+import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.recurso.AcessadorRecursos;
@@ -71,14 +72,18 @@ public class EjetorArquivosBanco {
         try (InputStream arquivoExtraido = acessadorRecursos.pegarRecurso(arquivo)) {
             String nomeArquivo = Arrays.stream(arquivo.split("/")).toList().getLast();
             File arquivoDestino = new File(pastaDestino + nomeArquivo);
-            if (arquivoDestino.getParentFile().mkdirs()) logger.info("Pastas criadas com sucesso.\n");
+            if (arquivoDestino.getParentFile().mkdirs())
+                logger.info(Principal.tradutor.traduzirMensagem("file.dirs.creation.success"));
 
             if (arquivoDestino.createNewFile())
-                logger.info("Arquivo %s criado com sucesso.%n".formatted(arquivoDestino));
+                logger.info(Principal.tradutor
+                        .traduzirMensagem("file.creation.success")
+                        .formatted(arquivoDestino));
 
             Files.copy(arquivoExtraido, arquivoDestino.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            logger.warning("Falha ao tentar criar o arquivo %s.%n".formatted(arquivo));
+            logger.warning(
+                    Principal.tradutor.traduzirMensagem("error.file.create").formatted(arquivo, e.getMessage()));
         }
     }
 
@@ -99,7 +104,9 @@ public class EjetorArquivosBanco {
 
             Files.createSymbolicLink(caminhoLink, arquivoEnv);
         } catch (IOException e) {
-            logger.warning("Falha ao tentar criar link simbólico do arquivo %s.%n".formatted(arquivoLink));
+            logger.warning(Principal.tradutor
+                    .traduzirMensagem("error.file.create.link")
+                    .formatted(arquivoLink));
             throw new RuntimeException(e);
         }
     }

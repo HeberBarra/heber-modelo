@@ -1,5 +1,6 @@
 package io.github.heberbarra.modelador.configurador;
 
+import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.configurador.json.JsonVerificadorConfiguracoes;
 import io.github.heberbarra.modelador.configurador.json.JsonVerificadorPaleta;
 import io.github.heberbarra.modelador.logger.JavaLogger;
@@ -76,13 +77,17 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
         for (String categoria : dados.keySet()) {
 
             if (!configuracaoPadrao.containsKey(categoria)) {
-                logger.warning("[ERRO NA CONFIGURAÇÃO] A categoria %s não existe.%n".formatted(categoria));
+                logger.warning(Principal.tradutor
+                        .traduzirMensagem("error.config.category.notfound")
+                        .formatted(categoria));
                 continue;
             }
 
             TomlTable tabelaCategoria = dados.getTable(categoria);
             if (tabelaCategoria == null) {
-                logger.warning("[ERRO NA CONFIGURAÇÃO] A categoria %s está vazia.%n".formatted(categoria));
+                logger.warning(Principal.tradutor
+                        .traduzirMensagem("error.config.category.empty")
+                        .formatted(categoria));
                 continue;
             }
 
@@ -107,12 +112,16 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
         }
 
         if (quantidade == 0) {
-            logger.warning("O atributo %s é inválido.%n".formatted(nomeAtributo));
+            logger.warning(Principal.tradutor
+                    .traduzirMensagem("error.config.atribute.invalid")
+                    .formatted(nomeAtributo));
             return;
         }
 
         if (quantidade > 1) {
-            logger.warning("O atributo %s é repetido %d vezes.%n".formatted(nomeAtributo, quantidade));
+            logger.warning(Principal.tradutor
+                    .traduzirMensagem("error.config.atribute.multiple.occurrences")
+                    .formatted(nomeAtributo, quantidade));
         }
 
         String tipoPadraoAtributo = atributoPadraoEncontrado.get("tipo");
@@ -122,7 +131,8 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
             return;
         }
 
-        logger.warning("O valor do atributo %s é inválido, o tipo requerido é %s.%n"
+        logger.warning(Principal.tradutor
+                .traduzirMensagem("error.config.atribute.invalid.type")
                 .formatted(nomeAtributo, tipoPadraoAtributo));
         configuracaoErrada = true;
     }
@@ -133,7 +143,7 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
         List<Map<String, String>> variaveisTabelaPadrao = paletaPadrao.get("paleta");
 
         if (tabelaPaleta == null) {
-            logger.warning("O arquivo de configuração da paleta a requer a tabela paleta.");
+            logger.warning(Principal.tradutor.traduzirMensagem("error.paleta.notfound"));
             configuracaoErrada = true;
             return;
         }
@@ -156,17 +166,22 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
         }
 
         if (quantidade == 0) {
-            logger.warning("A variavel %s não foi encontrada.%n".formatted(nomeVariavel));
+            logger.warning(Principal.tradutor
+                    .traduzirMensagem("error.paleta.variable.notfound")
+                    .formatted(nomeVariavel));
             return;
         }
 
         if (quantidade > 1) {
-            logger.warning("A variavel %s foi repetida %d vezes.%n".formatted(nomeVariavel, quantidade));
+            logger.warning(Principal.tradutor
+                    .traduzirMensagem("error.paleta.variable.multiple.occurrences")
+                    .formatted(nomeVariavel, quantidade));
         }
 
         if (valor instanceof String valorVariavel) {
             if (!valorVariavel.matches(regexPaleta)) {
-                logger.warning("O valor da variável %s não tem o formatado apropriado de: #000000. %n"
+                logger.warning(Principal.tradutor
+                        .traduzirMensagem("error.paleta.variable.invalid.format")
                         .formatted(nomeVariavel));
                 configuracaoErrada = true;
             }
@@ -174,7 +189,9 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
             return;
         }
 
-        logger.warning("O valor da variavel %s deve ser do tipo String.%n".formatted(nomeVariavel));
+        logger.warning(Principal.tradutor
+                .traduzirMensagem("error.paleta.variable.invalid.type")
+                .formatted(nomeVariavel));
         configuracaoErrada = true;
     }
 

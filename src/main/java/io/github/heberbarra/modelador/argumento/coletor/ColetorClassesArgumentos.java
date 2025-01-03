@@ -1,5 +1,6 @@
 package io.github.heberbarra.modelador.argumento.coletor;
 
+import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.argumento.Argumento;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import java.util.HashSet;
@@ -49,7 +50,9 @@ public class ColetorClassesArgumentos {
             try {
                 argumentos.add((Class<Argumento>) Class.forName(beanDefinition.getBeanClassName()));
             } catch (ClassNotFoundException e) {
-                logger.warning("A classe %s não foi encontrada".formatted(beanDefinition.getBeanClassName()));
+                logger.warning(Principal.tradutor
+                        .traduzirMensagem("error.class.notfound")
+                        .formatted(beanDefinition.getBeanClassName()));
             }
         }
     }

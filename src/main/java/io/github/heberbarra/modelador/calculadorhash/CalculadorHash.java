@@ -1,5 +1,6 @@
 package io.github.heberbarra.modelador.calculadorhash;
 
+import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import java.security.MessageDigest;
@@ -49,8 +50,10 @@ public class CalculadorHash {
         try {
             messageDigest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
-            logger.severe("Algoritmo de hash inválido. %s%n".formatted(e.getMessage()));
-            logger.severe("Encerrando o programa...");
+            logger.severe(Principal.tradutor
+                    .traduzirMensagem("error.hash.invalid.algorithm")
+                    .formatted(e.getMessage()));
+            logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ALGORITMO_INVALIDO.getCodigo());
             throw new RuntimeException(e);
         }
@@ -68,8 +71,10 @@ public class CalculadorHash {
         try {
             messageDigest = MessageDigest.getInstance("SHA-512");
         } catch (NoSuchAlgorithmException e) {
-            logger.severe("Algoritmo de hash inválido. %s%n".formatted(e.getMessage()));
-            logger.severe("Encerrando o programa...");
+            logger.severe(Principal.tradutor
+                    .traduzirMensagem("error.hash.invalid.algorithm")
+                    .formatted(e.getMessage()));
+            logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ALGORITMO_INVALIDO.getCodigo());
             throw new RuntimeException(e);
         }

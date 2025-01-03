@@ -1,5 +1,6 @@
 package io.github.heberbarra.modelador.configurador;
 
+import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import java.io.IOException;
@@ -50,7 +51,9 @@ public class LeitorConfiguracao {
         TomlTable tabelaCategoria = informacoesConfiguracoes.getTable(categoria);
 
         if (tabelaCategoria == null) {
-            logger.warning("A categoria %s não foi encontrada.%n".formatted(categoria));
+            logger.warning(Principal.tradutor
+                    .traduzirMensagem("error.config.category.notfound")
+                    .formatted(categoria));
             return null;
         }
 
@@ -63,7 +66,7 @@ public class LeitorConfiguracao {
         } else if (tipo == String.class) {
             return (T) tabelaCategoria.getString(atributo);
         } else {
-            logger.warning("Tipo de atributo inválido.\n");
+            logger.warning(Principal.tradutor.traduzirMensagem("error.config.atribute.get.invalid.type"));
             return null;
         }
     }
@@ -103,8 +106,9 @@ public class LeitorConfiguracao {
         try {
             return Toml.parse(Path.of(pastaConfiguracao, nomeArquivo));
         } catch (IOException e) {
-            logger.severe("Falha ao tentar ler o arquivo %s. Erro: %s%n".formatted(nomeArquivo, e.getMessage()));
-            logger.severe("Devido a uma falha grave, o program será encerrado");
+            logger.severe(
+                    Principal.tradutor.traduzirMensagem("error.file.read").formatted(nomeArquivo, e.getMessage()));
+            logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ERRO_LEITURA_ARQUIVO.getCodigo());
         }
 

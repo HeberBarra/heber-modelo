@@ -54,7 +54,7 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
             try {
                 dotEnv.createNewFile();
             } catch (IOException e) {
-                logger.severe("Falha ao tentar criar o arquivo .env. Erro: %s".formatted(e.getMessage()));
+                logger.severe(tradutor.traduzirMensagem("error.create.env").formatted(e.getMessage()));
             }
         }
     }

@@ -1,6 +1,7 @@
 package io.github.heberbarra.modelador.configurador;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.configurador.json.JsonVerificador;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import java.io.File;
@@ -26,9 +27,10 @@ public class LeitorArquivoVerificacaoPadrao<T extends JsonVerificador<?>> extend
         try {
             informacoesJson = objectMapper.readValue(arquivoVerificador, tipoVerificador);
         } catch (IOException e) {
-            logger.severe("Um erro ocorreu ao tentar ler o arquivo template configuração: %s%n"
+            logger.severe(Principal.tradutor
+                    .traduzirMensagem("error.file.read.template")
                     .formatted(arquivoVerificador));
-            logger.severe("Finalizando o programa...");
+            logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
         }
     }
 }

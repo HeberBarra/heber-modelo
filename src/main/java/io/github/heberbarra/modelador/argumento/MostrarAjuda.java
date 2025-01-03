@@ -1,5 +1,6 @@
 package io.github.heberbarra.modelador.argumento;
 
+import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.argumento.coletor.ColetorClassesArgumentos;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.logger.JavaLogger;
@@ -39,11 +40,13 @@ public class MostrarAjuda extends Argumento {
                 Argumento argumento = construtorArgumento.newInstance();
                 imprimirInfo(argumento);
             } catch (NoSuchMethodException e) {
-                logger.warning("Não foi possível pegar o construtor da classe %s. Erro: %s"
+                logger.warning(Principal.tradutor
+                        .traduzirMensagem("error.flag.get.constructor")
                         .formatted(classeArgumento.getName(), e.getMessage()));
                 System.exit(CodigoSaida.ERRO_PEGAR_CONSTRUTOR.getCodigo());
             } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                logger.warning("Não foi possível criar o objeto para a classe %s. Erro: %s"
+                logger.warning(Principal.tradutor
+                        .traduzirMensagem("error.flag.create.object")
                         .formatted(classeArgumento.getName(), e.getMessage()));
                 System.exit(CodigoSaida.ERRO_CRIACAO_OBJETO.getCodigo());
             }
