@@ -1,0 +1,35 @@
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: baseline;
+  gap: 2rem;
+
+  label {
+    min-width: 80%;
+  }
+
+  input {
+    width: 33.875rem;
+    height: 4.5rem;
+    border-radius: 1rem;
+    border-style: solid;
+    border-width:0.09375rem;
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  button#continuar {
+    width: 33.875rem;
+    height: 4.5rem;
+  }
+}
+
+div {
+  flex-align: flex-end;
+}
+
+span, #politica {
+  display: inline-block;
+  color: var(--cor-fonte);
+}
