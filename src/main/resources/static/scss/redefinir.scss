@@ -25,11 +25,12 @@ form {
   }
 }
 
-div {
-  flex-align: flex-end;
-}
-
 span, #politica {
-  display: inline-block;
+  display: flex;
   color: var(--cor-fonte);
+
+  a {
+    margin-top: 0;
+  }
+
 }

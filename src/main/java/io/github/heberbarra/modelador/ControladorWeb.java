@@ -159,6 +159,14 @@ public class ControladorWeb {
         return "redefinir";
     }
 
+    @RequestMapping({"solicitar", "solicitar.html"})
+    public String solicitarNovaSenha(ModelMap modelMap) {
+        injetarPaleta(modelMap);
+        injetarNomePrograma(modelMap, " - Solicitar Nova Senha");
+
+        return "solicitar";
+    }
+
     @RequestMapping({"/editor", "/editor.html"})
     public String editor(ModelMap modelMap) {
         injetarPaleta(modelMap);
