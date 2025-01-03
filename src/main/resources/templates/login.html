@@ -1,25 +1,26 @@
 <!doctype html>
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
-  <head>
-    <!--suppress HtmlUnknownTag -->
-    <div th:replace="~{fragments/head :: head}"></div>
-    <link rel="stylesheet" th:href="@{/css/login.css}" />
-    <title>Login</title>
-  </head>
-  <body>
-    <header th:replace="~{fragments/header :: header}"></header>
-    <main>
-      <form action="" method="post">
-        <label>
-          E-mail: <input type="email" name="email" placeholder="seuemail@email.com" required
-        /></label>
-        <label>
-          Senha: <input type="password" name="senha" placeholder="digite sua senha" required />
-          <a href="redefinir.html">Redefinir senha</a>
-        </label>
-        <button>continuar</button>
-        <span>Não tem cadastro? <a href="cadastro.html">Cadastre-se</a></span>
-      </form>
-    </main>
-  </body>
+<head>
+  <!--suppress HtmlUnknownTag -->
+  <div th:replace="~{fragments/head :: head}"></div>
+  <link rel="stylesheet" th:href="@{/css/login.css}" />
+  <title>Login</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<main>
+  <form action="" method="post">
+    <label>
+      <input type="email" name="email" placeholder="Digite seu email / matrícula" required
+      /></label>
+    <label>
+      <input type="password" name="senha" placeholder="Digite sua senha" required />
+      <a href="redefinir.html">Solicitar nova senha</a>
+    </label>
+    <button id="continuar">continuar</button>
+    <span>Não tem cadastro?<a href="cadastro.html" id="cadastro">Cadastre-se</a></span>
+  </form>
+</main>
+<div> </div>
+</body>
 </html>
