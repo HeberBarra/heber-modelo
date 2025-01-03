@@ -1,5 +1,6 @@
 package io.github.heberbarra.modelador.configurador;
 
+import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.json.AtributoJsonConfiguracao;
 import io.github.heberbarra.modelador.configurador.json.AtributoJsonPaleta;
@@ -44,7 +45,9 @@ public class CriadorConfiguracoes {
     public void criarPastaConfiguracao(String pastaConfiguracao) {
         File pasta = new File(pastaConfiguracao);
         if (pasta.mkdirs()) {
-            logger.info("Pasta %s criada com sucesso.%n".formatted(pastaConfiguracao));
+            logger.info(Principal.tradutor
+                    .traduzirMensagem("file.dir.creation.success")
+                    .formatted(pastaConfiguracao));
         }
     }
 
@@ -143,8 +146,9 @@ public class CriadorConfiguracoes {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(caminhoArquivo))) {
             bufferedWriter.write(dadosToml);
         } catch (IOException e) {
-            logger.severe("Falha ao tentar criar o arquivo %s. Erro: %s.".formatted(caminhoArquivo, e.getMessage()));
-            logger.severe("Encerrando o programa...");
+            logger.severe(
+                    Principal.tradutor.traduzirMensagem("error.file.create").formatted(caminhoArquivo, e.getMessage()));
+            logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ERRO_CRIACAO_CONFIG.getCodigo());
         }
     }

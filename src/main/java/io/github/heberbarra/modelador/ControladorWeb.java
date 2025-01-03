@@ -14,6 +14,7 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -36,7 +37,7 @@ public class ControladorWeb {
     private static final Configurador configurador;
     private final TaskExecutor taskExecutor;
 
-    public ControladorWeb(TaskExecutor taskExecutor) {
+    public ControladorWeb(@Qualifier("applicationTaskExecutor") TaskExecutor taskExecutor) {
         this.taskExecutor = taskExecutor;
     }
 
@@ -87,23 +88,24 @@ public class ControladorWeb {
     public void exibirMensagemProgramaPronto() {
         String host = configurador.pegarValorConfiguracao("programa", "dominio", String.class);
         int porta = Math.toIntExact(configurador.pegarValorConfiguracao("programa", "porta", long.class));
-        logger.info("Programa iniciado em %s:%d".formatted(host, porta));
+        logger.info(Principal.tradutor.traduzirMensagem("app.ready").formatted(host, porta));
     }
 
+    @SuppressWarnings("HttpUrlsUsage")
     @EventListener(ApplicationReadyEvent.class)
     public void abrirWebBrowser() throws IOException {
         if (!configurador.pegarValorConfiguracao("programa", "abrir_navegador_automaticamente", boolean.class)) return;
 
-        logger.info("Abrindo navegador padrão");
+        logger.info(Principal.tradutor.traduzirMensagem("app.opening.browser"));
         URI uriPrograma;
         try {
             String dominioPrograma = configurador.pegarValorConfiguracao("programa", "dominio", String.class);
             long portaPrograma = configurador.pegarValorConfiguracao("programa", "porta", long.class);
             uriPrograma = new URI("http://%s:%d".formatted(dominioPrograma, portaPrograma));
         } catch (URISyntaxException e) {
-            logger.warning(
-                    "Ocorreu um erro ao tentar determinar a URL do programa. Será necessário abrir a página do programa manualmente. Erro: %s"
-                            .formatted(e.getMessage()));
+            logger.warning(Principal.tradutor
+                    .traduzirMensagem("error.browser.cannot.create.url")
+                    .formatted(e.getMessage()));
             return;
         }
 
@@ -120,7 +122,7 @@ public class ControladorWeb {
         } else if (nomeSistemaOperacional.contains("nix") || nomeSistemaOperacional.contains("nux")) {
             runtime.exec(new String[] {"xdg-open", uriPrograma.toString()});
         } else {
-            logger.warning("Não foi possível abrir o programa automaticamente no navegador principal.");
+            logger.warning(Principal.tradutor.traduzirMensagem("error.browser.cannot.open"));
         }
     }
 
@@ -179,7 +181,7 @@ public class ControladorWeb {
         injetarPaleta(modelMap);
 
         if (TOKEN_SECRETO.equals(token)) {
-            logger.info("Encerrando o programa");
+            logger.info(Principal.tradutor.traduzirMensagem("app.end"));
             injetarNomePrograma(modelMap, " - Desligar");
             System.exit(CodigoSaida.OK.getCodigo());
             return "desligar";
@@ -190,7 +192,7 @@ public class ControladorWeb {
         return "index";
     }
 
-    @RequestMapping({"/privacidade", "/privacidade.html", "/politicaprivacidade", "/politicaprivacidade.html"})
+    @RequestMapping({"/privacidade", "/privacidade.html"})
     public String politicaPrivacidade(ModelMap modelMap) {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Política de Privacidade");

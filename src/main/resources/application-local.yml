@@ -16,7 +16,7 @@ logging:
     console: UTF-8
     file: UTF-8
   level:
-    root: DEBUG
+    root: INFO
     org:
       hibernate: DEBUG
   pattern:

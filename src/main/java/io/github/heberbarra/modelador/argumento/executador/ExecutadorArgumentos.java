@@ -1,5 +1,6 @@
 package io.github.heberbarra.modelador.argumento.executador;
 
+import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.argumento.Argumento;
 import io.github.heberbarra.modelador.argumento.coletor.ColetorClassesArgumentos;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
@@ -60,23 +61,31 @@ public class ExecutadorArgumentos {
                 Constructor<Argumento> argumentoConstructor = argumentoClass.getConstructor();
                 argumento = argumentoConstructor.newInstance();
             } catch (NoSuchMethodException e) {
-                logger.severe("Não foi possível pegar o construtor da classe %s. Encerrando o programa."
-                        .formatted(argumentoClass.getSimpleName()));
+                logger.severe(Principal.tradutor
+                        .traduzirMensagem("error.flag.get.constructor")
+                        .formatted(argumentoClass.getSimpleName(), e.getMessage()));
+                logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
                 System.exit(CodigoSaida.ERRO_PEGAR_CONSTRUTOR.getCodigo());
                 return;
             } catch (InvocationTargetException e) {
-                logger.severe("Ocorreu um erro ao criar o objeto da classe %s. Erro: %s. Encerrando o programa"
+                logger.severe(Principal.tradutor
+                        .traduzirMensagem("error.flag.create.object")
                         .formatted(argumentoClass.getSimpleName(), e.getMessage()));
+                logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
                 System.exit(CodigoSaida.ERRO_CRIACAO_OBJETO.getCodigo());
                 return;
             } catch (InstantiationException e) {
-                logger.severe("Não foi possível criar o objeto da classe %s. Encerrando o programa."
+                logger.severe(Principal.tradutor
+                        .traduzirMensagem("error.flag.create.object")
                         .formatted(argumentoClass.getSimpleName()));
+                logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
                 System.exit(CodigoSaida.ERRO_CRIACAO_OBJETO.getCodigo());
                 return;
             } catch (IllegalAccessException e) {
-                logger.severe("O acesso ao método construtor da classe %s foi negado. Encerrando o programa."
-                        .formatted(argumentoClass.getSimpleName()));
+                logger.severe(Principal.tradutor
+                        .traduzirMensagem("error.flag.access.denied.constructor")
+                        .formatted(argumentoClass.getSimpleName(), e.getMessage()));
+                logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
                 System.exit(CodigoSaida.ACESSO_NEGADO.getCodigo());
                 return;
             }
@@ -87,6 +96,6 @@ public class ExecutadorArgumentos {
             }
         }
 
-        logger.warning("A flag %s não corresponde a nenhuma flag permitida pelo programa.".formatted(flagArgumento));
+        logger.warning(Principal.tradutor.traduzirMensagem("error.flag.unknown").formatted(flagArgumento));
     }
 }

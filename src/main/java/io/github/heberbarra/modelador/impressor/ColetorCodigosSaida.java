@@ -1,5 +1,6 @@
 package io.github.heberbarra.modelador.impressor;
 
+import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import java.util.ArrayList;
@@ -48,7 +49,9 @@ public class ColetorCodigosSaida {
             try {
                 enums.add((Class<Enum<?>>) Class.forName(beanDefinition.getBeanClassName()));
             } catch (ClassNotFoundException e) {
-                logger.warning("A classe %s não foi encontrada".formatted(beanDefinition.getBeanClassName()));
+                logger.warning(Principal.tradutor
+                        .traduzirMensagem("error.class.notfound")
+                        .formatted(beanDefinition.getBeanClassName()));
             }
         }
 

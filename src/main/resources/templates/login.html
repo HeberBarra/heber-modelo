@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
 <head>
@@ -24,3 +25,31 @@
 <div></div>
 </body>
 </html>
+=======
+<!doctype html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
+<head>
+  <!--suppress HtmlUnknownTag -->
+  <div th:replace="~{fragments/head :: head}"></div>
+  <link rel="stylesheet" th:href="@{/css/login.css}" />
+  <title>Login</title>
+</head>
+<body>
+<header th:replace="~{fragments/header :: header}"></header>
+<main>
+  <form action="" method="post">
+    <label>
+      <input type="email" name="email" placeholder="Digite seu email / matrícula" required
+      /></label>
+    <label>
+      <input type="password" name="senha" placeholder="Digite sua senha" required />
+      <a href="redefinir.html">Solicitar nova senha</a>
+    </label>
+    <button id="continuar">continuar</button>
+    <span>Não tem cadastro?<a href="cadastro.html" id="cadastro">Cadastre-se</a></span>
+  </form>
+</main>
+<div> </div>
+</body>
+</html>
+>>>>>>> 98a3603592ccdc88cd29d2022f18f25c0dc3debc

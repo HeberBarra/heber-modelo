@@ -43,8 +43,9 @@ public class AtualizadorPrograma implements Atualizador {
             URL_ARQUIVO_JAR = arquivoJar.toURL();
             URL_ARQUIVO_SHA256 = arquivoSha256.toURL();
         } catch (MalformedURLException | URISyntaxException e) {
-            logger.severe("Ocorreu um erro ao tentar criar as URLs necessárias. %s%n".formatted(e.getMessage()));
-            logger.severe("Encerrando o programa...\n");
+            logger.severe(
+                    Principal.tradutor.traduzirMensagem("error.urls.create").formatted(e.getMessage()));
+            logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ERRO_CRIACAO_URLS.getCodigo());
             throw new RuntimeException();
         }
@@ -79,13 +80,13 @@ public class AtualizadorPrograma implements Atualizador {
             return;
         }
 
-        logger.info("Atualização disponível.\n");
+        logger.info(Principal.tradutor.traduzirMensagem("update.new"));
         if (configurador.pegarValorConfiguracao("atualizador", "atualizacao_automatica", boolean.class)) {
             baixarAtualizacao();
             return;
         }
 
-        logger.info("Atualização automática está desativada, utilize --update para atualizar o programa.");
+        logger.info(Principal.tradutor.traduzirMensagem("update.auto.off"));
     }
 
     /**
@@ -98,7 +99,7 @@ public class AtualizadorPrograma implements Atualizador {
     public void baixarAtualizacao() {
         File pastaTemporaria = new File("./tmp");
         if (pastaTemporaria.mkdir()) {
-            logger.info("Pasta temporária para downloads foi criada com sucesso.\n");
+            logger.info(Principal.tradutor.traduzirMensagem("file.dir.temp.downloads.success"));
         }
 
         baixarArquivo(pastaTemporaria, URL_ARQUIVO_JAR, "heber-modelo.jar");
@@ -123,20 +124,23 @@ public class AtualizadorPrograma implements Atualizador {
             }
 
             if (linha == null) {
-                logger.warning("Não foi possível verificar o arquivo da atualização. Cancelando...\n");
+                logger.warning(Principal.tradutor.traduzirMensagem("error.update.verify"));
+                logger.warning(Principal.tradutor.traduzirMensagem("error.update.cancel"));
                 return;
             }
 
             hashChecksum = linha.split(" ")[0];
         } catch (IOException e) {
-            logger.warning("Ocorreu um erro ao tentar ler o arquivo de verificação. %s%n".formatted(e.getMessage()));
-            logger.warning("Cancelando a atualização... \n");
+            logger.warning(Principal.tradutor
+                    .traduzirMensagem("error.update.verify.read")
+                    .formatted(e.getMessage()));
+            logger.warning(Principal.tradutor.traduzirMensagem("error.update.cancel"));
             return;
         }
 
         if (!hashChecksum.equals(hashArquivoJar)) {
-            logger.warning("Falha na verificação do arquivo.\n");
-            logger.warning("Cancelando a operação...\n");
+            logger.warning(Principal.tradutor.traduzirMensagem("error.update.verify.match"));
+            logger.warning(Principal.tradutor.traduzirMensagem("error.update.cancel"));
             return;
         }
 
@@ -145,10 +149,12 @@ public class AtualizadorPrograma implements Atualizador {
                     Path.of("./tmp/heber-modelo.jar"),
                     Path.of("./heber-modelo.jar"),
                     StandardCopyOption.REPLACE_EXISTING);
-            logger.info("Programa atualizado com sucesso.\n");
-            logger.info("É necessário reiniciar o programa para que as atualizações tenham efeito.\n");
+            logger.info(Principal.tradutor.traduzirMensagem("update.success"));
+            logger.info(Principal.tradutor.traduzirMensagem("update.restart.required"));
         } catch (IOException e) {
-            logger.warning("Erro ao tentar mover o arquivo atualizado do programa.%s%n".formatted(e.getMessage()));
+            logger.warning(Principal.tradutor
+                    .traduzirMensagem("error.update.move.file")
+                    .formatted(e.getMessage()));
         }
 
         limparArquivosTemporarios(pastaTemporaria);
@@ -160,7 +166,9 @@ public class AtualizadorPrograma implements Atualizador {
 
         if (arquivos == null) {
             if (pastaTemporaria.delete()) {
-                logger.info("Pasta %s apagada com sucesso.%n".formatted(pastaTemporaria.getName()));
+                logger.info(Principal.tradutor
+                        .traduzirMensagem("file.dir.delete.success")
+                        .formatted(pastaTemporaria.getName()));
             }
             return;
         }
@@ -172,12 +180,16 @@ public class AtualizadorPrograma implements Atualizador {
             }
 
             if (arquivo.delete()) {
-                logger.info("Arquivo %s apagado com sucesso%n".formatted(arquivo.getName()));
+                logger.info(Principal.tradutor
+                        .traduzirMensagem("file.delete.success")
+                        .formatted(arquivo.getName()));
             }
         }
 
         if (pastaTemporaria.delete()) {
-            logger.info("Pasta %s apagada com sucesso.%n".formatted(pastaTemporaria.getName()));
+            logger.info(Principal.tradutor
+                    .traduzirMensagem("file.dir.delete.success")
+                    .formatted(pastaTemporaria.getName()));
         }
     }
 
@@ -188,7 +200,8 @@ public class AtualizadorPrograma implements Atualizador {
             FileChannel fileChannel = fileOutputStream.getChannel();
             fileChannel.transferFrom(byteChannel, 0, Long.MAX_VALUE);
         } catch (IOException e) {
-            logger.warning("Ocorreu um erro ao tentar baixar o arquivo %s. %s%n"
+            logger.warning(Principal.tradutor
+                    .traduzirMensagem("error.update.download.file")
                     .formatted(urlArquivo.getPath(), e.getMessage()));
         }
     }

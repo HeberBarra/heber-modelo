@@ -15,13 +15,14 @@ form {
     border-radius: 1rem;
     border-style: solid;
     border-width:0.09375rem;
+    border-color: var(--cor-borda);
     padding: 1rem;
     font-size: 1rem;
   }
 
   a {
     display: block;
-    color: var(--cor-fonte);
+    color: var(--cor-fonte-alternativa);
     font-size: 1rem;
     margin-top: 0.5rem;
 
@@ -42,5 +43,5 @@ form {
 
 
 div {
-  flex-align: flex-end;
+  align-self: flex-end;
 }

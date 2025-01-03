@@ -63,7 +63,7 @@ public class JavaLogger {
             return new JavaLoggerArquivo(pastaLogs, nomeArquivo);
 
         } catch (IOException e) {
-            logger.warning("Falha ao criar logger: %s".formatted(e.getMessage()));
+            logger.warning("Falha ao criar logger. Erro: %s".formatted(e.getMessage()));
             return null;
         }
     }
