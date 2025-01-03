@@ -43,6 +43,11 @@ span, #privacidade, #politica, #cadastro {
   color: var(--cor-fonte-alternativa);
 }
 
+#privacidade, #politica {
+  display: inline-block;
+  color: var(--cor-fonte);
+}
+
 
 div {
   align-self: flex-end;
