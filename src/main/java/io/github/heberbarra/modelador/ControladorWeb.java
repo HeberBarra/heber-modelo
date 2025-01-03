@@ -88,7 +88,7 @@ public class ControladorWeb {
     public void exibirMensagemProgramaPronto() {
         String host = configurador.pegarValorConfiguracao("programa", "dominio", String.class);
         int porta = Math.toIntExact(configurador.pegarValorConfiguracao("programa", "porta", long.class));
-        logger.info("Programa iniciado em %s:%d".formatted(host, porta));
+        logger.info(Principal.tradutor.traduzirMensagem("app.ready").formatted(host, porta));
     }
 
     @SuppressWarnings("HttpUrlsUsage")

@@ -13,6 +13,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -21,11 +22,13 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 @Configuration
+@ComponentScan
 public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServerFactory>, WebMvcConfigurer {
 
     private static final Logger logger = JavaLogger.obterLogger(Principal.class.getName());
     public static final String NOME_PROGRAMA = "Heber-Modelo";
     private static final ConfiguradorPrograma configurador = ConfiguradorPrograma.getInstance();
+    public static Tradutor tradutor = Tradutor.getTradutorInstance();
 
     public static void main(String[] args) {
         Locale.setDefault(Locale.of("pt", "br"));
