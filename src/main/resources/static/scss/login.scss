@@ -36,19 +36,12 @@ form {
     height: 4.5rem;
   }
 
-}
+  span, #privacidade, #politica, #cadastro {
+    display: inline-block;
+    color: var(--cor-fonte-alternativa);
+  }
 
-span, #privacidade, #politica, #cadastro {
-  display: inline-block;
-  color: var(--cor-fonte-alternativa);
-}
-
-#privacidade, #politica {
-  display: inline-block;
-  color: var(--cor-fonte);
-}
-
-
-div {
-  align-self: flex-end;
+  div {
+    align-self: flex-end;
+  }
 }
