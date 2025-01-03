@@ -1,10 +1,12 @@
 <!doctype html>
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
-  <head th:insert="~{/fragments/head :: head}">
+  <head>
+    <!--suppress HtmlUnknownTag -->
+    <div th:replace="~{fragments/head :: head}"></div>
     <title>Redefinir Senha</title>
   </head>
   <body>
-    <header th:replace="~{/fragments/header :: header}"></header>
-    <footer th:replace="~{/fragments/licenseFooter :: footer}"></footer>
+    <header th:replace="~{fragments/header :: header}"></header>
+    <footer th:replace="~{fragments/licenseFooter :: footer}"></footer>
   </body>
 </html>

@@ -1,10 +1,12 @@
 <!doctype html>
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
-  <head th:insert="/fragments/head :: head">
+  <head>
+    <!--suppress HtmlUnknownTag -->
+    <div th:replace="~{fragments/head :: head}"></div>
     <title>Heber-Modelo</title>
   </head>
   <body>
-    <header th:replace="~{/fragments/header :: header}"></header>
+    <header th:replace="~{fragments/header :: header}"></header>
     <main>
       <button><a href="novo.html">CRIAR NOVO DIAGRAMA</a></button>
       <button><a>MODO CONJUNTO</a></button>
