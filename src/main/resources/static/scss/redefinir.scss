@@ -14,7 +14,7 @@ form {
     height: 4.5rem;
     border-radius: 1rem;
     border-style: solid;
-    border-width:0.09375rem;
+    border-width: 0.09375rem;
     padding: 1rem;
     font-size: 1rem;
   }
@@ -25,12 +25,12 @@ form {
   }
 }
 
-span, #politica {
+span,
+#politica {
   display: flex;
   color: var(--cor-fonte);
 
   a {
     margin-top: 0;
   }
-
 }

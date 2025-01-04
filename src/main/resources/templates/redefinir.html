@@ -1,25 +1,28 @@
 <!doctype html>
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
-<head>
-  <!--suppress HtmlUnknownTag -->
-  <div th:replace="~{fragments/head :: head}"></div>
-  <link rel="stylesheet" th:href="@{/css/redefinir.css}" />
-  <title>Redefinir Senha</title>
-</head>
-<body>
-<header th:replace="~{fragments/header :: header}"></header>
-<main>
-  <form action="" method="post">
-    <label>
-      <input type="text" name="senhaNova" placeholder="Digite a nova senha" required
-      /></label>
-    <label>
-      <input type="text" name="confirmarSenha" placeholder="Confirme a nova senha" required />
-    </label>
-    <button id="continuar">continuar</button>
-    <span>Ao continuar com o acesso, você concorda com a nossa <a href="privacidade.html" id="politica">política de privacidade</a></span>
-  </form>
-</main>
-<footer th:replace="~{fragments/licenseFooter :: footer}"></footer>
-</body>
+  <head>
+    <!--suppress HtmlUnknownTag -->
+    <div th:replace="~{fragments/head :: head}"></div>
+    <link rel="stylesheet" th:href="@{/css/redefinir.css}" />
+    <title>Redefinir Senha</title>
+  </head>
+  <body>
+    <header th:replace="~{fragments/header :: header}"></header>
+    <main>
+      <form action="" method="post">
+        <label>
+          <input type="text" name="senhaNova" placeholder="Digite a nova senha" required
+        /></label>
+        <label>
+          <input type="text" name="confirmarSenha" placeholder="Confirme a nova senha" required />
+        </label>
+        <button id="continuar">continuar</button>
+        <span
+          >Ao continuar com o acesso, você concorda com a nossa
+          <a href="privacidade.html" id="politica">política de privacidade</a></span
+        >
+      </form>
+    </main>
+    <footer th:replace="~{fragments/licenseFooter :: footer}"></footer>
+  </body>
 </html>
