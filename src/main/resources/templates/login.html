@@ -1,27 +1,30 @@
 <!doctype html>
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
-<head>
-  <!--suppress HtmlUnknownTag -->
-  <div th:replace="~{fragments/head :: head}"></div>
-  <link rel="stylesheet" th:href="@{/css/login.css}" />
-  <title>Login</title>
-</head>
-<body>
-<header th:replace="~{fragments/header :: header}"></header>
-<main>
-  <form action="" method="post">
-    <label>
-      <input type="email" name="email" placeholder="Digite seu email / matrícula" required
-      /></label>
-    <label>
-      <input type="password" name="senha" placeholder="Digite sua senha" required />
-      <a href="solicitar.html">Solicitar nova senha</a>
-    </label>
-    <button id="continuar">continuar</button>
-    <span>Não tem cadastro?<a href="cadastro.html" id="cadastro">&nbsp;Cadastre-se</a></span>
-    <span id="privacidade">Ao continuar com o acesso, você concorda com a nossa <a href="privacidade.html" id="politica">política de privacidade</a></span>
-  </form>
-</main>
-<footer th:replace="~{fragments/licenseFooter :: footer}"></footer>
-</body>
+  <head>
+    <!--suppress HtmlUnknownTag -->
+    <div th:replace="~{fragments/head :: head}"></div>
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <title>Login</title>
+  </head>
+  <body>
+    <header th:replace="~{fragments/header :: header}"></header>
+    <main>
+      <form action="" method="post">
+        <label>
+          <input type="email" name="email" placeholder="Digite seu email / matrícula" required
+        /></label>
+        <label>
+          <input type="password" name="senha" placeholder="Digite sua senha" required />
+          <a href="solicitar.html">Solicitar nova senha</a>
+        </label>
+        <button id="continuar">continuar</button>
+        <span>Não tem cadastro?<a href="cadastro.html" id="cadastro">&nbsp;Cadastre-se</a></span>
+        <span id="privacidade"
+          >Ao continuar com o acesso, você concorda com a nossa
+          <a href="privacidade.html" id="politica">política de privacidade</a></span
+        >
+      </form>
+    </main>
+    <footer th:replace="~{fragments/licenseFooter :: footer}"></footer>
+  </body>
 </html>

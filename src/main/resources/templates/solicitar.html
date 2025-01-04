@@ -1,26 +1,29 @@
 <!doctype html>
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
-<head>
+  <head>
     <!--suppress HtmlUnknownTag -->
     <div th:replace="~{fragments/head :: head}"></div>
-    <link rel="stylesheet" th:href="@{/css/solicitar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/solicitar.css}" />
     <title>Solicitar Nova Senha</title>
-</head>
-<body>
-<header th:replace="~{fragments/header :: header}"></header>
-<footer th:replace="~{fragments/licenseFooter :: footer}"></footer>
+  </head>
+  <body>
+    <header th:replace="~{fragments/header :: header}"></header>
+    <footer th:replace="~{fragments/licenseFooter :: footer}"></footer>
 
-<main>
-    <form action="" method="post">
+    <main>
+      <form action="" method="post">
         <label>
-            <input type="email" name="email" placeholder="Digite seu email / matrícula" required/>
+          <input type="email" name="email" placeholder="Digite seu email / matrícula" required />
         </label>
         <label>
-            <input type="text" name="descricao" placeholder="Descreva o incoveniente aqui" required/>
+          <input type="text" name="descricao" placeholder="Descreva o incoveniente aqui" required />
         </label>
         <button id="continuar">continuar</button>
-        <span>Ao continuar com o acesso, você concorda com a nossa <a href="privacidade.html" id="politica">política de privacidade</a></span>
-    </form>
-</main>
-</body>
+        <span
+          >Ao continuar com o acesso, você concorda com a nossa
+          <a href="privacidade.html" id="politica">política de privacidade</a></span
+        >
+      </form>
+    </main>
+  </body>
 </html>
