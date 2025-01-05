@@ -5,6 +5,8 @@ import io.github.heberbarra.modelador.calculadorhash.CalculadorHash;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,8 +35,11 @@ public class AtualizadorPrograma implements Atualizador {
     private static final Logger logger = JavaLogger.obterLogger(AtualizadorPrograma.class.getName());
     private final ConfiguradorPrograma configurador;
     private final ComparadorVersao comparadorVersao;
+    private static final Tradutor tradutor;
 
     static {
+        TradutorFactory tradutorFactory = new TradutorFactory();
+        tradutor = tradutorFactory.criarObjeto();
         try {
             URI arquivoJar = new URI("https://github.com/HeberBarra/%s/releases/latest/download/%s.jar"
                     .formatted(Principal.NOME_PROGRAMA.toLowerCase(), Principal.NOME_PROGRAMA.toLowerCase()));
@@ -43,9 +48,8 @@ public class AtualizadorPrograma implements Atualizador {
             URL_ARQUIVO_JAR = arquivoJar.toURL();
             URL_ARQUIVO_SHA256 = arquivoSha256.toURL();
         } catch (MalformedURLException | URISyntaxException e) {
-            logger.severe(
-                    Principal.tradutor.traduzirMensagem("error.urls.create").formatted(e.getMessage()));
-            logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
+            logger.severe(tradutor.traduzirMensagem("error.urls.create").formatted(e.getMessage()));
+            logger.severe(tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ERRO_CRIACAO_URLS.getCodigo());
             throw new RuntimeException();
         }
@@ -56,6 +60,7 @@ public class AtualizadorPrograma implements Atualizador {
         PegadorVersaoRemota pegadorVersaoRemota = new PegadorVersaoRemota();
         String versaoPrograma = AtualizadorPrograma.class.getPackage().getImplementationVersion();
         String versaoRemota = pegadorVersaoRemota.pegarVersaoRemota();
+        TradutorFactory tradutorFactory = new TradutorFactory();
 
         if (versaoRemota.isEmpty()) {
             versaoRemota = versaoPrograma;
@@ -80,13 +85,13 @@ public class AtualizadorPrograma implements Atualizador {
             return;
         }
 
-        logger.info(Principal.tradutor.traduzirMensagem("update.new"));
+        logger.info(tradutor.traduzirMensagem("update.new"));
         if (configurador.pegarValorConfiguracao("atualizador", "atualizacao_automatica", boolean.class)) {
             baixarAtualizacao();
             return;
         }
 
-        logger.info(Principal.tradutor.traduzirMensagem("update.auto.off"));
+        logger.info(tradutor.traduzirMensagem("update.auto.off"));
     }
 
     /**
@@ -99,7 +104,7 @@ public class AtualizadorPrograma implements Atualizador {
     public void baixarAtualizacao() {
         File pastaTemporaria = new File("./tmp");
         if (pastaTemporaria.mkdir()) {
-            logger.info(Principal.tradutor.traduzirMensagem("file.dir.temp.downloads.success"));
+            logger.info(tradutor.traduzirMensagem("file.dir.temp.downloads.success"));
         }
 
         baixarArquivo(pastaTemporaria, URL_ARQUIVO_JAR, "heber-modelo.jar");
@@ -124,23 +129,21 @@ public class AtualizadorPrograma implements Atualizador {
             }
 
             if (linha == null) {
-                logger.warning(Principal.tradutor.traduzirMensagem("error.update.verify"));
-                logger.warning(Principal.tradutor.traduzirMensagem("error.update.cancel"));
+                logger.warning(tradutor.traduzirMensagem("error.update.verify"));
+                logger.warning(tradutor.traduzirMensagem("error.update.cancel"));
                 return;
             }
 
             hashChecksum = linha.split(" ")[0];
         } catch (IOException e) {
-            logger.warning(Principal.tradutor
-                    .traduzirMensagem("error.update.verify.read")
-                    .formatted(e.getMessage()));
-            logger.warning(Principal.tradutor.traduzirMensagem("error.update.cancel"));
+            logger.warning(tradutor.traduzirMensagem("error.update.verify.read").formatted(e.getMessage()));
+            logger.warning(tradutor.traduzirMensagem("error.update.cancel"));
             return;
         }
 
         if (!hashChecksum.equals(hashArquivoJar)) {
-            logger.warning(Principal.tradutor.traduzirMensagem("error.update.verify.match"));
-            logger.warning(Principal.tradutor.traduzirMensagem("error.update.cancel"));
+            logger.warning(tradutor.traduzirMensagem("error.update.verify.match"));
+            logger.warning(tradutor.traduzirMensagem("error.update.cancel"));
             return;
         }
 
@@ -149,12 +152,10 @@ public class AtualizadorPrograma implements Atualizador {
                     Path.of("./tmp/heber-modelo.jar"),
                     Path.of("./heber-modelo.jar"),
                     StandardCopyOption.REPLACE_EXISTING);
-            logger.info(Principal.tradutor.traduzirMensagem("update.success"));
-            logger.info(Principal.tradutor.traduzirMensagem("update.restart.required"));
+            logger.info(tradutor.traduzirMensagem("update.success"));
+            logger.info(tradutor.traduzirMensagem("update.restart.required"));
         } catch (IOException e) {
-            logger.warning(Principal.tradutor
-                    .traduzirMensagem("error.update.move.file")
-                    .formatted(e.getMessage()));
+            logger.warning(tradutor.traduzirMensagem("error.update.move.file").formatted(e.getMessage()));
         }
 
         limparArquivosTemporarios(pastaTemporaria);
@@ -166,9 +167,7 @@ public class AtualizadorPrograma implements Atualizador {
 
         if (arquivos == null) {
             if (pastaTemporaria.delete()) {
-                logger.info(Principal.tradutor
-                        .traduzirMensagem("file.dir.delete.success")
-                        .formatted(pastaTemporaria.getName()));
+                logger.info(tradutor.traduzirMensagem("file.dir.delete.success").formatted(pastaTemporaria.getName()));
             }
             return;
         }
@@ -180,16 +179,12 @@ public class AtualizadorPrograma implements Atualizador {
             }
 
             if (arquivo.delete()) {
-                logger.info(Principal.tradutor
-                        .traduzirMensagem("file.delete.success")
-                        .formatted(arquivo.getName()));
+                logger.info(tradutor.traduzirMensagem("file.delete.success").formatted(arquivo.getName()));
             }
         }
 
         if (pastaTemporaria.delete()) {
-            logger.info(Principal.tradutor
-                    .traduzirMensagem("file.dir.delete.success")
-                    .formatted(pastaTemporaria.getName()));
+            logger.info(tradutor.traduzirMensagem("file.dir.delete.success").formatted(pastaTemporaria.getName()));
         }
     }
 
@@ -200,8 +195,7 @@ public class AtualizadorPrograma implements Atualizador {
             FileChannel fileChannel = fileOutputStream.getChannel();
             fileChannel.transferFrom(byteChannel, 0, Long.MAX_VALUE);
         } catch (IOException e) {
-            logger.warning(Principal.tradutor
-                    .traduzirMensagem("error.update.download.file")
+            logger.warning(tradutor.traduzirMensagem("error.update.download.file")
                     .formatted(urlArquivo.getPath(), e.getMessage()));
         }
     }

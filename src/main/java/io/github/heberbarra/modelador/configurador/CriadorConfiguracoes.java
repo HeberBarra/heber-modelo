@@ -1,6 +1,5 @@
 package io.github.heberbarra.modelador.configurador;
 
-import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.json.AtributoJsonConfiguracao;
 import io.github.heberbarra.modelador.configurador.json.AtributoJsonPaleta;
@@ -9,6 +8,8 @@ import io.github.heberbarra.modelador.configurador.json.JsonVerificadorPaleta;
 import io.github.heberbarra.modelador.configurador.toml.ConversorToml;
 import io.github.heberbarra.modelador.configurador.toml.ConversorTomlPrograma;
 import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -30,12 +31,15 @@ public class CriadorConfiguracoes {
     private final ConversorToml conversorToml;
     private final Map<String, List<Map<String, String>>> configuracaoPadrao;
     private final Map<String, List<Map<String, String>>> paletaPadrao;
+    private final Tradutor tradutor;
 
     public CriadorConfiguracoes() {
         conversorToml = new ConversorTomlPrograma();
         configuracaoPadrao = new LinkedHashMap<>();
         paletaPadrao = new LinkedHashMap<>();
         paletaPadrao.put("paleta", new ArrayList<>());
+        TradutorFactory tradutorFactory = new TradutorFactory();
+        tradutor = tradutorFactory.criarObjeto();
     }
 
     /**
@@ -45,9 +49,7 @@ public class CriadorConfiguracoes {
     public void criarPastaConfiguracao(String pastaConfiguracao) {
         File pasta = new File(pastaConfiguracao);
         if (pasta.mkdirs()) {
-            logger.info(Principal.tradutor
-                    .traduzirMensagem("file.dir.creation.success")
-                    .formatted(pastaConfiguracao));
+            logger.info(tradutor.traduzirMensagem("file.dir.creation.success").formatted(pastaConfiguracao));
         }
     }
 
@@ -146,9 +148,8 @@ public class CriadorConfiguracoes {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(caminhoArquivo))) {
             bufferedWriter.write(dadosToml);
         } catch (IOException e) {
-            logger.severe(
-                    Principal.tradutor.traduzirMensagem("error.file.create").formatted(caminhoArquivo, e.getMessage()));
-            logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
+            logger.severe(tradutor.traduzirMensagem("error.file.create").formatted(caminhoArquivo, e.getMessage()));
+            logger.severe(tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ERRO_CRIACAO_CONFIG.getCodigo());
         }
     }

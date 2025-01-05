@@ -1,10 +1,11 @@
 package io.github.heberbarra.modelador.argumento.executador;
 
-import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.argumento.Argumento;
 import io.github.heberbarra.modelador.argumento.coletor.ColetorClassesArgumentos;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
@@ -24,11 +25,14 @@ public class ExecutadorArgumentos {
     private final ColetorClassesArgumentos coletorClassesArgumentos;
     private final String[] args;
     private final Set<String> cacheArgumentos;
+    private final Tradutor tradutor;
 
     public ExecutadorArgumentos(String[] args) {
         coletorClassesArgumentos = ColetorClassesArgumentos.getInstance();
         cacheArgumentos = new HashSet<>();
         this.args = args;
+        TradutorFactory tradutorFactory = new TradutorFactory();
+        tradutor = tradutorFactory.criarObjeto();
     }
 
     /**
@@ -61,31 +65,27 @@ public class ExecutadorArgumentos {
                 Constructor<Argumento> argumentoConstructor = argumentoClass.getConstructor();
                 argumento = argumentoConstructor.newInstance();
             } catch (NoSuchMethodException e) {
-                logger.severe(Principal.tradutor
-                        .traduzirMensagem("error.flag.get.constructor")
+                logger.severe(tradutor.traduzirMensagem("error.flag.get.constructor")
                         .formatted(argumentoClass.getSimpleName(), e.getMessage()));
-                logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
+                logger.severe(tradutor.traduzirMensagem("app.end"));
                 System.exit(CodigoSaida.ERRO_PEGAR_CONSTRUTOR.getCodigo());
                 return;
             } catch (InvocationTargetException e) {
-                logger.severe(Principal.tradutor
-                        .traduzirMensagem("error.flag.create.object")
+                logger.severe(tradutor.traduzirMensagem("error.flag.create.object")
                         .formatted(argumentoClass.getSimpleName(), e.getMessage()));
-                logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
+                logger.severe(tradutor.traduzirMensagem("app.end"));
                 System.exit(CodigoSaida.ERRO_CRIACAO_OBJETO.getCodigo());
                 return;
             } catch (InstantiationException e) {
-                logger.severe(Principal.tradutor
-                        .traduzirMensagem("error.flag.create.object")
+                logger.severe(tradutor.traduzirMensagem("error.flag.create.object")
                         .formatted(argumentoClass.getSimpleName()));
-                logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
+                logger.severe(tradutor.traduzirMensagem("app.end"));
                 System.exit(CodigoSaida.ERRO_CRIACAO_OBJETO.getCodigo());
                 return;
             } catch (IllegalAccessException e) {
-                logger.severe(Principal.tradutor
-                        .traduzirMensagem("error.flag.access.denied.constructor")
+                logger.severe(tradutor.traduzirMensagem("error.flag.access.denied.constructor")
                         .formatted(argumentoClass.getSimpleName(), e.getMessage()));
-                logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
+                logger.severe(tradutor.traduzirMensagem("app.end"));
                 System.exit(CodigoSaida.ACESSO_NEGADO.getCodigo());
                 return;
             }
@@ -96,6 +96,6 @@ public class ExecutadorArgumentos {
             }
         }
 
-        logger.warning(Principal.tradutor.traduzirMensagem("error.flag.unknown").formatted(flagArgumento));
+        logger.warning(tradutor.traduzirMensagem("error.flag.unknown").formatted(flagArgumento));
     }
 }

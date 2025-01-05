@@ -4,6 +4,8 @@ import io.github.heberbarra.modelador.argumento.executador.ExecutadorArgumentos;
 import io.github.heberbarra.modelador.atualizador.AtualizadorPrograma;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
@@ -25,10 +27,10 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 @ComponentScan
 public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServerFactory>, WebMvcConfigurer {
 
-    private static final Logger logger = JavaLogger.obterLogger(Principal.class.getName());
     public static final String NOME_PROGRAMA = "Heber-Modelo";
+    private static final Logger logger = JavaLogger.obterLogger(Principal.class.getName());
     private static final ConfiguradorPrograma configurador = ConfiguradorPrograma.getInstance();
-    public static Tradutor tradutor = Tradutor.getTradutorInstance();
+    private static final Tradutor tradutor = new TradutorFactory().criarObjeto();
 
     public static void main(String[] args) {
         Locale.setDefault(Locale.of("pt", "br"));

@@ -1,8 +1,9 @@
 package io.github.heberbarra.modelador.argumento.coletor;
 
-import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.argumento.Argumento;
 import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -23,9 +24,12 @@ public class ColetorClassesArgumentos {
     private static final Logger logger = JavaLogger.obterLogger(ColetorClassesArgumentos.class.getName());
     private static ColetorClassesArgumentos coletorClassesArgumentos;
     private final Set<Class<Argumento>> argumentos;
+    private final Tradutor tradutor;
 
     private ColetorClassesArgumentos() {
         argumentos = new HashSet<>();
+        TradutorFactory tradutorFactory = new TradutorFactory();
+        tradutor = tradutorFactory.criarObjeto();
     }
 
     public static synchronized ColetorClassesArgumentos getInstance() {
@@ -50,9 +54,8 @@ public class ColetorClassesArgumentos {
             try {
                 argumentos.add((Class<Argumento>) Class.forName(beanDefinition.getBeanClassName()));
             } catch (ClassNotFoundException e) {
-                logger.warning(Principal.tradutor
-                        .traduzirMensagem("error.class.notfound")
-                        .formatted(beanDefinition.getBeanClassName()));
+                logger.warning(
+                        tradutor.traduzirMensagem("error.class.notfound").formatted(beanDefinition.getBeanClassName()));
             }
         }
     }

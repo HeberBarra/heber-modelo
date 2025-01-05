@@ -3,6 +3,8 @@ package io.github.heberbarra.modelador.argumento;
 import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -13,11 +15,14 @@ import java.util.logging.Logger;
 public class MostrarVersao extends Argumento {
 
     private static final Logger logger = JavaLogger.obterLogger(MostrarVersao.class.getName());
+    private Tradutor tradutor;
 
     public MostrarVersao() {
         super();
         this.descricao = "Mostra a versão do programa";
         this.flagsPermitidas = List.of("-v", "--version", "--versao");
+        TradutorFactory tradutorFactory = new TradutorFactory();
+        tradutor = tradutorFactory.criarObjeto();
     }
 
     /**
@@ -32,7 +37,7 @@ public class MostrarVersao extends Argumento {
         String versao = Principal.class.getPackage().getImplementationVersion();
 
         if (versao == null) {
-            logger.info(Principal.tradutor.traduzirMensagem("error.flag.get.version"));
+            logger.info(tradutor.traduzirMensagem("error.flag.get.version"));
             System.exit(CodigoSaida.ERRO_PEGAR_VERSAO.getCodigo());
         }
 

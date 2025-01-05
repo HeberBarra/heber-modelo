@@ -1,9 +1,10 @@
 package io.github.heberbarra.modelador.recurso;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +17,12 @@ public class AcessadorRecursos implements Recurso {
 
     private static final Logger logger = JavaLogger.obterLogger(AcessadorRecursos.class.getName());
     private Dotenv dotenv;
+    private final Tradutor tradutor;
+
+    public AcessadorRecursos() {
+        TradutorFactory tradutorFactory = new TradutorFactory();
+        tradutor = tradutorFactory.criarObjeto();
+    }
 
     @Override
     public InputStream pegarRecurso(String caminhoRecurso) {
@@ -23,10 +30,9 @@ public class AcessadorRecursos implements Recurso {
         InputStream recurso = classLoader.getResourceAsStream(caminhoRecurso);
 
         if (recurso == null) {
-            logger.severe(
-                    Principal.tradutor.traduzirMensagem("error.resource.read").formatted(caminhoRecurso)
-                            + "Recurso não encontrado.");
-            logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
+            logger.severe(tradutor.traduzirMensagem("error.resource.read").formatted(caminhoRecurso)
+                    + "Recurso não encontrado.");
+            logger.severe(tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.RECURSO_NAO_ENCONTRADO.getCodigo());
         }
 
@@ -55,10 +61,8 @@ public class AcessadorRecursos implements Recurso {
 
             return arquivoRecurso;
         } catch (IOException e) {
-            logger.severe(Principal.tradutor
-                    .traduzirMensagem("error.file.create.temp")
-                    .formatted(e.getMessage()));
-            logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
+            logger.severe(tradutor.traduzirMensagem("error.file.create.temp").formatted(e.getMessage()));
+            logger.severe(tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ERRO_CRIACAO_ARQUIVO_TEMP.getCodigo());
         }
 

@@ -1,8 +1,9 @@
 package io.github.heberbarra.modelador.configurador;
 
-import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
@@ -19,6 +20,7 @@ import org.tomlj.TomlTable;
 public class LeitorConfiguracao {
 
     private static final Logger logger = JavaLogger.obterLogger(LeitorConfiguracao.class.getName());
+    private final Tradutor tradutor;
     private String pastaConfiguracao;
     private String arquivoConfiguracoes;
     private String arquivoPaleta;
@@ -29,6 +31,8 @@ public class LeitorConfiguracao {
         this.pastaConfiguracao = pastaConfiguracao;
         this.arquivoConfiguracoes = arquivoConfiguracoes;
         this.arquivoPaleta = arquivoPaleta;
+        TradutorFactory tradutorFactory = new TradutorFactory();
+        tradutor = tradutorFactory.criarObjeto();
     }
 
     /**
@@ -51,9 +55,8 @@ public class LeitorConfiguracao {
         TomlTable tabelaCategoria = informacoesConfiguracoes.getTable(categoria);
 
         if (tabelaCategoria == null) {
-            logger.warning(Principal.tradutor
-                    .traduzirMensagem("error.config.category.notfound")
-                    .formatted(categoria));
+            logger.warning(
+                    tradutor.traduzirMensagem("error.config.category.notfound").formatted(categoria));
             return null;
         }
 
@@ -66,7 +69,7 @@ public class LeitorConfiguracao {
         } else if (tipo == String.class) {
             return (T) tabelaCategoria.getString(atributo);
         } else {
-            logger.warning(Principal.tradutor.traduzirMensagem("error.config.attribute.get.invalid.type"));
+            logger.warning(tradutor.traduzirMensagem("error.config.attribute.get.invalid.type"));
             return null;
         }
     }
@@ -106,9 +109,8 @@ public class LeitorConfiguracao {
         try {
             return Toml.parse(Path.of(pastaConfiguracao, nomeArquivo));
         } catch (IOException e) {
-            logger.severe(
-                    Principal.tradutor.traduzirMensagem("error.file.read").formatted(nomeArquivo, e.getMessage()));
-            logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
+            logger.severe(tradutor.traduzirMensagem("error.file.read").formatted(nomeArquivo, e.getMessage()));
+            logger.severe(tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ERRO_LEITURA_ARQUIVO.getCodigo());
         }
 
