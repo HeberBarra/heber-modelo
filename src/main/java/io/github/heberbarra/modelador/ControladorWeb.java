@@ -6,6 +6,8 @@ import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.configurador.WatcherPastaConfiguracao;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.token.GeradorToken;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import jakarta.annotation.PostConstruct;
 import java.awt.Desktop;
 import java.io.IOException;
@@ -36,9 +38,12 @@ public class ControladorWeb {
     private static final String TOKEN_SECRETO;
     private static final Configurador configurador;
     private final TaskExecutor taskExecutor;
+    private final Tradutor tradutor;
 
     public ControladorWeb(@Qualifier("applicationTaskExecutor") TaskExecutor taskExecutor) {
         this.taskExecutor = taskExecutor;
+        TradutorFactory tradutorFactory = new TradutorFactory();
+        tradutor = tradutorFactory.criarObjeto();
     }
 
     static {
@@ -88,7 +93,7 @@ public class ControladorWeb {
     public void exibirMensagemProgramaPronto() {
         String host = configurador.pegarValorConfiguracao("programa", "dominio", String.class);
         int porta = Math.toIntExact(configurador.pegarValorConfiguracao("programa", "porta", long.class));
-        logger.info(Principal.tradutor.traduzirMensagem("app.ready").formatted(host, porta));
+        logger.info(tradutor.traduzirMensagem("app.ready").formatted(host, porta));
     }
 
     @SuppressWarnings("HttpUrlsUsage")
@@ -96,16 +101,15 @@ public class ControladorWeb {
     public void abrirWebBrowser() throws IOException {
         if (!configurador.pegarValorConfiguracao("programa", "abrir_navegador_automaticamente", boolean.class)) return;
 
-        logger.info(Principal.tradutor.traduzirMensagem("app.opening.browser"));
+        logger.info(tradutor.traduzirMensagem("app.opening.browser"));
         URI uriPrograma;
         try {
             String dominioPrograma = configurador.pegarValorConfiguracao("programa", "dominio", String.class);
             long portaPrograma = configurador.pegarValorConfiguracao("programa", "porta", long.class);
             uriPrograma = new URI("http://%s:%d".formatted(dominioPrograma, portaPrograma));
         } catch (URISyntaxException e) {
-            logger.warning(Principal.tradutor
-                    .traduzirMensagem("error.browser.cannot.create.url")
-                    .formatted(e.getMessage()));
+            logger.warning(
+                    tradutor.traduzirMensagem("error.browser.cannot.create.url").formatted(e.getMessage()));
             return;
         }
 
@@ -122,7 +126,7 @@ public class ControladorWeb {
         } else if (nomeSistemaOperacional.contains("nix") || nomeSistemaOperacional.contains("nux")) {
             runtime.exec(new String[] {"xdg-open", uriPrograma.toString()});
         } else {
-            logger.warning(Principal.tradutor.traduzirMensagem("error.browser.cannot.open"));
+            logger.warning(tradutor.traduzirMensagem("error.browser.cannot.open"));
         }
     }
 
@@ -189,7 +193,7 @@ public class ControladorWeb {
         injetarPaleta(modelMap);
 
         if (TOKEN_SECRETO.equals(token)) {
-            logger.info(Principal.tradutor.traduzirMensagem("app.end"));
+            logger.info(tradutor.traduzirMensagem("app.end"));
             injetarNomePrograma(modelMap, " - Desligar");
             System.exit(CodigoSaida.OK.getCodigo());
             return "desligar";

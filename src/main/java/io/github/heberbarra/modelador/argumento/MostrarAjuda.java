@@ -1,9 +1,10 @@
 package io.github.heberbarra.modelador.argumento;
 
-import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.argumento.coletor.ColetorClassesArgumentos;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -19,11 +20,14 @@ public class MostrarAjuda extends Argumento {
 
     private static final Logger logger = JavaLogger.obterLogger(MostrarAjuda.class.getName());
     private final ColetorClassesArgumentos coletorClassesArgumentos;
+    private final Tradutor tradutor;
 
     public MostrarAjuda() {
         coletorClassesArgumentos = ColetorClassesArgumentos.getInstance();
         this.descricao = "Mostra os comandos/flags disponíveis e as suas descrições.";
         this.flagsPermitidas = List.of("--ajuda", "--help", "-h");
+        TradutorFactory tradutorFactory = new TradutorFactory();
+        tradutor = tradutorFactory.criarObjeto();
     }
 
     /**
@@ -40,13 +44,11 @@ public class MostrarAjuda extends Argumento {
                 Argumento argumento = construtorArgumento.newInstance();
                 imprimirInfo(argumento);
             } catch (NoSuchMethodException e) {
-                logger.warning(Principal.tradutor
-                        .traduzirMensagem("error.flag.get.constructor")
+                logger.warning(tradutor.traduzirMensagem("error.flag.get.constructor")
                         .formatted(classeArgumento.getName(), e.getMessage()));
                 System.exit(CodigoSaida.ERRO_PEGAR_CONSTRUTOR.getCodigo());
             } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                logger.warning(Principal.tradutor
-                        .traduzirMensagem("error.flag.create.object")
+                logger.warning(tradutor.traduzirMensagem("error.flag.create.object")
                         .formatted(classeArgumento.getName(), e.getMessage()));
                 System.exit(CodigoSaida.ERRO_CRIACAO_OBJETO.getCodigo());
             }

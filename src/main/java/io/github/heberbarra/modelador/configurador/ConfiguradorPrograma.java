@@ -1,10 +1,11 @@
 package io.github.heberbarra.modelador.configurador;
 
-import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.toml.ConversorToml;
 import io.github.heberbarra.modelador.configurador.toml.ConversorTomlPrograma;
 import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -27,6 +28,7 @@ public final class ConfiguradorPrograma implements Configurador {
     private final VerificadorConfiguracaoPrograma verificadorConfiguracao;
     private final CombinadorConfiguracoes combinadorConfiguracoes;
     private final LeitorConfiguracao leitorConfiguracao;
+    private final Tradutor tradutor;
 
     private ConfiguradorPrograma() {
         conversorToml = new ConversorTomlPrograma();
@@ -36,6 +38,8 @@ public final class ConfiguradorPrograma implements Configurador {
         leitorConfiguracao =
                 new LeitorConfiguracao(pastaConfiguracao.getPasta(), ARQUIVO_CONFIGURACOES, ARQUIVO_PALETA);
         combinadorConfiguracoes = new CombinadorConfiguracoes();
+        TradutorFactory tradutorFactory = new TradutorFactory();
+        tradutor = tradutorFactory.criarObjeto();
     }
 
     public static synchronized ConfiguradorPrograma getInstance() {
@@ -92,7 +96,7 @@ public final class ConfiguradorPrograma implements Configurador {
                 criadorConfiguracoes.getPaletaPadrao(), leitorConfiguracao.getInformacoesPaleta());
 
         if (verificadorConfiguracao.configuracoesContemErrosGraves()) {
-            logger.severe(Principal.tradutor.traduzirMensagem("error.config.end.app"));
+            logger.severe(tradutor.traduzirMensagem("error.config.end.app"));
             System.exit(CodigoSaida.ERRO_CONFIGURACOES.getCodigo());
         }
     }

@@ -3,6 +3,8 @@ package io.github.heberbarra.modelador.configurador;
 import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.recurso.AcessadorRecursos;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import java.io.File;
 import java.util.logging.Logger;
 
@@ -25,17 +27,18 @@ public class PastaConfiguracaoPrograma extends PastaConfiguracao {
     private static final Logger logger = JavaLogger.obterLogger(PastaConfiguracaoPrograma.class.getName());
     private final String pasta = decidirPastaConfiguracao();
     private final AcessadorRecursos acessadorRecursos;
+    private final Tradutor tradutor;
 
     public PastaConfiguracaoPrograma() {
         super();
         acessadorRecursos = new AcessadorRecursos();
+        TradutorFactory tradutorFactory = new TradutorFactory();
+        tradutor = tradutorFactory.criarObjeto();
     }
 
     public void criarPastaConfiguracao() {
         if (new File(pasta).mkdir()) {
-            logger.info(Principal.tradutor
-                    .traduzirMensagem("file.dir.creation.success")
-                    .formatted(pasta));
+            logger.info(tradutor.traduzirMensagem("file.dir.creation.success").formatted(pasta));
         }
     }
 

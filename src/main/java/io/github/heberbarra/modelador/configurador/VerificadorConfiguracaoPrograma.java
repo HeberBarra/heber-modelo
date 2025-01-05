@@ -1,10 +1,11 @@
 package io.github.heberbarra.modelador.configurador;
 
-import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.configurador.json.JsonVerificadorConfiguracoes;
 import io.github.heberbarra.modelador.configurador.json.JsonVerificadorPaleta;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.recurso.AcessadorRecursos;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
 
     private static final Logger logger = JavaLogger.obterLogger(VerificadorConfiguracaoPrograma.class.getName());
     private final List<LeitorArquivoVerificacao<?>> leitores;
+    private final Tradutor tradutor;
     private boolean configuracaoErrada;
 
     public VerificadorConfiguracaoPrograma() {
@@ -31,6 +33,8 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
                 acessadorRecursos.pegarArquivoRecurso("config/configuracao.template.json")));
         leitores.add(new LeitorArquivoVerificacaoPadrao<>(
                 JsonVerificadorPaleta.class, acessadorRecursos.pegarArquivoRecurso("config/paleta.template.json")));
+        TradutorFactory tradutorFactory = new TradutorFactory();
+        tradutor = tradutorFactory.criarObjeto();
     }
 
     /**
@@ -77,17 +81,15 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
         for (String categoria : dados.keySet()) {
 
             if (!configuracaoPadrao.containsKey(categoria)) {
-                logger.warning(Principal.tradutor
-                        .traduzirMensagem("error.config.category.notfound")
+                logger.warning(tradutor.traduzirMensagem("error.config.category.notfound")
                         .formatted(categoria));
                 continue;
             }
 
             TomlTable tabelaCategoria = dados.getTable(categoria);
             if (tabelaCategoria == null) {
-                logger.warning(Principal.tradutor
-                        .traduzirMensagem("error.config.category.empty")
-                        .formatted(categoria));
+                logger.warning(
+                        tradutor.traduzirMensagem("error.config.category.empty").formatted(categoria));
                 continue;
             }
 
@@ -112,15 +114,13 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
         }
 
         if (quantidade == 0) {
-            logger.warning(Principal.tradutor
-                    .traduzirMensagem("error.config.attribute.invalid")
-                    .formatted(nomeAtributo));
+            logger.warning(
+                    tradutor.traduzirMensagem("error.config.attribute.invalid").formatted(nomeAtributo));
             return;
         }
 
         if (quantidade > 1) {
-            logger.warning(Principal.tradutor
-                    .traduzirMensagem("error.config.attribute.multiple.occurrences")
+            logger.warning(tradutor.traduzirMensagem("error.config.attribute.multiple.occurrences")
                     .formatted(nomeAtributo, quantidade));
         }
 
@@ -131,8 +131,7 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
             return;
         }
 
-        logger.warning(Principal.tradutor
-                .traduzirMensagem("error.config.attribute.invalid.type")
+        logger.warning(tradutor.traduzirMensagem("error.config.attribute.invalid.type")
                 .formatted(nomeAtributo, tipoPadraoAtributo));
         configuracaoErrada = true;
     }
@@ -143,7 +142,7 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
         List<Map<String, String>> variaveisTabelaPadrao = paletaPadrao.get("paleta");
 
         if (tabelaPaleta == null) {
-            logger.warning(Principal.tradutor.traduzirMensagem("error.paleta.notfound"));
+            logger.warning(tradutor.traduzirMensagem("error.paleta.notfound"));
             configuracaoErrada = true;
             return;
         }
@@ -166,22 +165,19 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
         }
 
         if (quantidade == 0) {
-            logger.warning(Principal.tradutor
-                    .traduzirMensagem("error.paleta.variable.notfound")
-                    .formatted(nomeVariavel));
+            logger.warning(
+                    tradutor.traduzirMensagem("error.paleta.variable.notfound").formatted(nomeVariavel));
             return;
         }
 
         if (quantidade > 1) {
-            logger.warning(Principal.tradutor
-                    .traduzirMensagem("error.paleta.variable.multiple.occurrences")
+            logger.warning(tradutor.traduzirMensagem("error.paleta.variable.multiple.occurrences")
                     .formatted(nomeVariavel, quantidade));
         }
 
         if (valor instanceof String valorVariavel) {
             if (!valorVariavel.matches(regexPaleta)) {
-                logger.warning(Principal.tradutor
-                        .traduzirMensagem("error.paleta.variable.invalid.format")
+                logger.warning(tradutor.traduzirMensagem("error.paleta.variable.invalid.format")
                         .formatted(nomeVariavel));
                 configuracaoErrada = true;
             }
@@ -189,9 +185,8 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
             return;
         }
 
-        logger.warning(Principal.tradutor
-                .traduzirMensagem("error.paleta.variable.invalid.type")
-                .formatted(nomeVariavel));
+        logger.warning(
+                tradutor.traduzirMensagem("error.paleta.variable.invalid.type").formatted(nomeVariavel));
         configuracaoErrada = true;
     }
 

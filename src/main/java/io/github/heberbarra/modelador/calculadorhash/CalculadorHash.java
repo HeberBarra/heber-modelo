@@ -1,8 +1,9 @@
 package io.github.heberbarra.modelador.calculadorhash;
 
-import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Logger;
@@ -16,6 +17,12 @@ import java.util.logging.Logger;
 public class CalculadorHash {
 
     private static final Logger logger = JavaLogger.obterLogger(CalculadorHash.class.getName());
+    private final Tradutor tradutor;
+
+    public CalculadorHash() {
+        TradutorFactory tradutorFactory = new TradutorFactory();
+        tradutor = tradutorFactory.criarObjeto();
+    }
 
     /**
      * Calcula o hash de um array dados utilizando um algoritmo específico
@@ -50,10 +57,9 @@ public class CalculadorHash {
         try {
             messageDigest = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
-            logger.severe(Principal.tradutor
-                    .traduzirMensagem("error.hash.invalid.algorithm")
-                    .formatted(e.getMessage()));
-            logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
+            logger.severe(
+                    tradutor.traduzirMensagem("error.hash.invalid.algorithm").formatted(e.getMessage()));
+            logger.severe(tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ALGORITMO_INVALIDO.getCodigo());
             throw new RuntimeException(e);
         }
@@ -71,10 +77,9 @@ public class CalculadorHash {
         try {
             messageDigest = MessageDigest.getInstance("SHA-512");
         } catch (NoSuchAlgorithmException e) {
-            logger.severe(Principal.tradutor
-                    .traduzirMensagem("error.hash.invalid.algorithm")
-                    .formatted(e.getMessage()));
-            logger.severe(Principal.tradutor.traduzirMensagem("app.end"));
+            logger.severe(
+                    tradutor.traduzirMensagem("error.hash.invalid.algorithm").formatted(e.getMessage()));
+            logger.severe(tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ALGORITMO_INVALIDO.getCodigo());
             throw new RuntimeException(e);
         }

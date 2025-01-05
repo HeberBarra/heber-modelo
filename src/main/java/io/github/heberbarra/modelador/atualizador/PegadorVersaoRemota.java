@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,15 +26,18 @@ public class PegadorVersaoRemota {
 
     private static final Logger logger = JavaLogger.obterLogger(PegadorVersaoRemota.class.getName());
     private static final URL URL_RELEASES_GITHUB;
+    private static final Tradutor tradutor;
 
     static {
+        TradutorFactory tradutorFactory = new TradutorFactory();
+        tradutor = tradutorFactory.criarObjeto();
         try {
             URI releasesGithub = new URI("https://api.github.com/repos/HeberBarra/%s/releases/latest"
                     .formatted(Principal.NOME_PROGRAMA.toLowerCase()));
             URL_RELEASES_GITHUB = releasesGithub.toURL();
         } catch (URISyntaxException | MalformedURLException e) {
-            logger.severe("A URL contém um erro grave. %s%n".formatted(e.getMessage()));
-            logger.severe("Encerrando o programa...\n");
+            logger.severe(tradutor.traduzirMensagem("error.urls.create").formatted(e.getMessage()));
+            logger.severe(tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ERRO_CRIACAO_URLS.getCodigo());
             throw new RuntimeException();
         }
@@ -52,8 +57,9 @@ public class PegadorVersaoRemota {
         try {
             connection = (HttpsURLConnection) URL_RELEASES_GITHUB.openConnection();
         } catch (IOException e) {
-            logger.severe("Um erro ocorreu ao tentar se conectar ao GitHub. %s%n".formatted(e.getMessage()));
-            logger.severe("Encerrando o programa...\n");
+            logger.severe(
+                    tradutor.traduzirMensagem("error.update.connect.github").formatted(e.getMessage()));
+            logger.severe(tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ERRO_CONEXAO.getCodigo());
             return "";
         }
@@ -61,20 +67,23 @@ public class PegadorVersaoRemota {
         try {
             connection.setRequestMethod("GET");
         } catch (ProtocolException e) {
-            logger.severe("Protocolo inválido. %s%n".formatted(e.getMessage()));
-            logger.severe("Encerrando o programa...");
+            logger.severe(
+                    tradutor.traduzirMensagem("error.update.protocol.invalid").formatted(e.getMessage()));
+            logger.severe(tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.PROTOCOLO_INVALIDO.getCodigo());
             return "";
         }
 
         try {
             if (connection.getResponseCode() != HttpsURLConnection.HTTP_OK) {
-                logger.warning("Código diferente de 200. Código: %d%n".formatted(connection.getResponseCode()));
+                logger.warning(
+                        tradutor.traduzirMensagem("error.update.code.not.200").formatted(connection.getResponseCode()));
                 return "";
             }
         } catch (IOException e) {
-            logger.warning("Um erro ocorreu ao tentar se conectar ao GitHub. %s%n".formatted(e.getMessage()));
-            logger.warning("Verifique sua conexão de internet.");
+            logger.warning(
+                    tradutor.traduzirMensagem("error.update.connect.github").formatted(e.getMessage()));
+            logger.warning(tradutor.traduzirMensagem("error.update.verify.internet"));
             return "";
         }
 
@@ -87,8 +96,9 @@ public class PegadorVersaoRemota {
             connection.disconnect();
             return stringBuilder.toString();
         } catch (IOException e) {
-            logger.severe("Ocorreu um erro ao tentar ler o corpo da resposta. %s%n".formatted(e.getMessage()));
-            logger.severe("Encerrando o programa...\n");
+            logger.severe(
+                    tradutor.traduzirMensagem("error.update.read.response.body").formatted(e.getMessage()));
+            logger.severe(tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ERRO_LEITURA_RESPONSE.getCodigo());
             return "";
         }
@@ -111,8 +121,9 @@ public class PegadorVersaoRemota {
             JsonRespostaHttp jsonRespostaHttp = objectMapper.readValue(resposta, JsonRespostaHttp.class);
             return jsonRespostaHttp.getName();
         } catch (JsonProcessingException e) {
-            logger.severe("Ocorreu um erro ao tentar converter a resposta para json. %s%n".formatted(e.getMessage()));
-            logger.severe("Encerrando o programa...\n");
+            logger.severe(
+                    tradutor.traduzirMensagem("error.update.convert.response").formatted(e.getMessage()));
+            logger.severe(tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.ERRO_CONVERSAO_RESPONSE.getCodigo());
         }
         return "";
