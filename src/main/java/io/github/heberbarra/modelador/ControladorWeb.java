@@ -24,6 +24,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -50,7 +52,7 @@ public class ControladorWeb {
     }
 
     private static void injetarToken(ModelMap modelMap) {
-        modelMap.addAttribute("desligar", "desligar.html?token=" + TOKEN_SECRETO);
+        modelMap.addAttribute("desligar", TOKEN_SECRETO);
     }
 
     public static void injetarNomePrograma(ModelMap modelMap, String nomePagina) {
@@ -184,8 +186,13 @@ public class ControladorWeb {
         return "novo";
     }
 
-    @RequestMapping({"/desligar", "/desligar.html"})
-    public String desligar(ModelMap modelMap, @RequestParam("token") String token) {
+    @GetMapping({"desligar", "desligar.html"})
+    public String desligar() {
+        return "redirect:index";
+    }
+
+    @PostMapping({"/desligar", "/desligar.html"})
+    public void desligar(ModelMap modelMap, @RequestParam("token") String token) {
         injetarToken(modelMap);
         injetarPaleta(modelMap);
 
@@ -193,12 +200,10 @@ public class ControladorWeb {
             logger.info(TradutorWrapper.tradutor.traduzirMensagem("app.end"));
             injetarNomePrograma(modelMap, " - Desligar");
             System.exit(CodigoSaida.OK.getCodigo());
-            return "desligar";
         }
 
         injetarNomePrograma(modelMap, "");
-        logger.severe("Alguém tentou encerrar o programa sem utilizar o token secreto");
-        return "index";
+        logger.severe(TradutorWrapper.tradutor.traduzirMensagem("error.shutdown.invalid.token"));
     }
 
     @RequestMapping({"/privacidade", "/privacidade.html"})
