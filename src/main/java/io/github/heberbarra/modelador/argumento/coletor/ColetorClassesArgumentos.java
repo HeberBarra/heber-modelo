@@ -2,8 +2,7 @@ package io.github.heberbarra.modelador.argumento.coletor;
 
 import io.github.heberbarra.modelador.argumento.Argumento;
 import io.github.heberbarra.modelador.logger.JavaLogger;
-import io.github.heberbarra.modelador.tradutor.Tradutor;
-import io.github.heberbarra.modelador.tradutor.TradutorFactory;
+import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -17,19 +16,17 @@ import org.springframework.core.type.filter.AssignableTypeFilter;
  * Utiliza o anti pattern <b>Singleton</b> para garantir que a classe não consumirá mais memória do que o necessário
  * <p>
  * NOTE: Futuramente adicionado suporte para coleção de classes que herdam de {@link Argumento} criadas por usuários, para prover melhor suporte a plugins
+ *
  * @since v0.0.4-SNAPSHOT
- * */
+ */
 public class ColetorClassesArgumentos {
 
     private static final Logger logger = JavaLogger.obterLogger(ColetorClassesArgumentos.class.getName());
     private static ColetorClassesArgumentos coletorClassesArgumentos;
     private final Set<Class<Argumento>> argumentos;
-    private final Tradutor tradutor;
 
     private ColetorClassesArgumentos() {
         argumentos = new HashSet<>();
-        TradutorFactory tradutorFactory = new TradutorFactory();
-        tradutor = tradutorFactory.criarObjeto();
     }
 
     public static synchronized ColetorClassesArgumentos getInstance() {
@@ -42,7 +39,7 @@ public class ColetorClassesArgumentos {
 
     /**
      * Escaneia o pacote argumento e coleta todas as classes que herdam de {@link Argumento} e salva elas num {@code Set} para evitar duplicatas
-     * */
+     */
     @SuppressWarnings("unchecked")
     public void coletarArgumentos() {
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
@@ -54,8 +51,9 @@ public class ColetorClassesArgumentos {
             try {
                 argumentos.add((Class<Argumento>) Class.forName(beanDefinition.getBeanClassName()));
             } catch (ClassNotFoundException e) {
-                logger.warning(
-                        tradutor.traduzirMensagem("error.class.notfound").formatted(beanDefinition.getBeanClassName()));
+                logger.warning(TradutorWrapper.tradutor
+                        .traduzirMensagem("error.class.notfound")
+                        .formatted(beanDefinition.getBeanClassName()));
             }
         }
     }

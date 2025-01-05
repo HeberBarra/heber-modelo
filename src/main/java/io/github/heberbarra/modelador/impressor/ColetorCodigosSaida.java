@@ -2,8 +2,7 @@ package io.github.heberbarra.modelador.impressor;
 
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.logger.JavaLogger;
-import io.github.heberbarra.modelador.tradutor.Tradutor;
-import io.github.heberbarra.modelador.tradutor.TradutorFactory;
+import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,12 +17,9 @@ public class ColetorCodigosSaida {
     private static final Logger logger = JavaLogger.obterLogger(ColetorCodigosSaida.class.getName());
     public static final String PACOTE_ENUMS_CODIGOS_SAIDA = "io.github.heberbarra.modelador.codigosaida";
     private final Set<DadosCodigoSaida> dadosCodigosSaida;
-    private final Tradutor tradutor;
 
     public ColetorCodigosSaida() {
         dadosCodigosSaida = new HashSet<>();
-        TradutorFactory tradutorFactory = new TradutorFactory();
-        tradutor = tradutorFactory.criarObjeto();
     }
 
     public void coletarCodigosEnum() {
@@ -53,8 +49,9 @@ public class ColetorCodigosSaida {
             try {
                 enums.add((Class<Enum<?>>) Class.forName(beanDefinition.getBeanClassName()));
             } catch (ClassNotFoundException e) {
-                logger.warning(
-                        tradutor.traduzirMensagem("error.class.notfound").formatted(beanDefinition.getBeanClassName()));
+                logger.warning(TradutorWrapper.tradutor
+                        .traduzirMensagem("error.class.notfound")
+                        .formatted(beanDefinition.getBeanClassName()));
             }
         }
 
