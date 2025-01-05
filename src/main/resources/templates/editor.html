@@ -7,89 +7,113 @@
     <title>Editor</title>
   </head>
   <body>
-    <header th:insert="~{fragments/header :: header}"></header>
+    <header th:replace="~{fragments/header :: header}"></header>
     <aside id="diagramas">
       <section id="UML">
         <h2>UML</h2>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="DDA" title="Diagrama de Atividades"
-        /></label>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="DCU" title="Diagrama de Caso de Uso"
-        /></label>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="DCL" title="Diagrama de Classes"
-        /></label>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="DCM" title="Diagrama de Comunicação"
-        /></label>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="DCP" title="Diagrama de Componentes"
-        /></label>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="DEC" title="Diagrama de Estrutura Composta"
-        /></label>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="DDI" title="Diagrama de Implantação"
-        /></label>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="DVI" title="Diagrama de Visão Geral da Interação"
-        /></label>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="DDO" title="Diagrama de Objetos"
-        /></label>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="DDP" title="Diagrama de Pacotes"
-        /></label>
-        <label
-          ><span class="traco"></span><input type="checkbox" value="DPF" title="Diagrama de Perfil"
-        /></label>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="DTE" title="Diagrama de Transição de Estados"
-        /></label>
-        <label
-          ><span class="traco"></span><input type="checkbox" value="DDT" title="Diagrama de Tempo"
-        /></label>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="DDS" title="Diagrama de Sequência"
-        /></label>
+        <label title="Diagrama de Atividades">
+          <span class="traco"></span>
+          <input type="checkbox" value="DDA" />
+          DDA
+        </label>
+        <label title="Diagrama de Caso de Uso">
+          <span class="traco"></span>
+          <input type="checkbox" value="DCU" />
+          DCU
+        </label>
+        <label title="Diagrama de Classes">
+          <span class="traco"></span>
+          <input type="checkbox" value="DCL" />
+          DCL
+        </label>
+        <label title="Diagrama de Comunicação">
+          <span class="traco"></span>
+          <input type="checkbox" value="DCM" />
+          DCM
+        </label>
+        <label title="Diagrama de Componentes">
+          <span class="traco"></span>
+          <input type="checkbox" value="DCP" />
+          DCP
+        </label>
+        <label title="Diagrama de Estrutura Composta">
+          <span class="traco"></span>
+          <input type="checkbox" value="DEC" />
+          DEC
+        </label>
+        <label title="Diagrama de Implantação">
+          <span class="traco"></span>
+          <input type="checkbox" value="DDI" />
+          DDI
+        </label>
+        <label title="Diagrama de Visão Geral da Interação">
+          <span class="traco"></span>
+          <input type="checkbox" value="DVI" />
+          DVI
+        </label>
+        <label title="Diagrama de Objetos">
+          <span class="traco"></span>
+          <input type="checkbox" value="DDO" />
+          DDO
+        </label>
+        <label title="Diagrama de Pacotes">
+          <span class="traco"></span>
+          <input type="checkbox" value="DDP" />
+          DDP
+        </label>
+        <label title="Diagrama de Perfil">
+          <span class="traco"></span>
+          <input type="checkbox" value="DPF" />
+          DPF
+        </label>
+        <label title="Diagrama de Transição de Estados">
+          <span class="traco"></span>
+          <input type="checkbox" value="DTE" />
+          DTE
+        </label>
+        <label title="Diagrama de Tempo">
+          <span class="traco"></span>
+          <input type="checkbox" value="DDT" />
+          DDT
+        </label>
+        <label title="Diagrama de Sequência">
+          <span class="traco"></span>
+          <input type="checkbox" value="DDS" />
+          DDS
+        </label>
       </section>
       <section id="banco-de-dados">
         <h2>BANCO DE DADOS</h2>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="DER" title="Diagrama de Entidade Relacionamento"
-        /></label>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="DRL" title="Descrição Relacional"
-        /></label>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="MER" title="Modelo Entidade Relacionamento"
-        /></label>
-        <label
-          ><span class="traco"></span
-          ><input type="checkbox" value="DDD" title="Dicionário de Dados"
-        /></label>
-        <label
-          ><span class="traco"></span><input type="checkbox" value="FLX" title="Fluxograma"
-        /></label>
-        <label
-          ><span class="traco"></span><input type="checkbox" value="ORG" title="Organograma"
-        /></label>
+        <label title="Diagrama de Entidade Relacionamento">
+          <span class="traco"></span>
+          <input type="checkbox" value="DER" />
+          DER
+        </label>
+        <label title="Descrição Relacional">
+          <span class="traco"></span>
+          <input type="checkbox" value="DRL" />
+          DRL
+        </label>
+        <label title="Modelo Entidade Relacionamento">
+          <span class="traco"></span>
+          <input type="checkbox" value="MER" />
+          MER
+        </label>
+        <label title="Dicionário de Dados">
+          <span class="traco"></span>
+          <input type="checkbox" value="DDD" />
+          DDD
+        </label>
+        <label title="Fluxograma">
+          <span class="traco"></span>
+          <input type="checkbox" value="FLX" />
+          FLX
+        </label>
+        <label title="Organograma">
+          <span class="traco"></span>
+          <input type="checkbox" value="ORG" />
+          ORG
+        </label>
       </section>
     </aside>
     <main></main>
