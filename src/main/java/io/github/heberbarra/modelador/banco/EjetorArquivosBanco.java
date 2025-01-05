@@ -1,9 +1,10 @@
 package io.github.heberbarra.modelador.banco;
 
-import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.recurso.AcessadorRecursos;
+import io.github.heberbarra.modelador.tradutor.Tradutor;
+import io.github.heberbarra.modelador.tradutor.TradutorFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,11 +32,14 @@ public class EjetorArquivosBanco {
     private final AcessadorRecursos acessadorRecursos;
     private final ConfiguradorPrograma configurador;
     private final String destinoArquivos;
+    private final Tradutor tradutor;
 
     public EjetorArquivosBanco() {
         this.acessadorRecursos = new AcessadorRecursos();
         this.configurador = ConfiguradorPrograma.getInstance();
         this.destinoArquivos = configurador.pegarValorConfiguracao("ejetor", "destino", String.class);
+        TradutorFactory tradutorFactory = new TradutorFactory();
+        tradutor = tradutorFactory.criarObjeto();
     }
 
     /**
@@ -73,17 +77,14 @@ public class EjetorArquivosBanco {
             String nomeArquivo = Arrays.stream(arquivo.split("/")).toList().getLast();
             File arquivoDestino = new File(pastaDestino + nomeArquivo);
             if (arquivoDestino.getParentFile().mkdirs())
-                logger.info(Principal.tradutor.traduzirMensagem("file.dirs.creation.success"));
+                logger.info(tradutor.traduzirMensagem("file.dirs.creation.success"));
 
             if (arquivoDestino.createNewFile())
-                logger.info(Principal.tradutor
-                        .traduzirMensagem("file.creation.success")
-                        .formatted(arquivoDestino));
+                logger.info(tradutor.traduzirMensagem("file.creation.success").formatted(arquivoDestino));
 
             Files.copy(arquivoExtraido, arquivoDestino.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            logger.warning(
-                    Principal.tradutor.traduzirMensagem("error.file.create").formatted(arquivo, e.getMessage()));
+            logger.warning(tradutor.traduzirMensagem("error.file.create").formatted(arquivo, e.getMessage()));
         }
     }
 
@@ -104,9 +105,7 @@ public class EjetorArquivosBanco {
 
             Files.createSymbolicLink(caminhoLink, arquivoEnv);
         } catch (IOException e) {
-            logger.warning(Principal.tradutor
-                    .traduzirMensagem("error.file.create.link")
-                    .formatted(arquivoLink));
+            logger.warning(tradutor.traduzirMensagem("error.file.create.link").formatted(arquivoLink));
             throw new RuntimeException(e);
         }
     }
