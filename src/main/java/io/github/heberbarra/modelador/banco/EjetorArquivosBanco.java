@@ -3,8 +3,7 @@ package io.github.heberbarra.modelador.banco;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.recurso.AcessadorRecursos;
-import io.github.heberbarra.modelador.tradutor.Tradutor;
-import io.github.heberbarra.modelador.tradutor.TradutorFactory;
+import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,8 +18,9 @@ import java.util.logging.Logger;
  * possa utilizá-los mais facilmente.
  * <p>
  * Considere "ejetar" nesse contexto, como fazer uma cópia de um arquivo.
+ *
  * @since v0.0.4-SNAPSHOT
- * */
+ */
 public class EjetorArquivosBanco {
 
     private static final Logger logger = JavaLogger.obterLogger(EjetorArquivosBanco.class.getName());
@@ -32,19 +32,16 @@ public class EjetorArquivosBanco {
     private final AcessadorRecursos acessadorRecursos;
     private final ConfiguradorPrograma configurador;
     private final String destinoArquivos;
-    private final Tradutor tradutor;
 
     public EjetorArquivosBanco() {
         this.acessadorRecursos = new AcessadorRecursos();
         this.configurador = ConfiguradorPrograma.getInstance();
         this.destinoArquivos = configurador.pegarValorConfiguracao("ejetor", "destino", String.class);
-        TradutorFactory tradutorFactory = new TradutorFactory();
-        tradutor = tradutorFactory.criarObjeto();
     }
 
     /**
      * Ejeta os arquivos utilizados para configurar a base de dados
-     * */
+     */
     public void ejetarScriptsConfiguracao() {
         String pastaDestino = destinoArquivos + "init/";
         ejetarArquivo(pastaDestino, CONFIGURAR_BANCO);
@@ -55,7 +52,7 @@ public class EjetorArquivosBanco {
      * Ejeta o arquivo utilizado para criar o docker compose do programa, opcionalmente, caso o usuário deseje
      * (decido pela configuração do programa), cria uma cópia do arquivo env para o mesmo local para onde será
      * ejetado o arquivo docker compose
-     * */
+     */
     public void ejetarDockerCompose() {
         ejetarArquivo(destinoArquivos, ARQUIVO_DOCKER_COMPOSE);
 
@@ -69,28 +66,34 @@ public class EjetorArquivosBanco {
      * para o gerado
      * <p>
      * Cria a pasta de destino e suas antecessoras, caso as mesmas não existam
+     *
      * @param pastaDestino a pasta na qual o arquivo deve ser salvo
-     * @param arquivo o arquivo a ser ejetado pelo programa
+     * @param arquivo      o arquivo a ser ejetado pelo programa
      */
     private void ejetarArquivo(String pastaDestino, String arquivo) {
         try (InputStream arquivoExtraido = acessadorRecursos.pegarRecurso(arquivo)) {
             String nomeArquivo = Arrays.stream(arquivo.split("/")).toList().getLast();
             File arquivoDestino = new File(pastaDestino + nomeArquivo);
             if (arquivoDestino.getParentFile().mkdirs())
-                logger.info(tradutor.traduzirMensagem("file.dirs.creation.success"));
+                logger.info(TradutorWrapper.tradutor.traduzirMensagem("file.dirs.creation.success"));
 
             if (arquivoDestino.createNewFile())
-                logger.info(tradutor.traduzirMensagem("file.creation.success").formatted(arquivoDestino));
+                logger.info(TradutorWrapper.tradutor
+                        .traduzirMensagem("file.creation.success")
+                        .formatted(arquivoDestino));
 
             Files.copy(arquivoExtraido, arquivoDestino.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            logger.warning(tradutor.traduzirMensagem("error.file.create").formatted(arquivo, e.getMessage()));
+            logger.warning(TradutorWrapper.tradutor
+                    .traduzirMensagem("error.file.create")
+                    .formatted(arquivo, e.getMessage()));
         }
     }
 
     /**
      * Cria um link simbólico para o arquivo env especificado nas configurações do programa, permitindo assim passar
-     * segredos para os arquivos ejetados mais facilmente.*/
+     * segredos para os arquivos ejetados mais facilmente.
+     */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void copiarArquivoDotEnv() {
         String nomeEnv = configurador.pegarValorConfiguracao("ejetor", "nome_arquivo_env", String.class);
@@ -105,7 +108,9 @@ public class EjetorArquivosBanco {
 
             Files.createSymbolicLink(caminhoLink, arquivoEnv);
         } catch (IOException e) {
-            logger.warning(tradutor.traduzirMensagem("error.file.create.link").formatted(arquivoLink));
+            logger.warning(TradutorWrapper.tradutor
+                    .traduzirMensagem("error.file.create.link")
+                    .formatted(arquivoLink));
             throw new RuntimeException(e);
         }
     }

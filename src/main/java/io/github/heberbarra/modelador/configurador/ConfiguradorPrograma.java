@@ -4,8 +4,7 @@ import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.toml.ConversorToml;
 import io.github.heberbarra.modelador.configurador.toml.ConversorTomlPrograma;
 import io.github.heberbarra.modelador.logger.JavaLogger;
-import io.github.heberbarra.modelador.tradutor.Tradutor;
-import io.github.heberbarra.modelador.tradutor.TradutorFactory;
+import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -14,8 +13,9 @@ import java.util.logging.Logger;
  * Gerencia as configurações do programa, e permite acesso fácil às mesmas.
  * <p>
  * Utiliza o anti pattern {@code Singleton} para garantir o compartilhamento das informações entre os utilizadores.
+ *
  * @since v0.0.1-SNAPSHOT
- * */
+ */
 public final class ConfiguradorPrograma implements Configurador {
 
     public static final String ARQUIVO_PALETA = "paleta.toml";
@@ -28,7 +28,6 @@ public final class ConfiguradorPrograma implements Configurador {
     private final VerificadorConfiguracaoPrograma verificadorConfiguracao;
     private final CombinadorConfiguracoes combinadorConfiguracoes;
     private final LeitorConfiguracao leitorConfiguracao;
-    private final Tradutor tradutor;
 
     private ConfiguradorPrograma() {
         conversorToml = new ConversorTomlPrograma();
@@ -38,8 +37,6 @@ public final class ConfiguradorPrograma implements Configurador {
         leitorConfiguracao =
                 new LeitorConfiguracao(pastaConfiguracao.getPasta(), ARQUIVO_CONFIGURACOES, ARQUIVO_PALETA);
         combinadorConfiguracoes = new CombinadorConfiguracoes();
-        TradutorFactory tradutorFactory = new TradutorFactory();
-        tradutor = tradutorFactory.criarObjeto();
     }
 
     public static synchronized ConfiguradorPrograma getInstance() {
@@ -52,9 +49,10 @@ public final class ConfiguradorPrograma implements Configurador {
 
     /**
      * Lê as configurações padrões do programa, para permitir a geração dos arquivos caso não existam ainda
+     *
      * @see CriadorConfiguracoes
      * @see ConfiguradorPrograma#criarArquivos()
-     * */
+     */
     @Override
     public void lerConfiguracaoPadrao() {
         verificadorConfiguracao.lerArquivosTemplate();
@@ -66,8 +64,9 @@ public final class ConfiguradorPrograma implements Configurador {
 
     /**
      * Cria a pasta e os arquivos de configuração se não existirem.
+     *
      * @see CriadorConfiguracoes
-     * */
+     */
     @Override
     public void criarArquivos() {
         criadorConfiguracoes.criarPastaConfiguracao(pastaConfiguracao.getPasta());
@@ -78,8 +77,9 @@ public final class ConfiguradorPrograma implements Configurador {
 
     /**
      * Lê as configurações do programa.
+     *
      * @see LeitorConfiguracao
-     * */
+     */
     @Override
     public void lerConfiguracao() {
         leitorConfiguracao.lerArquivos();
@@ -87,8 +87,9 @@ public final class ConfiguradorPrograma implements Configurador {
 
     /**
      * Verifica se há algum erro na configuração do programa, caso haja um erro o grave o programa é encerrado com o código de saída: {@link CodigoSaida#ERRO_CONFIGURACOES}.
+     *
      * @see VerificadorConfiguracaoPrograma
-     * */
+     */
     public void verificarConfiguracoes() {
         verificadorConfiguracao.verificarArquivoConfiguracao(
                 criadorConfiguracoes.getConfiguracaoPadrao(), leitorConfiguracao.getInformacoesConfiguracoes());
@@ -96,15 +97,16 @@ public final class ConfiguradorPrograma implements Configurador {
                 criadorConfiguracoes.getPaletaPadrao(), leitorConfiguracao.getInformacoesPaleta());
 
         if (verificadorConfiguracao.configuracoesContemErrosGraves()) {
-            logger.severe(tradutor.traduzirMensagem("error.config.end.app"));
+            logger.severe(TradutorWrapper.tradutor.traduzirMensagem("error.config.end.app"));
             System.exit(CodigoSaida.ERRO_CONFIGURACOES.getCodigo());
         }
     }
 
     /**
      * Mostra as configurações atuais do programa
+     *
      * @see LeitorConfiguracao
-     * */
+     */
     @Override
     public void mostrarConfiguracao() {
         String[] informacoesConfiguracao = leitorConfiguracao.pegarStringConfiguracao();
@@ -116,8 +118,9 @@ public final class ConfiguradorPrograma implements Configurador {
 
     /**
      * Atualiza as configurações do programa, mantendo os valores, com novas opções, se houverem, de configuração
+     *
      * @see CombinadorConfiguracoes
-     * */
+     */
     @Override
     public void combinarConfiguracoes() {
         Map<String, List<Map<String, String>>> dadosConfiguracoes = combinadorConfiguracoes.combinarConfiguracoes(
@@ -142,10 +145,11 @@ public final class ConfiguradorPrograma implements Configurador {
 
     /**
      * Pega o código hexadecimal de uma cor específica da paleta.
+     *
      * @param nomeVariavel o nome da variável na paleta de cores
      * @return o código hexadecimal da cor
      * @see LeitorConfiguracao
-     * */
+     */
     @Override
     public String pegarCorPaleta(String nomeVariavel) {
         return leitorConfiguracao.pegarCorPaleta(nomeVariavel);
@@ -153,9 +157,10 @@ public final class ConfiguradorPrograma implements Configurador {
 
     /**
      * Pega todas as variáveis da paleta com seus respectivos códigos hexadecimais
+     *
      * @return um {@link Map} contendo as informações da paleta de cores
      * @see LeitorConfiguracao
-     * */
+     */
     @Override
     public Map<String, String> pegarInformacoesPaleta() {
         return leitorConfiguracao.pegarVariaveisPaleta();
@@ -163,12 +168,13 @@ public final class ConfiguradorPrograma implements Configurador {
 
     /**
      * Pega o valor de um atributo específico, sendo necessário indicar o nome, a tabela e o tipo do atributo.
+     *
      * @param categoria a tabela/categoria na qual se encontra o atributo desejado
-     * @param atributo o nome do atributo desejado
-     * @param tipo o tipo do atributo, devendo ser de um dos seguintes tipos: {@code String}, {@code long}, {@code double} ou {@code boolean}
+     * @param atributo  o nome do atributo desejado
+     * @param tipo      o tipo do atributo, devendo ser de um dos seguintes tipos: {@code String}, {@code long}, {@code double} ou {@code boolean}
      * @return o valor do atributo requirido ou {@code null} caso o valor não tenha sido encontrado.
      * @see LeitorConfiguracao
-     * */
+     */
     @Override
     public <T> T pegarValorConfiguracao(String categoria, String atributo, Class<T> tipo) {
         return leitorConfiguracao.pegarValorConfiguracao(categoria, atributo, tipo);

@@ -4,8 +4,7 @@ import io.github.heberbarra.modelador.argumento.executador.ExecutadorArgumentos;
 import io.github.heberbarra.modelador.atualizador.AtualizadorPrograma;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.logger.JavaLogger;
-import io.github.heberbarra.modelador.tradutor.Tradutor;
-import io.github.heberbarra.modelador.tradutor.TradutorFactory;
+import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
@@ -30,7 +29,6 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
     public static final String NOME_PROGRAMA = "Heber-Modelo";
     private static final Logger logger = JavaLogger.obterLogger(Principal.class.getName());
     private static final ConfiguradorPrograma configurador = ConfiguradorPrograma.getInstance();
-    private static final Tradutor tradutor = new TradutorFactory().criarObjeto();
 
     public static void main(String[] args) {
         Locale.setDefault(Locale.of("pt", "br"));
@@ -56,7 +54,9 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
             try {
                 dotEnv.createNewFile();
             } catch (IOException e) {
-                logger.severe(tradutor.traduzirMensagem("error.create.env").formatted(e.getMessage()));
+                logger.severe(TradutorWrapper.tradutor
+                        .traduzirMensagem("error.create.env")
+                        .formatted(e.getMessage()));
             }
         }
     }

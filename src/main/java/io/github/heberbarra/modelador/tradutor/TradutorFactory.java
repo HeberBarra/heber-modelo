@@ -4,7 +4,7 @@ import io.github.heberbarra.modelador.Principal;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-public class TradutorFactory {
+class TradutorFactory {
 
     private final ApplicationContext applicationContext;
 

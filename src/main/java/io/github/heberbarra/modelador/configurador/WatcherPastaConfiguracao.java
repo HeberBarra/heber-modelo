@@ -1,8 +1,7 @@
 package io.github.heberbarra.modelador.configurador;
 
 import io.github.heberbarra.modelador.logger.JavaLogger;
-import io.github.heberbarra.modelador.tradutor.Tradutor;
-import io.github.heberbarra.modelador.tradutor.TradutorFactory;
+import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -22,7 +21,6 @@ public class WatcherPastaConfiguracao implements Runnable {
     private final LeitorConfiguracao leitorConfiguracao;
     private final VerificadorConfiguracaoPrograma verificadorConfiguracaoPrograma;
     private final Path pastaConfiguracao;
-    private final Tradutor tradutor;
 
     public WatcherPastaConfiguracao() {
         configurador = ConfiguradorPrograma.getInstance();
@@ -30,8 +28,6 @@ public class WatcherPastaConfiguracao implements Runnable {
         leitorConfiguracao = configurador.getLeitorConfiguracao();
         verificadorConfiguracaoPrograma = new VerificadorConfiguracaoPrograma();
         pastaConfiguracao = Path.of(new PastaConfiguracaoPrograma().decidirPastaConfiguracao());
-        TradutorFactory tradutorFactory = new TradutorFactory();
-        tradutor = tradutorFactory.criarObjeto();
     }
 
     public void recarregarConfiguracao() {
@@ -43,10 +39,10 @@ public class WatcherPastaConfiguracao implements Runnable {
         verificadorConfiguracaoPrograma.verificarArquivoPaleta(criadorConfiguracoes.getPaletaPadrao(), paleta);
 
         if (verificadorConfiguracaoPrograma.configuracoesContemErrosGraves()) {
-            logger.warning(tradutor.traduzirMensagem("error.config.reload"));
+            logger.warning(TradutorWrapper.tradutor.traduzirMensagem("error.config.reload"));
         } else {
             configurador.lerConfiguracao();
-            logger.info(tradutor.traduzirMensagem("config.reloaded"));
+            logger.info(TradutorWrapper.tradutor.traduzirMensagem("config.reloaded"));
         }
     }
 
@@ -59,8 +55,9 @@ public class WatcherPastaConfiguracao implements Runnable {
             watcher = FileSystems.getDefault().newWatchService();
             pastaConfiguracao.register(watcher, StandardWatchEventKinds.ENTRY_MODIFY);
         } catch (IOException e) {
-            logger.warning(
-                    tradutor.traduzirMensagem("error.config.create.watcher").formatted(e.getMessage()));
+            logger.warning(TradutorWrapper.tradutor
+                    .traduzirMensagem("error.config.create.watcher")
+                    .formatted(e.getMessage()));
             return;
         }
 
@@ -79,7 +76,7 @@ public class WatcherPastaConfiguracao implements Runnable {
                     return;
                 }
 
-                logger.info(tradutor.traduzirMensagem("config.changed"));
+                logger.info(TradutorWrapper.tradutor.traduzirMensagem("config.changed"));
 
                 try {
                     Thread.sleep(DELAY_RELOAD);

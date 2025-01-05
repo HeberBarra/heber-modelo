@@ -4,8 +4,7 @@ import io.github.heberbarra.modelador.configurador.json.JsonVerificadorConfigura
 import io.github.heberbarra.modelador.configurador.json.JsonVerificadorPaleta;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.recurso.AcessadorRecursos;
-import io.github.heberbarra.modelador.tradutor.Tradutor;
-import io.github.heberbarra.modelador.tradutor.TradutorFactory;
+import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,13 +14,13 @@ import org.tomlj.TomlTable;
 /**
  * Analisa a configuração do usuário, e reporta os erros encontrados.
  * A variável {@link VerificadorConfiguracaoPrograma#configuracaoErrada} é definida como {@code true} caso haja algum erro grave.
+ *
  * @since v0.0.2-SNAPSHOT
- * */
+ */
 public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao {
 
     private static final Logger logger = JavaLogger.obterLogger(VerificadorConfiguracaoPrograma.class.getName());
     private final List<LeitorArquivoVerificacao<?>> leitores;
-    private final Tradutor tradutor;
     private boolean configuracaoErrada;
 
     public VerificadorConfiguracaoPrograma() {
@@ -33,14 +32,13 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
                 acessadorRecursos.pegarArquivoRecurso("config/configuracao.template.json")));
         leitores.add(new LeitorArquivoVerificacaoPadrao<>(
                 JsonVerificadorPaleta.class, acessadorRecursos.pegarArquivoRecurso("config/paleta.template.json")));
-        TradutorFactory tradutorFactory = new TradutorFactory();
-        tradutor = tradutorFactory.criarObjeto();
     }
 
     /**
      * Lê os arquivos de modelo de configuração.
+     *
      * @see LeitorArquivoVerificacaoPadrao
-     * */
+     */
     public void lerArquivosTemplate() {
         leitores.forEach(LeitorArquivoVerificacao::lerArquivo);
     }
@@ -57,8 +55,9 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
 
     /**
      * Mostra na tela as informações de todos os leitores disponíveis.
+     *
      * @see LeitorArquivoVerificacaoPadrao
-     * */
+     */
     public void mostrarInformacoes() {
         leitores.forEach(leitor -> System.out.println(leitor.getInformacoesJson()));
     }
@@ -81,15 +80,17 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
         for (String categoria : dados.keySet()) {
 
             if (!configuracaoPadrao.containsKey(categoria)) {
-                logger.warning(tradutor.traduzirMensagem("error.config.category.notfound")
+                logger.warning(TradutorWrapper.tradutor
+                        .traduzirMensagem("error.config.category.notfound")
                         .formatted(categoria));
                 continue;
             }
 
             TomlTable tabelaCategoria = dados.getTable(categoria);
             if (tabelaCategoria == null) {
-                logger.warning(
-                        tradutor.traduzirMensagem("error.config.category.empty").formatted(categoria));
+                logger.warning(TradutorWrapper.tradutor
+                        .traduzirMensagem("error.config.category.empty")
+                        .formatted(categoria));
                 continue;
             }
 
@@ -114,13 +115,15 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
         }
 
         if (quantidade == 0) {
-            logger.warning(
-                    tradutor.traduzirMensagem("error.config.attribute.invalid").formatted(nomeAtributo));
+            logger.warning(TradutorWrapper.tradutor
+                    .traduzirMensagem("error.config.attribute.invalid")
+                    .formatted(nomeAtributo));
             return;
         }
 
         if (quantidade > 1) {
-            logger.warning(tradutor.traduzirMensagem("error.config.attribute.multiple.occurrences")
+            logger.warning(TradutorWrapper.tradutor
+                    .traduzirMensagem("error.config.attribute.multiple.occurrences")
                     .formatted(nomeAtributo, quantidade));
         }
 
@@ -131,7 +134,8 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
             return;
         }
 
-        logger.warning(tradutor.traduzirMensagem("error.config.attribute.invalid.type")
+        logger.warning(TradutorWrapper.tradutor
+                .traduzirMensagem("error.config.attribute.invalid.type")
                 .formatted(nomeAtributo, tipoPadraoAtributo));
         configuracaoErrada = true;
     }
@@ -142,7 +146,7 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
         List<Map<String, String>> variaveisTabelaPadrao = paletaPadrao.get("paleta");
 
         if (tabelaPaleta == null) {
-            logger.warning(tradutor.traduzirMensagem("error.paleta.notfound"));
+            logger.warning(TradutorWrapper.tradutor.traduzirMensagem("error.paleta.notfound"));
             configuracaoErrada = true;
             return;
         }
@@ -165,19 +169,22 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
         }
 
         if (quantidade == 0) {
-            logger.warning(
-                    tradutor.traduzirMensagem("error.paleta.variable.notfound").formatted(nomeVariavel));
+            logger.warning(TradutorWrapper.tradutor
+                    .traduzirMensagem("error.paleta.variable.notfound")
+                    .formatted(nomeVariavel));
             return;
         }
 
         if (quantidade > 1) {
-            logger.warning(tradutor.traduzirMensagem("error.paleta.variable.multiple.occurrences")
+            logger.warning(TradutorWrapper.tradutor
+                    .traduzirMensagem("error.paleta.variable.multiple.occurrences")
                     .formatted(nomeVariavel, quantidade));
         }
 
         if (valor instanceof String valorVariavel) {
             if (!valorVariavel.matches(regexPaleta)) {
-                logger.warning(tradutor.traduzirMensagem("error.paleta.variable.invalid.format")
+                logger.warning(TradutorWrapper.tradutor
+                        .traduzirMensagem("error.paleta.variable.invalid.format")
                         .formatted(nomeVariavel));
                 configuracaoErrada = true;
             }
@@ -185,8 +192,9 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
             return;
         }
 
-        logger.warning(
-                tradutor.traduzirMensagem("error.paleta.variable.invalid.type").formatted(nomeVariavel));
+        logger.warning(TradutorWrapper.tradutor
+                .traduzirMensagem("error.paleta.variable.invalid.type")
+                .formatted(nomeVariavel));
         configuracaoErrada = true;
     }
 

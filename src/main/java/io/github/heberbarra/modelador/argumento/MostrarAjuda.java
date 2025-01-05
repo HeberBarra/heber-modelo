@@ -3,8 +3,7 @@ package io.github.heberbarra.modelador.argumento;
 import io.github.heberbarra.modelador.argumento.coletor.ColetorClassesArgumentos;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.logger.JavaLogger;
-import io.github.heberbarra.modelador.tradutor.Tradutor;
-import io.github.heberbarra.modelador.tradutor.TradutorFactory;
+import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -14,26 +13,24 @@ import org.fusesource.jansi.Ansi;
 
 /**
  * Mostra as flags disponíveis no programa junto de suas respectivas descrições.
+ *
  * @since v0.0.9-SNAPSHOT
- * */
+ */
 public class MostrarAjuda extends Argumento {
 
     private static final Logger logger = JavaLogger.obterLogger(MostrarAjuda.class.getName());
     private final ColetorClassesArgumentos coletorClassesArgumentos;
-    private final Tradutor tradutor;
 
     public MostrarAjuda() {
         coletorClassesArgumentos = ColetorClassesArgumentos.getInstance();
         this.descricao = "Mostra os comandos/flags disponíveis e as suas descrições.";
         this.flagsPermitidas = List.of("--ajuda", "--help", "-h");
-        TradutorFactory tradutorFactory = new TradutorFactory();
-        tradutor = tradutorFactory.criarObjeto();
     }
 
     /**
      * Exibe no {@code stdout} todas as flags do programa, junto dos valores permitidos e suas descrições.
      * Após isso encerra o programa
-     * */
+     */
     @Override
     public void run() {
         Set<Class<Argumento>> argumentos = coletorClassesArgumentos.getArgumentos();
@@ -44,11 +41,13 @@ public class MostrarAjuda extends Argumento {
                 Argumento argumento = construtorArgumento.newInstance();
                 imprimirInfo(argumento);
             } catch (NoSuchMethodException e) {
-                logger.warning(tradutor.traduzirMensagem("error.flag.get.constructor")
+                logger.warning(TradutorWrapper.tradutor
+                        .traduzirMensagem("error.flag.get.constructor")
                         .formatted(classeArgumento.getName(), e.getMessage()));
                 System.exit(CodigoSaida.ERRO_PEGAR_CONSTRUTOR.getCodigo());
             } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                logger.warning(tradutor.traduzirMensagem("error.flag.create.object")
+                logger.warning(TradutorWrapper.tradutor
+                        .traduzirMensagem("error.flag.create.object")
                         .formatted(classeArgumento.getName(), e.getMessage()));
                 System.exit(CodigoSaida.ERRO_CRIACAO_OBJETO.getCodigo());
             }
