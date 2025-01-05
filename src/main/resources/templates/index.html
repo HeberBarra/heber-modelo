@@ -16,7 +16,11 @@
     </main>
     <footer>
       Licença MIT &copy; Heber Ferreira Barra; João Gabriel de Cristo; Matheus Jun Alves Matuda.
-      <a th:href="${desligar}">Encerrar programa</a>
+      <button th:if="${desligar != null}" type="submit" id="btn-desligar">&circledS;</button>
     </footer>
+    <form th:if="${desligar != null}" id="form-desligar" action="desligar.html" method="post">
+      <label><input type="text" name="token" th:value="${desligar}" /></label>
+    </form>
+    <script th:if="${desligar != null}" th:src="@{/javascript/desligar.js}"></script>
   </body>
 </html>
