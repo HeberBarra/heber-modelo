@@ -4,7 +4,7 @@ form {
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-  width: 75%;
+  width: 60%;
 
   h2,
   h3 {
@@ -29,7 +29,7 @@ form {
     align-self: center;
     display: grid;
     width: 75%;
-    grid-template-columns: 75% 5% 20%;
+    grid-template-columns: 55% 5% 40%;
     row-gap: 2rem;
   }
 
@@ -41,14 +41,19 @@ form {
     border-radius: 0.5rem;
     padding: 0.5rem;
 
+    label {
+      max-width: 5rem;
+    }
+
     &#diagramas-uml {
       align-self: center;
       grid-column: span 4;
 
       div.checkbox-group {
         display: grid;
-        grid-template-columns: repeat(7, 14.28%);
+        grid-template-columns: repeat(7, 13%);
         column-gap: 0.5rem;
+        padding: 0 0.5rem;
       }
     }
 
@@ -60,23 +65,27 @@ form {
       grid-column: 1;
 
       div.checkbox-group {
-        width: 25%;
+        width: calc(100% - 10rem);
         display: grid;
         grid-template-columns: repeat(2, 50%);
       }
     }
 
     &#diagramas-outros {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       grid-column: 3;
 
       div.checkbox-group {
         display: flex;
         flex-direction: column;
+        width: calc(100% - 10rem);
       }
     }
 
     div.checkbox-group {
-      width: 70%;
+      width: 100%;
     }
   }
 
