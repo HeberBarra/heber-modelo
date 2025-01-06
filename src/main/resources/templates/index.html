@@ -3,6 +3,7 @@
   <head>
     <!--suppress HtmlUnknownTag -->
     <div th:replace="~{fragments/head :: head}"></div>
+    <link rel="stylesheet" th:if="${desligar != html}" th:href="@{/css/desligar.css}" />
     <title>Heber-Modelo</title>
   </head>
   <body>
