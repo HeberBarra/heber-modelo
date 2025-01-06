@@ -12,9 +12,10 @@ form {
 
   label:has(input[type="text"]),
   label:has(input[type="email"]) {
-    width: 100%;
+    width: 75%;
     display: grid;
-    grid-template-columns: 20% 80%;
+    grid-template-columns: 30% 70%;
+    align-self: center;
 
     input {
       grid-column: 2;
@@ -93,7 +94,7 @@ form {
     display: flex;
     flex-direction: row;
     align-self: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
     width: 70%;
   }
 }
