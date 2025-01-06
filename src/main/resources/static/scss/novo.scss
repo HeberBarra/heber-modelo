@@ -6,7 +6,6 @@ form {
   gap: 0.8rem;
   width: 60%;
 
-  h2,
   h3 {
     text-align: center;
   }
@@ -31,6 +30,7 @@ form {
     width: 75%;
     grid-template-columns: 53% 5% 42%;
     row-gap: 2rem;
+    margin-top: 2rem;
   }
 
   section {
