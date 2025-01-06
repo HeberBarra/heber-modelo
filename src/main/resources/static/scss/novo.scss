@@ -38,6 +38,7 @@ form {
     flex-direction: column;
     align-items: center;
     border: var(--cor-borda) solid 0.1rem;
+    border-radius: 0.5rem;
     padding: 0.5rem;
 
     &#diagramas-uml {
