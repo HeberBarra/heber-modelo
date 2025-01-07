@@ -1,5 +1,7 @@
 package io.github.heberbarra.modelador;
 
+import io.github.heberbarra.modelador.banco.UsuarioBanco;
+import io.github.heberbarra.modelador.banco.entidade.usuario.Usuario;
 import io.github.heberbarra.modelador.banco.entidade.usuario.UsuarioDAO;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.Configurador;
@@ -16,6 +18,7 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -150,20 +153,26 @@ public class ControladorWeb {
     @PostMapping({"/cadastro", "/cadastro.html"})
     public String cadastro(
             @RequestParam("nome-completo") String nomeCompleto,
-            @RequestParam("matricula") int matricula,
+            @RequestParam("matricula") long matricula,
             @RequestParam("email") String email,
             @RequestParam("senha") String senha,
             @RequestParam("confirmar-senha") String confirmacaoSenha,
+            @RequestParam(value = "papel", required = false) String tipo,
             ModelMap modelMap) {
+
+        Pattern regexEmail = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        if (!regexEmail.matcher(email).matches()) {
+            return "redirect:/cadastro?invalid-email";
+        }
 
         if (!senha.equals(confirmacaoSenha)) {
             return "redirect:/cadastro?mismatch";
         }
 
+        String tipoUsuario = tipo != null ? tipo : UsuarioBanco.ESTUDANTE.getNomeUsuario();
         UsuarioDAO usuarioDAO = new UsuarioDAO();
-        if (usuarioDAO.findByID(matricula) != null) {
-            return "redirect:/cadastro?exists";
-        }
+        Usuario usuario = new Usuario(matricula, email, nomeCompleto, senha, tipoUsuario);
+        System.out.println(usuario);
 
         return "redirect:/cadastro?success";
     }

@@ -10,6 +10,16 @@ import jakarta.persistence.Table;
 @Table(name = "tbUsuario")
 public class Usuario extends Entidade {
 
+    public Usuario() {}
+
+    public Usuario(long matricula, String email, String nome, String senha, String tipo) {
+        this.matricula = matricula;
+        this.email = email;
+        this.nome = nome;
+        this.senha = senha;
+        this.tipo = tipo;
+    }
+
     @Id
     @Column(name = "matricula_usuario")
     private long matricula;

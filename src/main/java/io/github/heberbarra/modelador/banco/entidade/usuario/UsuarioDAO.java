@@ -9,15 +9,14 @@ public class UsuarioDAO extends GenericDAO<Usuario> {
         super(Usuario.class);
     }
 
-    @Override
-    public Usuario findByID(int matricula) {
-        return super.findByID(matricula);
+    public Usuario findByID(long matricula) {
+        return entityManager.find(Usuario.class, matricula);
     }
 
     public Usuario findByName(String nome) {
-        String hqlSearch = "from %s u where u.name = :nome".formatted(Usuario.class.getSimpleName());
+        String hqlSearch = "from Usuario where nome = :nome";
         Query querySearch = entityManager.createQuery(hqlSearch);
-        querySearch.setParameter(":nome", nome);
+        querySearch.setParameter("nome", nome);
 
         return (Usuario) querySearch.getResultList().getFirst();
     }
