@@ -4,10 +4,22 @@
     <!--suppress HtmlUnknownTag -->
     <div th:replace="~{fragments/head :: head}"></div>
     <link rel="stylesheet" th:href="@{/css/cadastro.css}" />
+    <script th:src="@{/javascript/cadastro.js}" defer></script>
     <title>Cadastro</title>
   </head>
   <body>
     <header th:replace="~{fragments/header :: header}"></header>
+    <main>
+      <form action="cadastro.html" method="post">
+        <label>Nome completo: <input type="text" name="nome-completo" required /></label>
+        <label>Matrícula: <input type="number" name="matricula" required /></label>
+        <label>E-mail: <input type="email" name="email" required /></label>
+        <label>Senha: <input type="password" name="senha" required /></label>
+        <label>Confirmar senha: <input type="password" name="confirmar-senha" readonly /></label>
+        <button type="button" id="btn-enviar">Enviar</button>
+        <button type="submit" id="btn-enviar-verdadeiro" style="display: none"></button>
+      </form>
+    </main>
     <footer th:replace="~{fragments/licenseFooter :: footer}"></footer>
   </body>
 </html>
