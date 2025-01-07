@@ -11,11 +11,13 @@
     <header th:replace="~{fragments/header :: header}"></header>
     <main>
       <form action="cadastro.html" method="post">
+        <div class="aviso" th:if="${param.exists}">Usuário já existe</div>
         <label>Nome completo: <input type="text" name="nome-completo" required /></label>
         <label>Matrícula: <input type="number" name="matricula" required /></label>
         <label>E-mail: <input type="email" name="email" required /></label>
+        <div class="aviso" th:if="${param.mismatch}">Senhas não coincidem</div>
         <label>Senha: <input type="password" name="senha" required /></label>
-        <label>Confirmar senha: <input type="password" name="confirmar-senha" readonly /></label>
+        <label>Confirmar senha: <input type="password" name="confirmar-senha" required /></label>
         <button type="button" id="btn-enviar">Enviar</button>
         <button type="submit" id="btn-enviar-verdadeiro" style="display: none"></button>
       </form>

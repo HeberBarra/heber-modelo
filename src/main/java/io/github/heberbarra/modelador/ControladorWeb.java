@@ -1,5 +1,6 @@
 package io.github.heberbarra.modelador;
 
+import io.github.heberbarra.modelador.banco.entidade.usuario.UsuarioDAO;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.Configurador;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
@@ -138,12 +139,33 @@ public class ControladorWeb {
         return "index";
     }
 
-    @RequestMapping({"/cadastro", "/cadastro.html"})
+    @GetMapping({"/cadastro", "/cadastro.html"})
     public String cadastro(ModelMap modelMap) {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Cadastro");
 
         return "cadastro";
+    }
+
+    @PostMapping({"/cadastro", "/cadastro.html"})
+    public String cadastro(
+            @RequestParam("nome-completo") String nomeCompleto,
+            @RequestParam("matricula") int matricula,
+            @RequestParam("email") String email,
+            @RequestParam("senha") String senha,
+            @RequestParam("confirmar-senha") String confirmacaoSenha,
+            ModelMap modelMap) {
+
+        if (!senha.equals(confirmacaoSenha)) {
+            return "redirect:/cadastro?mismatch";
+        }
+
+        UsuarioDAO usuarioDAO = new UsuarioDAO();
+        if (usuarioDAO.findByID(matricula) != null) {
+            return "redirect:/cadastro?exists";
+        }
+
+        return "redirect:/cadastro?success";
     }
 
     @RequestMapping({"/login", "/login.html"})
