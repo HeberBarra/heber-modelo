@@ -5,7 +5,8 @@ form {
   align-items: center;
   gap: 2rem;
 
-  input, textarea {
+  input,
+  textarea {
     width: 33.875rem;
     height: 4.5rem;
     border-radius: 1rem;
@@ -37,5 +38,4 @@ form {
       font-weight: bold;
     }
   }
-
 }
