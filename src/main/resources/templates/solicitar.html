@@ -8,15 +8,13 @@
   </head>
   <body>
     <header th:replace="~{fragments/header :: header}"></header>
-    <footer th:replace="~{fragments/licenseFooter :: footer}"></footer>
-
     <main>
       <form action="" method="post">
         <label>
           <input type="email" name="email" placeholder="Digite seu email / matrícula" required />
         </label>
         <label>
-          <input type="text" name="descricao" placeholder="Descreva o incoveniente aqui" required />
+          <textarea name="incoveniente" placeholder="Digite sua incoveniente" required></textarea>
         </label>
         <button id="continuar">continuar</button>
         <span
@@ -25,5 +23,6 @@
         >
       </form>
     </main>
+    <footer th:replace="~{fragments/licenseFooter :: footer}"></footer>
   </body>
 </html>
