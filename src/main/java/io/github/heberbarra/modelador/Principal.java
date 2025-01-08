@@ -36,6 +36,7 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
 
     public static void main(String[] args) {
         Locale.setDefault(Locale.of("pt", "br"));
+        System.setProperty("spring.jpa.properties.hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         criarArquivoDotEnv();
         ExecutadorArgumentos executadorArgumentos = new ExecutadorArgumentos(args);
         executadorArgumentos.executarFlags();

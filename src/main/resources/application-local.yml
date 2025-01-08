@@ -10,11 +10,25 @@ spring:
   output:
     ansi:
       enabled: always
+  datasource:
+    hikari:
+      minimum-idle: 0
+      initialization-fail-timeout: -1
+      driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     hibernate:
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    database-platform: org.hibernate.dialect.MySQLDialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+  sql:
+    init:
+      continue-on-error: true
 
 
 logging:
