@@ -1,8 +1,7 @@
 package io.github.heberbarra.modelador;
 
-import io.github.heberbarra.modelador.banco.UsuarioBanco;
-import io.github.heberbarra.modelador.banco.entidade.usuario.Usuario;
-import io.github.heberbarra.modelador.banco.entidade.usuario.UsuarioDAO;
+import io.github.heberbarra.modelador.banco.entidade.usuario.IUsuarioServices;
+import io.github.heberbarra.modelador.banco.entidade.usuario.UsuarioDTO;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.Configurador;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
@@ -18,7 +17,6 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -29,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,9 +42,12 @@ public class ControladorWeb {
     private static final String TOKEN_SECRETO;
     private static final Configurador configurador;
     private final TaskExecutor taskExecutor;
+    private final IUsuarioServices usuarioServices;
 
-    public ControladorWeb(@Qualifier("applicationTaskExecutor") TaskExecutor taskExecutor) {
+    public ControladorWeb(
+            @Qualifier("applicationTaskExecutor") TaskExecutor taskExecutor, IUsuarioServices usuarioServices) {
         this.taskExecutor = taskExecutor;
+        this.usuarioServices = usuarioServices;
     }
 
     static {
@@ -146,34 +148,19 @@ public class ControladorWeb {
     public String cadastro(ModelMap modelMap) {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Cadastro");
+        modelMap.addAttribute("usuario", new UsuarioDTO());
 
         return "cadastro";
     }
 
     @PostMapping({"/cadastro", "/cadastro.html"})
-    public String cadastro(
-            @RequestParam("nome-completo") String nomeCompleto,
-            @RequestParam("matricula") long matricula,
-            @RequestParam("email") String email,
-            @RequestParam("senha") String senha,
-            @RequestParam("confirmar-senha") String confirmacaoSenha,
-            @RequestParam(value = "papel", required = false) String tipo,
-            ModelMap modelMap) {
+    public String cadastro(@ModelAttribute("usuario") UsuarioDTO usuarioDTO, ModelMap modelMap) {
 
-        Pattern regexEmail = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
-        if (!regexEmail.matcher(email).matches()) {
-            return "redirect:/cadastro?invalid-email";
+        if (usuarioDTO.getTipo() == null) {
+            usuarioDTO.setTipo("E");
         }
 
-        if (!senha.equals(confirmacaoSenha)) {
-            return "redirect:/cadastro?mismatch";
-        }
-
-        String tipoUsuario = tipo != null ? tipo : UsuarioBanco.ESTUDANTE.getNomeUsuario();
-        UsuarioDAO usuarioDAO = new UsuarioDAO();
-        Usuario usuario = new Usuario(matricula, email, nomeCompleto, senha, tipoUsuario);
-        System.out.println(usuario);
-
+        usuarioServices.saveUsuario(usuarioDTO);
         return "redirect:/cadastro?success";
     }
 

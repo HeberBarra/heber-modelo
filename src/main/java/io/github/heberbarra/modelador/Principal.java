@@ -2,15 +2,19 @@ package io.github.heberbarra.modelador;
 
 import io.github.heberbarra.modelador.argumento.executador.ExecutadorArgumentos;
 import io.github.heberbarra.modelador.atualizador.AtualizadorPrograma;
+import io.github.heberbarra.modelador.banco.UsuarioBanco;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.logger.JavaLogger;
+import io.github.heberbarra.modelador.recurso.AcessadorRecursos;
 import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.logging.Logger;
+import javax.sql.DataSource;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -80,6 +84,20 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
         localeChangeInterceptor.setParamName("lang");
 
         return localeChangeInterceptor;
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        AcessadorRecursos acessadorRecursos = new AcessadorRecursos();
+        String host = acessadorRecursos.pegarValorVariavelAmbiente("MYSQL_HOST");
+        String port = acessadorRecursos.pegarValorVariavelAmbiente("MYSQL_PORT");
+
+        return DataSourceBuilder.create()
+                .driverClassName("com.mysql.cj.jdbc.Driver")
+                .url("jdbc:mysql://%s:%s/db_HeberModelo".formatted(host, port))
+                .username(UsuarioBanco.ESTUDANTE.getNomeUsuario())
+                .password(acessadorRecursos.pegarValorVariavelAmbiente(UsuarioBanco.ESTUDANTE.getNomeVariavelSenha()))
+                .build();
     }
 
     @Override

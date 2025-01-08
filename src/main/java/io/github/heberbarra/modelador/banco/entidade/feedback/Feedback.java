@@ -6,8 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,13 +20,9 @@ public class Feedback extends Entidade {
     @Column(name = "descricao_feedback", nullable = false)
     private String descricao;
 
-    @ManyToOne
-    @JoinColumn
     private int codigo_atividade;
 
-    @ManyToOne
-    @JoinColumn
-    private int matricula_professor;
+    private long matricula_professor;
 
     public int getCodigo() {
         return codigo;
@@ -54,11 +48,11 @@ public class Feedback extends Entidade {
         this.codigo_atividade = codigo_atividade;
     }
 
-    public int getMatricula_professor() {
+    public long getMatricula_professor() {
         return matricula_professor;
     }
 
-    public void setMatricula_professor(int matricula_professor) {
+    public void setMatricula_professor(long matricula_professor) {
         this.matricula_professor = matricula_professor;
     }
 }

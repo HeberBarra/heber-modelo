@@ -30,7 +30,7 @@ public class Usuario extends Entidade {
     @Column(name = "nome_usuario", unique = true, nullable = false)
     private String nome;
 
-    @Column(nullable = false)
+    @Column(name = "senha_usuario", nullable = false)
     private String senha;
 
     @Column(name = "tipo_usuario")

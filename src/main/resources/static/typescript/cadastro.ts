@@ -1,6 +1,6 @@
 let inputSenha: HTMLInputElement | null = document.querySelector("input[name='senha']");
 let inputConfirmarSenha: HTMLInputElement | null = document.querySelector(
-  "input[name='confirmar-senha']",
+  "input[name='confirmarSenha']",
 );
 let btnEnviar: HTMLButtonElement | null = document.querySelector("form button#btn-enviar");
 let btnEnviarVerdadeiro: HTMLButtonElement | null = document.querySelector(
