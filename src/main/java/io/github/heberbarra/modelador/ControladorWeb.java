@@ -24,6 +24,8 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
@@ -182,11 +184,13 @@ public class ControladorWeb {
     }
 
     @RequestMapping({"/login", "/login.html"})
-    public String login(ModelMap modelMap) {
+    public String login(@AuthenticationPrincipal UserDetails userDetails, ModelMap modelMap) {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Login");
 
-        return "login";
+        if (userDetails == null) return "login";
+
+        return "redirect:/";
     }
 
     @RequestMapping({"/redefinir", "/redefinir.html"})
