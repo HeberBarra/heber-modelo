@@ -17,6 +17,7 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -160,8 +161,24 @@ public class ControladorWeb {
             usuarioDTO.setTipo("E");
         }
 
+        if (usuarioServices.findUserByMatricula(usuarioDTO.getMatricula()) != null
+                || usuarioServices.findUserByNome(usuarioDTO.getNome()) != null
+                || usuarioServices.findUserByEmail(usuarioDTO.getEmail()) != null) {
+            return "redirect:/cadastro.html?exists";
+        }
+
+        if (!usuarioDTO.getSenha().equals(usuarioDTO.getConfirmarSenha())) {
+            return "redirect:cadastro.html?mismatch";
+        }
+
+        Pattern regexEmail = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+        if (!regexEmail.matcher(usuarioDTO.getEmail()).matches()) {
+            return "redirect:/cadastro.html?invalidEmail";
+        }
+
         usuarioServices.saveUsuario(usuarioDTO);
-        return "redirect:/cadastro?success";
+        return "redirect:/index.html?cadastroSuccess";
     }
 
     @RequestMapping({"/login", "/login.html"})

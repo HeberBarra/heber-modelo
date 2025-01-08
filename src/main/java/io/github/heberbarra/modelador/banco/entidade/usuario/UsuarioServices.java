@@ -37,7 +37,7 @@ public class UsuarioServices implements IUsuarioServices {
 
     @Override
     public Usuario findUserByEmail(String email) {
-        return null;
+        return usuarioRepositorio.getUsuarioByEmail(email);
     }
 
     @Override

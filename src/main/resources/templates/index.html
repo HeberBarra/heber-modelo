@@ -9,6 +9,7 @@
   <body>
     <header th:replace="~{fragments/header :: header}"></header>
     <main>
+      <div class="info" th:if="${param.cadastroSuccess}">Cadastro efetuado com sucesso</div>
       <button><a href="novo.html">CRIAR NOVO DIAGRAMA</a></button>
       <button><a>CRIAR NOVA SESSÃO</a></button>
       <button><a>ENTRAR NUMA SESSÃO</a></button>
