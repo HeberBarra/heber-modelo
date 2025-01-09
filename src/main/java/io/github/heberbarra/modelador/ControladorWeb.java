@@ -180,7 +180,7 @@ public class ControladorWeb {
         }
 
         usuarioServices.saveUsuario(usuarioDTO);
-        return "redirect:/index.html?cadastroSuccess";
+        return "redirect:/login.html?cadastroSuccess";
     }
 
     @RequestMapping({"/login", "/login.html"})

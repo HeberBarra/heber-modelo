@@ -10,6 +10,9 @@
   <body>
     <header th:replace="~{fragments/header :: header}"></header>
     <main>
+      <div class="info" th:if="${param.cadastroSuccess}">
+        Cadastro efetuado com sucesso. Por favor, faça login para continuar.
+      </div>
       <form action="login" method="post">
         <label>
           <input type="text" name="username" placeholder="Digite seu email / matrícula" required
