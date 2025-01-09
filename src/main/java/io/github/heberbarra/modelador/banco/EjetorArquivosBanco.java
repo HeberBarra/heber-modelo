@@ -29,6 +29,7 @@ public class EjetorArquivosBanco {
     public static final String CONFIGURAR_BANCO = PASTA_SCRIPTS + "01 - ConfigurarBancoDados.sql";
     public static final String CONFIGURAR_USERS = PASTA_SCRIPTS + "02 - CriarUsuarios.sh";
     public static final String ARQUIVO_DOCKER_COMPOSE = PASTA_ARQUIVOS_BANCO + "docker-compose.yml";
+    public static final String ARQUIVO_DOCKER = PASTA_ARQUIVOS_BANCO + "Dockerfile";
     private final AcessadorRecursos acessadorRecursos;
     private final ConfiguradorPrograma configurador;
     private final String destinoArquivos;
@@ -55,6 +56,7 @@ public class EjetorArquivosBanco {
      */
     public void ejetarDockerCompose() {
         ejetarArquivo(destinoArquivos, ARQUIVO_DOCKER_COMPOSE);
+        ejetarArquivo(destinoArquivos, ARQUIVO_DOCKER);
 
         if (configurador.pegarValorConfiguracao("ejetor", "copiar_arquivo_env", boolean.class)) {
             copiarArquivoDotEnv();

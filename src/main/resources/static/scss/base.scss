@@ -13,3 +13,19 @@ main {
     font-size: 1.5rem;
   }
 }
+
+#aviso-cookies {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 0;
+  background-color: var(--cor-cabecalho);
+  color: var(--cor-letra);
+  padding: 0.7rem;
+  z-index: 100;
+
+  button {
+    width: 20%;
+    align-self: flex-end;
+  }
+}

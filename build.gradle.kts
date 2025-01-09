@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.heberbarra"
-version = "0.0.12-SNAPSHOT"
+version = "0.0.13-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -28,6 +28,8 @@ dependencies {
     implementation(libs.jetbrainsAnnotations)
     implementation(libs.mysqlConnector)
     implementation(libs.tomlj)
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

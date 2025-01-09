@@ -1,5 +1,7 @@
 package io.github.heberbarra.modelador;
 
+import io.github.heberbarra.modelador.banco.entidade.usuario.IUsuarioServices;
+import io.github.heberbarra.modelador.banco.entidade.usuario.UsuarioDTO;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.Configurador;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
@@ -15,16 +17,20 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,9 +45,12 @@ public class ControladorWeb {
     private static final String TOKEN_SECRETO;
     private static final Configurador configurador;
     private final TaskExecutor taskExecutor;
+    private final IUsuarioServices usuarioServices;
 
-    public ControladorWeb(@Qualifier("applicationTaskExecutor") TaskExecutor taskExecutor) {
+    public ControladorWeb(
+            @Qualifier("applicationTaskExecutor") TaskExecutor taskExecutor, IUsuarioServices usuarioServices) {
         this.taskExecutor = taskExecutor;
+        this.usuarioServices = usuarioServices;
     }
 
     static {
@@ -138,20 +147,50 @@ public class ControladorWeb {
         return "index";
     }
 
-    @RequestMapping({"/cadastro", "/cadastro.html"})
+    @GetMapping({"/cadastro", "/cadastro.html"})
     public String cadastro(ModelMap modelMap) {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Cadastro");
+        modelMap.addAttribute("usuario", new UsuarioDTO());
 
         return "cadastro";
     }
 
+    @PostMapping({"/cadastro", "/cadastro.html"})
+    public String cadastro(@ModelAttribute("usuario") UsuarioDTO usuarioDTO, ModelMap modelMap) {
+
+        if (usuarioDTO.getTipo() == null) {
+            usuarioDTO.setTipo("E");
+        }
+
+        if (usuarioServices.findUserByMatricula(usuarioDTO.getMatricula()) != null
+                || usuarioServices.findUserByNome(usuarioDTO.getNome()) != null
+                || usuarioServices.findUserByEmail(usuarioDTO.getEmail()) != null) {
+            return "redirect:/cadastro.html?exists";
+        }
+
+        if (!usuarioDTO.getSenha().equals(usuarioDTO.getConfirmarSenha())) {
+            return "redirect:cadastro.html?mismatch";
+        }
+
+        Pattern regexEmail = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+        if (!regexEmail.matcher(usuarioDTO.getEmail()).matches()) {
+            return "redirect:/cadastro.html?invalidEmail";
+        }
+
+        usuarioServices.saveUsuario(usuarioDTO);
+        return "redirect:/login.html?cadastroSuccess";
+    }
+
     @RequestMapping({"/login", "/login.html"})
-    public String login(ModelMap modelMap) {
+    public String login(@AuthenticationPrincipal UserDetails userDetails, ModelMap modelMap) {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Login");
 
-        return "login";
+        if (userDetails == null) return "login";
+
+        return "redirect:/";
     }
 
     @RequestMapping({"/redefinir", "/redefinir.html"})

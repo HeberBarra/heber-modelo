@@ -1,0 +1,31 @@
+form {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  row-gap: 1.2rem;
+
+  label {
+    display: grid;
+    grid-template-columns: 20% 80%;
+
+    input {
+      grid-column: 2;
+    }
+
+    input[type="number"] {
+      appearance: textfield;
+    }
+  }
+
+  button {
+    align-self: center;
+  }
+}
+
+button#btn-enviar-verdadeiro {
+  display: none;
+}
+
+button#btn-enviar {
+  cursor: pointer;
+}

@@ -4,17 +4,25 @@
     <!--suppress HtmlUnknownTag -->
     <div th:replace="~{fragments/head :: head}"></div>
     <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <script th:src="@{/javascript/login.js}" defer></script>
     <title>Login</title>
   </head>
   <body>
     <header th:replace="~{fragments/header :: header}"></header>
     <main>
-      <form action="" method="post">
+      <div class="info" th:if="${param.cadastroSuccess}">
+        Cadastro efetuado com sucesso. Por favor, faça login para continuar.
+      </div>
+      <div class="aviso" th:if="${param.error}">
+        Erro ao tentar efetuar o login. Verifique se seu nome/matrícula/e-mail e sua senha estão
+        corretos.
+      </div>
+      <form action="login" method="post">
         <label>
-          <input type="email" name="email" placeholder="Digite seu email / matrícula" required
+          <input type="text" name="username" placeholder="Digite seu email / matrícula" required
         /></label>
         <label>
-          <input type="password" name="senha" placeholder="Digite sua senha" required />
+          <input type="password" name="password" placeholder="Digite sua senha" required />
           <a href="solicitar.html">Solicitar nova senha</a>
         </label>
         <button id="continuar">continuar</button>

@@ -1,0 +1,41 @@
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+
+  input,
+  textarea {
+    width: 33.875rem;
+    height: 4.5rem;
+    border-radius: 1rem;
+    border-style: solid;
+    border-width: 0.09375rem;
+    border-color: var(--cor-borda);
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  textarea {
+    height: 10rem;
+    font-family: Arial, serif;
+    resize: none;
+  }
+
+  button#continuar {
+    width: 33.875rem;
+    height: 4.5rem;
+  }
+
+  a {
+    display: inline;
+    color: var(--cor-fonte-alternativa);
+    font-size: 1rem;
+    margin-top: 0.5rem;
+
+    &:hover {
+      font-weight: bold;
+    }
+  }
+}
