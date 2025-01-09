@@ -13,6 +13,10 @@
       <div class="info" th:if="${param.cadastroSuccess}">
         Cadastro efetuado com sucesso. Por favor, faça login para continuar.
       </div>
+      <div class="aviso" th:if="${param.error}">
+        Erro ao tentar efetuar o login. Verifique se seu nome/matrícula/e-mail e sua senha estão
+        corretos.
+      </div>
       <form action="login" method="post">
         <label>
           <input type="text" name="username" placeholder="Digite seu email / matrícula" required
