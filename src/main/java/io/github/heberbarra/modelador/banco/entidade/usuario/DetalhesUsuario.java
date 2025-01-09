@@ -3,6 +3,7 @@ package io.github.heberbarra.modelador.banco.entidade.usuario;
 import io.github.heberbarra.modelador.banco.UsuarioBanco;
 import java.util.Collection;
 import java.util.List;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -25,11 +26,32 @@ public class DetalhesUsuario implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String nome) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepositorio.getUsuarioByNome(nome);
+
+        if (usuario == null) {
+            usuario = usuarioRepositorio.getUsuarioByEmail(nome);
+        }
+
+        if (usuario == null) {
+            usuario = pegarUsuarioPelaMatricula(nome);
+        }
+
         if (usuario == null) {
             throw new UsernameNotFoundException("Usuário não foi encontrado");
         }
 
         return new User(usuario.getNome(), usuario.getSenha(), getAuthorities(usuario.getTipo()));
+    }
+
+    private @Nullable Usuario pegarUsuarioPelaMatricula(String matricula) {
+        Usuario usuario;
+        try {
+            long numeroMatricula = Long.parseLong(matricula);
+            usuario = usuarioRepositorio.getUsuarioByMatricula(numeroMatricula);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+
+        return usuario;
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(String tipoUsuario) {
