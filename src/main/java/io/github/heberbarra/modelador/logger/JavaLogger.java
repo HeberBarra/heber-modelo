@@ -51,7 +51,7 @@ public class JavaLogger {
 
     protected static ConsoleHandler criarConsoleHandler() {
         ConsoleHandler consoleHandler = new ConsoleHandler();
-        consoleHandler.setFormatter(new FormatadorJavaLogger());
+        consoleHandler.setFormatter(new JavaLoggerFormatador());
         consoleHandler.setFilter(new JavaLoggerFiltro());
 
         return consoleHandler;
