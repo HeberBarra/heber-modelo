@@ -8,6 +8,7 @@ import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -25,11 +26,13 @@ public class ExecutadorArgumentos {
     private final ColetorClassesArgumentos coletorClassesArgumentos;
     private final String[] args;
     private final Set<String> cacheArgumentos;
+    private final List<String> flagsIgnoradas;
 
     public ExecutadorArgumentos(String[] args) {
         coletorClassesArgumentos = ColetorClassesArgumentos.getInstance();
         cacheArgumentos = new HashSet<>();
         this.args = args;
+        flagsIgnoradas = List.of("--spring.profiles.active=local", "--language-english");
     }
 
     /**
@@ -56,6 +59,7 @@ public class ExecutadorArgumentos {
         if (cacheArgumentos.contains(flagArgumento)) return;
 
         cacheArgumentos.add(flagArgumento);
+        if (flagsIgnoradas.contains(flagArgumento)) return;
         Set<Class<Argumento>> argumentos = coletorClassesArgumentos.getArgumentos();
         for (Class<Argumento> argumentoClass : argumentos) {
             Argumento argumento;

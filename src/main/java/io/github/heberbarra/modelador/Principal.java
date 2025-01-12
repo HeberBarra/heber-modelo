@@ -6,6 +6,7 @@ import io.github.heberbarra.modelador.banco.UsuarioBanco;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.recurso.AcessadorRecursos;
+import io.github.heberbarra.modelador.tradutor.SeletorLinguagem;
 import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.io.File;
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
     private static final ConfiguradorPrograma configurador = ConfiguradorPrograma.getInstance();
 
     public static void main(String[] args) {
-        Locale.setDefault(Locale.of("pt", "br"));
+        SeletorLinguagem.selecionarLinguagem(args);
         System.setProperty("spring.jpa.properties.hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         criarArquivoDotEnv();
         ExecutadorArgumentos executadorArgumentos = new ExecutadorArgumentos(args);
