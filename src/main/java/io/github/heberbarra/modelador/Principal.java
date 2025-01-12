@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
@@ -21,6 +20,7 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -103,7 +103,7 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
     }
 
     @Override
-    public void addInterceptors(@NotNull InterceptorRegistry registry) {
+    public void addInterceptors(@NonNull InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
     }
 }

@@ -25,7 +25,6 @@ dependencies {
     implementation(libs.fusesourceJansi)
     implementation(libs.hibernateCore)
     implementation(libs.heberModeloAPI)
-    implementation(libs.jetbrainsAnnotations)
     implementation(libs.mysqlConnector)
     implementation(libs.tomlj)
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
