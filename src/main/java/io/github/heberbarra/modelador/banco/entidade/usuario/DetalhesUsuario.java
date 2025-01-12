@@ -1,6 +1,7 @@
 package io.github.heberbarra.modelador.banco.entidade.usuario;
 
 import io.github.heberbarra.modelador.banco.UsuarioBanco;
+import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.lang.Nullable;
@@ -36,7 +37,7 @@ public class DetalhesUsuario implements UserDetailsService {
         }
 
         if (usuario == null) {
-            throw new UsernameNotFoundException("Usuário não foi encontrado");
+            throw new UsernameNotFoundException(TradutorWrapper.tradutor.traduzirMensagem("error.user.notfound"));
         }
 
         return new User(usuario.getNome(), usuario.getSenha(), getAuthorities(usuario.getTipo()));

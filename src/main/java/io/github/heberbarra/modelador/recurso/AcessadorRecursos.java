@@ -24,8 +24,9 @@ public class AcessadorRecursos implements Recurso {
 
         if (recurso == null) {
             logger.severe(TradutorWrapper.tradutor
-                            .traduzirMensagem("error.resource.read")
-                            .formatted(caminhoRecurso) + "Recurso não encontrado.");
+                    .traduzirMensagem("error.resource.read")
+                    .formatted(caminhoRecurso));
+            logger.severe(TradutorWrapper.tradutor.traduzirMensagem("error.resource.notfound"));
             logger.severe(TradutorWrapper.tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.RECURSO_NAO_ENCONTRADO.getCodigo());
         }
