@@ -60,7 +60,9 @@ public class ControladorWeb {
         TOKEN_SECRETO = geradorToken.getToken();
     }
 
-    private static void injetarToken(ModelMap modelMap) {
+    private static void injetarTokenDesligar(ModelMap modelMap) {
+        if (configurador.pegarValorConfiguracao("programa", "desativar_botao_desligar", boolean.class)) return;
+
         modelMap.addAttribute("desligar", TOKEN_SECRETO);
     }
 
@@ -142,7 +144,7 @@ public class ControladorWeb {
 
     @RequestMapping({"/", "/index", "/index.html", "home", "home.html"})
     public String index(ModelMap modelMap) {
-        injetarToken(modelMap);
+        injetarTokenDesligar(modelMap);
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, "");
 
@@ -234,8 +236,10 @@ public class ControladorWeb {
 
     @PostMapping({"/desligar", "/desligar.html"})
     public void desligar(ModelMap modelMap, @RequestParam("token") String token) {
-        injetarToken(modelMap);
+        injetarTokenDesligar(modelMap);
         injetarPaleta(modelMap);
+
+        if (configurador.pegarValorConfiguracao("programa", "desativar_botao_desligar", boolean.class)) return;
 
         if (TOKEN_SECRETO.equals(token)) {
             logger.info(TradutorWrapper.tradutor.traduzirMensagem("app.end"));

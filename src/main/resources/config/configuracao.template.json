@@ -48,6 +48,12 @@
       "atributo": "abrir_navegador_automaticamente",
       "tipo": "Boolean",
       "valorPadrao": true
+    },
+    {
+      "categoria": "programa",
+      "atributo": "desativar_botao_desligar",
+      "tipo": "Boolean",
+      "valorPadrao": false
     }
   ]
 }
