@@ -17,18 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class DetalhesUsuario implements UserDetailsService {
 
-    private final UsuarioRepositorio usuarioRepositorio;
+    private final IUsuarioRepositorio IUsuarioRepositorio;
 
-    public DetalhesUsuario(UsuarioRepositorio usuarioRepositorio) {
-        this.usuarioRepositorio = usuarioRepositorio;
+    public DetalhesUsuario(IUsuarioRepositorio IUsuarioRepositorio) {
+        this.IUsuarioRepositorio = IUsuarioRepositorio;
     }
 
     @Override
     public UserDetails loadUserByUsername(String nome) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepositorio.getUsuarioByNome(nome);
+        Usuario usuario = IUsuarioRepositorio.getUsuarioByNome(nome);
 
         if (usuario == null) {
-            usuario = usuarioRepositorio.getUsuarioByEmail(nome);
+            usuario = IUsuarioRepositorio.getUsuarioByEmail(nome);
         }
 
         if (usuario == null) {
@@ -46,7 +46,7 @@ public class DetalhesUsuario implements UserDetailsService {
         Usuario usuario;
         try {
             long numeroMatricula = Long.parseLong(matricula);
-            usuario = usuarioRepositorio.getUsuarioByMatricula(numeroMatricula);
+            usuario = IUsuarioRepositorio.getUsuarioByMatricula(numeroMatricula);
         } catch (NumberFormatException e) {
             return null;
         }
