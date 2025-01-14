@@ -1,6 +1,7 @@
 package io.github.heberbarra.modelador;
 
 import io.github.heberbarra.modelador.banco.entidade.usuario.IUsuarioServices;
+import io.github.heberbarra.modelador.banco.entidade.usuario.Usuario;
 import io.github.heberbarra.modelador.banco.entidade.usuario.UsuarioDTO;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.Configurador;
@@ -249,6 +250,21 @@ public class ControladorWeb {
 
         injetarNomePrograma(modelMap, "");
         logger.severe(TradutorWrapper.tradutor.traduzirMensagem("error.shutdown.invalid.token"));
+    }
+
+    @RequestMapping({"/perfil", "/perfil.html"})
+    public String perfil(@AuthenticationPrincipal UserDetails userDetails, ModelMap modelMap) {
+        injetarNomePrograma(modelMap, " - Perfil");
+        injetarPaleta(modelMap);
+
+        if (userDetails == null) {
+            return "redirect:/login";
+        }
+
+        Usuario usuario = usuarioServices.findUserByNome(userDetails.getUsername());
+        modelMap.addAttribute("usuario", usuario);
+
+        return "perfil";
     }
 
     @RequestMapping({"/privacidade", "/privacidade.html"})

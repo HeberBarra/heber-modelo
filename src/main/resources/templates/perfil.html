@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!--suppress HtmlUnknownTag -->
+    <div th:replace="~{fragments/head :: head}"></div>
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <script th:src="@{/javascript/login.js}" defer></script>
+    <title>Perfil</title>
+  </head>
+  <body>
+    <div th:replace="~{fragments/header :: header}"></div>
+    <main>
+      <p>Matrícula: <span th:text="${usuario.matricula}"></span></p>
+      <p>Nome: <span th:text="${usuario.nome}"></span></p>
+      <p>E-mail: <span th:text="${usuario.email}"></span></p>
+      <p th:if="${usuario.tipo == 'E'}">Papel: <span>Estudante</span></p>
+      <p th:if="${usuario.tipo == 'P'}">Papel: <span>Professor</span></p>
+    </main>
+    <div th:replace="~{fragments/licenseFooter :: footer}"></div>
+  </body>
+</html>

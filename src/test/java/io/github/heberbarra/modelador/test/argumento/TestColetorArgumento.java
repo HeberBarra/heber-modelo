@@ -6,8 +6,8 @@ import io.github.heberbarra.modelador.logger.JavaLogger;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
-import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Test;
+import org.springframework.lang.Nullable;
 
 public class TestColetorArgumento {
 
