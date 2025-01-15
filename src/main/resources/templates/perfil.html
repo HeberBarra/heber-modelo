@@ -3,18 +3,24 @@
   <head>
     <!--suppress HtmlUnknownTag -->
     <div th:replace="~{fragments/head :: head}"></div>
-    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" th:href="@{/css/cadastro.css}" />
     <script th:src="@{/javascript/login.js}" defer></script>
     <title>Perfil</title>
   </head>
   <body>
     <div th:replace="~{fragments/header :: header}"></div>
     <main>
-      <p>Matrícula: <span th:text="${usuario.matricula}"></span></p>
-      <p>Nome: <span th:text="${usuario.nome}"></span></p>
-      <p>E-mail: <span th:text="${usuario.email}"></span></p>
-      <p th:if="${usuario.tipo == 'E'}">Papel: <span>Estudante</span></p>
-      <p th:if="${usuario.tipo == 'P'}">Papel: <span>Professor</span></p>
+      <form>
+        <label>Matrícula: <input type="number" readonly th:value="${usuario.matricula}" /></label>
+        <label>Nome: <input type="text" readonly th:value="${usuario.nome}" /></label>
+        <label>E-mail <input type="email" readonly th:value="${usuario.email}" /></label>
+        <label th:if="${usuario.tipo == 'E'}"
+          >Papel: <input type="text" readonly value="Estudante"
+        /></label>
+        <label th:if="${usuario.tipo == 'P'}"
+          >Papel: <input type="text" readonly value="Professor"
+        /></label>
+      </form>
     </main>
     <div th:replace="~{fragments/licenseFooter :: footer}"></div>
   </body>
