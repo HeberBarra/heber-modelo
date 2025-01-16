@@ -11,17 +11,13 @@
  */
 package io.github.heberbarra.modelador.banco.entidade.usuario;
 
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IUsuarioServices {
+public interface IUsuarioRepositorio extends JpaRepository<Usuario, Long> {
 
-    void saveUsuario(UsuarioDTO usuarioDTO);
+    Usuario getUsuarioByMatricula(long matricula);
 
-    Usuario findUserByMatricula(long matricula);
+    Usuario getUsuarioByNome(String name);
 
-    Usuario findUserByEmail(String email);
-
-    Usuario findUserByNome(String nome);
-
-    List<UsuarioDTO> findAllUsers();
+    Usuario getUsuarioByEmail(String email);
 }

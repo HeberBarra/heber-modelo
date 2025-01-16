@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="https://github.com/HeberBarra/heber-modelo"
+           targetNamespace="https://github.com/HeberBarra/heber-modelo"
+           elementFormDefault="qualified">
+  <xs:element name="diagram">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="creation-datetime" type="xs:dateTime"/>
+        <xs:element name="last-modification" type="xs:dateTime"/>
+        <xs:element name="authors">
+          <xs:complexType>
+            <xs:sequence maxOccurs="unbounded">
+              <xs:element name="author">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="author-name" type="xs:string"/>
+                    <xs:element name="author-email" type="xs:string"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="types">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="diagram-type" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="pages">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="page">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="components">
+                      <xs:complexType>
+                        <xs:sequence maxOccurs="unbounded">
+                          <xs:element name="component">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="component-name" type="xs:string"/>
+                                <xs:element name="component-data" type="xs:anyType"/>
+                                <xs:element name="component-height" type="xs:integer"/>
+                                <xs:element name="component-width" type="xs:integer"/>
+                                <xs:element name="component-x" type="xs:integer"/>
+                                <xs:element name="component-y" type="xs:integer"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,3 +1,14 @@
+/**
+ * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * <p>
+ * Licensed under the Massachusetts Institute of Technology (MIT) License.
+ * You may obtain a copy of the license at:
+ * <p>
+ * https://choosealicense.com/licenses/mit/
+ * <p>
+ * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
+ * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ */
 package io.github.heberbarra.modelador.logger;
 
 import java.util.Date;
@@ -8,12 +19,12 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import org.fusesource.jansi.Ansi;
 
-public class FormatadorJavaLogger extends Formatter {
+public class JavaLoggerFormatador extends Formatter {
 
     private static final Map<String, Ansi.Color> CORES_LEVELS = new HashMap<>();
     private boolean desativarCores;
 
-    public FormatadorJavaLogger() {
+    public JavaLoggerFormatador() {
         this(false);
     }
 
@@ -23,7 +34,7 @@ public class FormatadorJavaLogger extends Formatter {
         CORES_LEVELS.put(Level.INFO.getName(), Ansi.Color.CYAN);
     }
 
-    public FormatadorJavaLogger(boolean desativarCores) {
+    public JavaLoggerFormatador(boolean desativarCores) {
         this.desativarCores = desativarCores;
     }
 

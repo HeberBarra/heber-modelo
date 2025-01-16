@@ -1,3 +1,14 @@
+/**
+ * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * <p>
+ * Licensed under the Massachusetts Institute of Technology (MIT) License.
+ * You may obtain a copy of the license at:
+ * <p>
+ * https://choosealicense.com/licenses/mit/
+ * <p>
+ * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
+ * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ */
 package io.github.heberbarra.modelador.recurso;
 
 import io.github.cdimascio.dotenv.Dotenv;
@@ -24,8 +35,9 @@ public class AcessadorRecursos implements Recurso {
 
         if (recurso == null) {
             logger.severe(TradutorWrapper.tradutor
-                            .traduzirMensagem("error.resource.read")
-                            .formatted(caminhoRecurso) + "Recurso não encontrado.");
+                    .traduzirMensagem("error.resource.read")
+                    .formatted(caminhoRecurso));
+            logger.severe(TradutorWrapper.tradutor.traduzirMensagem("error.resource.notfound"));
             logger.severe(TradutorWrapper.tradutor.traduzirMensagem("app.end"));
             System.exit(CodigoSaida.RECURSO_NAO_ENCONTRADO.getCodigo());
         }

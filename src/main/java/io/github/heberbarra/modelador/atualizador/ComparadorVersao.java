@@ -1,3 +1,14 @@
+/**
+ * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * <p>
+ * Licensed under the Massachusetts Institute of Technology (MIT) License.
+ * You may obtain a copy of the license at:
+ * <p>
+ * https://choosealicense.com/licenses/mit/
+ * <p>
+ * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
+ * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ */
 package io.github.heberbarra.modelador.atualizador;
 
 import java.util.ArrayList;
@@ -5,8 +16,9 @@ import java.util.List;
 
 /**
  * Compara duas versões semânticas e diz qual é maior, ou se a duas são iguais.
+ *
  * @since v0.0.3-SNAPSHOT
- * */
+ */
 public class ComparadorVersao {
 
     public static final int MAIOR = 1;
@@ -19,9 +31,10 @@ public class ComparadorVersao {
 
     /**
      * Divide a versão em múltiplas partes para facilitar a comparação.
+     *
      * @param versao a versão a ser dividida
      * @return as partes da versão passada
-     * */
+     */
     private List<String> pegarPartesVersao(String versao) {
         List<String> partesVersao = new ArrayList<>(List.of(versao.split("\\.")));
 
@@ -36,9 +49,10 @@ public class ComparadorVersao {
 
     /**
      * Pega apenas o sufixo de uma versão específica.
+     *
      * @param partesVersao partes da versão da qual se deseja pegar o sufixo
      * @return o sufixo da versão passada
-     * */
+     */
     private SufixoVersao pegarSufixoVersao(List<String> partesVersao) {
         if (partesVersao.size() > 3) {
             return SufixoVersao.valueOf(partesVersao.getLast());
@@ -49,11 +63,12 @@ public class ComparadorVersao {
 
     /**
      * Compara a versão do programa instalado com a versão remota.
+     *
      * @return {@link ComparadorVersao#CANCELAR} caso uma das versões seja {@code null},
      * <br>{@link ComparadorVersao#IGUAL} caso as duas versões sejam iguais,
      * <br>{@link ComparadorVersao#MAIOR} caso a versão remota seja maior que a versão local,
      * <br>{@link ComparadorVersao#MENOR} caso a versão remota seja menor que a versão local
-     * */
+     */
     public int compararVersoes() {
         if (versaoPrograma == null || versaoRemota == null) return CANCELAR;
         if (versaoPrograma.equals(versaoRemota)) return IGUAL;
@@ -83,9 +98,10 @@ public class ComparadorVersao {
 
     /**
      * Remove o prefixo de uma versão específica para facilitar a comparação.
+     *
      * @param versao a versão da qual se deseja remover o prefixo
      * @return a versão sem o prefixo
-     * */
+     */
     private String removerPrefixo(String versao) {
         if (versao.toLowerCase().startsWith(PREFIXO_VERSAO)) {
             return versao.substring(PREFIXO_VERSAO.length());

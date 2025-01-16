@@ -1,3 +1,14 @@
+/**
+ * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * <p>
+ * Licensed under the Massachusetts Institute of Technology (MIT) License.
+ * You may obtain a copy of the license at:
+ * <p>
+ * https://choosealicense.com/licenses/mit/
+ * <p>
+ * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
+ * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ */
 package io.github.heberbarra.modelador.test.configurador;
 
 import io.github.heberbarra.modelador.configurador.CombinadorConfiguracoes;
@@ -24,10 +35,11 @@ public class TestCombinadorConfiguracoes {
 
         Map<String, List<Map<String, String>>> resultadoEsperadoConfiguracoes = Map.of(
                 "teste_1",
-                        List.of(
-                                Map.of(nomeAtributo, "valor_teste_1", nomeValor, "valor_1", chaveTipo, "String"),
-                                Map.of(nomeAtributo, "valor_teste_2", nomeValor, "valor_2", chaveTipo, "String")),
-                "teste_2", List.of(Map.of(nomeAtributo, "valor_teste_3", nomeValor, "valor_4", chaveTipo, "String")));
+                List.of(
+                        Map.of(nomeAtributo, "valor_teste_1", nomeValor, "valor_1", chaveTipo, "String"),
+                        Map.of(nomeAtributo, "valor_teste_2", nomeValor, "valor_2", chaveTipo, "String")),
+                "teste_2",
+                List.of(Map.of(nomeAtributo, "valor_teste_3", nomeValor, "valor_4", chaveTipo, "String")));
 
         Map<String, List<Map<String, String>>> configuracoesPadrao =
                 criarMapConfiguracoesPadrao(nomeAtributo, nomeValor, chaveTipo);

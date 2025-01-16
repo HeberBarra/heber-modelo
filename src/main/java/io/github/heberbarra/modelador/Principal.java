@@ -1,3 +1,14 @@
+/**
+ * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * <p>
+ * Licensed under the Massachusetts Institute of Technology (MIT) License.
+ * You may obtain a copy of the license at:
+ * <p>
+ * https://choosealicense.com/licenses/mit/
+ * <p>
+ * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
+ * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ */
 package io.github.heberbarra.modelador;
 
 import io.github.heberbarra.modelador.argumento.executador.ExecutadorArgumentos;
@@ -6,13 +17,13 @@ import io.github.heberbarra.modelador.banco.UsuarioBanco;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.recurso.AcessadorRecursos;
+import io.github.heberbarra.modelador.tradutor.SeletorLinguagem;
 import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.web.server.ConfigurableWebServerFactory;
@@ -20,6 +31,7 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.lang.NonNull;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -35,7 +47,7 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
     private static final ConfiguradorPrograma configurador = ConfiguradorPrograma.getInstance();
 
     public static void main(String[] args) {
-        Locale.setDefault(Locale.of("pt", "br"));
+        SeletorLinguagem.selecionarLinguagem(args);
         System.setProperty("spring.jpa.properties.hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         criarArquivoDotEnv();
         ExecutadorArgumentos executadorArgumentos = new ExecutadorArgumentos(args);
@@ -102,7 +114,7 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
     }
 
     @Override
-    public void addInterceptors(@NotNull InterceptorRegistry registry) {
+    public void addInterceptors(@NonNull InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
     }
 }

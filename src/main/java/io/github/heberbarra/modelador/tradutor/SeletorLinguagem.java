@@ -9,19 +9,21 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-package io.github.heberbarra.modelador.banco.entidade.usuario;
+package io.github.heberbarra.modelador.tradutor;
 
-import java.util.List;
+import java.util.Locale;
+import org.springframework.lang.NonNull;
 
-public interface IUsuarioServices {
+public class SeletorLinguagem {
 
-    void saveUsuario(UsuarioDTO usuarioDTO);
+    public static void selecionarLinguagem(@NonNull String[] args) {
+        for (String arg : args) {
+            if (arg.equals("--language-english")) {
+                Locale.setDefault(Locale.ENGLISH);
+                return;
+            }
+        }
 
-    Usuario findUserByMatricula(long matricula);
-
-    Usuario findUserByEmail(String email);
-
-    Usuario findUserByNome(String nome);
-
-    List<UsuarioDTO> findAllUsers();
+        Locale.setDefault(Locale.of("pt", "br"));
+    }
 }

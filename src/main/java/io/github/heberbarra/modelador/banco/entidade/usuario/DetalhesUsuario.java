@@ -1,6 +1,18 @@
+/**
+ * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * <p>
+ * Licensed under the Massachusetts Institute of Technology (MIT) License.
+ * You may obtain a copy of the license at:
+ * <p>
+ * https://choosealicense.com/licenses/mit/
+ * <p>
+ * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
+ * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ */
 package io.github.heberbarra.modelador.banco.entidade.usuario;
 
 import io.github.heberbarra.modelador.banco.UsuarioBanco;
+import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.lang.Nullable;
@@ -17,18 +29,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class DetalhesUsuario implements UserDetailsService {
 
-    private final UsuarioRepositorio usuarioRepositorio;
+    private final IUsuarioRepositorio IUsuarioRepositorio;
 
-    public DetalhesUsuario(UsuarioRepositorio usuarioRepositorio) {
-        this.usuarioRepositorio = usuarioRepositorio;
+    public DetalhesUsuario(IUsuarioRepositorio IUsuarioRepositorio) {
+        this.IUsuarioRepositorio = IUsuarioRepositorio;
     }
 
     @Override
     public UserDetails loadUserByUsername(String nome) throws UsernameNotFoundException {
-        Usuario usuario = usuarioRepositorio.getUsuarioByNome(nome);
+        Usuario usuario = IUsuarioRepositorio.getUsuarioByNome(nome);
 
         if (usuario == null) {
-            usuario = usuarioRepositorio.getUsuarioByEmail(nome);
+            usuario = IUsuarioRepositorio.getUsuarioByEmail(nome);
         }
 
         if (usuario == null) {
@@ -36,7 +48,7 @@ public class DetalhesUsuario implements UserDetailsService {
         }
 
         if (usuario == null) {
-            throw new UsernameNotFoundException("Usuário não foi encontrado");
+            throw new UsernameNotFoundException(TradutorWrapper.tradutor.traduzirMensagem("error.user.notfound"));
         }
 
         return new User(usuario.getNome(), usuario.getSenha(), getAuthorities(usuario.getTipo()));
@@ -46,7 +58,7 @@ public class DetalhesUsuario implements UserDetailsService {
         Usuario usuario;
         try {
             long numeroMatricula = Long.parseLong(matricula);
-            usuario = usuarioRepositorio.getUsuarioByMatricula(numeroMatricula);
+            usuario = IUsuarioRepositorio.getUsuarioByMatricula(numeroMatricula);
         } catch (NumberFormatException e) {
             return null;
         }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="32"
+   height="32"
+   viewBox="0 0 32 32"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   sodipodi:docname="favicon.svg"
+   inkscape:export-filename="favicon.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="11.313708"
+     inkscape:cx="10.783378"
+     inkscape:cy="24.483572"
+     inkscape:window-width="1366"
+     inkscape:window-height="794"
+     inkscape:window-x="0"
+     inkscape:window-y="45"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#241a3b;fill-opacity:1;stroke-width:3.77953"
+       id="rect1"
+       width="32"
+       height="32"
+       x="0"
+       y="0"
+       ry="16" />
+    <path
+       d="M 7.4871124,6.4110162 H 9.2219058 V 11.666925 H 15.525561 V 6.4110162 h 1.734793 V 19.233028 H 15.525561 V 13.126899 H 9.2219058 v 6.106129 H 7.4871124 Z m 13.2256526,0 h 2.585014 L 26.56984,15.136511 29.859077,6.4110162 H 32.44409 V 19.233028 H 30.752238 V 7.9740478 L 27.445824,16.768248 H 25.702443 L 22.39603,7.9740478 V 19.233028 h -1.683265 z"
+       id="text1"
+       style="font-size:17.5884px;fill:#ffffff;stroke-width:2.493"
+       transform="scale(0.80137703,1.2478521)"
+       aria-label="HM" />
+  </g>
+</svg>

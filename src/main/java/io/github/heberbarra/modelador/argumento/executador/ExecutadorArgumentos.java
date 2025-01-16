@@ -1,3 +1,14 @@
+/**
+ * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * <p>
+ * Licensed under the Massachusetts Institute of Technology (MIT) License.
+ * You may obtain a copy of the license at:
+ * <p>
+ * https://choosealicense.com/licenses/mit/
+ * <p>
+ * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
+ * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ */
 package io.github.heberbarra.modelador.argumento.executador;
 
 import io.github.heberbarra.modelador.argumento.Argumento;
@@ -8,6 +19,7 @@ import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -25,11 +37,13 @@ public class ExecutadorArgumentos {
     private final ColetorClassesArgumentos coletorClassesArgumentos;
     private final String[] args;
     private final Set<String> cacheArgumentos;
+    private final List<String> flagsIgnoradas;
 
     public ExecutadorArgumentos(String[] args) {
         coletorClassesArgumentos = ColetorClassesArgumentos.getInstance();
         cacheArgumentos = new HashSet<>();
         this.args = args;
+        flagsIgnoradas = List.of("--spring.profiles.active=local", "--language-english");
     }
 
     /**
@@ -56,6 +70,7 @@ public class ExecutadorArgumentos {
         if (cacheArgumentos.contains(flagArgumento)) return;
 
         cacheArgumentos.add(flagArgumento);
+        if (flagsIgnoradas.contains(flagArgumento)) return;
         Set<Class<Argumento>> argumentos = coletorClassesArgumentos.getArgumentos();
         for (Class<Argumento> argumentoClass : argumentos) {
             Argumento argumento;

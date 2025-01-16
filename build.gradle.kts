@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.heberbarra"
-version = "0.0.13-SNAPSHOT"
+version = "0.0.14-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -25,7 +25,6 @@ dependencies {
     implementation(libs.fusesourceJansi)
     implementation(libs.hibernateCore)
     implementation(libs.heberModeloAPI)
-    implementation(libs.jetbrainsAnnotations)
     implementation(libs.mysqlConnector)
     implementation(libs.tomlj)
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")

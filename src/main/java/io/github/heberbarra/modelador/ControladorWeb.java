@@ -1,6 +1,18 @@
+/**
+ * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * <p>
+ * Licensed under the Massachusetts Institute of Technology (MIT) License.
+ * You may obtain a copy of the license at:
+ * <p>
+ * https://choosealicense.com/licenses/mit/
+ * <p>
+ * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
+ * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ */
 package io.github.heberbarra.modelador;
 
 import io.github.heberbarra.modelador.banco.entidade.usuario.IUsuarioServices;
+import io.github.heberbarra.modelador.banco.entidade.usuario.Usuario;
 import io.github.heberbarra.modelador.banco.entidade.usuario.UsuarioDTO;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.Configurador;
@@ -60,7 +72,9 @@ public class ControladorWeb {
         TOKEN_SECRETO = geradorToken.getToken();
     }
 
-    private static void injetarToken(ModelMap modelMap) {
+    private static void injetarTokenDesligar(ModelMap modelMap) {
+        if (configurador.pegarValorConfiguracao("programa", "desativar_botao_desligar", boolean.class)) return;
+
         modelMap.addAttribute("desligar", TOKEN_SECRETO);
     }
 
@@ -133,6 +147,8 @@ public class ControladorWeb {
             runtime.exec(new String[] {"open", uriPrograma.toString()});
         } else if (nomeSistemaOperacional.contains("nix") || nomeSistemaOperacional.contains("nux")) {
             runtime.exec(new String[] {"xdg-open", uriPrograma.toString()});
+        } else if (nomeSistemaOperacional.contains("windows")) {
+            runtime.exec(new String[] {"powershell.exe", "-Command", uriPrograma.toString()});
         } else {
             logger.warning(TradutorWrapper.tradutor.traduzirMensagem("error.browser.cannot.open"));
         }
@@ -140,7 +156,7 @@ public class ControladorWeb {
 
     @RequestMapping({"/", "/index", "/index.html", "home", "home.html"})
     public String index(ModelMap modelMap) {
-        injetarToken(modelMap);
+        injetarTokenDesligar(modelMap);
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, "");
 
@@ -232,8 +248,10 @@ public class ControladorWeb {
 
     @PostMapping({"/desligar", "/desligar.html"})
     public void desligar(ModelMap modelMap, @RequestParam("token") String token) {
-        injetarToken(modelMap);
+        injetarTokenDesligar(modelMap);
         injetarPaleta(modelMap);
+
+        if (configurador.pegarValorConfiguracao("programa", "desativar_botao_desligar", boolean.class)) return;
 
         if (TOKEN_SECRETO.equals(token)) {
             logger.info(TradutorWrapper.tradutor.traduzirMensagem("app.end"));
@@ -243,6 +261,21 @@ public class ControladorWeb {
 
         injetarNomePrograma(modelMap, "");
         logger.severe(TradutorWrapper.tradutor.traduzirMensagem("error.shutdown.invalid.token"));
+    }
+
+    @RequestMapping({"/perfil", "/perfil.html"})
+    public String perfil(@AuthenticationPrincipal UserDetails userDetails, ModelMap modelMap) {
+        injetarNomePrograma(modelMap, " - Perfil");
+        injetarPaleta(modelMap);
+
+        if (userDetails == null) {
+            return "redirect:/login";
+        }
+
+        Usuario usuario = usuarioServices.findUserByNome(userDetails.getUsername());
+        modelMap.addAttribute("usuario", usuario);
+
+        return "perfil";
     }
 
     @RequestMapping({"/privacidade", "/privacidade.html"})

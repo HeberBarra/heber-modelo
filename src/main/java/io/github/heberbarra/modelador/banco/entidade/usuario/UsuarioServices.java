@@ -1,3 +1,14 @@
+/**
+ * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * <p>
+ * Licensed under the Massachusetts Institute of Technology (MIT) License.
+ * You may obtain a copy of the license at:
+ * <p>
+ * https://choosealicense.com/licenses/mit/
+ * <p>
+ * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
+ * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ */
 package io.github.heberbarra.modelador.banco.entidade.usuario;
 
 import java.util.List;
@@ -9,11 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class UsuarioServices implements IUsuarioServices {
 
-    private final UsuarioRepositorio usuarioRepositorio;
+    private final IUsuarioRepositorio IUsuarioRepositorio;
     private final PasswordEncoder passwordEncoder;
 
-    public UsuarioServices(UsuarioRepositorio usuarioRepositorio, PasswordEncoder passwordEncoder) {
-        this.usuarioRepositorio = usuarioRepositorio;
+    public UsuarioServices(IUsuarioRepositorio IUsuarioRepositorio, PasswordEncoder passwordEncoder) {
+        this.IUsuarioRepositorio = IUsuarioRepositorio;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -27,27 +38,27 @@ public class UsuarioServices implements IUsuarioServices {
         usuario.setSenha(passwordEncoder.encode(usuarioDTO.getSenha()));
         usuario.setTipo(usuarioDTO.getTipo());
 
-        usuarioRepositorio.save(usuario);
+        IUsuarioRepositorio.save(usuario);
     }
 
     @Override
     public Usuario findUserByMatricula(long matricula) {
-        return usuarioRepositorio.getUsuarioByMatricula(matricula);
+        return IUsuarioRepositorio.getUsuarioByMatricula(matricula);
     }
 
     @Override
     public Usuario findUserByEmail(String email) {
-        return usuarioRepositorio.getUsuarioByEmail(email);
+        return IUsuarioRepositorio.getUsuarioByEmail(email);
     }
 
     @Override
     public Usuario findUserByNome(String nome) {
-        return usuarioRepositorio.getUsuarioByNome(nome);
+        return IUsuarioRepositorio.getUsuarioByNome(nome);
     }
 
     @Override
     public List<UsuarioDTO> findAllUsers() {
-        return usuarioRepositorio.findAll().stream().map(this::convertToDTO).toList();
+        return IUsuarioRepositorio.findAll().stream().map(this::convertToDTO).toList();
     }
 
     private UsuarioDTO convertToDTO(Usuario usuario) {
