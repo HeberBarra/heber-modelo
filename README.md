@@ -1,4 +1,4 @@
-<h1 style="text-align: center">
+<h1 style="text-align: center" align="center">
     <img src="logo.svg" style="width: 20rem" alt="logo do projeto"><br/>
     Heber Modelo
 </h1>
