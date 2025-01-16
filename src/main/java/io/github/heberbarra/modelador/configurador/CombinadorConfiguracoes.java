@@ -1,3 +1,14 @@
+/**
+ * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * <p>
+ * Licensed under the Massachusetts Institute of Technology (MIT) License.
+ * You may obtain a copy of the license at:
+ * <p>
+ * https://choosealicense.com/licenses/mit/
+ * <p>
+ * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
+ * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ */
 package io.github.heberbarra.modelador.configurador;
 
 import java.util.ArrayList;
@@ -8,18 +19,20 @@ import org.tomlj.TomlTable;
 
 /**
  * Responsável por combinar uma configuração existente com novas opções de configuração.
+ *
  * @since v0.0.2-SNAPSHOT
- * */
+ */
 public class CombinadorConfiguracoes {
 
     /**
      * Combina a configuração padrão do programa com a configuração feita pelo usuário, respeitando os valores modificados.
+     *
      * @param configuracaoPadrao a configuração padrão do programa
-     * @param configuracao a configuração do usuário
-     * @param nomeAtributo o nome do atributo no modelo da configuração padrão
-     * @param nomeValor o nome dos valores no modelo da configuração padrão
+     * @param configuracao       a configuração do usuário
+     * @param nomeAtributo       o nome do atributo no modelo da configuração padrão
+     * @param nomeValor          o nome dos valores no modelo da configuração padrão
      * @return um {@link Map} com o resultado da combinação das configurações
-     * */
+     */
     public Map<String, List<Map<String, String>>> combinarConfiguracoes(
             Map<String, List<Map<String, String>>> configuracaoPadrao,
             TomlTable configuracao,
