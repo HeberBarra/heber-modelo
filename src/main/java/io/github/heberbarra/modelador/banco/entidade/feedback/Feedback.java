@@ -12,11 +12,16 @@
 package io.github.heberbarra.modelador.banco.entidade.feedback;
 
 import io.github.heberbarra.modelador.banco.entidade.Entidade;
+import io.github.heberbarra.modelador.banco.entidade.atividade.Atividade;
+import io.github.heberbarra.modelador.banco.entidade.usuario.Usuario;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,9 +36,13 @@ public class Feedback extends Entidade {
     @Column(name = "descricao_feedback", nullable = false)
     private String descricao;
 
-    private int codigo_atividade;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "codigo_atividade")
+    private Atividade atividade;
 
-    private long matricula_professor;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "matricula_professor")
+    private Usuario usuario;
 
     public int getCodigo() {
         return codigo;
@@ -49,21 +58,5 @@ public class Feedback extends Entidade {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public int getCodigo_atividade() {
-        return codigo_atividade;
-    }
-
-    public void setCodigo_atividade(int codigo_atividade) {
-        this.codigo_atividade = codigo_atividade;
-    }
-
-    public long getMatricula_professor() {
-        return matricula_professor;
-    }
-
-    public void setMatricula_professor(long matricula_professor) {
-        this.matricula_professor = matricula_professor;
     }
 }
