@@ -28,10 +28,6 @@
     {
       "nomeVariavel": "cor_fonte_alternativa",
       "valorPadraoVariavel": "#000000"
-    },
-    {
-      "nomeVariavel": "cor_borda",
-      "valorPadraoVariavel": "#000000"
     }
   ]
 }
