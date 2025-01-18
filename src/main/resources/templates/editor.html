@@ -4,6 +4,7 @@
     <!--suppress HtmlUnknownTag -->
     <div th:replace="~{fragments/head :: head}"></div>
     <link rel="stylesheet" th:href="@{/css/editor.css}" />
+    <script th:src="@{/javascript/editor.js}" defer></script>
     <title>Editor</title>
   </head>
   <body>
@@ -135,6 +136,11 @@ Licensed works, modifications, and larger works may be distributed under differe
         <h2>PÁGINAS</h2>
       </section>
     </aside>
-    <main></main>
+    <main>
+      <!--Elemento de teste, se tornará um componente do diagrama de classes,
+e servirá como base de implementação para os demais componentes.
+Por enquanto será fixo e sempre presente, porém será criado a partir do botão de adicionar componente-->
+      <div class="componente">Sample</div>
+    </main>
   </body>
 </html>
