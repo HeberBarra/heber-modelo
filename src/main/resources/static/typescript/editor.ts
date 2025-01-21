@@ -2,11 +2,15 @@ let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".compon
 let componenteAtual: HTMLDivElement;
 let offsetX: number;
 let offsetY: number;
+let xInicial: number;
+let redimensionando: boolean = false;
 
 componentes.forEach((componente) => {
   componente.addEventListener("mousedown", (e) => {
     e.preventDefault();
     if (verificarDentroBorda(componente, e.clientX, e.clientY)) {
+      redimensionando = true;
+      xInicial = e.clientX;
       return;
     }
     offsetX = e.clientX - componente.getBoundingClientRect().left;
@@ -16,10 +20,21 @@ componentes.forEach((componente) => {
     componenteAtual = componente;
   });
 
+  componente.addEventListener("mousemove", (e) => {
+    if (!redimensionando) return;
+
+    componente.style.width = `${componente.getBoundingClientRect().width + (e.clientX - xInicial)}px`;
+    xInicial = e.clientX;
+  });
+
   componente.addEventListener("mouseup", () => {
     componente.classList.remove("dragging");
     document.removeEventListener("mousemove", dragElement);
   });
+});
+
+document.addEventListener("mouseup", () => {
+  redimensionando = false;
 });
 
 const verificarDentroBorda = (componente: HTMLElement, x: number, y: number): boolean => {
