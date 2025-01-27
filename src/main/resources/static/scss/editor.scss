@@ -15,3 +15,20 @@
 @use "estiloComum";
 @use "estiloHeader";
 @use "estiloTracinho";
+
+.componente {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  cursor: grab;
+  width: 20rem;
+  height: 15rem;
+  border: var(--cor-borda) solid 0.3rem;
+  z-index: 2;
+}
+
+.componente.dragging {
+  background-color: darkcyan;
+  cursor: grabbing;
+}
