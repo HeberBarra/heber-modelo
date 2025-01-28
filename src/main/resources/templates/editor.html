@@ -21,7 +21,8 @@ Licensed works, modifications, and larger works may be distributed under differe
 -->
     <header th:replace="~{fragments/header :: header}"></header>
     <aside id="painel-esquerdo">
-      <section id="diagramas">
+      <button type="button" class="alternar-painel">&lt;</button>
+      <section id="diagramas" class="pagina">
         <section id="UML">
           <h2>UML</h2>
           <label title="Diagrama de Atividades">
@@ -129,11 +130,17 @@ Licensed works, modifications, and larger works may be distributed under differe
           </label>
         </section>
       </section>
-      <section id="componentes"></section>
+      <section id="componentes" class="pagina">
+        <h2>COMPONENTES</h2>
+      </section>
     </aside>
     <aside id="painel-direito">
-      <section id="paginas">
+      <button type="button" class="alternar-painel">&gt;</button>
+      <section id="paginas" class="pagina">
         <h2>PÁGINAS</h2>
+      </section>
+      <section id="propriedades" class="pagina">
+        <h2>PROPRIEDADES</h2>
       </section>
     </aside>
     <main>

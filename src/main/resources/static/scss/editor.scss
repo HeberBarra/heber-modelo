@@ -16,8 +16,80 @@
 @use "estiloHeader";
 @use "estiloTracinho";
 
+$estiloBordaPainel: var(--cor-borda) solid 0.1rem;
+
+body {
+  display: grid;
+  grid-template-columns: 20% 60% 20%;
+  grid-template-rows: 5rem 100%;
+}
+
+header {
+  grid-column: 1 / 4;
+  z-index: 1;
+}
+
+aside {
+  background-color: var(--cor-painel-lateral);
+  color: var(--cor-fonte-alternativa);
+  grid-row: 2 / 4;
+  padding: 0.5rem;
+  z-index: 1;
+
+  h2 {
+    text-align: center;
+    font-size: 1.2rem;
+  }
+
+  section {
+    overflow: scroll;
+  }
+
+  button.alternar-painel {
+    background-color: var(--cor-botao-painel-lateral);
+    border: $estiloBordaPainel;
+    border-radius: 0;
+    color: var(--cor-fonte-alternativa);
+    z-index: 2;
+    font-size: 1.5rem;
+    position: relative;
+    width: 2rem;
+    aspect-ratio: 1 / 1;
+    padding: 0;
+    top: calc(50% - 1.5rem);
+  }
+
+  button.alternar-painel:hover {
+    background-color: var(--cor-botao-hover-painel-lateral);
+  }
+
+  &#painel-esquerdo {
+    grid-column: 1;
+    border-right: $estiloBordaPainel;
+
+    button.alternar-painel {
+      right: calc(-100% + 0.5rem);
+    }
+  }
+
+  &#painel-direito {
+    grid-column: 3;
+    border-left: $estiloBordaPainel;
+
+    button.alternar-painel {
+      left: -1.5rem;
+    }
+  }
+}
+
+main {
+  grid-column: 2;
+  grid-row: 2 / 4;
+}
+
 .componente {
   display: flex;
+  background-color: var(--cor-fundo);
   align-items: center;
   justify-content: center;
   position: absolute;
@@ -25,7 +97,6 @@
   width: 20rem;
   height: 15rem;
   border: var(--cor-borda) solid 0.3rem;
-  z-index: 2;
 }
 
 .componente.dragging {

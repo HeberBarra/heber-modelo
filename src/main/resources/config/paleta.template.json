@@ -7,7 +7,7 @@
     },
     {
       "nomeVariavel": "cor_fundo",
-      "valorPadraoVariavel": "#FFFFFF"
+      "valorPadraoVariavel": "#F6F5F4"
     },
     {
       "nomeVariavel": "cor_botao",
@@ -28,6 +28,18 @@
     {
       "nomeVariavel": "cor_fonte_alternativa",
       "valorPadraoVariavel": "#000000"
+    },
+    {
+      "nomeVariavel": "cor_painel_lateral",
+      "valorPadraoVariavel": "#F6F5F4"
+    },
+    {
+      "nomeVariavel": "cor_botao_painel_lateral",
+      "valorPadraoVariavel": "#F6F5F4"
+    },
+    {
+      "nomeVariavel": "cor_botao_hover_painel_lateral",
+      "valorPadraoVariavel": "#D6D5D4"
     }
   ]
 }
