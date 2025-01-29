@@ -22,6 +22,8 @@ body {
   display: grid;
   grid-template-columns: 20% 60% 20%;
   grid-template-rows: 5rem 100%;
+  max-width: 100vw;
+  overflow: hidden;
 }
 
 header {

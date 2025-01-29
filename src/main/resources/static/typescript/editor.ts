@@ -54,17 +54,19 @@ const alternarPainel = (painelAlvo: HTMLElement | null, btnPainel: HTMLButtonEle
     painelAlvo.style.width = "auto";
     painelAlvo.style.height = "auto";
     painelAlvo.style.removeProperty("border");
+    painelAlvo.style.removeProperty("background-color");
     btnPainel.style.removeProperty("left");
   } else {
     painelAlvo.classList.add(".hidden");
     painelAlvo.style.width = "0";
     painelAlvo.style.height = "0";
     painelAlvo.style.border = "none";
+    painelAlvo.style.backgroundColor = "#00000000";
 
     if (btnPainel.id === btnPainelEsquerdo?.id) {
-      btnPainel.style.left = "16px";
+      btnPainel.style.left = "5px";
     } else if (btnPainel.id == btnPainelDireito?.id) {
-      btnPainel.style.left = "-32px";
+      btnPainel.style.left = "16px";
     }
   }
 
@@ -86,18 +88,14 @@ const definirEstiloGrade = (
     colunasGrade = estiloElementoAlvo.gridTemplateColumns.split(" ");
   }
 
-  if (painelDireito.classList.contains(".hidden")) {
-    elementoAlvo.style.gridTemplateColumns =
-      colunasGrade[0] + " " + ajustarTamanhoColuna(colunasGrade[1], colunasGrade[2]).join(" ");
-    colunasGrade = elementoAlvo.style.gridTemplateColumns.split(" ");
-  }
-
-  if (painelEsquerdo.classList.contains(".hidden")) {
-    elementoAlvo.style.gridTemplateColumns =
-      ajustarTamanhoColuna(colunasGrade[1], colunasGrade[0]).reverse().join(" ") +
-      " " +
-      colunasGrade[2];
-    colunasGrade = elementoAlvo.style.gridTemplateColumns.split(" ");
+  if (painelDireito.classList.contains(".hidden") && painelEsquerdo.classList.contains(".hidden")) {
+    elementoAlvo.style.gridTemplateColumns = "5% 90% 5%";
+  } else if (painelDireito.classList.contains(".hidden")) {
+    elementoAlvo.style.gridTemplateColumns = "20% 75% 5%";
+  } else if (painelEsquerdo.classList.contains(".hidden")) {
+    elementoAlvo.style.gridTemplateColumns = "5% 75% 20%";
+  } else {
+    elementoAlvo.style.gridTemplateColumns = "20% 60% 20%";
   }
 };
 
