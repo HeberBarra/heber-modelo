@@ -4,6 +4,7 @@
     <!--suppress HtmlUnknownTag -->
     <div th:replace="~{fragments/head :: head}"></div>
     <link rel="stylesheet" th:href="@{/css/editor.css}" />
+    <script th:src="@{/javascript/editor.js}" defer></script>
     <title>Editor</title>
   </head>
   <body>
@@ -20,7 +21,12 @@ Licensed works, modifications, and larger works may be distributed under differe
 -->
     <header th:replace="~{fragments/header :: header}"></header>
     <aside id="painel-esquerdo">
-      <section id="diagramas">
+      <div class="wrapper-botoes-alterar-secoes">
+        <button class="btn-voltar-secao">Voltar Seção</button>
+        <button class="btn-proxima-secao">Próxima Seção</button>
+      </div>
+      <button type="button" class="alternar-painel" id="btn-painel-esquerdo">&lt;</button>
+      <section id="diagramas" class="pagina">
         <section id="UML">
           <h2>UML</h2>
           <label title="Diagrama de Atividades">
@@ -128,13 +134,28 @@ Licensed works, modifications, and larger works may be distributed under differe
           </label>
         </section>
       </section>
-      <section id="componentes"></section>
-    </aside>
-    <aside id="painel-direito">
-      <section id="paginas">
-        <h2>PÁGINAS</h2>
+      <section id="componentes" class="pagina">
+        <h2>COMPONENTES</h2>
       </section>
     </aside>
-    <main></main>
+    <aside id="painel-direito">
+      <div class="wrapper-botoes-alterar-secoes">
+        <button class="btn-voltar-secao">Voltar Seção</button>
+        <button class="btn-proxima-secao">Próxima Seção</button>
+      </div>
+      <button type="button" class="alternar-painel" id="btn-painel-direito">&gt;</button>
+      <section id="paginas" class="pagina">
+        <h2>PÁGINAS</h2>
+      </section>
+      <section id="propriedades" class="pagina">
+        <h2>PROPRIEDADES</h2>
+      </section>
+    </aside>
+    <main>
+      <!--Elemento de teste, se tornará um componente do diagrama de classes,
+e servirá como base de implementação para os demais componentes.
+Por enquanto será fixo e sempre presente, porém será criado a partir do botão de adicionar componente-->
+      <div class="componente">Sample</div>
+    </main>
   </body>
 </html>

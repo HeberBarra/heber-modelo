@@ -179,6 +179,11 @@ public class ControladorWeb {
             usuarioDTO.setTipo("E");
         }
 
+        usuarioDTO.setNome(usuarioDTO.getNome().trim());
+        usuarioDTO.setEmail(usuarioDTO.getEmail().trim());
+        usuarioDTO.setSenha(usuarioDTO.getSenha().trim());
+        usuarioDTO.setConfirmarSenha(usuarioDTO.getConfirmarSenha().trim());
+
         if (usuarioServices.findUserByMatricula(usuarioDTO.getMatricula()) != null
                 || usuarioServices.findUserByNome(usuarioDTO.getNome()) != null
                 || usuarioServices.findUserByEmail(usuarioDTO.getEmail()) != null) {
