@@ -2,7 +2,7 @@
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <!--suppress HtmlUnknownTag -->
-    <div th:replace="~{fragments/head :: head}"></div>
+    <th:block th:replace="~{fragments/head :: head}"></th:block>
     <link rel="stylesheet" th:if="${desligar != null}" th:href="@{/css/desligar.css}" />
     <script th:src="@{/javascript/avisoCookies.js}" defer></script>
     <title>Heber-Modelo</title>
