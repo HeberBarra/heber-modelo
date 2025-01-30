@@ -2,7 +2,7 @@
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org">
   <head>
     <!--suppress HtmlUnknownTag -->
-    <div th:replace="~{fragments/head :: head}"></div>
+    <th:block th:replace="~{fragments/head :: head}"></th:block>
     <link rel="stylesheet" th:href="@{/css/redefinir.css}" />
     <title>Redefinir Senha</title>
   </head>
