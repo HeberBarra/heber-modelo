@@ -6,7 +6,7 @@ updates:
       interval: weekly
     rebase-strategy: disabled
   - package-ecosystem: docker
-    directory: /
+    directory: /src/main/resources/database
     schedule:
       interval: weekly
     rebase-strategy: disabled
