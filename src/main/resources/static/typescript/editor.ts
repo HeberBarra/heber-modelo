@@ -1,15 +1,87 @@
-const converterPXParaNumero = (tamanho: string): number => {
-  return Number(tamanho.substring(0, tamanho.length - 2));
-};
-
-// Trocar página painel lateral
-let paginasPainelDireito: NodeListOf<HTMLElement> =
+// Trocar aba painel lateral
+let secoesPainelDireito: NodeListOf<HTMLElement> =
   document.querySelectorAll("#painel-direito .pagina");
-let paginasPainelEsquerdo: NodeListOf<HTMLElement> = document.querySelectorAll(
+let secoesPainelEsquerdo: NodeListOf<HTMLElement> = document.querySelectorAll(
   "#painel-esquerdo .pagina",
 );
+let btnProximaSecaoPainelDireito: HTMLButtonElement | null = document.querySelector(
+  "aside#painel-direito button.btn-proxima-secao",
+);
+let btnVoltarSecaoPainelDireito: HTMLButtonElement | null = document.querySelector(
+  "aside#painel-direito button.btn-voltar-secao",
+);
+let btnProximaSecaoPainelEsquerdo: HTMLButtonElement | null = document.querySelector(
+  "aside#painel-esquerdo button.btn-proxima-secao",
+);
+let btnVoltarSecaoPainelEsquerdo: HTMLButtonElement | null = document.querySelector(
+  "aside#painel-esquerdo button.btn-voltar-secao",
+);
+let indexSecoesPainelDireito: number = 0;
+let indexSecoesPainelEsquerdo: number = 0;
+
+const esconderSecoesExcetoPrimeira = (secoes: NodeListOf<HTMLElement>) => {
+  for (let i: number = 0; i < secoes.length; i++) {
+    if (i == 0) continue;
+
+    secoes[i].style.display = "none";
+  }
+};
+
+const mudarSecao = (secoes: NodeListOf<HTMLElement>, proxima: boolean) => {
+  let indexSecoes =
+    secoes === secoesPainelDireito ? indexSecoesPainelDireito : indexSecoesPainelEsquerdo;
+
+  if (proxima) {
+    indexSecoes++;
+  } else {
+    indexSecoes--;
+  }
+
+  if (indexSecoes < 0) {
+    indexSecoes = secoes.length - 1;
+  }
+
+  if (indexSecoes == secoes.length) {
+    indexSecoes = 0;
+  }
+
+  for (let i: number = 0; i < secoes.length; i++) {
+    if (i == indexSecoes) {
+      secoes[i].style.removeProperty("display");
+      continue;
+    }
+
+    secoes[i].style.display = "none";
+  }
+
+  if (secoes == secoesPainelDireito) {
+    indexSecoesPainelDireito = indexSecoes;
+  } else {
+    indexSecoesPainelEsquerdo = indexSecoes;
+  }
+};
+
+btnProximaSecaoPainelDireito?.addEventListener("click", () => {
+  mudarSecao(secoesPainelDireito, true);
+});
+
+btnVoltarSecaoPainelDireito?.addEventListener("click", () => {
+  mudarSecao(secoesPainelDireito, false);
+});
+
+btnProximaSecaoPainelEsquerdo?.addEventListener("click", () => {
+  mudarSecao(secoesPainelEsquerdo, true);
+});
+
+btnVoltarSecaoPainelEsquerdo?.addEventListener("click", () => {
+  mudarSecao(secoesPainelEsquerdo, false);
+});
+
+esconderSecoesExcetoPrimeira(secoesPainelDireito);
+esconderSecoesExcetoPrimeira(secoesPainelEsquerdo);
 
 // Esconder painel
+const CLASSE_PAINEL_OCULTO: string = "hidden";
 let painelDireito: HTMLElement | null = document.querySelector("#painel-direito");
 let painelEsquerdo: HTMLElement | null = document.querySelector("#painel-esquerdo");
 let btnPainelDireito: HTMLButtonElement | null = document.querySelector(
@@ -49,32 +121,19 @@ const alternarTextoBotao = (btnAlvo: HTMLButtonElement | null) => {
 const alternarPainel = (painelAlvo: HTMLElement | null, btnPainel: HTMLButtonElement | null) => {
   if (painelAlvo == null || btnPainel == null) return;
 
-  if (painelAlvo.classList.contains(".hidden")) {
-    painelAlvo.classList.remove(".hidden");
-    painelAlvo.style.width = "auto";
-    painelAlvo.style.height = "auto";
+  if (painelAlvo.classList.contains(CLASSE_PAINEL_OCULTO)) {
+    painelAlvo.classList.remove(CLASSE_PAINEL_OCULTO);
     painelAlvo.style.removeProperty("border");
-    painelAlvo.style.removeProperty("background-color");
-    btnPainel.style.removeProperty("left");
   } else {
-    painelAlvo.classList.add(".hidden");
-    painelAlvo.style.width = "0";
-    painelAlvo.style.height = "0";
+    painelAlvo.classList.add(CLASSE_PAINEL_OCULTO);
     painelAlvo.style.border = "none";
-    painelAlvo.style.backgroundColor = "#00000000";
-
-    if (btnPainel.id === btnPainelEsquerdo?.id) {
-      btnPainel.style.left = "5px";
-    } else if (btnPainel.id == btnPainelDireito?.id) {
-      btnPainel.style.left = "16px";
-    }
   }
 
   definirEstiloGrade(document.body, painelDireito, painelEsquerdo);
 };
 
 let colunasGrade: string[] | null = null;
-// TODO: Ajustar a grade quando a página for redimensionada
+
 const definirEstiloGrade = (
   elementoAlvo: HTMLElement | null,
   painelDireito: HTMLElement | null,
@@ -88,32 +147,18 @@ const definirEstiloGrade = (
     colunasGrade = estiloElementoAlvo.gridTemplateColumns.split(" ");
   }
 
-  if (painelDireito.classList.contains(".hidden") && painelEsquerdo.classList.contains(".hidden")) {
+  if (
+    painelDireito.classList.contains(CLASSE_PAINEL_OCULTO) &&
+    painelEsquerdo.classList.contains(CLASSE_PAINEL_OCULTO)
+  ) {
     elementoAlvo.style.gridTemplateColumns = "5% 90% 5%";
-  } else if (painelDireito.classList.contains(".hidden")) {
+  } else if (painelDireito.classList.contains(CLASSE_PAINEL_OCULTO)) {
     elementoAlvo.style.gridTemplateColumns = "20% 75% 5%";
-  } else if (painelEsquerdo.classList.contains(".hidden")) {
+  } else if (painelEsquerdo.classList.contains(CLASSE_PAINEL_OCULTO)) {
     elementoAlvo.style.gridTemplateColumns = "5% 75% 20%";
   } else {
     elementoAlvo.style.gridTemplateColumns = "20% 60% 20%";
   }
-};
-
-const ajustarTamanhoColuna = (
-  tamanhoColunaCentral: string,
-  tamanhoColunaAdjacente: string,
-): string[] => {
-  if (btnPainelEsquerdo == null) {
-    return ["", ""];
-  }
-
-  let tamanhoCentro: number = converterPXParaNumero(tamanhoColunaCentral);
-  let tamanhoAdjacente: number = converterPXParaNumero(tamanhoColunaAdjacente);
-  let estiloBotao = getComputedStyle(btnPainelEsquerdo);
-  let tamanhoBotao: number = converterPXParaNumero(estiloBotao.width);
-
-  let tamanhoAjustado: number = tamanhoCentro + tamanhoAdjacente - tamanhoBotao;
-  return [tamanhoAjustado + "px", tamanhoBotao + "px"];
 };
 
 // Movimentação dos componentes

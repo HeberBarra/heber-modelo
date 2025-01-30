@@ -65,6 +65,12 @@ aside {
     background-color: var(--cor-botao-hover-painel-lateral);
   }
 
+  div.wrapper-botoes-alterar-secoes {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
   &#painel-esquerdo {
     grid-column: 1;
     border-right: $estiloBordaPainel;
@@ -81,6 +87,49 @@ aside {
     button.alternar-painel {
       left: -1.5rem;
     }
+  }
+}
+
+aside.hidden {
+  width: 0;
+  height: 0;
+  background-color: #00000000;
+  border: medium;
+
+  button.alternar-painel {
+    top: 0;
+  }
+
+  &#painel-esquerdo button.alternar-painel {
+    left: 5px;
+  }
+
+  &#painel-direito button.alternar-painel {
+    left: 16px;
+  }
+
+  button.btn-proxima-secao,
+  button.btn-voltar-secao {
+    display: none;
+  }
+}
+
+section.pagina {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+section#diagramas > section {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 70%;
+
+  h2 {
+    grid-column: span 2;
+    margin: 1rem 0;
   }
 }
 
