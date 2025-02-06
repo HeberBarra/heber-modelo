@@ -71,6 +71,17 @@ aside {
     justify-content: space-between;
   }
 
+  section#propriedades {
+    gap: 0.7rem;
+
+    label {
+      display: grid;
+      grid-template-columns: 30% 70%;
+      text-align: left;
+      width: 80%;
+    }
+  }
+
   &#painel-esquerdo {
     grid-column: 1;
     border-right: $estiloBordaPainel;

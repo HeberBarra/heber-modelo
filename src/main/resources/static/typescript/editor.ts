@@ -190,3 +190,80 @@ const dragElement = (event: MouseEvent) => {
   componenteAtual.style.left = `${x}px`;
   componenteAtual.style.top = `${y}px`;
 };
+
+// Editor Propriedades
+let elementoSelecionado: HTMLElement | null;
+
+componentes.forEach((componente) =>
+  componente.addEventListener("click", () => {
+    elementoSelecionado = componente;
+  }),
+);
+
+let editorAltura: HTMLInputElement | null = document.querySelector(
+  "#propriedades input[name='componente-altura']",
+);
+
+let editorLargura: HTMLInputElement | null = document.querySelector(
+  "#propriedades input[name='componente-largura']",
+);
+
+editorAltura?.addEventListener("input", () => {
+  if (elementoSelecionado === null || editorAltura === null) return;
+
+  elementoSelecionado.style.height = ajustarValorAtributo(editorAltura.value) + "px";
+});
+
+editorLargura?.addEventListener("input", () => {
+  if (elementoSelecionado === null || editorLargura === null) return;
+
+  elementoSelecionado.style.width = ajustarValorAtributo(editorLargura.value) + "px";
+});
+
+editorAltura?.addEventListener("focusout", () => {
+  if (elementoSelecionado === null || editorAltura === null) return;
+
+  let alturaElemento: string = elementoSelecionado.style.height;
+  editorAltura.value = alturaElemento.substring(0, alturaElemento.length - 2);
+});
+
+editorLargura?.addEventListener("focusout", () => {
+  if (elementoSelecionado === null || editorLargura === null) return;
+
+  let larguraElemento: string = elementoSelecionado.style.height;
+  editorLargura.value = larguraElemento.substring(0, larguraElemento.length - 2);
+});
+
+const verificarNumero = (valor: string): boolean => {
+  let regexVerificarNumero: RegExp = /^-?\d+$/g;
+  return regexVerificarNumero.test(valor);
+};
+
+// Verifica uma expressão matemática simples e retorna o resultado, ou caso a expressão seja inválida retorna null.
+// Infelizmente, não é possível utilizar parenteses
+const calcularExpressao = (expressao: string): number | null => {
+  let regexFiltroExpressao: RegExp = /(?<!\S)[0-9]+(?:[-+%~^*\/]+?\d+(?:\.\d+)?)+(?!\S)/g;
+
+  if (expressao.match(regexFiltroExpressao) == null) {
+    return null;
+  }
+
+  return eval(expressao);
+};
+
+const ajustarValorAtributo = (valor: string): number => {
+  if (verificarNumero(valor)) {
+    return parseFloat(valor);
+  }
+
+  let resultadoExpressao = calcularExpressao(valor);
+
+  console.log(valor);
+  console.log(resultadoExpressao);
+
+  if (resultadoExpressao == null) {
+    return 0;
+  }
+
+  return resultadoExpressao;
+};
