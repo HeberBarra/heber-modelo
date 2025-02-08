@@ -209,30 +209,46 @@ let editorLargura: HTMLInputElement | null = document.querySelector(
 );
 
 editorAltura?.addEventListener("input", () => {
-  if (elementoSelecionado === null || editorAltura === null) return;
-
-  elementoSelecionado.style.height = ajustarValorAtributo(editorAltura.value) + "px";
+  modificarPropriedadeElemento(elementoSelecionado, editorAltura, "height");
 });
 
 editorLargura?.addEventListener("input", () => {
-  if (elementoSelecionado === null || editorLargura === null) return;
-
-  elementoSelecionado.style.width = ajustarValorAtributo(editorLargura.value) + "px";
+  modificarPropriedadeElemento(elementoSelecionado, editorLargura, "width");
 });
 
 editorAltura?.addEventListener("focusout", () => {
-  if (elementoSelecionado === null || editorAltura === null) return;
-
-  let alturaElemento: string = elementoSelecionado.style.height;
-  editorAltura.value = alturaElemento.substring(0, alturaElemento.length - 2);
+  atualizarValorInput(elementoSelecionado, editorAltura, "height");
 });
 
 editorLargura?.addEventListener("focusout", () => {
-  if (elementoSelecionado === null || editorLargura === null) return;
-
-  let larguraElemento: string = elementoSelecionado.style.height;
-  editorLargura.value = larguraElemento.substring(0, larguraElemento.length - 2);
+  atualizarValorInput(elementoSelecionado, editorLargura, "width");
 });
+
+const atualizarValorInput = (
+  elemento: HTMLElement | null,
+  elementoInput: HTMLInputElement | null,
+  nomeAtributo: string,
+) => {
+  if (elemento === null || elementoInput === null) return;
+  let valorAtributo = elemento.getAttribute(nomeAtributo);
+
+  if (valorAtributo == null) {
+    throw "Atributo inválido";
+  }
+
+  elementoInput.value = valorAtributo?.substring(0, valorAtributo.length - 2);
+};
+
+const modificarPropriedadeElemento = (
+  elemento: HTMLElement | null,
+  inputValorAtributo: HTMLInputElement | null,
+  nomePropriedade: string,
+) => {
+  if (elemento === null || inputValorAtributo === null) return;
+
+  let novoValor: string = ajustarValorAtributo(inputValorAtributo.value) + "px";
+  elemento.style.setProperty(nomePropriedade, novoValor);
+};
 
 const verificarNumero = (valor: string): boolean => {
   let regexVerificarNumero: RegExp = /^-?\d+$/g;
@@ -257,9 +273,6 @@ const ajustarValorAtributo = (valor: string): number => {
   }
 
   let resultadoExpressao = calcularExpressao(valor);
-
-  console.log(valor);
-  console.log(resultadoExpressao);
 
   if (resultadoExpressao == null) {
     return 0;
