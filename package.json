@@ -2,7 +2,6 @@
   "name": "heber-modelo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "build-ts": "tsc --watch",
     "build-scss": "sass --no-source-map --watch ./src/main/resources/static/scss:./src/main/resources/static/css --style compressed",
