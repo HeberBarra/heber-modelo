@@ -54,6 +54,24 @@
       "atributo": "desativar_botao_desligar",
       "tipo": "Boolean",
       "valorPadrao": false
+    },
+    {
+      "categoria": "grade",
+      "atributo": "tamanho_quadrado_px",
+      "tipo": "Long",
+      "valorPadrao": 50
+    },
+    {
+      "categoria": "grade",
+      "atributo": "espessura",
+      "tipo": "Long",
+      "valorPadrao": 1
+    },
+    {
+      "categoria": "grade",
+      "atributo": "exibir",
+      "tipo": "Boolean",
+      "valorPadrao": true
     }
   ]
 }

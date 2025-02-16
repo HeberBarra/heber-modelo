@@ -173,7 +173,7 @@ public class ControladorWeb {
     }
 
     @PostMapping({"/cadastro", "/cadastro.html"})
-    public String cadastro(@ModelAttribute("usuario") UsuarioDTO usuarioDTO, ModelMap modelMap) {
+    public String cadastro(@ModelAttribute("usuario") UsuarioDTO usuarioDTO) {
 
         if (usuarioDTO.getTipo() == null) {
             usuarioDTO.setTipo("E");
@@ -234,6 +234,14 @@ public class ControladorWeb {
     public String editor(ModelMap modelMap) {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Editor");
+
+        if (configurador.pegarValorConfiguracao("grade", "exibir", boolean.class)) {
+            long tamanhoQuadradoGrade = configurador.pegarValorConfiguracao("grade", "tamanho_quadrado_px", long.class);
+            long espessuraGrade = configurador.pegarValorConfiguracao("grade", "espessura", long.class);
+
+            modelMap.addAttribute("tamanhoQuadradoGrade", tamanhoQuadradoGrade + "px");
+            modelMap.addAttribute("espessuraGrade", espessuraGrade + "px");
+        }
 
         return "editor";
     }

@@ -40,6 +40,14 @@
     {
       "nomeVariavel": "cor_botao_hover_painel_lateral",
       "valorPadraoVariavel": "#D6D5D4"
+    },
+    {
+      "nomeVariavel": "cor_grade_horizontal",
+      "valorPadraoVariavel": "#000000"
+    },
+    {
+      "nomeVariavel": "cor_grade_vertical",
+      "valorPadraoVariavel": "#000000"
     }
   ]
 }
