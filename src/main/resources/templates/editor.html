@@ -5,6 +5,12 @@
     <th:block th:replace="~{fragments/head :: head}"></th:block>
     <link rel="stylesheet" th:href="@{/css/editor.css}" />
     <script type="module" th:src="@{/javascript/editor.js}" defer></script>
+    <style th:inline="css">
+      :root {
+        --espessura-grade: [(${espessuraGrade})];
+        --tamanho-quadrado-grade: [(${tamanhoQuadradoGrade})];
+      }
+    </style>
     <title>Editor</title>
   </head>
   <body>
