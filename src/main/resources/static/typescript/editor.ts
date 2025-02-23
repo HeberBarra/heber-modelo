@@ -106,6 +106,14 @@ componentes.forEach((componente) =>
   }),
 );
 
+let editorEixoX: HTMLInputElement | null = document.querySelector(
+  "#propriedades input[name='componente-x']",
+);
+
+let editorEixoY: HTMLInputElement | null = document.querySelector(
+  "#propriedades input[name='componente-y']",
+);
+
 let editorAltura: HTMLInputElement | null = document.querySelector(
   "#propriedades input[name='componente-altura']",
 );
@@ -114,12 +122,28 @@ let editorLargura: HTMLInputElement | null = document.querySelector(
   "#propriedades input[name='componente-largura']",
 );
 
+editorEixoX?.addEventListener("input", () => {
+  modificarPropriedadeElemento(elementoSelecionado, editorEixoX, "left");
+});
+
+editorEixoY?.addEventListener("input", () => {
+  modificarPropriedadeElemento(elementoSelecionado, editorEixoY, "top");
+});
+
 editorAltura?.addEventListener("input", () => {
   modificarPropriedadeElemento(elementoSelecionado, editorAltura, "height");
 });
 
 editorLargura?.addEventListener("input", () => {
   modificarPropriedadeElemento(elementoSelecionado, editorLargura, "width");
+});
+
+editorEixoX?.addEventListener("focusout", () => {
+  atualizarValorInput(elementoSelecionado, editorEixoX, "left");
+});
+
+editorEixoY?.addEventListener("focusout", () => {
+  atualizarValorInput(elementoSelecionado, editorEixoY, "top");
 });
 
 editorAltura?.addEventListener("focusout", () => {
