@@ -122,6 +122,10 @@ let editorLargura: HTMLInputElement | null = document.querySelector(
   "#propriedades input[name='componente-largura']",
 );
 
+let editorTamanhoFonte: HTMLInputElement | null = document.querySelector(
+  "#propriedades input[name='componente-tamanho-fonte']",
+);
+
 editorEixoX?.addEventListener("input", () => {
   modificarPropriedadeElemento(elementoSelecionado, editorEixoX, "left");
 });
@@ -138,6 +142,10 @@ editorLargura?.addEventListener("input", () => {
   modificarPropriedadeElemento(elementoSelecionado, editorLargura, "width");
 });
 
+editorTamanhoFonte?.addEventListener("input", () => {
+  modificarPropriedadeElemento(elementoSelecionado, editorTamanhoFonte, "font-size");
+});
+
 editorEixoX?.addEventListener("focusout", () => {
   atualizarValorInput(elementoSelecionado, editorEixoX, "left");
 });
@@ -152,4 +160,8 @@ editorAltura?.addEventListener("focusout", () => {
 
 editorLargura?.addEventListener("focusout", () => {
   atualizarValorInput(elementoSelecionado, editorLargura, "width");
+});
+
+editorTamanhoFonte?.addEventListener("focusout", () => {
+  atualizarValorInput(elementoSelecionado, editorTamanhoFonte, "font-size");
 });

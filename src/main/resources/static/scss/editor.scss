@@ -23,7 +23,8 @@ body {
   grid-template-columns: 20% 60% 20%;
   grid-template-rows: 5rem 100%;
   max-width: 100vw;
-  overflow: hidden;
+  overflow: auto;
+  overflow-y: hidden;
   background-image:
     repeating-linear-gradient(
       var(--cor-grade-horizontal) 0 var(--espessura-grade),
@@ -87,7 +88,7 @@ aside {
 
     label {
       display: grid;
-      grid-template-columns: 30% 70%;
+      grid-template-columns: 60% 40%;
       text-align: left;
       width: 80%;
     }
