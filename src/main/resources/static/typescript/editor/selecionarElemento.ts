@@ -19,4 +19,10 @@ const selecionarElemento = (elemento: HTMLElement): HTMLElement => {
   return elementoSelecionado;
 };
 
-export { selecionarElemento };
+const removerSelecao = (): null => {
+  elementoSelecionado?.classList.remove(CLASSE_ELEMENTO_SELECIONADO);
+  elementoSelecionado = null;
+  return elementoSelecionado;
+};
+
+export { selecionarElemento, removerSelecao };

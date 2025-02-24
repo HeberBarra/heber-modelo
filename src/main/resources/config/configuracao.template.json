@@ -72,6 +72,12 @@
       "atributo": "exibir",
       "tipo": "Boolean",
       "valorPadrao": true
+    },
+    {
+      "categoria": "bindings",
+      "atributo": "removerSelecao",
+      "tipo": "String",
+      "valorPadrao": "Escape"
     }
   ]
 }
