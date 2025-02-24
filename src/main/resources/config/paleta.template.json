@@ -48,6 +48,10 @@
     {
       "nomeVariavel": "cor_grade_vertical",
       "valorPadraoVariavel": "#000000"
+    },
+    {
+      "nomeVariavel": "cor_componente_hover",
+      "valorPadraoVariavel": "#D6D5D4"
     }
   ]
 }
