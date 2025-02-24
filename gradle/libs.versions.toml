@@ -4,7 +4,7 @@ springdependency = { id = "io.spring.dependency-management", version = "1.1.7" }
 springboot = { id = "org.springframework.boot", version = "3.4.2" }
 [libraries]
 apachePDFBox = { module = "org.apache.pdfbox:pdfbox", version = "3.0.4" }
-cdimascioDotenv = { module = "io.github.cdimascio:dotenv-java", version = "3.1.0" }
+cdimascioDotenv = { module = "io.github.cdimascio:dotenv-java", version = "3.2.0" }
 fusesourceJansi = { module = "org.fusesource.jansi:jansi", version = "2.4.1" }
 heberModeloAPI = { module = "io.github.heberbarra:heber-modelo-api", version = "0.0.7-SNAP" }
 hibernateCore = { module = "org.hibernate:hibernate-core", version = "6.6.9.Final" }
