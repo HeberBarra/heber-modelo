@@ -202,4 +202,8 @@ main {
   &.dragging {
     cursor: grabbing;
   }
+
+  &.selected {
+    border-color: var(--cor-borda-componente-selecionado);
+  }
 }

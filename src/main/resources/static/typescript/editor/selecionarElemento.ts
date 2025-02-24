@@ -9,20 +9,14 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-const CLASSE_PAINEL_OCULTO: string = "hidden";
+const CLASSE_ELEMENTO_SELECIONADO = "selected";
+let elementoSelecionado: HTMLElement | null;
 
-const esconderPainel = (painelAlvo: HTMLElement | null): void => {
-  if (painelAlvo == null) return;
-
-  painelAlvo.classList.add(CLASSE_PAINEL_OCULTO);
-  painelAlvo.style.border = "none";
+const selecionarElemento = (elemento: HTMLElement): HTMLElement => {
+  elementoSelecionado?.classList.remove(CLASSE_ELEMENTO_SELECIONADO);
+  elementoSelecionado = elemento;
+  elementoSelecionado.classList.add(CLASSE_ELEMENTO_SELECIONADO);
+  return elementoSelecionado;
 };
 
-const mostrarPainel = (painelAlvo: HTMLElement | null): void => {
-  if (painelAlvo == null) return;
-
-  painelAlvo.classList.remove(CLASSE_PAINEL_OCULTO);
-  painelAlvo.style.removeProperty("border");
-};
-
-export { esconderPainel, mostrarPainel };
+export { selecionarElemento };
