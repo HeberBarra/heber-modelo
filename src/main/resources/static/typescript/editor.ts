@@ -1,6 +1,9 @@
 import { esconderSecoesMenosPrimeira, mudarSecao } from "./editor/mudarSecao.js";
-import { alternarPainel, alternarTextoBotao } from "./editor/alternarPainel.js";
+import { esconderPainel, mostrarPainel } from "./editor/alternarPainel.js";
 import { atualizarValorInput, modificarPropriedadeElemento } from "./editor/editorPropriedades.js";
+
+// Variáveis compartilhadas
+let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
 
 // Trocar aba painel lateral
 let secoesPainelDireito: NodeListOf<HTMLElement> =
@@ -43,32 +46,36 @@ esconderSecoesMenosPrimeira(secoesPainelEsquerdo);
 // Esconder painel
 let painelDireito: HTMLElement | null = document.querySelector("#painel-direito");
 let painelEsquerdo: HTMLElement | null = document.querySelector("#painel-esquerdo");
-let btnPainelDireito: HTMLButtonElement | null = document.querySelector(
-  "#painel-direito button.alternar-painel",
+let btnEsconderPainelDireito: HTMLButtonElement | null = document.querySelector(
+  ".btn-painel-direito.btn-esconder",
+);
+let btnEsconderPainelEsquerdo: HTMLButtonElement | null = document.querySelector(
+  ".btn-painel-esquerdo.btn-esconder",
+);
+let btnMostrarPainelDireito: HTMLButtonElement | null = document.querySelector(
+  ".btn-painel-direito.btn-mostrar",
+);
+let btnMostrarPainelEsquerdo: HTMLButtonElement | null = document.querySelector(
+  ".btn-painel-esquerdo.btn-mostrar",
 );
 
-let btnPainelEsquerdo: HTMLButtonElement | null = document.querySelector(
-  "#painel-esquerdo button.alternar-painel",
-);
-
-btnPainelDireito?.addEventListener("click", (e) => {
-  return alternarTextoBotao(e.target as HTMLButtonElement | null);
+btnEsconderPainelDireito?.addEventListener("click", () => {
+  esconderPainel(painelDireito);
 });
 
-btnPainelDireito?.addEventListener("click", () => {
-  alternarPainel(painelDireito, btnPainelDireito);
+btnEsconderPainelEsquerdo?.addEventListener("click", () => {
+  esconderPainel(painelEsquerdo);
 });
 
-btnPainelEsquerdo?.addEventListener("click", (e) => {
-  return alternarTextoBotao(e.target as HTMLButtonElement | null);
+btnMostrarPainelDireito?.addEventListener("click", () => {
+  mostrarPainel(painelDireito);
 });
 
-btnPainelEsquerdo?.addEventListener("click", () =>
-  alternarPainel(painelEsquerdo, btnPainelEsquerdo),
-);
+btnMostrarPainelEsquerdo?.addEventListener("click", () => {
+  mostrarPainel(painelEsquerdo);
+});
 
 // Movimentação dos componentes
-let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
 let componenteAtual: HTMLDivElement;
 let offsetX: number;
 let offsetY: number;

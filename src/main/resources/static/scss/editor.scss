@@ -21,10 +21,9 @@ $estiloBordaPainel: var(--cor-borda) solid 0.1rem;
 body {
   display: grid;
   grid-template-columns: 20% 60% 20%;
-  grid-template-rows: 5rem 100%;
+  grid-template-rows: 5rem calc(100% - 5rem);
   max-width: 100vw;
   overflow: auto;
-  overflow-y: hidden;
   background-image:
     repeating-linear-gradient(
       var(--cor-grade-horizontal) 0 var(--espessura-grade),
@@ -41,6 +40,10 @@ body {
 header {
   grid-column: 1 / 4;
   z-index: 1;
+  height: 5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 aside {
@@ -49,6 +52,9 @@ aside {
   grid-row: 2 / 4;
   padding: 0.5rem;
   z-index: 1;
+  position: fixed;
+  top: 5rem;
+  height: 100%;
 
   h2 {
     text-align: center;
@@ -59,22 +65,30 @@ aside {
     overflow: auto;
   }
 
-  button.alternar-painel {
+  button.btn-esconder,
+  button.btn-mostrar {
     background-color: var(--cor-botao-painel-lateral);
     border: $estiloBordaPainel;
     border-radius: 0;
     color: var(--cor-fonte-alternativa);
     z-index: 2;
     font-size: 1.5rem;
-    position: relative;
     width: 2rem;
     aspect-ratio: 1 / 1;
     padding: 0;
-    top: calc(50% - 1.5rem);
+
+    &:hover {
+      background-color: var(--cor-botao-hover-painel-lateral);
+    }
   }
 
-  button.alternar-painel:hover {
-    background-color: var(--cor-botao-hover-painel-lateral);
+  button.btn-mostrar {
+    display: none;
+  }
+
+  button.btn-esconder {
+    position: relative;
+    top: calc(50% - 3rem);
   }
 
   div.wrapper-botoes-alterar-secoes {
@@ -97,8 +111,9 @@ aside {
   &#painel-esquerdo {
     grid-column: 1;
     border-right: $estiloBordaPainel;
+    left: 0;
 
-    button.alternar-painel {
+    button.btn-esconder {
       right: calc(-100% + 0.5rem);
     }
   }
@@ -106,8 +121,9 @@ aside {
   &#painel-direito {
     grid-column: 3;
     border-left: $estiloBordaPainel;
+    right: 0;
 
-    button.alternar-painel {
+    button.btn-esconder {
       left: -1.5rem;
     }
   }
@@ -119,16 +135,22 @@ aside.hidden {
   background-color: transparent;
   border: medium;
 
-  button.alternar-painel {
-    top: 0;
+  button.btn-esconder {
+    display: none;
   }
 
-  &#painel-esquerdo button.alternar-painel {
+  button.btn-mostrar {
+    position: fixed;
+    display: block;
+    top: 6rem;
+  }
+
+  &#painel-esquerdo button.btn-mostrar {
     left: 5px;
   }
 
-  &#painel-direito button.alternar-painel {
-    left: 16px;
+  &#painel-direito button.btn-mostrar {
+    right: 5px;
   }
 
   button.btn-proxima-secao,
@@ -168,13 +190,16 @@ main {
   align-items: center;
   justify-content: center;
   position: absolute;
-  cursor: grab;
-  width: 20rem;
-  height: 15rem;
+  cursor: crosshair;
+  width: 300px;
+  height: 200px;
   border: var(--cor-borda) solid 0.3rem;
-}
 
-.componente.dragging {
-  background-color: darkcyan;
-  cursor: grabbing;
+  &:hover {
+    background-color: var(--cor-componente-hover);
+  }
+
+  &.dragging {
+    cursor: grabbing;
+  }
 }
