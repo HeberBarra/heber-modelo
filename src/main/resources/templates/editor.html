@@ -3,6 +3,7 @@
   <head>
     <!--suppress HtmlUnknownTag -->
     <th:block th:replace="~{fragments/head :: head}"></th:block>
+    <th:block th:insert="~{fragments/bindings :: script}"></th:block>
     <link rel="stylesheet" th:href="@{/css/editor.css}" />
     <script type="module" th:src="@{/javascript/editor.js}" defer></script>
     <style th:inline="css">

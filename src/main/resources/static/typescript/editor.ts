@@ -1,7 +1,19 @@
+/**
+ * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ *
+ * Licensed under the Massachusetts Institute of Technology (MIT) License.
+ * You may obtain a copy of the license at:
+ *
+ *     https://choosealicense.com/licenses/mit/
+ *
+ * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
+ * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ */
+
 import { esconderSecoesMenosPrimeira, mudarSecao } from "./editor/mudarSecao.js";
 import { esconderPainel, mostrarPainel } from "./editor/alternarPainel.js";
 import { atualizarValorInput, modificarPropriedadeElemento } from "./editor/editorPropriedades.js";
-import { selecionarElemento } from "./editor/selecionarElemento.js";
+import { selecionarElemento, removerSelecao } from "./editor/selecionarElemento.js";
 
 // Variáveis compartilhadas
 let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
@@ -175,4 +187,11 @@ editorLargura?.addEventListener("focusout", () => {
 
 editorTamanhoFonte?.addEventListener("focusout", () => {
   atualizarValorInput(elementoSelecionado, editorTamanhoFonte, "font-size");
+});
+
+document.addEventListener("keydown", (event) => {
+  console.log(event.key);
+  if (event.key === bindings.get("removerSelecao")) {
+    elementoSelecionado = removerSelecao();
+  }
 });

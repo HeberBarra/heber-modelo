@@ -17,6 +17,7 @@ import io.github.heberbarra.modelador.banco.entidade.usuario.UsuarioDTO;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.Configurador;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
+import io.github.heberbarra.modelador.configurador.LeitorConfiguracao;
 import io.github.heberbarra.modelador.configurador.WatcherPastaConfiguracao;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.token.GeradorToken;
@@ -46,6 +47,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.tomlj.TomlTable;
 
 @EnableAsync
 @Controller
@@ -93,6 +95,19 @@ public class ControladorWeb {
 
         stringBuilder.append("  }\n");
         modelMap.addAttribute("paleta", stringBuilder.toString());
+    }
+
+    public static void injetarBindings(ModelMap modelMap) {
+        ConfiguradorPrograma configuradorPrograma = (ConfiguradorPrograma) configurador;
+        LeitorConfiguracao leitorConfiguracao = configuradorPrograma.getLeitorConfiguracao();
+        TomlTable tabelaBindings =
+                leitorConfiguracao.getInformacoesConfiguracoes().getTable("bindings");
+
+        if (tabelaBindings == null) return;
+
+        for (String nomeBinding : tabelaBindings.dottedKeySet()) {
+            modelMap.addAttribute(nomeBinding, tabelaBindings.get(nomeBinding));
+        }
     }
 
     @PostConstruct
@@ -234,6 +249,7 @@ public class ControladorWeb {
     public String editor(ModelMap modelMap) {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Editor");
+        injetarBindings(modelMap);
 
         if (configurador.pegarValorConfiguracao("grade", "exibir", boolean.class)) {
             long tamanhoQuadradoGrade = configurador.pegarValorConfiguracao("grade", "tamanho_quadrado_px", long.class);
