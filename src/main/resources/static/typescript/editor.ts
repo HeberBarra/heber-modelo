@@ -1,6 +1,7 @@
 import { esconderSecoesMenosPrimeira, mudarSecao } from "./editor/mudarSecao.js";
 import { esconderPainel, mostrarPainel } from "./editor/alternarPainel.js";
 import { atualizarValorInput, modificarPropriedadeElemento } from "./editor/editorPropriedades.js";
+import { selecionarElemento } from "./editor/selecionarElemento.js";
 
 // Variáveis compartilhadas
 let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
@@ -107,11 +108,14 @@ const dragElement = (event: MouseEvent) => {
 // Editor Propriedades
 let elementoSelecionado: HTMLElement | null;
 
-componentes.forEach((componente) =>
+componentes.forEach((componente) => {
   componente.addEventListener("click", () => {
-    elementoSelecionado = componente;
-  }),
-);
+    elementoSelecionado = selecionarElemento(componente);
+  });
+  componente.addEventListener("mousedown", () => {
+    elementoSelecionado = selecionarElemento(componente);
+  });
+});
 
 let editorEixoX: HTMLInputElement | null = document.querySelector(
   "#propriedades input[name='componente-x']",

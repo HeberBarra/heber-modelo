@@ -52,6 +52,10 @@
     {
       "nomeVariavel": "cor_componente_hover",
       "valorPadraoVariavel": "#D6D5D4"
+    },
+    {
+      "nomeVariavel": "cor_borda_componente_selecionado",
+      "valorPadraoVariavel": "#FFDC73"
     }
   ]
 }
