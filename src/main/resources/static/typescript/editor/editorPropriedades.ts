@@ -10,6 +10,24 @@
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
 
+class InputPropriedade {
+  private readonly _elementoInput: HTMLInputElement | null;
+  private readonly nomePropriedade: string;
+
+  constructor(elementoInput: HTMLInputElement | null, propriedade: string) {
+    this._elementoInput = elementoInput;
+    this.nomePropriedade = propriedade;
+  }
+
+  public atualizar(elementoSelecionado: HTMLElement | null) {
+    atualizarValorInput(elementoSelecionado, this._elementoInput, this.nomePropriedade);
+  }
+
+  get elementoInput(): HTMLInputElement | null {
+    return this._elementoInput;
+  }
+}
+
 const verificarStringNumero = (valor: string): boolean => {
   let regexVerificarNumero: RegExp = /^-?\d+$/g;
   return regexVerificarNumero.test(valor);
@@ -62,4 +80,20 @@ const atualizarValorInput = (
   inputAtributo.value = valorPropriedade.substring(0, valorPropriedade.length - 2);
 };
 
-export { atualizarValorInput, modificarPropriedadeElemento };
+const atualizarInputs = (
+  elementoSelecionado: HTMLElement | null,
+  inputs: InputPropriedade[],
+): void => {
+  if (elementoSelecionado !== null) {
+    inputs.forEach((input) => input.atualizar(elementoSelecionado));
+    return;
+  }
+
+  inputs.forEach((input) => {
+    if (input.elementoInput !== null) {
+      input.elementoInput.value = "";
+    }
+  });
+};
+
+export { atualizarValorInput, atualizarInputs, modificarPropriedadeElemento, InputPropriedade };
