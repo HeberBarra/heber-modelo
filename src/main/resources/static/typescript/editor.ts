@@ -12,7 +12,12 @@
 
 import { esconderSecoesMenosPrimeira, mudarSecao } from "./editor/mudarSecao.js";
 import { esconderPainel, mostrarPainel } from "./editor/alternarPainel.js";
-import { atualizarValorInput, modificarPropriedadeElemento } from "./editor/editorPropriedades.js";
+import {
+  atualizarInputs,
+  atualizarValorInput,
+  InputPropriedade,
+  modificarPropriedadeElemento,
+} from "./editor/editorPropriedades.js";
 import { removerSelecao, selecionarElemento } from "./editor/selecionarElemento.js";
 import { DirecoesMovimento, moverElemento } from "./editor/moverElemento.js";
 
@@ -116,17 +121,18 @@ const dragElement = (event: MouseEvent) => {
   let y = event.clientY - offsetY;
   componenteAtual.style.left = `${x}px`;
   componenteAtual.style.top = `${y}px`;
+  atualizarValorInput(elementoSelecionado, editorEixoY, "top");
+  atualizarValorInput(elementoSelecionado, editorEixoX, "left");
 };
 
 // Editor Propriedades
 let elementoSelecionado: HTMLElement | null;
+let inputs: InputPropriedade[] = [];
 
 componentes.forEach((componente) => {
-  componente.addEventListener("click", () => {
-    elementoSelecionado = selecionarElemento(componente);
-  });
   componente.addEventListener("mousedown", () => {
     elementoSelecionado = selecionarElemento(componente);
+    atualizarInputs(elementoSelecionado, inputs);
   });
 });
 
@@ -149,6 +155,12 @@ let editorLargura: HTMLInputElement | null = document.querySelector(
 let editorTamanhoFonte: HTMLInputElement | null = document.querySelector(
   "#propriedades input[name='componente-tamanho-fonte']",
 );
+
+inputs.push(new InputPropriedade(editorEixoX, "left"));
+inputs.push(new InputPropriedade(editorEixoY, "top"));
+inputs.push(new InputPropriedade(editorAltura, "height"));
+inputs.push(new InputPropriedade(editorLargura, "width"));
+inputs.push(new InputPropriedade(editorTamanhoFonte, "font-size"));
 
 editorEixoX?.addEventListener("input", () => {
   modificarPropriedadeElemento(elementoSelecionado, editorEixoX, "left");
@@ -190,15 +202,20 @@ editorTamanhoFonte?.addEventListener("focusout", () => {
   atualizarValorInput(elementoSelecionado, editorTamanhoFonte, "font-size");
 });
 
+document.addEventListener("keydown", () => {
+  atualizarValorInput(elementoSelecionado, editorEixoY, "top");
+  atualizarValorInput(elementoSelecionado, editorEixoX, "left");
+});
+
 document.addEventListener("keydown", (event: KeyboardEvent) => {
   if (event.key === bindings.get("removerSelecao")) {
     elementoSelecionado = removerSelecao();
+    atualizarInputs(elementoSelecionado, inputs);
   }
 });
 
 // Mover elemento com bindings
 document.addEventListener("keydown", (event: KeyboardEvent) => {
-  console.log(event.key);
   switch (event.key) {
     case bindings.get("moverElementoParaCima"):
       moverElemento(elementoSelecionado, DirecoesMovimento.CIMA, incrementoMovimentacaoElemento);
