@@ -6,6 +6,10 @@
     <th:block th:insert="~{fragments/bindings :: script}"></th:block>
     <link rel="stylesheet" th:href="@{/css/editor.css}" />
     <script type="module" th:src="@{/javascript/editor.js}" defer></script>
+    <script type="module" th:src="@{/javascript/variaveisConfiguracao.js}"></script>
+    <script th:inline="javascript">
+      incrementoMovimentacaoElemento = Number("[(${incrementoMovimentacaoElemento})]");
+    </script>
     <style th:inline="css">
       :root {
         --espessura-grade: [(${espessuraGrade})];

@@ -78,6 +78,36 @@
       "atributo": "removerSelecao",
       "tipo": "String",
       "valorPadrao": "Escape"
+    },
+    {
+      "categoria": "bindings",
+      "atributo": "moverElementoParaCima",
+      "tipo": "String",
+      "valorPadrao": "ArrowUp"
+    },
+    {
+      "categoria": "bindings",
+      "atributo": "moverElementoParaBaixo",
+      "tipo": "String",
+      "valorPadrao": "ArrowDown"
+    },
+    {
+      "categoria": "bindings",
+      "atributo": "moverElementoParaDireita",
+      "tipo": "String",
+      "valorPadrao": "ArrowRight"
+    },
+    {
+      "categoria": "bindings",
+      "atributo": "moverElementoParaEsquerda",
+      "tipo": "String",
+      "valorPadrao": "ArrowLeft"
+    },
+    {
+      "categoria": "editor",
+      "atributo": "incrementoMovimentacaoElemento",
+      "tipo": "Long",
+      "valorPadrao": 10
     }
   ]
 }
