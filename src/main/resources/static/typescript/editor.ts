@@ -13,7 +13,8 @@
 import { esconderSecoesMenosPrimeira, mudarSecao } from "./editor/mudarSecao.js";
 import { esconderPainel, mostrarPainel } from "./editor/alternarPainel.js";
 import { atualizarValorInput, modificarPropriedadeElemento } from "./editor/editorPropriedades.js";
-import { selecionarElemento, removerSelecao } from "./editor/selecionarElemento.js";
+import { removerSelecao, selecionarElemento } from "./editor/selecionarElemento.js";
+import { DirecoesMovimento, moverElemento } from "./editor/moverElemento.js";
 
 // Variáveis compartilhadas
 let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
@@ -189,9 +190,34 @@ editorTamanhoFonte?.addEventListener("focusout", () => {
   atualizarValorInput(elementoSelecionado, editorTamanhoFonte, "font-size");
 });
 
-document.addEventListener("keydown", (event) => {
-  console.log(event.key);
+document.addEventListener("keydown", (event: KeyboardEvent) => {
   if (event.key === bindings.get("removerSelecao")) {
     elementoSelecionado = removerSelecao();
+  }
+});
+
+// Mover elemento com bindings
+document.addEventListener("keydown", (event: KeyboardEvent) => {
+  console.log(event.key);
+  switch (event.key) {
+    case bindings.get("moverElementoParaCima"):
+      moverElemento(elementoSelecionado, DirecoesMovimento.CIMA, incrementoMovimentacaoElemento);
+      break;
+
+    case bindings.get("moverElementoParaBaixo"):
+      moverElemento(elementoSelecionado, DirecoesMovimento.BAIXO, incrementoMovimentacaoElemento);
+      break;
+
+    case bindings.get("moverElementoParaDireita"):
+      moverElemento(elementoSelecionado, DirecoesMovimento.DIREITA, incrementoMovimentacaoElemento);
+      break;
+
+    case bindings.get("moverElementoParaEsquerda"):
+      moverElemento(
+        elementoSelecionado,
+        DirecoesMovimento.ESQUERDA,
+        incrementoMovimentacaoElemento,
+      );
+      break;
   }
 });

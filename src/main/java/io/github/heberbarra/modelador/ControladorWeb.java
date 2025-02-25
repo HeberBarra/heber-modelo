@@ -259,6 +259,10 @@ public class ControladorWeb {
             modelMap.addAttribute("espessuraGrade", espessuraGrade + "px");
         }
 
+        modelMap.addAttribute(
+                "incrementoMovimentacaoElemento",
+                configurador.pegarValorConfiguracao("editor", "incrementoMovimentacaoElemento", long.class));
+
         return "editor";
     }
 
