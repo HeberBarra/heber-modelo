@@ -58,7 +58,7 @@ const atualizarValorInput = (
 ): void => {
   if (elemento === null || inputAtributo === null) return;
 
-  let valorPropriedade = elemento.style.getPropertyValue(nomePropriedade);
+  let valorPropriedade = getComputedStyle(elemento).getPropertyValue(nomePropriedade);
   inputAtributo.value = valorPropriedade.substring(0, valorPropriedade.length - 2);
 };
 
