@@ -117,8 +117,10 @@ componentes.forEach((componente) => {
 
 const dragElement = (event: MouseEvent) => {
   event.preventDefault();
-  let x = event.clientX - offsetX;
-  let y = event.clientY - offsetY;
+  let x: number = event.pageX - offsetX;
+  let y: number = event.pageY - offsetY;
+  // TODO: Calibrar o scroll automático
+  window.scrollTo(x, y);
   componenteAtual.style.left = `${x}px`;
   componenteAtual.style.top = `${y}px`;
   atualizarValorInput(elementoSelecionado, editorEixoY, "top");
