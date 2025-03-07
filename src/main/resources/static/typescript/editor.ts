@@ -214,21 +214,48 @@ editorTamanhoFonte?.addEventListener("focusout", () => {
   atualizarValorInput(elementoSelecionado, editorTamanhoFonte, "font-size");
 });
 
-document.addEventListener("keydown", () => {
+// bindings
+let teclaAnterior: string | null = null;
+
+document.addEventListener("keydown", (event: KeyboardEvent) => {
   atualizarValorInput(elementoSelecionado, editorEixoY, "top");
   atualizarValorInput(elementoSelecionado, editorEixoX, "left");
-});
-
-document.addEventListener("keydown", (event: KeyboardEvent) => {
-  if (event.key === bindings.get("removerSelecao")) {
-    elementoSelecionado = removerSelecao();
-    atualizarInputs(elementoSelecionado, inputs);
+  if (teclaAnterior === null) {
+    teclaAnterior = event.key;
   }
-});
 
-// Mover elemento com bindings
-document.addEventListener("keydown", (event: KeyboardEvent) => {
+  // Leader key bindings
+  if (teclaAnterior === bindings.get("leaderKey") && event.key === bindings.get("copiarElemento")) {
+    copiarElemento(elementoSelecionado);
+    return;
+  }
+
+  if (teclaAnterior === bindings.get("leaderKey") && event.key === bindings.get("cortarElemento")) {
+    cortarElemento(elementoSelecionado);
+    return;
+  }
+
+  if (teclaAnterior === bindings.get("leaderKey") && event.key === bindings.get("colarElemento")) {
+    colarElemento(diagrama);
+
+    setTimeout(() => {
+      let componentesDiagrama: NodeListOf<HTMLDivElement> =
+        document.querySelectorAll("div.componente");
+      componentesDiagrama.forEach((componenteDiagrama: HTMLDivElement) => {
+        registrarEventosComponente(componenteDiagrama);
+      });
+    }, 200);
+    return;
+  }
+
   switch (event.key) {
+    // Limpar selecao
+    case bindings.get("removerSelecao"):
+      elementoSelecionado = removerSelecao();
+      atualizarInputs(elementoSelecionado, inputs);
+      break;
+
+    // Mover elemento
     case bindings.get("moverElementoParaCima"):
       moverElemento(elementoSelecionado, DirecoesMovimento.CIMA, incrementoMovimentacaoElemento);
       break;
@@ -248,39 +275,6 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
         incrementoMovimentacaoElemento,
       );
       break;
-  }
-});
-
-// Copiar, cortar e colar
-
-let teclaAnterior: string | null = null;
-document.addEventListener("keydown", (event: KeyboardEvent) => {
-  if (teclaAnterior == null) {
-    teclaAnterior = event.key;
-    return;
-  }
-
-  if (teclaAnterior == "Control" && event.key == "c") {
-    copiarElemento(elementoSelecionado);
-    return;
-  }
-
-  if (teclaAnterior == "Control" && event.key == "x") {
-    cortarElemento(elementoSelecionado);
-    return;
-  }
-
-  if (teclaAnterior == "Control" && event.key == "v") {
-    colarElemento(diagrama);
-
-    setTimeout(() => {
-      let componentesDiagrama: NodeListOf<HTMLDivElement> =
-        document.querySelectorAll("div.componente");
-      componentesDiagrama.forEach((componenteDiagrama: HTMLDivElement) => {
-        registrarEventosComponente(componenteDiagrama);
-      });
-    }, 200);
-    return;
   }
 
   teclaAnterior = event.key;
