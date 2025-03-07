@@ -20,9 +20,11 @@ import {
 } from "./editor/editorPropriedades.js";
 import { removerSelecao, selecionarElemento } from "./editor/selecionarElemento.js";
 import { DirecoesMovimento, moverElemento } from "./editor/moverElemento.js";
+import { colarElemento, copiarElemento, cortarElemento } from "./editor/clipboard.js";
 
 // Variáveis compartilhadas
 let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
+let diagrama: HTMLElement | null = document.querySelector("main");
 
 // Trocar aba painel lateral
 let secoesPainelDireito: NodeListOf<HTMLElement> =
@@ -99,21 +101,21 @@ let componenteAtual: HTMLDivElement;
 let offsetX: number;
 let offsetY: number;
 
-componentes.forEach((componente) => {
-  componente.addEventListener("mousedown", (e) => {
-    e.preventDefault();
-    offsetX = e.clientX - componente.getBoundingClientRect().left;
-    offsetY = e.clientY - componente.getBoundingClientRect().top;
-    componente.classList.add("dragging");
-    document.addEventListener("mousemove", dragElement);
-    componenteAtual = componente;
-  });
+function mouseDownComecarMoverElemento(event: MouseEvent) {
+  event.preventDefault();
+  let componente: HTMLDivElement = event.target as HTMLDivElement;
+  offsetX = event.clientX - componente.getBoundingClientRect().left;
+  offsetY = event.clientY - componente.getBoundingClientRect().top;
+  componente.classList.add("dragging");
+  document.addEventListener("mousemove", dragElement);
+  componenteAtual = componente;
+}
 
-  componente.addEventListener("mouseup", () => {
-    componente.classList.remove("dragging");
-    document.removeEventListener("mousemove", dragElement);
-  });
-});
+function mouseUpPararMoverElemento(event: Event) {
+  let componente: HTMLElement = event.target as HTMLElement;
+  componente.classList.remove("dragging");
+  document.removeEventListener("mousemove", dragElement);
+}
 
 const dragElement = (event: MouseEvent) => {
   event.preventDefault();
@@ -131,11 +133,19 @@ const dragElement = (event: MouseEvent) => {
 let elementoSelecionado: HTMLElement | null;
 let inputs: InputPropriedade[] = [];
 
+function mouseDownSelecionarElemento(event: Event): void {
+  elementoSelecionado = selecionarElemento(event.target as HTMLElement);
+  atualizarInputs(elementoSelecionado, inputs);
+}
+
+const registrarEventosComponente = (componente: HTMLDivElement) => {
+  componente.addEventListener("mousedown", mouseDownSelecionarElemento);
+  componente.addEventListener("mousedown", mouseDownComecarMoverElemento);
+  componente.addEventListener("mouseup", mouseUpPararMoverElemento);
+};
+
 componentes.forEach((componente) => {
-  componente.addEventListener("mousedown", () => {
-    elementoSelecionado = selecionarElemento(componente);
-    atualizarInputs(elementoSelecionado, inputs);
-  });
+  registrarEventosComponente(componente);
 });
 
 let editorEixoX: HTMLInputElement | null = document.querySelector(
@@ -239,4 +249,39 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
       );
       break;
   }
+});
+
+// Copiar, cortar e colar
+
+let teclaAnterior: string | null = null;
+document.addEventListener("keydown", (event: KeyboardEvent) => {
+  if (teclaAnterior == null) {
+    teclaAnterior = event.key;
+    return;
+  }
+
+  if (teclaAnterior == "Control" && event.key == "c") {
+    copiarElemento(elementoSelecionado);
+    return;
+  }
+
+  if (teclaAnterior == "Control" && event.key == "x") {
+    cortarElemento(elementoSelecionado);
+    return;
+  }
+
+  if (teclaAnterior == "Control" && event.key == "v") {
+    colarElemento(diagrama);
+
+    setTimeout(() => {
+      let componentesDiagrama: NodeListOf<HTMLDivElement> =
+        document.querySelectorAll("div.componente");
+      componentesDiagrama.forEach((componenteDiagrama: HTMLDivElement) => {
+        registrarEventosComponente(componenteDiagrama);
+      });
+    }, 200);
+    return;
+  }
+
+  teclaAnterior = event.key;
 });
