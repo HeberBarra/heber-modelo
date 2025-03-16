@@ -132,6 +132,12 @@
       "atributo": "colarElemento",
       "tipo": "String",
       "valorPadrao": "v"
+    },
+    {
+      "categoria": "bindings",
+      "atributo": "apagarElemento",
+      "tipo": "String",
+      "valorPadrao": "Delete"
     }
   ]
 }

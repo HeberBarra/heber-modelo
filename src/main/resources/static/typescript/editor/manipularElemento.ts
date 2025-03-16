@@ -9,6 +9,29 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
+const CLASSE_COMUM_ELEMENTOS = "componente";
+
+const criarElemento = (
+  elementoPai: HTMLElement | null,
+  classesElemento: string[],
+): HTMLDivElement | null => {
+  if (elementoPai === null) return null;
+
+  let novoElemento: HTMLDivElement = document.createElement("div");
+  novoElemento.classList.add(CLASSE_COMUM_ELEMENTOS);
+  classesElemento.forEach((classe) => novoElemento.classList.add(classe));
+  elementoPai.appendChild(novoElemento);
+
+  return novoElemento;
+};
+
+const apagarElemento = (elementoPai: HTMLElement | null, elemento: HTMLElement | null) => {
+  if (elementoPai === null || elemento === null) return;
+
+  elementoPai.removeChild(elemento);
+};
+
+// Funcionalidade de movimentação de um elemento
 
 enum DirecoesMovimento {
   CIMA,
@@ -48,4 +71,4 @@ const moverElemento = (
   }
 };
 
-export { DirecoesMovimento, moverElemento };
+export { apagarElemento, criarElemento, DirecoesMovimento, moverElemento };
