@@ -19,8 +19,13 @@ import {
   modificarPropriedadeElemento,
 } from "./editor/editorPropriedades.js";
 import { removerSelecao, selecionarElemento } from "./editor/selecionarElemento.js";
-import { DirecoesMovimento, moverElemento } from "./editor/moverElemento.js";
 import { colarElemento, copiarElemento, cortarElemento } from "./editor/clipboard.js";
+import {
+  apagarElemento,
+  criarElemento,
+  DirecoesMovimento,
+  moverElemento,
+} from "./editor/manipularElemento.js";
 
 // Variáveis compartilhadas
 let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
@@ -214,6 +219,24 @@ editorTamanhoFonte?.addEventListener("focusout", () => {
   atualizarValorInput(elementoSelecionado, editorTamanhoFonte, "font-size");
 });
 
+// botões criar elemento
+let botoesCriarElemento: NodeListOf<HTMLButtonElement> =
+  document.querySelectorAll("button.criar-elemento");
+
+botoesCriarElemento.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    let classesElemento: string[] | undefined = btn.getAttribute("data-classes")?.split(" ");
+
+    if (classesElemento === undefined) return;
+
+    let novoElemento: HTMLDivElement | null = criarElemento(diagrama, classesElemento);
+
+    if (novoElemento === null) return;
+
+    registrarEventosComponente(novoElemento);
+  });
+});
+
 // bindings
 let teclaAnterior: string | null = null;
 
@@ -251,6 +274,13 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
   switch (event.key) {
     // Limpar selecao
     case bindings.get("removerSelecao"):
+      elementoSelecionado = removerSelecao();
+      atualizarInputs(elementoSelecionado, inputs);
+      break;
+
+    // Apagar elemento
+    case bindings.get("apagarElemento"):
+      apagarElemento(diagrama, elementoSelecionado);
       elementoSelecionado = removerSelecao();
       atualizarInputs(elementoSelecionado, inputs);
       break;
