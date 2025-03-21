@@ -9,17 +9,26 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
+import { FabricaElemento, TipoElemento } from "./fabricaElemento.js";
+
 const CLASSE_COMUM_ELEMENTOS = "componente";
+let fabricaElemento: FabricaElemento = new FabricaElemento();
 
 const criarElemento = (
   elementoPai: HTMLElement | null,
-  classesElemento: string[],
+  nomeElemento: string,
 ): HTMLDivElement | null => {
   if (elementoPai === null) return null;
 
+  let nomeElementoFormatado = nomeElemento.toUpperCase();
+  let tipoElemento: TipoElemento = TipoElemento[nomeElementoFormatado as keyof typeof TipoElemento];
+  let promiseHtml: Promise<string> = fabricaElemento.pegarHTMLElemento(tipoElemento);
+  let promiseClasses: Promise<string[]> = fabricaElemento.pegarClassesElemento(tipoElemento);
+
   let novoElemento: HTMLDivElement = document.createElement("div");
   novoElemento.classList.add(CLASSE_COMUM_ELEMENTOS);
-  classesElemento.forEach((classe) => novoElemento.classList.add(classe));
+  promiseClasses.then((classes) => classes.forEach((classe) => novoElemento.classList.add(classe)));
+  promiseHtml.then((valor) => (novoElemento.innerHTML = valor));
   elementoPai.appendChild(novoElemento);
 
   return novoElemento;
