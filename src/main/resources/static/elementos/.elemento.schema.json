@@ -1,0 +1,34 @@
+{
+  "$id": "",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "JSON Schema para os JSONs de definição de cada elemento de diagrama",
+  "type": [
+    "object"
+  ],
+  "properties": {
+    "classesElemento": {
+      "description": "Define quais classes este tipo de elemento deve ter.",
+      "type": [
+        "array"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "valorHtmlInterno": {
+      "description": "Define a estrutura interna do HTML deste tipo de elemento",
+      "type": [
+        "string"
+      ]
+    },
+    "propriedades": {
+      "description": "Define as propriedades deste tipo de elemento que podem ser editadas",
+      "type": "object"
+    }
+  },
+  "required": [
+    "classesElemento",
+    "valorHtmlInterno",
+    "propriedades"
+  ]
+}

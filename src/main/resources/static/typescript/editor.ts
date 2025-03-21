@@ -225,11 +225,11 @@ let botoesCriarElemento: NodeListOf<HTMLButtonElement> =
 
 botoesCriarElemento.forEach((btn) => {
   btn.addEventListener("click", () => {
-    let classesElemento: string[] | undefined = btn.getAttribute("data-classes")?.split(" ");
+    let nomeElemento: string | null = btn.getAttribute("data-nome-elemento");
 
-    if (classesElemento === undefined) return;
+    if (nomeElemento === null) return;
 
-    let novoElemento: HTMLDivElement | null = criarElemento(diagrama, classesElemento);
+    let novoElemento: HTMLDivElement | null = criarElemento(diagrama, nomeElemento);
 
     if (novoElemento === null) return;
 
