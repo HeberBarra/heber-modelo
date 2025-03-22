@@ -1,6 +1,6 @@
 {
   "$schema": ".elemento.schema.json",
-  "valorHtmlInterno": "<div>NOTA</div>",
+  "valorHtmlInterno": "<div contenteditable=\"true\" spellcheck=\"true\">NOTA</div>",
   "classesElemento": [
     "elemento-nota"
   ],
