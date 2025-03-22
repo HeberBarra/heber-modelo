@@ -107,7 +107,6 @@ let offsetX: number;
 let offsetY: number;
 
 function mouseDownComecarMoverElemento(event: MouseEvent) {
-  event.preventDefault();
   let componente: HTMLDivElement = event.target as HTMLDivElement;
   offsetX = event.clientX - componente.getBoundingClientRect().left;
   offsetY = event.clientY - componente.getBoundingClientRect().top;

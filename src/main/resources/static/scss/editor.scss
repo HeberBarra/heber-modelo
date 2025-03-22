@@ -210,6 +210,7 @@ main {
 
 .elemento-nota {
   clip-path: polygon(0 -75%, 100% 25%, 100% 100%, 0% 100%);
+  padding: 0.5rem;
 
   &:before,
   &:after {
