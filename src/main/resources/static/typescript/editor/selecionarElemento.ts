@@ -9,20 +9,20 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-const CLASSE_ELEMENTO_SELECIONADO = "selected";
+
+import { CLASSE_ELEMENTO_SELECIONADO } from "./classesCssElementos.js";
+
 let elementoSelecionado: HTMLElement | null;
 
-const selecionarElemento = (elemento: HTMLElement): HTMLElement => {
+export const selecionarElemento = (elemento: HTMLElement): HTMLElement => {
   elementoSelecionado?.classList.remove(CLASSE_ELEMENTO_SELECIONADO);
   elementoSelecionado = elemento;
   elementoSelecionado.classList.add(CLASSE_ELEMENTO_SELECIONADO);
   return elementoSelecionado;
 };
 
-const removerSelecao = (): null => {
+export const removerSelecao = (): null => {
   elementoSelecionado?.classList.remove(CLASSE_ELEMENTO_SELECIONADO);
   elementoSelecionado = null;
   return elementoSelecionado;
 };
-
-export { selecionarElemento, removerSelecao };

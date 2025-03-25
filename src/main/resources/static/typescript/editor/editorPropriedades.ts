@@ -10,7 +10,7 @@
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
 
-class InputPropriedade {
+export class InputPropriedade {
   private readonly _elementoInput: HTMLInputElement | null;
   private readonly nomePropriedade: string;
 
@@ -33,7 +33,7 @@ const verificarStringNumero = (valor: string): boolean => {
   return regexVerificarNumero.test(valor);
 };
 
-// Infelizmente não funciona com parenteses.
+// NOTE: Não funciona com parênteses.
 const calcularExpressao = (expressao: string): number | null => {
   let regexFiltroExpressao: RegExp = /(?<!\S)[0-9]+(?:[-+%~^*\/]+?\d+(?:\.\d+)?)+(?!\S)/g;
 
@@ -58,7 +58,7 @@ const ajustarValorAtributo = (valor: string): number => {
   return resultadoExpressao;
 };
 
-const modificarPropriedadeElemento = (
+export const modificarPropriedadeElemento = (
   elemento: HTMLElement | null,
   inputAtributo: HTMLInputElement | null,
   nomePropriedade: string,
@@ -69,7 +69,7 @@ const modificarPropriedadeElemento = (
   elemento.style.setProperty(nomePropriedade, novoValorAtributo);
 };
 
-const atualizarValorInput = (
+export const atualizarValorInput = (
   elemento: HTMLElement | null,
   inputAtributo: HTMLInputElement | null,
   nomePropriedade: string,
@@ -80,7 +80,7 @@ const atualizarValorInput = (
   inputAtributo.value = valorPropriedade.substring(0, valorPropriedade.length - 2);
 };
 
-const atualizarInputs = (
+export const atualizarInputs = (
   elementoSelecionado: HTMLElement | null,
   inputs: InputPropriedade[],
 ): void => {
@@ -95,5 +95,3 @@ const atualizarInputs = (
     }
   });
 };
-
-export { atualizarValorInput, atualizarInputs, modificarPropriedadeElemento, InputPropriedade };

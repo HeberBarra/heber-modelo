@@ -9,18 +9,7 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-import { CLASSE_PAINEL_OCULTO } from "./classesCssElementos.js";
 
-export const esconderPainel = (painelAlvo: HTMLElement | null): void => {
-  if (painelAlvo == null) return;
-
-  painelAlvo.classList.add(CLASSE_PAINEL_OCULTO);
-  painelAlvo.style.border = "none";
-};
-
-export const mostrarPainel = (painelAlvo: HTMLElement | null): void => {
-  if (painelAlvo == null) return;
-
-  painelAlvo.classList.remove(CLASSE_PAINEL_OCULTO);
-  painelAlvo.style.removeProperty("border");
-};
+export const CLASSE_COMUM_ELEMENTOS: string = "componente";
+export const CLASSE_ELEMENTO_SELECIONADO: string = "selected";
+export const CLASSE_PAINEL_OCULTO: string = "hidden";

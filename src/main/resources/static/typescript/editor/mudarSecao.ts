@@ -10,7 +10,7 @@
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
 
-const esconderSecoesMenosPrimeira = (secoes: NodeListOf<HTMLElement>): void => {
+export const esconderSecoesMenosPrimeira = (secoes: NodeListOf<HTMLElement>): void => {
   for (let i: number = 0; i < secoes.length; i++) {
     if (i === 0) continue;
 
@@ -21,7 +21,7 @@ const esconderSecoesMenosPrimeira = (secoes: NodeListOf<HTMLElement>): void => {
 let indexPainelDireito: number = 0;
 let indexPainelEsquerdo: number = 0;
 
-const mudarSecao = (secoes: NodeListOf<HTMLElement>, avancar: boolean): void => {
+export const mudarSecao = (secoes: NodeListOf<HTMLElement>, avancar: boolean): void => {
   let indexSecaoAtual: number =
     secoes[0].parentElement?.id === "painel-direito" ? indexPainelDireito : indexPainelEsquerdo;
 
@@ -54,5 +54,3 @@ const mudarSecao = (secoes: NodeListOf<HTMLElement>, avancar: boolean): void => 
     indexPainelEsquerdo = indexSecaoAtual;
   }
 };
-
-export { esconderSecoesMenosPrimeira, mudarSecao };

@@ -27,11 +27,17 @@ import {
   moverElemento,
 } from "./editor/manipularElemento.js";
 
-// Variáveis compartilhadas
+/****************************/
+/* VARIÁVEIS COMPARTILHADAS */
+/****************************/
+
 let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
 let diagrama: HTMLElement | null = document.querySelector("main");
 
-// Trocar aba painel lateral
+/********************************/
+/* ALTERAR SEÇÃO PAINEL LATERAL */
+/********************************/
+
 let secoesPainelDireito: NodeListOf<HTMLElement> =
   document.querySelectorAll("#painel-direito .pagina");
 let secoesPainelEsquerdo: NodeListOf<HTMLElement> = document.querySelectorAll(
@@ -69,7 +75,10 @@ btnVoltarSecaoPainelEsquerdo?.addEventListener("click", () => {
 esconderSecoesMenosPrimeira(secoesPainelDireito);
 esconderSecoesMenosPrimeira(secoesPainelEsquerdo);
 
-// Esconder painel
+/*************************************/
+/* ESCONDER/MOSTRAR PAINÉIS LATERAIS */
+/*************************************/
+
 let painelDireito: HTMLElement | null = document.querySelector("#painel-direito");
 let painelEsquerdo: HTMLElement | null = document.querySelector("#painel-esquerdo");
 let btnEsconderPainelDireito: HTMLButtonElement | null = document.querySelector(
@@ -101,7 +110,10 @@ btnMostrarPainelEsquerdo?.addEventListener("click", () => {
   mostrarPainel(painelEsquerdo);
 });
 
-// Movimentação dos componentes
+/*********************************/
+/* MOVIMENTAÇÃO DE UM COMPONENTE */
+/*********************************/
+
 let componenteAtual: HTMLDivElement;
 let offsetX: number;
 let offsetY: number;
@@ -133,7 +145,10 @@ const dragElement = (event: MouseEvent) => {
   atualizarValorInput(elementoSelecionado, editorEixoX, "left");
 };
 
-// Editor Propriedades
+/**************************/
+/* EDITOR DE PROPRIEDADES */
+/**************************/
+
 let elementoSelecionado: HTMLElement | null;
 let inputs: InputPropriedade[] = [];
 
@@ -142,7 +157,7 @@ function mouseDownSelecionarElemento(event: Event): void {
   atualizarInputs(elementoSelecionado, inputs);
 }
 
-const registrarEventosComponente = (componente: HTMLDivElement) => {
+const registrarEventosComponente = (componente: HTMLDivElement): void => {
   componente.addEventListener("mousedown", mouseDownSelecionarElemento);
   componente.addEventListener("mousedown", mouseDownComecarMoverElemento);
   componente.addEventListener("mouseup", mouseUpPararMoverElemento);
@@ -218,7 +233,10 @@ editorTamanhoFonte?.addEventListener("focusout", () => {
   atualizarValorInput(elementoSelecionado, editorTamanhoFonte, "font-size");
 });
 
-// botões criar elemento
+/******************************/
+/* BOTÕES CRIAR NOVO ELEMENTO */
+/******************************/
+
 let botoesCriarElemento: NodeListOf<HTMLButtonElement> =
   document.querySelectorAll("button.criar-elemento");
 
@@ -236,7 +254,10 @@ botoesCriarElemento.forEach((btn) => {
   });
 });
 
-// bindings
+/***********************/
+/* BINDINGS DO USUÁRIO */
+/***********************/
+
 let teclaAnterior: string | null = null;
 
 document.addEventListener("keydown", (event: KeyboardEvent) => {
