@@ -4,7 +4,7 @@ import os
 import subprocess
 from subprocess import CalledProcessError
 
-gradle_wrapper = '.\gradlew.bat' if 'windows' in os.name else './gradlew'
+gradle_wrapper = r'.\gradlew.bat' if 'windows' in os.name else './gradlew'
 
 
 def criar_jar() -> None:
