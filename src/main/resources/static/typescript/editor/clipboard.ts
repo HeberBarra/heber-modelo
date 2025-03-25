@@ -9,23 +9,24 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
+import { CLASSE_ELEMENTO_SELECIONADO } from "./classesCssElementos.js";
 
-const copiarElemento = (elementoSelecionado: HTMLElement | null) => {
+export const copiarElemento = (elementoSelecionado: HTMLElement | null): void => {
   if (elementoSelecionado == null) {
     return;
   }
 
-  elementoSelecionado.classList.remove("selected");
+  elementoSelecionado.classList.remove(CLASSE_ELEMENTO_SELECIONADO);
   navigator.clipboard.writeText(elementoSelecionado.outerHTML).then(
     () => {},
     () => {
       window.alert("Erro ao tentar copiar elemento");
     },
   );
-  elementoSelecionado.classList.add("selected");
+  elementoSelecionado.classList.add(CLASSE_ELEMENTO_SELECIONADO);
 };
 
-const cortarElemento = (elementoSelecionado: HTMLElement | null) => {
+export const cortarElemento = (elementoSelecionado: HTMLElement | null): void => {
   if (elementoSelecionado == null) {
     return;
   }
@@ -35,7 +36,7 @@ const cortarElemento = (elementoSelecionado: HTMLElement | null) => {
   elementoSelecionado.parentNode?.removeChild(elementoSelecionado);
 };
 
-const colarElemento = (elementoPai: HTMLElement | null): void => {
+export const colarElemento = (elementoPai: HTMLElement | null): void => {
   if (elementoPai == null) {
     return;
   }
@@ -46,5 +47,3 @@ const colarElemento = (elementoPai: HTMLElement | null): void => {
     novoElemento.outerHTML = conteudo;
   });
 };
-
-export { copiarElemento, cortarElemento, colarElemento };

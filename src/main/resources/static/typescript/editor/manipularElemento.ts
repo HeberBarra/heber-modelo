@@ -9,12 +9,16 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
+import { CLASSE_COMUM_ELEMENTOS } from "./classesCssElementos.js";
 import { FabricaElemento, TipoElemento } from "./fabricaElemento.js";
 
-const CLASSE_COMUM_ELEMENTOS = "componente";
+/***********************************/
+/* CRIAÇÃO E EXCLUSÃO DE ELEMENTOS */
+/***********************************/
+
 let fabricaElemento: FabricaElemento = new FabricaElemento();
 
-const criarElemento = (
+export const criarElemento = (
   elementoPai: HTMLElement | null,
   nomeElemento: string,
 ): HTMLDivElement | null => {
@@ -34,15 +38,21 @@ const criarElemento = (
   return novoElemento;
 };
 
-const apagarElemento = (elementoPai: HTMLElement | null, elemento: HTMLElement | null) => {
+export const apagarElemento = (
+  elementoPai: HTMLElement | null,
+  elemento: HTMLElement | null,
+): void => {
   if (elementoPai === null || elemento === null) return;
 
   elementoPai.removeChild(elemento);
 };
 
-// Funcionalidade de movimentação de um elemento
+/********************************/
+/* MOVIMENTAÇÃO DOS COMPONENTES */
 
-enum DirecoesMovimento {
+/********************************/
+
+export enum DirecoesMovimento {
   CIMA,
   BAIXO,
   DIREITA,
@@ -55,7 +65,7 @@ const incrementarValor = (valorPixels: string, incremento: number): string => {
   return valorInicial + incremento + "px";
 };
 
-const moverElemento = (
+export const moverElemento = (
   elemento: HTMLElement | null,
   direcao: DirecoesMovimento,
   incremento: number,
@@ -79,5 +89,3 @@ const moverElemento = (
       elemento.style.left = incrementarValor(getComputedStyle(elemento).left, incremento);
   }
 };
-
-export { apagarElemento, criarElemento, DirecoesMovimento, moverElemento };

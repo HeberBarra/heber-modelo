@@ -16,7 +16,7 @@ interface ValoresJsonElemento {
   propriedades: object;
 }
 
-enum TipoElemento {
+export enum TipoElemento {
   CLASSE,
   NOTA,
 }
@@ -24,10 +24,10 @@ enum TipoElemento {
 let valorHTML: string;
 let valoresClasses: string[];
 
-class FabricaElemento {
+export class FabricaElemento {
   private async pegarJsonElemento(tipoElemento: TipoElemento): Promise<ValoresJsonElemento> {
     return await fetch(`/elementos/${TipoElemento[tipoElemento].toLowerCase()}.json`).then(
-      async (response) => {
+      async (response: Response): Promise<any> => {
         return response.json();
       },
     );
@@ -35,7 +35,7 @@ class FabricaElemento {
 
   public async pegarHTMLElemento(tipoElemento: TipoElemento): Promise<string> {
     await this.pegarJsonElemento(tipoElemento).then(
-      (valoresJson) => (valorHTML = valoresJson.valorHtmlInterno),
+      (valoresJson: ValoresJsonElemento) => (valorHTML = valoresJson.valorHtmlInterno),
     );
 
     return valorHTML;
@@ -43,11 +43,10 @@ class FabricaElemento {
 
   public async pegarClassesElemento(tipoElemento: TipoElemento): Promise<string[]> {
     await this.pegarJsonElemento(tipoElemento).then(
-      (valoresJson) => (valoresClasses = valoresJson.classesElemento),
+      (valoresJson: ValoresJsonElemento): string[] =>
+        (valoresClasses = valoresJson.classesElemento),
     );
 
     return valoresClasses;
   }
 }
-
-export { FabricaElemento, TipoElemento };
