@@ -118,7 +118,7 @@ let componenteAtual: HTMLDivElement;
 let offsetX: number;
 let offsetY: number;
 
-function mouseDownComecarMoverElemento(event: MouseEvent) {
+function mouseDownComecarMoverElemento(event: MouseEvent): void {
   let componente: HTMLDivElement = event.target as HTMLDivElement;
   offsetX = event.clientX - componente.getBoundingClientRect().left;
   offsetY = event.clientY - componente.getBoundingClientRect().top;
@@ -127,13 +127,13 @@ function mouseDownComecarMoverElemento(event: MouseEvent) {
   componenteAtual = componente;
 }
 
-function mouseUpPararMoverElemento(event: Event) {
+function mouseUpPararMoverElemento(event: Event): void {
   let componente: HTMLElement = event.target as HTMLElement;
   componente.classList.remove("dragging");
   document.removeEventListener("mousemove", dragElement);
 }
 
-const dragElement = (event: MouseEvent) => {
+function dragElement(event: MouseEvent): void {
   event.preventDefault();
   let x: number = event.pageX - offsetX;
   let y: number = event.pageY - offsetY;
@@ -143,7 +143,7 @@ const dragElement = (event: MouseEvent) => {
   componenteAtual.style.top = `${y}px`;
   atualizarValorInput(elementoSelecionado, editorEixoY, "top");
   atualizarValorInput(elementoSelecionado, editorEixoX, "left");
-};
+}
 
 /**************************/
 /* EDITOR DE PROPRIEDADES */
