@@ -26,6 +26,7 @@ import {
   DirecoesMovimento,
   moverElemento,
 } from "./editor/manipularElemento.js";
+import { carregarCSS } from "./editor/carregarCSS.js";
 
 /****************************/
 /* VARIÁVEIS COMPARTILHADAS */
@@ -250,6 +251,7 @@ botoesCriarElemento.forEach((btn) => {
 
     if (novoElemento === null) return;
 
+    carregarCSS(nomeElemento);
     registrarEventosComponente(novoElemento);
   });
 });
