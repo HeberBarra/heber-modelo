@@ -19,6 +19,7 @@ interface ValoresJsonElemento {
 export enum TipoElemento {
   CLASSE,
   NOTA,
+  ENTIDADE,
 }
 
 let valorHTML: string;

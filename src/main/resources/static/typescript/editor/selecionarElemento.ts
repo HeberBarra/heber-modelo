@@ -10,7 +10,7 @@
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
 
-import { CLASSE_ELEMENTO_SELECIONADO } from "./classesCssElementos.js";
+import { CLASSE_ELEMENTO_SELECIONADO } from "./classesCSSElementos.js";
 
 let elementoSelecionado: HTMLElement | null;
 
