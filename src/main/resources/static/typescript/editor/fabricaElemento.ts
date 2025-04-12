@@ -20,6 +20,7 @@ export enum TipoElemento {
   CLASSE,
   NOTA,
   ENTIDADE,
+  RELACIONAMENTO,
 }
 
 let valorHTML: string;
