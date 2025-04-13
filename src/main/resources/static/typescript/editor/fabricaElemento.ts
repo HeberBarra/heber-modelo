@@ -18,8 +18,9 @@ interface ValoresJsonElemento {
 
 export enum TipoElemento {
   CLASSE,
-  NOTA,
   ENTIDADE,
+  ESPECIALIZACAO,
+  NOTA,
   RELACIONAMENTO,
 }
 

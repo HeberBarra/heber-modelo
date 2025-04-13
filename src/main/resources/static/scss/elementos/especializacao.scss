@@ -1,0 +1,19 @@
+.elemento-especializacao {
+  background-color: var(--cor-borda);
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+  padding: 0.3rem 0.4rem;
+
+  div {
+    width: 100%;
+    height: 100%;
+    background-color: var(--cor-fundo);
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    pointer-events: none;
+  }
+
+  &:hover,
+  &.selected {
+    background-color: var(--cor-borda-componente-selecionado);
+    border: var(--cor-borda-componente-selecionado);
+  }
+}
