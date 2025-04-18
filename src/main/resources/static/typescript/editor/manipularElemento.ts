@@ -10,7 +10,7 @@
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
 import { CLASSE_COMUM_ELEMENTOS } from "./classesCSSElementos.js";
-import { FabricaElemento, TipoElemento } from "./fabricaElemento.js";
+import { FabricaElemento } from "./fabricaElemento.js";
 
 /***********************************/
 /* CRIAÇÃO E EXCLUSÃO DE ELEMENTOS */
@@ -24,10 +24,10 @@ export const criarElemento = (
 ): HTMLDivElement | null => {
   if (elementoPai === null) return null;
 
-  let nomeElementoFormatado = nomeElemento.toUpperCase();
-  let tipoElemento: TipoElemento = TipoElemento[nomeElementoFormatado as keyof typeof TipoElemento];
-  let promiseHtml: Promise<string> = fabricaElemento.pegarHTMLElemento(tipoElemento);
-  let promiseClasses: Promise<string[]> = fabricaElemento.pegarClassesElemento(tipoElemento);
+  let nomeElementoFormatado = nomeElemento.toLowerCase();
+  let promiseHtml: Promise<string> = fabricaElemento.pegarHTMLElemento(nomeElementoFormatado);
+  let promiseClasses: Promise<string[]> =
+    fabricaElemento.pegarClassesElemento(nomeElementoFormatado);
 
   let novoElemento: HTMLDivElement = document.createElement("div");
   novoElemento.classList.add(CLASSE_COMUM_ELEMENTOS);

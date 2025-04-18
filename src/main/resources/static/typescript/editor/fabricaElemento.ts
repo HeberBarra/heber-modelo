@@ -16,27 +16,19 @@ interface ValoresJsonElemento {
   propriedades: object;
 }
 
-export enum TipoElemento {
-  CLASSE,
-  ENTIDADE,
-  ESPECIALIZACAO,
-  NOTA,
-  RELACIONAMENTO,
-}
-
 let valorHTML: string;
 let valoresClasses: string[];
 
 export class FabricaElemento {
-  private async pegarJsonElemento(tipoElemento: TipoElemento): Promise<ValoresJsonElemento> {
-    return await fetch(`/elementos/${TipoElemento[tipoElemento].toLowerCase()}.json`).then(
+  private async pegarJsonElemento(tipoElemento: string): Promise<ValoresJsonElemento> {
+    return await fetch(`/elementos/${tipoElemento.toLowerCase()}.json`).then(
       async (response: Response): Promise<any> => {
         return response.json();
       },
     );
   }
 
-  public async pegarHTMLElemento(tipoElemento: TipoElemento): Promise<string> {
+  public async pegarHTMLElemento(tipoElemento: string): Promise<string> {
     await this.pegarJsonElemento(tipoElemento).then(
       (valoresJson: ValoresJsonElemento) => (valorHTML = valoresJson.valorHtmlInterno),
     );
@@ -44,7 +36,7 @@ export class FabricaElemento {
     return valorHTML;
   }
 
-  public async pegarClassesElemento(tipoElemento: TipoElemento): Promise<string[]> {
+  public async pegarClassesElemento(tipoElemento: string): Promise<string[]> {
     await this.pegarJsonElemento(tipoElemento).then(
       (valoresJson: ValoresJsonElemento): string[] =>
         (valoresClasses = valoresJson.classesElemento),
