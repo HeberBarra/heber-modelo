@@ -1,0 +1,9 @@
+{
+  "$schema": ".elemento.schema.json",
+  "valorHtmlInterno": "",
+  "classesElemento": [
+    "elemento-conexao"
+  ],
+  "propriedades": {
+  }
+}
