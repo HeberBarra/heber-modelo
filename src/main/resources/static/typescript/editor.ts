@@ -121,6 +121,11 @@ let offsetY: number;
 
 function mouseDownComecarMoverElemento(event: MouseEvent): void {
   let componente: HTMLDivElement = event.target as HTMLDivElement;
+
+  if (!componente.classList.contains("componente")) {
+    return;
+  }
+
   offsetX = event.clientX - componente.getBoundingClientRect().left;
   offsetY = event.clientY - componente.getBoundingClientRect().top;
   componente.classList.add("dragging");
