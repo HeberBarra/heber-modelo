@@ -149,7 +149,6 @@ function dragElement(event: MouseEvent): void {
   componenteAtual.style.top = `${y}px`;
   atualizarValorInput(elementoSelecionado, editorEixoY, "top");
   atualizarValorInput(elementoSelecionado, editorEixoX, "left");
-  console.log(event.target);
   moverSetas(event.target as HTMLElement);
 }
 

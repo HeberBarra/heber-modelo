@@ -11,12 +11,14 @@
  */
 import { CLASSE_COMUM_ELEMENTOS } from "./classesCSSElementos.js";
 import { FabricaElemento } from "./fabricaElemento.js";
+import { GeradorIdElemento } from "./geradorIdElemento.js";
 
 /***********************************/
 /* CRIAÇÃO E EXCLUSÃO DE ELEMENTOS */
 /***********************************/
 
 let fabricaElemento: FabricaElemento = new FabricaElemento();
+let geradorIdElemento: GeradorIdElemento = new GeradorIdElemento(0);
 
 export const criarElemento = (
   elementoPai: HTMLElement | null,
@@ -32,7 +34,10 @@ export const criarElemento = (
   let novoElemento: HTMLDivElement = document.createElement("div");
   novoElemento.classList.add(CLASSE_COMUM_ELEMENTOS);
   promiseClasses.then((classes) => classes.forEach((classe) => novoElemento.classList.add(classe)));
-  promiseHtml.then((valor) => (novoElemento.innerHTML = valor));
+  promiseHtml.then((valor) => {
+    novoElemento.innerHTML = valor;
+    novoElemento.setAttribute("data-id", `${geradorIdElemento.gerarProximoId()}`);
+  });
   elementoPai.appendChild(novoElemento);
 
   return novoElemento;
