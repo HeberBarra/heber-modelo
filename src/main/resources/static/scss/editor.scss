@@ -214,23 +214,10 @@ main {
   height: 5rem;
   background: var(--cor-borda);
   clip-path: polygon(0% 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0% 80%);
-}
+  opacity: 0.7;
 
-.seta-superior {
-  top: calc(-5rem - 10%);
-  rotate: 270deg;
-}
-
-.seta-inferior {
-  bottom: calc(-5rem - 10%);
-  rotate: -270deg;
-}
-
-.seta-direita {
-  right: calc(-5rem - 10%);
-}
-
-.seta-esquerda {
-  left: calc(-5rem - 10%);
-  rotate: 180deg;
+  &:hover {
+    background: var(--cor-borda-componente-selecionado);
+    opacity: 1;
+  }
 }

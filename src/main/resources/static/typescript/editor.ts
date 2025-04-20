@@ -18,7 +18,7 @@ import {
   InputPropriedade,
   modificarPropriedadeElemento,
 } from "./editor/editorPropriedades.js";
-import { removerSelecao, selecionarElemento } from "./editor/selecionarElemento.js";
+import { moverSetas, removerSelecao, selecionarElemento } from "./editor/selecionarElemento.js";
 import { colarElemento, copiarElemento, cortarElemento } from "./editor/clipboard.js";
 import {
   apagarElemento,
@@ -149,6 +149,8 @@ function dragElement(event: MouseEvent): void {
   componenteAtual.style.top = `${y}px`;
   atualizarValorInput(elementoSelecionado, editorEixoY, "top");
   atualizarValorInput(elementoSelecionado, editorEixoX, "left");
+  console.log(event.target);
+  moverSetas(event.target as HTMLElement);
 }
 
 /**************************/
