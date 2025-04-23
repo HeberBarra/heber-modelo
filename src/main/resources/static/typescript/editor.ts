@@ -10,6 +10,7 @@
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
 
+import { converterPixeisParaNumero } from "./conversor/conversor.js";
 import { esconderSecoesMenosPrimeira, mudarSecao } from "./editor/mudarSecao.js";
 import { esconderPainel, mostrarPainel } from "./editor/alternarPainel.js";
 import {
@@ -165,6 +166,7 @@ function mouseDownSelecionarElemento(event: Event): void {
 }
 
 const registrarEventosComponente = (componente: HTMLDivElement): void => {
+  componente.addEventListener("click", conectarElementos);
   componente.addEventListener("mousedown", mouseDownSelecionarElemento);
   componente.addEventListener("mousedown", mouseDownComecarMoverElemento);
   componente.addEventListener("mouseup", mouseUpPararMoverElemento);
@@ -265,6 +267,48 @@ botoesCriarElemento.forEach((btn) => {
 /********************/
 /* CONEXÕES E SETAS */
 /********************/
+
+const setas: NodeListOf<HTMLElement> = document.querySelectorAll(".seta");
+let x1: number | null = null;
+let y1: number | null = null;
+
+setas.forEach((seta) =>
+  seta.addEventListener("click", () => {
+    if (elementoSelecionado === null) return;
+
+    let estiloElementoSelecionado: CSSStyleDeclaration = getComputedStyle(elementoSelecionado);
+    let alturaElemento: number = converterPixeisParaNumero(estiloElementoSelecionado.height);
+    let larguraElemento: number = converterPixeisParaNumero(estiloElementoSelecionado.width);
+    let topElemento: number = converterPixeisParaNumero(estiloElementoSelecionado.top);
+    let leftElemento: number = converterPixeisParaNumero(estiloElementoSelecionado.left);
+
+    if (seta.classList.contains("seta-direita")) {
+      x1 = leftElemento + larguraElemento;
+      y1 = topElemento + Math.floor(alturaElemento / 2);
+    } else if (seta.classList.contains("seta-esquerda")) {
+      x1 = leftElemento;
+      y1 = topElemento + Math.floor(alturaElemento / 2);
+    } else if (seta.classList.contains("seta-superior")) {
+      x1 = leftElemento + Math.floor(larguraElemento / 2);
+      y1 = topElemento;
+    } else {
+      x1 = leftElemento + Math.floor(larguraElemento / 2);
+      y1 = topElemento + alturaElemento;
+    }
+  }),
+);
+
+function conectarElementos(event: MouseEvent): void {
+  if (x1 === null || y1 === null) return;
+
+  event.stopImmediatePropagation();
+  let elementoAlvo: HTMLElement = event.target as HTMLElement;
+}
+
+diagrama?.addEventListener("click", () => {
+  x1 = null;
+  y1 = null;
+});
 
 /***********************/
 /* BINDINGS DO USUÁRIO */
