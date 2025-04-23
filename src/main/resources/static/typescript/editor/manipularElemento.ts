@@ -10,6 +10,7 @@
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
 import { CLASSE_COMUM_ELEMENTOS } from "./classesCSSElementos.js";
+import { converterPixeisParaNumero } from "../conversor/conversor.js";
 import { FabricaElemento } from "./fabricaElemento.js";
 import { GeradorIdElemento } from "./geradorIdElemento.js";
 
@@ -64,11 +65,8 @@ export enum DirecoesMovimento {
   ESQUERDA,
 }
 
-const incrementarValor = (valorPixels: string, incremento: number): string => {
-  let valorInicial: number = Number(valorPixels.substring(0, valorPixels.length - 2));
-
-  return valorInicial + incremento + "px";
-};
+const incrementarValor = (valorPixels: string, incremento: number): string =>
+  `${converterPixeisParaNumero(valorPixels) + incremento}px`;
 
 export const moverElemento = (
   elemento: HTMLElement | null,

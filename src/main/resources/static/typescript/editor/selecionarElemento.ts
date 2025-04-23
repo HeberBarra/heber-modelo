@@ -11,16 +11,14 @@
  */
 
 import { CLASSE_ELEMENTO_SELECIONADO } from "./classesCSSElementos.js";
+import { converterPixeisParaNumero } from "../conversor/conversor.js";
 
 const setaSuperior: HTMLElement = document.querySelector(".seta-superior") as HTMLElement;
 const setaInferior: HTMLElement = document.querySelector(".seta-inferior") as HTMLElement;
 const setaDireita: HTMLElement = document.querySelector(".seta-direita") as HTMLElement;
 const setaEsquerda: HTMLElement = document.querySelector(".seta-esquerda") as HTMLElement;
 let elementoSelecionado: HTMLElement | null;
-
-const converterPixeisParaNumero = (valor: string): number => {
-  return Number(valor.substring(0, valor.length - 2));
-};
+let setas: NodeListOf<HTMLElement> = document.querySelectorAll(".seta");
 
 export const selecionarElemento = (elemento: HTMLElement): HTMLElement => {
   elementoSelecionado?.classList.remove(CLASSE_ELEMENTO_SELECIONADO);
@@ -48,10 +46,9 @@ export const moverSetas = (elemento: HTMLElement): void => {
   let alturaSeta: number = converterPixeisParaNumero(getComputedStyle(setaSuperior).height);
   let larguraSeta: number = converterPixeisParaNumero(getComputedStyle(setaSuperior).width);
 
-  setaSuperior.style.removeProperty("display");
-  setaInferior.style.removeProperty("display");
-  setaDireita.style.removeProperty("display");
-  setaEsquerda.style.removeProperty("display");
+  setas.forEach((seta) => {
+    seta.style.removeProperty("display");
+  });
 
   setaSuperior.style.top = `${centroVerticalElemento - alturaSeta * 2.5}px`;
   setaSuperior.style.left = `${centroHorizontalElemento - larguraSeta / 2}px`;
@@ -70,10 +67,9 @@ export const removerSelecao = (): HTMLElement | null => {
   elementoSelecionado?.classList.remove(CLASSE_ELEMENTO_SELECIONADO);
   elementoSelecionado = null;
 
-  setaSuperior.style.display = "none";
-  setaInferior.style.display = "none";
-  setaDireita.style.display = "none";
-  setaEsquerda.style.display = "none";
+  setas.forEach((seta) => {
+    seta.setAttribute("display", "none");
+  });
 
   return elementoSelecionado;
 };
