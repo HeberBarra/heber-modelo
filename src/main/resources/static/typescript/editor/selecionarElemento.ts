@@ -17,6 +17,7 @@ const setaSuperior: HTMLElement = document.querySelector(".seta-superior") as HT
 const setaInferior: HTMLElement = document.querySelector(".seta-inferior") as HTMLElement;
 const setaDireita: HTMLElement = document.querySelector(".seta-direita") as HTMLElement;
 const setaEsquerda: HTMLElement = document.querySelector(".seta-esquerda") as HTMLElement;
+
 let elementoSelecionado: HTMLElement | null;
 let setas: NodeListOf<HTMLElement> = document.querySelectorAll(".seta");
 

@@ -39,6 +39,7 @@ export const criarElemento = (
     novoElemento.innerHTML = valor;
     novoElemento.setAttribute("data-id", `${geradorIdElemento.gerarProximoId()}`);
   });
+
   elementoPai.appendChild(novoElemento);
 
   return novoElemento;
