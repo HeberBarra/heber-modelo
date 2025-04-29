@@ -1,0 +1,19 @@
+.elemento-agregacao {
+  background-color: var(--cor-borda);
+
+  div.losango-interno {
+    width: 90%;
+    height: 90%;
+    background-color: var(--cor-fundo);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.selected,
+  &:hover {
+    background-color: var(--cor-borda-componente-selecionado);
+    border: var(--cor-borda-componente-selecionado);
+  }
+}

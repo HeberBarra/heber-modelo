@@ -9,14 +9,17 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-import { CLASSE_COMUM_ELEMENTOS } from "./classesCssElementos.js";
-import { FabricaElemento, TipoElemento } from "./fabricaElemento.js";
+import { CLASSE_COMUM_ELEMENTOS } from "./classesCSSElementos.js";
+import { converterPixeisParaNumero } from "../conversor/conversor.js";
+import { FabricaElemento } from "./fabricaElemento.js";
+import { GeradorIdElemento } from "./geradorIdElemento.js";
 
 /***********************************/
 /* CRIAÇÃO E EXCLUSÃO DE ELEMENTOS */
 /***********************************/
 
 let fabricaElemento: FabricaElemento = new FabricaElemento();
+let geradorIdElemento: GeradorIdElemento = new GeradorIdElemento(0);
 
 export const criarElemento = (
   elementoPai: HTMLElement | null,
@@ -24,15 +27,19 @@ export const criarElemento = (
 ): HTMLDivElement | null => {
   if (elementoPai === null) return null;
 
-  let nomeElementoFormatado = nomeElemento.toUpperCase();
-  let tipoElemento: TipoElemento = TipoElemento[nomeElementoFormatado as keyof typeof TipoElemento];
-  let promiseHtml: Promise<string> = fabricaElemento.pegarHTMLElemento(tipoElemento);
-  let promiseClasses: Promise<string[]> = fabricaElemento.pegarClassesElemento(tipoElemento);
+  let nomeElementoFormatado = nomeElemento.toLowerCase();
+  let promiseHtml: Promise<string> = fabricaElemento.pegarHTMLElemento(nomeElementoFormatado);
+  let promiseClasses: Promise<string[]> =
+    fabricaElemento.pegarClassesElemento(nomeElementoFormatado);
 
   let novoElemento: HTMLDivElement = document.createElement("div");
   novoElemento.classList.add(CLASSE_COMUM_ELEMENTOS);
   promiseClasses.then((classes) => classes.forEach((classe) => novoElemento.classList.add(classe)));
-  promiseHtml.then((valor) => (novoElemento.innerHTML = valor));
+  promiseHtml.then((valor) => {
+    novoElemento.innerHTML = valor;
+    novoElemento.setAttribute("data-id", `${geradorIdElemento.gerarProximoId()}`);
+  });
+
   elementoPai.appendChild(novoElemento);
 
   return novoElemento;
@@ -59,11 +66,8 @@ export enum DirecoesMovimento {
   ESQUERDA,
 }
 
-const incrementarValor = (valorPixels: string, incremento: number): string => {
-  let valorInicial: number = Number(valorPixels.substring(0, valorPixels.length - 2));
-
-  return valorInicial + incremento + "px";
-};
+const incrementarValor = (valorPixels: string, incremento: number): string =>
+  `${converterPixeisParaNumero(valorPixels) + incremento}px`;
 
 export const moverElemento = (
   elemento: HTMLElement | null,

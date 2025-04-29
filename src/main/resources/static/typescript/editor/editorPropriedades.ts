@@ -44,18 +44,18 @@ const calcularExpressao = (expressao: string): number | null => {
   return eval(expressao);
 };
 
-const ajustarValorAtributo = (valor: string): number => {
+const ajustarValorAtributo = (valor: string): string => {
   if (verificarStringNumero(valor)) {
-    return parseFloat(valor);
+    return `${parseFloat(valor)}px`;
   }
 
   let resultadoExpressao = calcularExpressao(valor);
 
   if (resultadoExpressao === null) {
-    return 0;
+    return "0px";
   }
 
-  return resultadoExpressao;
+  return `${resultadoExpressao}px`;
 };
 
 export const modificarPropriedadeElemento = (
@@ -65,7 +65,7 @@ export const modificarPropriedadeElemento = (
 ): void => {
   if (elemento === null || inputAtributo === null) return;
 
-  let novoValorAtributo: string = ajustarValorAtributo(inputAtributo.value) + "px";
+  let novoValorAtributo: string = ajustarValorAtributo(inputAtributo.value);
   elemento.style.setProperty(nomePropriedade, novoValorAtributo);
 };
 

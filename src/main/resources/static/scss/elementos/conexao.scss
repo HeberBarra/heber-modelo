@@ -1,0 +1,11 @@
+.elemento-conexao {
+  background: var(--cor-borda);
+  height: 0.1rem;
+  border: 0;
+  z-index: -1;
+
+  &:hover,
+  &.selected {
+    background: var(--cor-borda-componente-selecionado);
+  }
+}

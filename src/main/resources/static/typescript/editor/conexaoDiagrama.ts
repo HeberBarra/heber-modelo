@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
  *
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
@@ -9,18 +9,22 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-import { CLASSE_PAINEL_OCULTO } from "./classesCSSElementos.js";
 
-export const esconderPainel = (painelAlvo: HTMLElement | null): void => {
-  if (painelAlvo == null) return;
+export const calcularAnguloConexao = (x1: number, y1: number, x2: number, y2: number): number => {
+  let deltaX: number = x2 - x1;
+  let deltaY: number = y2 - y1;
 
-  painelAlvo.classList.add(CLASSE_PAINEL_OCULTO);
-  painelAlvo.style.border = "none";
+  return Math.atan2(deltaY, deltaX);
 };
 
-export const mostrarPainel = (painelAlvo: HTMLElement | null): void => {
-  if (painelAlvo == null) return;
+export const calcularDistanciaConexao = (
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+): number => {
+  let deltaX: number = x2 - x1;
+  let deltaY: number = y2 - y1;
 
-  painelAlvo.classList.remove(CLASSE_PAINEL_OCULTO);
-  painelAlvo.style.removeProperty("border");
+  return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 };

@@ -9,7 +9,7 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-import { CLASSE_ELEMENTO_SELECIONADO } from "./classesCssElementos.js";
+import { CLASSE_ELEMENTO_SELECIONADO } from "./classesCSSElementos.js";
 
 export const copiarElemento = (elementoSelecionado: HTMLElement | null): void => {
   if (elementoSelecionado == null) {

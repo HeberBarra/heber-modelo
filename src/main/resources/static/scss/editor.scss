@@ -208,38 +208,16 @@ main {
   }
 }
 
-.elemento-nota {
-  clip-path: polygon(0 -75%, 100% 25%, 100% 100%, 0% 100%);
-  padding: 0.5rem;
+.seta {
+  position: absolute;
+  width: 5rem;
+  height: 5rem;
+  background: var(--cor-borda);
+  clip-path: polygon(0% 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0% 80%);
+  opacity: 0.7;
 
-  &:before,
-  &:after {
-    content: " ";
-    width: 25%;
-    height: 25%;
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
-
-  &:before {
-    background-color: var(--cor-borda);
-    clip-path: polygon(0 0, 100% 0, 100% 100%);
-  }
-
-  &:after {
-    background-color: transparent;
-    border: solid var(--cor-borda);
-    border-width: 0 0 0.3rem 0.3rem;
-  }
-
-  &.selected {
-    &:before {
-      background-color: var(--cor-borda-componente-selecionado);
-    }
-
-    &:after {
-      border-color: var(--cor-borda-componente-selecionado);
-    }
+  &:hover {
+    background: var(--cor-borda-componente-selecionado);
+    opacity: 1;
   }
 }

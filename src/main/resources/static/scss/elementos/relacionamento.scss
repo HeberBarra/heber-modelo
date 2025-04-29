@@ -1,0 +1,33 @@
+.elemento-relacionamento {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  background-color: var(--cor-borda);
+
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    background-color: var(--cor-fundo);
+    width: 100%;
+    height: 100%;
+    cursor: auto;
+  }
+
+  div:hover {
+    border-color: var(--cor-borda-componente-selecionado);
+  }
+
+  &:hover {
+    border-color: var(--cor-borda-componente-selecionado);
+    background-color: var(--cor-borda-componente-selecionado);
+  }
+
+  &.selected {
+    border-color: var(--cor-borda-componente-selecionado);
+    background-color: var(--cor-borda-componente-selecionado);
+
+    div:hover {
+      border-color: var(--cor-borda-componente-selecionado);
+    }
+  }
+}

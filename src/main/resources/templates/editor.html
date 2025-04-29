@@ -149,8 +149,20 @@ Licensed works, modifications, and larger works may be distributed under differe
       </section>
       <section id="componentes" class="pagina">
         <h2>COMPONENTES</h2>
-        <button class="criar-elemento" data-nome-elemento="classe">CLASSE</button>
-        <button class="criar-elemento" data-nome-elemento="nota">NOTA</button>
+        <button class="criar-elemento" data-nome-elemento="entidade" title="entidade">
+          ENTIDADE
+        </button>
+        <button class="criar-elemento" data-nome-elemento="especializacao" title="especialização">
+          ESPECIALIZAÇÃO
+        </button>
+        <button class="criar-elemento" data-nome-elemento="nota" title="nota">NOTA</button>
+        <button class="criar-elemento" data-nome-elemento="relacionamento" title="relacionamento">
+          RELACIONAMENTO
+        </button>
+        <button class="criar-elemento" data-nome-elemento="agregacao" title="agregação">
+          AGREGAÇÃO
+        </button>
+        <button class="criar-elemento" data-nome-elemento="conexao" title="conexão">CONEXÃO</button>
       </section>
     </aside>
     <aside id="painel-direito">
@@ -173,9 +185,10 @@ Licensed works, modifications, and larger works may be distributed under differe
       </section>
     </aside>
     <main>
-      <div class="componente elemento-nota">
-        <div contenteditable="true" spellcheck="true">NOTA</div>
-      </div>
+      <div class="seta seta-superior" style="display: none; rotate: 270deg"></div>
+      <div class="seta seta-inferior" style="display: none; rotate: -270deg"></div>
+      <div class="seta seta-direita" style="display: none"></div>
+      <div class="seta seta-esquerda" style="display: none; rotate: 180deg"></div>
     </main>
   </body>
 </html>

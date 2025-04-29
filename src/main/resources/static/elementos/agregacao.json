@@ -1,0 +1,9 @@
+{
+  "$schema": ".elemento.schema.json",
+  "valorHtmlInterno": "<div class=\"losango-interno\"><div contenteditable=\"true\" spellcheck=\"true\">AGREGAÇÃO</div></div>",
+  "classesElemento": [
+    "elemento-agregacao"
+  ],
+  "propriedades": {
+  }
+}

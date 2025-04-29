@@ -9,18 +9,20 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-import { CLASSE_PAINEL_OCULTO } from "./classesCSSElementos.js";
+export class GeradorIdElemento {
+  private _idAtual: number = 0;
 
-export const esconderPainel = (painelAlvo: HTMLElement | null): void => {
-  if (painelAlvo == null) return;
+  constructor(idInicial: number) {
+    this._idAtual = idInicial;
+  }
 
-  painelAlvo.classList.add(CLASSE_PAINEL_OCULTO);
-  painelAlvo.style.border = "none";
-};
+  // Incrementa o ID atual e retorna o novo valor
+  public gerarProximoId(): number {
+    this._idAtual++;
+    return this._idAtual;
+  }
 
-export const mostrarPainel = (painelAlvo: HTMLElement | null): void => {
-  if (painelAlvo == null) return;
-
-  painelAlvo.classList.remove(CLASSE_PAINEL_OCULTO);
-  painelAlvo.style.removeProperty("border");
-};
+  set idAtual(value: number) {
+    this._idAtual = value;
+  }
+}

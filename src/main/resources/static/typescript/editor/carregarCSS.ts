@@ -9,18 +9,21 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-import { CLASSE_PAINEL_OCULTO } from "./classesCSSElementos.js";
 
-export const esconderPainel = (painelAlvo: HTMLElement | null): void => {
-  if (painelAlvo == null) return;
+const cacheElementos: string[] = [];
 
-  painelAlvo.classList.add(CLASSE_PAINEL_OCULTO);
-  painelAlvo.style.border = "none";
-};
+export const carregarCSS = (nomeArquivo: string): void => {
+  if (!nomeArquivo.endsWith(".css")) {
+    nomeArquivo += ".css";
+  }
 
-export const mostrarPainel = (painelAlvo: HTMLElement | null): void => {
-  if (painelAlvo == null) return;
+  if (cacheElementos.includes(nomeArquivo)) return;
 
-  painelAlvo.classList.remove(CLASSE_PAINEL_OCULTO);
-  painelAlvo.style.removeProperty("border");
+  let linkTag: HTMLLinkElement = document.createElement("link");
+  linkTag.rel = "stylesheet";
+  linkTag.type = "text/css";
+  linkTag.href = `/css/elementos/${nomeArquivo}`;
+  document.querySelector("head")?.appendChild(linkTag);
+
+  cacheElementos.push(nomeArquivo);
 };
