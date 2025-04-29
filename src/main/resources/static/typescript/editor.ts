@@ -28,6 +28,7 @@ import {
   moverElemento,
 } from "./editor/manipularElemento.js";
 import { carregarCSS } from "./editor/carregarCSS.js";
+import { calcularAnguloConexao, calcularDistanciaConexao } from "./editor/conexaoDiagrama.js";
 
 /****************************/
 /* VARIÁVEIS COMPARTILHADAS */
@@ -269,8 +270,8 @@ botoesCriarElemento.forEach((btn) => {
 /********************/
 
 const setas: NodeListOf<HTMLElement> = document.querySelectorAll(".seta");
-let x1: number | null = null;
-let y1: number | null = null;
+let x1: number | null;
+let y1: number | null;
 
 setas.forEach((seta) =>
   seta.addEventListener("click", () => {
@@ -298,17 +299,67 @@ setas.forEach((seta) =>
   }),
 );
 
-function conectarElementos(event: MouseEvent): void {
-  if (x1 === null || y1 === null) return;
-
-  event.stopImmediatePropagation();
-  let elementoAlvo: HTMLElement = event.target as HTMLElement;
-}
-
-diagrama?.addEventListener("click", () => {
+function limparCoordenadaInicial(): void {
   x1 = null;
   y1 = null;
-});
+}
+
+function conectarElementos(event: MouseEvent): void {
+  diagrama?.removeEventListener("click", limparCoordenadaInicial);
+  event.stopPropagation();
+  event.stopImmediatePropagation();
+  if (x1 === null || y1 === null || x1 === undefined || y1 === undefined) return;
+  diagrama?.addEventListener("click", limparCoordenadaInicial);
+
+  let elementoAlvo: HTMLElement = event.target as HTMLElement;
+  let estiloElementoAlvo: CSSStyleDeclaration = getComputedStyle(elementoAlvo);
+  let alturaElementoAlvo: number = converterPixeisParaNumero(estiloElementoAlvo.height);
+  let larguraElementoAlvo: number = converterPixeisParaNumero(estiloElementoAlvo.width);
+  let leftElementoAlvo: number = converterPixeisParaNumero(estiloElementoAlvo.left);
+  let topElemento: number = converterPixeisParaNumero(estiloElementoAlvo.top);
+  let posX: number = event.x - leftElementoAlvo;
+  let posY: number = event.y - topElemento;
+
+  let x2: number;
+  let y2: number;
+
+  if (posX > larguraElementoAlvo * 0.2 && posX < larguraElementoAlvo * 0.8) {
+    x2 = larguraElementoAlvo / 2 + leftElementoAlvo;
+  } else if (posX <= larguraElementoAlvo * 0.2) {
+    x2 = leftElementoAlvo;
+  } else {
+    x2 = larguraElementoAlvo + leftElementoAlvo;
+  }
+
+  if (posY > alturaElementoAlvo * 0.4 && posY < alturaElementoAlvo * 0.6) {
+    y2 = alturaElementoAlvo / 2 + topElemento;
+  } else if (posY <= larguraElementoAlvo * 0.4) {
+    y2 = topElemento;
+  } else {
+    y2 = alturaElementoAlvo + topElemento;
+  }
+
+  console.log(x1);
+  console.log(y1);
+  console.log(x2);
+  console.log(y2);
+
+  let nomeElementoConexao: string = "conexao";
+  let anguloConexao: number = calcularAnguloConexao(x1, y1, x2, y2);
+  let distanciaConexao: number = calcularDistanciaConexao(x1, y1, x2, y2);
+  let conexao: HTMLDivElement = criarElemento(diagrama, nomeElementoConexao) as HTMLDivElement;
+  console.log(distanciaConexao);
+  console.log(anguloConexao);
+  carregarCSS(nomeElementoConexao);
+  registrarEventosComponente(conexao);
+  conexao.style.width = `${distanciaConexao}px`;
+  conexao.style.rotate = `${anguloConexao}rad`;
+  conexao.style.left = `${x1}px`;
+  conexao.style.top = `${y1}px`;
+  limparCoordenadaInicial();
+}
+
+diagrama?.addEventListener("click", limparCoordenadaInicial);
 
 /***********************/
 /* BINDINGS DO USUÁRIO */
@@ -352,6 +403,9 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
     case bindings.get("removerSelecao"):
       elementoSelecionado = removerSelecao();
       atualizarInputs(elementoSelecionado, inputs);
+      setas.forEach((seta) => {
+        seta.style.display = "none";
+      });
       break;
 
     // Apagar elemento
@@ -359,6 +413,9 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
       apagarElemento(diagrama, elementoSelecionado);
       elementoSelecionado = removerSelecao();
       atualizarInputs(elementoSelecionado, inputs);
+      setas.forEach((seta) => {
+        seta.style.display = "none";
+      });
       break;
 
     // Mover elemento
