@@ -16,7 +16,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4.7.1
         with:
-          java-version: '23'
+          java-version: '24'
           distribution: 'corretto'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -34,7 +34,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4.7.1
         with:
-          java-version: '23'
+          java-version: '24'
           distribution: 'corretto'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -48,6 +48,8 @@ jobs:
         run: npm run compile-scss
       - name: Compile Typescript
         run: npm run compile-ts
+      - name: Minify Javascript
+        run: npm run minify-js
       - name: Create jar file
         run: ./gradlew bootJar
       - name: Upload jar
@@ -55,7 +57,7 @@ jobs:
         with:
           path: ./build/libs/heber-modelo.jar
           name: heber-modelo.jar
-  
+
   create-release:
     permissions:
       contents: write
