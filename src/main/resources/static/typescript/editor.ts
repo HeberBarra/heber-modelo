@@ -19,7 +19,6 @@ import {
   InputPropriedade,
   modificarPropriedadeElemento,
 } from "./editor/editorPropriedades.js";
-import { moverSetas, removerSelecao, selecionarElemento } from "./editor/selecionarElemento.js";
 import { colarElemento, copiarElemento, cortarElemento } from "./editor/clipboard.js";
 import {
   apagarElemento,
@@ -29,13 +28,22 @@ import {
 } from "./editor/manipularElemento.js";
 import { carregarCSS } from "./editor/carregarCSS.js";
 import { calcularAnguloConexao, calcularDistanciaConexao } from "./editor/conexaoDiagrama.js";
+import { ComponenteDiagrama } from "./editor/componente/componenteDiagrama.js";
+import { RepositorioComponenteDiagrama } from "./editor/componente/repositorioComponenteDiagrama.js";
+import { SelecionadorComponente } from "./editor/componente/selecionadorComponente.js";
 
 /****************************/
 /* VARIÁVEIS COMPARTILHADAS */
 /****************************/
 
-let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
 let diagrama: HTMLElement | null = document.querySelector("main");
+let repositorioComponentes: RepositorioComponenteDiagrama = new RepositorioComponenteDiagrama();
+let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
+let selecionadorComponente: SelecionadorComponente = new SelecionadorComponente();
+
+componentes.forEach((componente: HTMLDivElement): void => {
+  repositorioComponentes.adicionarComponente(new ComponenteDiagrama(componente, []));
+});
 
 /********************************/
 /* ALTERAR SEÇÃO PAINEL LATERAL */
@@ -151,7 +159,13 @@ function dragElement(event: MouseEvent): void {
   componenteAtual.style.top = `${y}px`;
   atualizarValorInput(elementoSelecionado, editorEixoY, "top");
   atualizarValorInput(elementoSelecionado, editorEixoX, "left");
-  moverSetas(event.target as HTMLElement);
+
+  let componente: ComponenteDiagrama | null = repositorioComponentes.pegarComponentePorHTML(
+    event.target as HTMLElement,
+  );
+
+  if (componente === null) return;
+  selecionadorComponente.moverSetas(componente);
 }
 
 /**************************/
@@ -162,7 +176,14 @@ let elementoSelecionado: HTMLElement | null;
 let inputs: InputPropriedade[] = [];
 
 function mouseDownSelecionarElemento(event: Event): void {
-  elementoSelecionado = selecionarElemento(event.target as HTMLElement);
+  let componente: ComponenteDiagrama | null = repositorioComponentes.pegarComponentePorHTML(
+    event.target as HTMLElement,
+  );
+
+  if (componente === null) return;
+
+  selecionadorComponente.selecionarElemento(componente);
+  elementoSelecionado = selecionadorComponente.componenteSelecionado?.htmlComponente as HTMLElement;
   atualizarInputs(elementoSelecionado, inputs);
 }
 
@@ -262,6 +283,7 @@ botoesCriarElemento.forEach((btn) => {
 
     carregarCSS(nomeElemento);
     registrarEventosComponente(novoElemento);
+    repositorioComponentes.adicionarComponente(new ComponenteDiagrama(novoElemento, []));
   });
 });
 
@@ -394,21 +416,17 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
   switch (event.key) {
     // Limpar selecao
     case bindings.get("removerSelecao"):
-      elementoSelecionado = removerSelecao();
+      selecionadorComponente.removerSelecao();
+      elementoSelecionado = selecionadorComponente.pegarHTMLElementoSelecionado();
       atualizarInputs(elementoSelecionado, inputs);
-      setas.forEach((seta) => {
-        seta.style.display = "none";
-      });
       break;
 
     // Apagar elemento
     case bindings.get("apagarElemento"):
       apagarElemento(diagrama, elementoSelecionado);
-      elementoSelecionado = removerSelecao();
+      selecionadorComponente.removerSelecao();
+      elementoSelecionado = selecionadorComponente.pegarHTMLElementoSelecionado();
       atualizarInputs(elementoSelecionado, inputs);
-      setas.forEach((seta) => {
-        seta.style.display = "none";
-      });
       break;
 
     // Mover elemento
