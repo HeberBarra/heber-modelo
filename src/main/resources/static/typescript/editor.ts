@@ -317,8 +317,8 @@ function conectarElementos(event: MouseEvent): void {
   let larguraElementoAlvo: number = converterPixeisParaNumero(estiloElementoAlvo.width);
   let leftElementoAlvo: number = converterPixeisParaNumero(estiloElementoAlvo.left);
   let topElemento: number = converterPixeisParaNumero(estiloElementoAlvo.top);
-  let posX: number = event.x - leftElementoAlvo;
-  let posY: number = event.y - topElemento;
+  let posX: number = event.pageX - leftElementoAlvo;
+  let posY: number = event.pageY - topElemento;
 
   let x2: number;
   let y2: number;
@@ -339,17 +339,10 @@ function conectarElementos(event: MouseEvent): void {
     y2 = alturaElementoAlvo + topElemento;
   }
 
-  console.log(x1);
-  console.log(y1);
-  console.log(x2);
-  console.log(y2);
-
   let nomeElementoConexao: string = "conexao";
   let anguloConexao: number = calcularAnguloConexao(x1, y1, x2, y2);
   let distanciaConexao: number = calcularDistanciaConexao(x1, y1, x2, y2);
   let conexao: HTMLDivElement = criarElemento(diagrama, nomeElementoConexao) as HTMLDivElement;
-  console.log(distanciaConexao);
-  console.log(anguloConexao);
   carregarCSS(nomeElementoConexao);
   registrarEventosComponente(conexao);
   conexao.style.width = `${distanciaConexao}px`;
