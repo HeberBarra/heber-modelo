@@ -431,23 +431,19 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
 
     // Mover elemento
     case bindings.get("moverElementoParaCima"):
-      moverElemento(elementoSelecionado, DirecoesMovimento.CIMA, incrementoMovimentacaoElemento);
+      moverElemento(elementoSelecionado, DirecoesMovimento.CIMA, incrementoMovimentacao);
       break;
 
     case bindings.get("moverElementoParaBaixo"):
-      moverElemento(elementoSelecionado, DirecoesMovimento.BAIXO, incrementoMovimentacaoElemento);
+      moverElemento(elementoSelecionado, DirecoesMovimento.BAIXO, incrementoMovimentacao);
       break;
 
     case bindings.get("moverElementoParaDireita"):
-      moverElemento(elementoSelecionado, DirecoesMovimento.DIREITA, incrementoMovimentacaoElemento);
+      moverElemento(elementoSelecionado, DirecoesMovimento.DIREITA, incrementoMovimentacao);
       break;
 
     case bindings.get("moverElementoParaEsquerda"):
-      moverElemento(
-        elementoSelecionado,
-        DirecoesMovimento.ESQUERDA,
-        incrementoMovimentacaoElemento,
-      );
+      moverElemento(elementoSelecionado, DirecoesMovimento.ESQUERDA, incrementoMovimentacao);
       break;
   }
 
