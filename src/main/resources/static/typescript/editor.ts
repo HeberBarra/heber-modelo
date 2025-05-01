@@ -31,12 +31,14 @@ import { calcularAnguloConexao, calcularDistanciaConexao } from "./editor/conexa
 import { ComponenteDiagrama } from "./editor/componente/componenteDiagrama.js";
 import { RepositorioComponenteDiagrama } from "./editor/componente/repositorioComponenteDiagrama.js";
 import { SelecionadorComponente } from "./editor/componente/selecionadorComponente.js";
+import { GeradorIDComponente } from "./editor/geradorIDComponente.js";
 
 /****************************/
 /* VARIÁVEIS COMPARTILHADAS */
 /****************************/
 
 let diagrama: HTMLElement | null = document.querySelector("main");
+let geradorIDComponente: GeradorIDComponente = GeradorIDComponente.pegarInstance();
 let repositorioComponentes: RepositorioComponenteDiagrama = new RepositorioComponenteDiagrama();
 let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
 let selecionadorComponente: SelecionadorComponente = new SelecionadorComponente();
@@ -401,14 +403,17 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
   }
 
   if (teclaAnterior === bindings.get("leaderKey") && event.key === bindings.get("colarElemento")) {
+    let ultimoElemento: HTMLDivElement = diagrama?.lastElementChild as HTMLDivElement;
     colarElemento(diagrama);
 
     setTimeout(() => {
-      let componentesDiagrama: NodeListOf<HTMLDivElement> =
-        document.querySelectorAll("div.componente");
-      componentesDiagrama.forEach((componenteDiagrama: HTMLDivElement) => {
-        registrarEventosComponente(componenteDiagrama);
-      });
+      let novoElemento: HTMLDivElement = diagrama?.lastElementChild as HTMLDivElement;
+
+      if (ultimoElemento !== novoElemento) {
+        registrarEventosComponente(novoElemento);
+        novoElemento.setAttribute("data-id", String(geradorIDComponente.pegarProximoID()));
+        repositorioComponentes.adicionarComponente(new ComponenteDiagrama(novoElemento, []));
+      }
     }, 200);
     return;
   }
@@ -432,18 +437,22 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
     // Mover elemento
     case bindings.get("moverElementoParaCima"):
       moverElemento(elementoSelecionado, DirecoesMovimento.CIMA, incrementoMovimentacao);
+      selecionadorComponente.moverSetasParaComponenteSelecionado();
       break;
 
     case bindings.get("moverElementoParaBaixo"):
       moverElemento(elementoSelecionado, DirecoesMovimento.BAIXO, incrementoMovimentacao);
+      selecionadorComponente.moverSetasParaComponenteSelecionado();
       break;
 
     case bindings.get("moverElementoParaDireita"):
       moverElemento(elementoSelecionado, DirecoesMovimento.DIREITA, incrementoMovimentacao);
+      selecionadorComponente.moverSetasParaComponenteSelecionado();
       break;
 
     case bindings.get("moverElementoParaEsquerda"):
       moverElemento(elementoSelecionado, DirecoesMovimento.ESQUERDA, incrementoMovimentacao);
+      selecionadorComponente.moverSetasParaComponenteSelecionado();
       break;
   }
 

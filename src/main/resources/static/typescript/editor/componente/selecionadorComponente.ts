@@ -82,6 +82,12 @@ export class SelecionadorComponente {
     this._setas.forEach((s) => s.style.removeProperty("display"));
   }
 
+  public moverSetasParaComponenteSelecionado(): void {
+    if (this._componenteSelecionado !== null) {
+      this.moverSetas(this._componenteSelecionado);
+    }
+  }
+
   public pegarHTMLElementoSelecionado(): HTMLElement | null {
     if (this._componenteSelecionado === null) {
       return null;

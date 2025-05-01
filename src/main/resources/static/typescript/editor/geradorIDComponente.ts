@@ -9,20 +9,28 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-export class GeradorIdElemento {
-  private _idAtual: number = 0;
-
-  constructor(idInicial: number) {
-    this._idAtual = idInicial;
+export class GeradorIDComponente {
+  private constructor() {
+    this._id = 0;
   }
 
-  // Incrementa o ID atual e retorna o novo valor
-  public gerarProximoId(): number {
-    this._idAtual++;
-    return this._idAtual;
+  private static _instance: GeradorIDComponente;
+  private _id: number;
+
+  public static pegarInstance(): GeradorIDComponente {
+    if (this._instance === undefined) {
+      this._instance = new GeradorIDComponente();
+    }
+
+    return this._instance;
   }
 
-  set idAtual(value: number) {
-    this._idAtual = value;
+  public pegarProximoID(): number {
+    this._id++;
+    return this._id;
+  }
+
+  set id(value: number) {
+    this._id = value;
   }
 }
