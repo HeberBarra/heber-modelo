@@ -10,7 +10,7 @@
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
 
-import { converterPixeisParaNumero } from "./conversor/conversor.js";
+import { converterPixeisParaNumero, converterRadianosParaGraus } from "./conversor/conversor.js";
 import { esconderSecoesMenosPrimeira, mudarSecao } from "./editor/mudarSecao.js";
 import { esconderPainel, mostrarPainel } from "./editor/alternarPainel.js";
 import {
@@ -367,6 +367,15 @@ function conectarElementos(event: MouseEvent): void {
   let anguloConexao: number = calcularAnguloConexao(x1, y1, x2, y2);
   let distanciaConexao: number = calcularDistanciaConexao(x1, y1, x2, y2);
   let conexao: HTMLDivElement = criarElemento(diagrama, nomeElementoConexao) as HTMLDivElement;
+
+  let grausConexao: number = Math.abs(converterRadianosParaGraus(anguloConexao));
+
+  if (grausConexao === 90) {
+    let valorAjuste: number = distanciaConexao * 0.5;
+    x1 -= valorAjuste;
+    y1 -= valorAjuste;
+  }
+
   carregarCSS(nomeElementoConexao);
   registrarEventosComponente(conexao);
   conexao.style.width = `${distanciaConexao}px`;

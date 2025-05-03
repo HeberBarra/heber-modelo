@@ -13,3 +13,7 @@
 export const converterPixeisParaNumero = (valorPixeis: string): number => {
   return Number(valorPixeis.substring(0, valorPixeis.length - 2));
 };
+
+export const converterRadianosParaGraus = (valorRadianos: number) => {
+  return (valorRadianos * 180) / Math.PI;
+};
