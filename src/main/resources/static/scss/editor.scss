@@ -24,6 +24,8 @@ body {
   grid-template-rows: 5rem calc(100% - 5rem);
   max-width: 100vw;
   overflow: auto;
+  padding-right: 2rem;
+  padding-bottom: 2rem;
   background-image:
     repeating-linear-gradient(
       var(--cor-grade-horizontal) 0 var(--espessura-grade),
