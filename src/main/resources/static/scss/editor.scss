@@ -205,7 +205,8 @@ main {
     cursor: grabbing;
   }
 
-  &.selected {
+  &.selected,
+  &:hover {
     border-color: var(--cor-borda-componente-selecionado);
   }
 }
