@@ -368,14 +368,6 @@ function conectarElementos(event: MouseEvent): void {
   let distanciaConexao: number = calcularDistanciaConexao(x1, y1, x2, y2);
   let conexao: HTMLDivElement = criarElemento(diagrama, nomeElementoConexao) as HTMLDivElement;
 
-  let grausConexao: number = Math.abs(converterRadianosParaGraus(anguloConexao));
-
-  if (grausConexao === 90) {
-    let valorAjuste: number = distanciaConexao * 0.5;
-    x1 -= valorAjuste;
-    y1 -= valorAjuste;
-  }
-
   carregarCSS(nomeElementoConexao);
   registrarEventosComponente(conexao);
   conexao.style.width = `${distanciaConexao}px`;
