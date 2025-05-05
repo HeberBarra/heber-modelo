@@ -8,5 +8,5 @@ cdimascioDotenv = { module = "io.github.cdimascio:dotenv-java", version = "3.2.0
 fusesourceJansi = { module = "org.fusesource.jansi:jansi", version = "2.4.1" }
 heberModeloAPI = { module = "io.github.heberbarra:heber-modelo-api", version = "0.0.7-SNAP" }
 hibernateCore = { module = "org.hibernate:hibernate-core", version = "6.6.13.Final" }
-mysqlConnector = { module = "com.mysql:mysql-connector-j", version = "9.2.0" }
+mysqlConnector = { module = "com.mysql:mysql-connector-j", version = "9.3.0" }
 tomlj = { module = "org.tomlj:tomlj", version = "1.1.1" }
