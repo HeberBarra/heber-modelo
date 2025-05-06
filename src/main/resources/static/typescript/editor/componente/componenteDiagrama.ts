@@ -12,6 +12,14 @@
 import { ComponenteDiagramaOuvido } from "./componenteDiagramaOuvido.js";
 import { ComponenteDiagramaOuvinte } from "./componenteDiagramaOuvinte.js";
 import { PropriedadeComponente } from "./propriedadeComponente.js";
+import { converterPixeisParaNumero } from "../../conversor/conversor.js";
+
+export enum LateralComponente {
+  NORTE,
+  SUL,
+  LESTE,
+  OESTE,
+}
 
 export class ComponenteDiagrama implements ComponenteDiagramaOuvido {
   constructor(htmlComponente: HTMLDivElement, propriedades: PropriedadeComponente<any>[] | null) {
@@ -54,6 +62,48 @@ export class ComponenteDiagrama implements ComponenteDiagramaOuvido {
 
   public pegarIDElemento(): number {
     return Number(this._htmlComponente.getAttribute("data-id"));
+  }
+
+  public calcularPontoLateralComponente(lateralComponente: LateralComponente): number[] {
+    let estiloComponente: CSSStyleDeclaration = this.pegarEstiloElemento();
+    let x: number = 0;
+    let y: number = 0;
+
+    switch (lateralComponente) {
+      case LateralComponente.NORTE:
+        x =
+          converterPixeisParaNumero(estiloComponente.left) +
+          converterPixeisParaNumero(estiloComponente.width) / 2;
+        y = converterPixeisParaNumero(estiloComponente.top);
+        break;
+
+      case LateralComponente.SUL:
+        x =
+          converterPixeisParaNumero(estiloComponente.left) +
+          converterPixeisParaNumero(estiloComponente.width) / 2;
+        y =
+          converterPixeisParaNumero(estiloComponente.top) +
+          converterPixeisParaNumero(estiloComponente.height);
+        break;
+
+      case LateralComponente.OESTE:
+        x = converterPixeisParaNumero(estiloComponente.left);
+        y =
+          converterPixeisParaNumero(estiloComponente.top) +
+          converterPixeisParaNumero(estiloComponente.height) / 2;
+        break;
+
+      case LateralComponente.LESTE:
+        x =
+          converterPixeisParaNumero(estiloComponente.left) +
+          converterPixeisParaNumero(estiloComponente.width);
+        y =
+          converterPixeisParaNumero(estiloComponente.top) +
+          converterPixeisParaNumero(estiloComponente.height) / 2;
+        break;
+    }
+
+    return [x, y];
   }
 
   adicionarOuvinte(ouvinte: ComponenteDiagramaOuvinte): void {

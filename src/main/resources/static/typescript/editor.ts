@@ -10,7 +10,7 @@
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
 
-import { converterPixeisParaNumero, converterRadianosParaGraus } from "./conversor/conversor.js";
+import { converterPixeisParaNumero } from "./conversor/conversor.js";
 import { esconderSecoesMenosPrimeira, mudarSecao } from "./editor/mudarSecao.js";
 import { esconderPainel, mostrarPainel } from "./editor/alternarPainel.js";
 import {
@@ -28,7 +28,7 @@ import {
 } from "./editor/manipularElemento.js";
 import { carregarCSS } from "./editor/carregarCSS.js";
 import { calcularAnguloConexao, calcularDistanciaConexao } from "./editor/conexaoDiagrama.js";
-import { ComponenteDiagrama } from "./editor/componente/componenteDiagrama.js";
+import { ComponenteDiagrama, LateralComponente } from "./editor/componente/componenteDiagrama.js";
 import { RepositorioComponenteDiagrama } from "./editor/componente/repositorioComponenteDiagrama.js";
 import { SelecionadorComponente } from "./editor/componente/selecionadorComponente.js";
 import { GeradorIDComponente } from "./editor/geradorIDComponente.js";
@@ -228,10 +228,12 @@ inputs.push(new InputPropriedade(editorTamanhoFonte, "font-size"));
 
 editorEixoX?.addEventListener("input", () => {
   modificarPropriedadeElemento(elementoSelecionado, editorEixoX, "left");
+  selecionadorComponente.moverSetasParaComponenteSelecionado();
 });
 
 editorEixoY?.addEventListener("input", () => {
   modificarPropriedadeElemento(elementoSelecionado, editorEixoY, "top");
+  selecionadorComponente.moverSetasParaComponenteSelecionado();
 });
 
 editorAltura?.addEventListener("input", () => {
@@ -299,27 +301,24 @@ let y1: number | null;
 
 setas.forEach((seta) =>
   seta.addEventListener("click", () => {
-    if (elementoSelecionado === null) return;
+    if (elementoSelecionado === null || selecionadorComponente.componenteSelecionado === null)
+      return;
 
-    let estiloElementoSelecionado: CSSStyleDeclaration = getComputedStyle(elementoSelecionado);
-    let alturaElemento: number = converterPixeisParaNumero(estiloElementoSelecionado.height);
-    let larguraElemento: number = converterPixeisParaNumero(estiloElementoSelecionado.width);
-    let topElemento: number = converterPixeisParaNumero(estiloElementoSelecionado.top);
-    let leftElemento: number = converterPixeisParaNumero(estiloElementoSelecionado.left);
+    let componenteSelecionado: ComponenteDiagrama = selecionadorComponente.componenteSelecionado;
+    let ponto: number[];
 
     if (seta.classList.contains("seta-direita")) {
-      x1 = leftElemento + larguraElemento;
-      y1 = topElemento + Math.floor(alturaElemento / 2);
+      ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.LESTE);
     } else if (seta.classList.contains("seta-esquerda")) {
-      x1 = leftElemento;
-      y1 = topElemento + Math.floor(alturaElemento / 2);
+      ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.OESTE);
     } else if (seta.classList.contains("seta-superior")) {
-      x1 = leftElemento + Math.floor(larguraElemento / 2);
-      y1 = topElemento;
+      ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.NORTE);
     } else {
-      x1 = leftElemento + Math.floor(larguraElemento / 2);
-      y1 = topElemento + alturaElemento;
+      ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.SUL);
     }
+
+    x1 = ponto[0];
+    y1 = ponto[1];
   }),
 );
 
@@ -357,7 +356,7 @@ function conectarElementos(event: MouseEvent): void {
 
   if (posY > alturaElementoAlvo * 0.4 && posY < alturaElementoAlvo * 0.6) {
     y2 = alturaElementoAlvo / 2 + topElemento;
-  } else if (posY <= larguraElementoAlvo * 0.4) {
+  } else if (posY <= alturaElementoAlvo * 0.4) {
     y2 = topElemento;
   } else {
     y2 = alturaElementoAlvo + topElemento;
