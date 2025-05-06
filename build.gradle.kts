@@ -22,7 +22,7 @@ dependencies {
         exclude("commons-logging", "commons-logging")
     }
     implementation(libs.cdimascioDotenv)
-    implementation(libs.fusesourceJansi)
+    implementation(libs.jlineJansi)
     implementation(libs.hibernateCore)
     implementation(libs.heberModeloAPI)
     implementation(libs.mysqlConnector)

@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
-import org.fusesource.jansi.Ansi;
+import org.jline.jansi.Ansi;
 
 public class JavaLoggerFormatador extends Formatter {
 
