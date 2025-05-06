@@ -27,11 +27,11 @@ import {
   moverElemento,
 } from "./editor/manipularElemento.js";
 import { carregarCSS } from "./editor/carregarCSS.js";
-import { calcularAnguloConexao, calcularDistanciaConexao } from "./editor/conexaoDiagrama.js";
 import { ComponenteDiagrama, LateralComponente } from "./editor/componente/componenteDiagrama.js";
 import { RepositorioComponenteDiagrama } from "./editor/componente/repositorioComponenteDiagrama.js";
 import { SelecionadorComponente } from "./editor/componente/selecionadorComponente.js";
 import { GeradorIDComponente } from "./editor/geradorIDComponente.js";
+import { ComponenteConexao } from "./editor/componente/componenteConexao.js";
 
 /****************************/
 /* VARIÁVEIS COMPARTILHADAS */
@@ -296,6 +296,7 @@ botoesCriarElemento.forEach((btn) => {
 /********************/
 
 const setas: NodeListOf<HTMLElement> = document.querySelectorAll(".seta");
+let lateralPrimeiroComponente: LateralComponente | null;
 let x1: number | null;
 let y1: number | null;
 
@@ -309,12 +310,16 @@ setas.forEach((seta) =>
 
     if (seta.classList.contains("seta-direita")) {
       ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.LESTE);
+      lateralPrimeiroComponente = LateralComponente.LESTE;
     } else if (seta.classList.contains("seta-esquerda")) {
       ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.OESTE);
+      lateralPrimeiroComponente = LateralComponente.OESTE;
     } else if (seta.classList.contains("seta-superior")) {
       ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.NORTE);
+      lateralPrimeiroComponente = LateralComponente.NORTE;
     } else {
       ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.SUL);
+      lateralPrimeiroComponente = LateralComponente.SUL;
     }
 
     x1 = ponto[0];
@@ -323,6 +328,7 @@ setas.forEach((seta) =>
 );
 
 function limparCoordenadaInicial(): void {
+  lateralPrimeiroComponente = null;
   x1 = null;
   y1 = null;
 }
@@ -331,10 +337,23 @@ function conectarElementos(event: MouseEvent): void {
   diagrama?.removeEventListener("click", limparCoordenadaInicial);
   event.stopPropagation();
   event.stopImmediatePropagation();
-  if (x1 === null || y1 === null || x1 === undefined || y1 === undefined) return;
-  diagrama?.addEventListener("click", limparCoordenadaInicial);
-
   let elementoAlvo: HTMLElement = event.target as HTMLElement;
+  let primeiroComponente: ComponenteDiagrama | null = selecionadorComponente.componenteSelecionado;
+  let segundoComponente: ComponenteDiagrama | null =
+    repositorioComponentes.pegarComponentePorHTML(elementoAlvo);
+  if (
+    x1 === null ||
+    y1 === null ||
+    x1 === undefined ||
+    y1 === undefined ||
+    lateralPrimeiroComponente === undefined ||
+    lateralPrimeiroComponente === null ||
+    primeiroComponente === null ||
+    segundoComponente === null
+  )
+    return;
+
+  diagrama?.addEventListener("click", limparCoordenadaInicial);
   let estiloElementoAlvo: CSSStyleDeclaration = getComputedStyle(elementoAlvo);
   let alturaElementoAlvo: number = converterPixeisParaNumero(estiloElementoAlvo.height);
   let larguraElementoAlvo: number = converterPixeisParaNumero(estiloElementoAlvo.width);
@@ -343,36 +362,67 @@ function conectarElementos(event: MouseEvent): void {
   let posX: number = event.pageX - leftElementoAlvo;
   let posY: number = event.pageY - topElemento;
 
+  let centroX: boolean = false;
+  let centroY: boolean = false;
+  let direita: boolean = false;
+  let esquerda: boolean = false;
+  let cima: boolean = false;
+  let baixo: boolean = false;
+  let lateralSegundoComponente: LateralComponente;
   let x2: number;
   let y2: number;
 
   if (posX > larguraElementoAlvo * 0.2 && posX < larguraElementoAlvo * 0.8) {
     x2 = larguraElementoAlvo / 2 + leftElementoAlvo;
+    centroX = true;
   } else if (posX <= larguraElementoAlvo * 0.2) {
     x2 = leftElementoAlvo;
+    esquerda = true;
   } else {
     x2 = larguraElementoAlvo + leftElementoAlvo;
+    direita = true;
   }
 
   if (posY > alturaElementoAlvo * 0.4 && posY < alturaElementoAlvo * 0.6) {
     y2 = alturaElementoAlvo / 2 + topElemento;
+    centroY = true;
   } else if (posY <= alturaElementoAlvo * 0.4) {
     y2 = topElemento;
+    baixo = true;
   } else {
     y2 = alturaElementoAlvo + topElemento;
+    cima = true;
+  }
+
+  if ((centroY || baixo || cima) && esquerda) {
+    lateralSegundoComponente = LateralComponente.OESTE;
+  } else if ((centroY || baixo || cima) && direita) {
+    lateralSegundoComponente = LateralComponente.LESTE;
+  } else if ((centroX && centroX) || cima) {
+    lateralSegundoComponente = LateralComponente.NORTE;
+  } else {
+    lateralSegundoComponente = LateralComponente.SUL;
   }
 
   let nomeElementoConexao: string = "conexao";
-  let anguloConexao: number = calcularAnguloConexao(x1, y1, x2, y2);
-  let distanciaConexao: number = calcularDistanciaConexao(x1, y1, x2, y2);
   let conexao: HTMLDivElement = criarElemento(diagrama, nomeElementoConexao) as HTMLDivElement;
-
   carregarCSS(nomeElementoConexao);
   registrarEventosComponente(conexao);
-  conexao.style.width = `${distanciaConexao}px`;
-  conexao.style.rotate = `${anguloConexao}rad`;
-  conexao.style.left = `${x1}px`;
-  conexao.style.top = `${y1}px`;
+
+  let novoComponenteConexao: ComponenteDiagrama = new ComponenteConexao(
+    conexao,
+    [],
+    x1,
+    y1,
+    x2,
+    y2,
+    lateralPrimeiroComponente,
+    lateralSegundoComponente,
+    primeiroComponente,
+    segundoComponente,
+  );
+
+  repositorioComponentes.adicionarComponente(novoComponenteConexao);
   limparCoordenadaInicial();
 }
 
