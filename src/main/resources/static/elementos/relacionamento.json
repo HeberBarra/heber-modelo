@@ -1,6 +1,6 @@
 {
   "$schema": ".elemento.schema.json",
-  "valorHtmlInterno": "<div contenteditable=\"true\" spellcheck=\"true\">RELACIONAMENTO</div>",
+  "valorHtmlInterno": "<div><div contenteditable=\"true\" spellcheck=\"true\">RELACIONAMENTO</div></div>",
   "classesElemento": [
     "elemento-relacionamento"
   ],

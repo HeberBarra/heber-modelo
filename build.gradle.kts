@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.heberbarra"
-version = "0.0.18-SNAPSHOT"
+version = "0.0.19-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -22,7 +22,7 @@ dependencies {
         exclude("commons-logging", "commons-logging")
     }
     implementation(libs.cdimascioDotenv)
-    implementation(libs.fusesourceJansi)
+    implementation(libs.jlineJansi)
     implementation(libs.hibernateCore)
     implementation(libs.heberModeloAPI)
     implementation(libs.mysqlConnector)

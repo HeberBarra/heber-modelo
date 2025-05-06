@@ -8,7 +8,7 @@
     <script type="module" th:src="@{/javascript/editor.js}" defer></script>
     <script type="module" th:src="@{/javascript/variaveisConfiguracao.js}"></script>
     <script th:inline="javascript">
-      incrementoMovimentacaoElemento = Number("[(${incrementoMovimentacaoElemento})]");
+      incrementoMovimentacao = Number("[(${incrementoMovimentacaoElemento})]");
     </script>
     <style th:inline="css">
       :root {
@@ -162,7 +162,6 @@ Licensed works, modifications, and larger works may be distributed under differe
         <button class="criar-elemento" data-nome-elemento="agregacao" title="agregação">
           AGREGAÇÃO
         </button>
-        <button class="criar-elemento" data-nome-elemento="conexao" title="conexão">CONEXÃO</button>
       </section>
     </aside>
     <aside id="painel-direito">

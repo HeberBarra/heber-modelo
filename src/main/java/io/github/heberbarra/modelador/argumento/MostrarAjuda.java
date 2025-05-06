@@ -20,7 +20,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
-import org.fusesource.jansi.Ansi;
+import org.jline.jansi.Ansi;
 
 /**
  * Mostra as flags disponíveis no programa junto de suas respectivas descrições.

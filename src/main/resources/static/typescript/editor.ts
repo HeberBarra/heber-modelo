@@ -19,7 +19,6 @@ import {
   InputPropriedade,
   modificarPropriedadeElemento,
 } from "./editor/editorPropriedades.js";
-import { moverSetas, removerSelecao, selecionarElemento } from "./editor/selecionarElemento.js";
 import { colarElemento, copiarElemento, cortarElemento } from "./editor/clipboard.js";
 import {
   apagarElemento,
@@ -28,14 +27,25 @@ import {
   moverElemento,
 } from "./editor/manipularElemento.js";
 import { carregarCSS } from "./editor/carregarCSS.js";
-import { calcularAnguloConexao, calcularDistanciaConexao } from "./editor/conexaoDiagrama.js";
+import { ComponenteDiagrama, LateralComponente } from "./editor/componente/componenteDiagrama.js";
+import { RepositorioComponenteDiagrama } from "./editor/componente/repositorioComponenteDiagrama.js";
+import { SelecionadorComponente } from "./editor/componente/selecionadorComponente.js";
+import { GeradorIDComponente } from "./editor/geradorIDComponente.js";
+import { ComponenteConexao } from "./editor/componente/componenteConexao.js";
 
 /****************************/
 /* VARIÁVEIS COMPARTILHADAS */
 /****************************/
 
-let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
 let diagrama: HTMLElement | null = document.querySelector("main");
+let geradorIDComponente: GeradorIDComponente = GeradorIDComponente.pegarInstance();
+let repositorioComponentes: RepositorioComponenteDiagrama = new RepositorioComponenteDiagrama();
+let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
+let selecionadorComponente: SelecionadorComponente = new SelecionadorComponente();
+
+componentes.forEach((componente: HTMLDivElement): void => {
+  repositorioComponentes.adicionarComponente(new ComponenteDiagrama(componente, []));
+});
 
 /********************************/
 /* ALTERAR SEÇÃO PAINEL LATERAL */
@@ -151,7 +161,13 @@ function dragElement(event: MouseEvent): void {
   componenteAtual.style.top = `${y}px`;
   atualizarValorInput(elementoSelecionado, editorEixoY, "top");
   atualizarValorInput(elementoSelecionado, editorEixoX, "left");
-  moverSetas(event.target as HTMLElement);
+
+  let componente: ComponenteDiagrama | null = repositorioComponentes.pegarComponentePorHTML(
+    event.target as HTMLElement,
+  );
+
+  if (componente === null) return;
+  selecionadorComponente.moverSetas(componente);
 }
 
 /**************************/
@@ -162,7 +178,14 @@ let elementoSelecionado: HTMLElement | null;
 let inputs: InputPropriedade[] = [];
 
 function mouseDownSelecionarElemento(event: Event): void {
-  elementoSelecionado = selecionarElemento(event.target as HTMLElement);
+  let componente: ComponenteDiagrama | null = repositorioComponentes.pegarComponentePorHTML(
+    event.target as HTMLElement,
+  );
+
+  if (componente === null) return;
+
+  selecionadorComponente.selecionarElemento(componente);
+  elementoSelecionado = selecionadorComponente.componenteSelecionado?.htmlComponente as HTMLElement;
   atualizarInputs(elementoSelecionado, inputs);
 }
 
@@ -205,10 +228,12 @@ inputs.push(new InputPropriedade(editorTamanhoFonte, "font-size"));
 
 editorEixoX?.addEventListener("input", () => {
   modificarPropriedadeElemento(elementoSelecionado, editorEixoX, "left");
+  selecionadorComponente.moverSetasParaComponenteSelecionado();
 });
 
 editorEixoY?.addEventListener("input", () => {
   modificarPropriedadeElemento(elementoSelecionado, editorEixoY, "top");
+  selecionadorComponente.moverSetasParaComponenteSelecionado();
 });
 
 editorAltura?.addEventListener("input", () => {
@@ -262,6 +287,7 @@ botoesCriarElemento.forEach((btn) => {
 
     carregarCSS(nomeElemento);
     registrarEventosComponente(novoElemento);
+    repositorioComponentes.adicionarComponente(new ComponenteDiagrama(novoElemento, []));
   });
 });
 
@@ -270,36 +296,39 @@ botoesCriarElemento.forEach((btn) => {
 /********************/
 
 const setas: NodeListOf<HTMLElement> = document.querySelectorAll(".seta");
+let lateralPrimeiroComponente: LateralComponente | null;
 let x1: number | null;
 let y1: number | null;
 
 setas.forEach((seta) =>
   seta.addEventListener("click", () => {
-    if (elementoSelecionado === null) return;
+    if (elementoSelecionado === null || selecionadorComponente.componenteSelecionado === null)
+      return;
 
-    let estiloElementoSelecionado: CSSStyleDeclaration = getComputedStyle(elementoSelecionado);
-    let alturaElemento: number = converterPixeisParaNumero(estiloElementoSelecionado.height);
-    let larguraElemento: number = converterPixeisParaNumero(estiloElementoSelecionado.width);
-    let topElemento: number = converterPixeisParaNumero(estiloElementoSelecionado.top);
-    let leftElemento: number = converterPixeisParaNumero(estiloElementoSelecionado.left);
+    let componenteSelecionado: ComponenteDiagrama = selecionadorComponente.componenteSelecionado;
+    let ponto: number[];
 
     if (seta.classList.contains("seta-direita")) {
-      x1 = leftElemento + larguraElemento;
-      y1 = topElemento + Math.floor(alturaElemento / 2);
+      ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.LESTE);
+      lateralPrimeiroComponente = LateralComponente.LESTE;
     } else if (seta.classList.contains("seta-esquerda")) {
-      x1 = leftElemento;
-      y1 = topElemento + Math.floor(alturaElemento / 2);
+      ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.OESTE);
+      lateralPrimeiroComponente = LateralComponente.OESTE;
     } else if (seta.classList.contains("seta-superior")) {
-      x1 = leftElemento + Math.floor(larguraElemento / 2);
-      y1 = topElemento;
+      ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.NORTE);
+      lateralPrimeiroComponente = LateralComponente.NORTE;
     } else {
-      x1 = leftElemento + Math.floor(larguraElemento / 2);
-      y1 = topElemento + alturaElemento;
+      ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.SUL);
+      lateralPrimeiroComponente = LateralComponente.SUL;
     }
+
+    x1 = ponto[0];
+    y1 = ponto[1];
   }),
 );
 
 function limparCoordenadaInicial(): void {
+  lateralPrimeiroComponente = null;
   x1 = null;
   y1 = null;
 }
@@ -308,54 +337,92 @@ function conectarElementos(event: MouseEvent): void {
   diagrama?.removeEventListener("click", limparCoordenadaInicial);
   event.stopPropagation();
   event.stopImmediatePropagation();
-  if (x1 === null || y1 === null || x1 === undefined || y1 === undefined) return;
-  diagrama?.addEventListener("click", limparCoordenadaInicial);
-
   let elementoAlvo: HTMLElement = event.target as HTMLElement;
+  let primeiroComponente: ComponenteDiagrama | null = selecionadorComponente.componenteSelecionado;
+  let segundoComponente: ComponenteDiagrama | null =
+    repositorioComponentes.pegarComponentePorHTML(elementoAlvo);
+  if (
+    x1 === null ||
+    y1 === null ||
+    x1 === undefined ||
+    y1 === undefined ||
+    lateralPrimeiroComponente === undefined ||
+    lateralPrimeiroComponente === null ||
+    primeiroComponente === null ||
+    segundoComponente === null
+  )
+    return;
+
+  diagrama?.addEventListener("click", limparCoordenadaInicial);
   let estiloElementoAlvo: CSSStyleDeclaration = getComputedStyle(elementoAlvo);
   let alturaElementoAlvo: number = converterPixeisParaNumero(estiloElementoAlvo.height);
   let larguraElementoAlvo: number = converterPixeisParaNumero(estiloElementoAlvo.width);
   let leftElementoAlvo: number = converterPixeisParaNumero(estiloElementoAlvo.left);
   let topElemento: number = converterPixeisParaNumero(estiloElementoAlvo.top);
-  let posX: number = event.x - leftElementoAlvo;
-  let posY: number = event.y - topElemento;
+  let posX: number = event.pageX - leftElementoAlvo;
+  let posY: number = event.pageY - topElemento;
 
+  let centroX: boolean = false;
+  let centroY: boolean = false;
+  let direita: boolean = false;
+  let esquerda: boolean = false;
+  let cima: boolean = false;
+  let baixo: boolean = false;
+  let lateralSegundoComponente: LateralComponente;
   let x2: number;
   let y2: number;
 
   if (posX > larguraElementoAlvo * 0.2 && posX < larguraElementoAlvo * 0.8) {
     x2 = larguraElementoAlvo / 2 + leftElementoAlvo;
+    centroX = true;
   } else if (posX <= larguraElementoAlvo * 0.2) {
     x2 = leftElementoAlvo;
+    esquerda = true;
   } else {
     x2 = larguraElementoAlvo + leftElementoAlvo;
+    direita = true;
   }
 
   if (posY > alturaElementoAlvo * 0.4 && posY < alturaElementoAlvo * 0.6) {
     y2 = alturaElementoAlvo / 2 + topElemento;
-  } else if (posY <= larguraElementoAlvo * 0.4) {
+    centroY = true;
+  } else if (posY <= alturaElementoAlvo * 0.4) {
     y2 = topElemento;
+    baixo = true;
   } else {
     y2 = alturaElementoAlvo + topElemento;
+    cima = true;
   }
 
-  console.log(x1);
-  console.log(y1);
-  console.log(x2);
-  console.log(y2);
+  if ((centroY || baixo || cima) && esquerda) {
+    lateralSegundoComponente = LateralComponente.OESTE;
+  } else if ((centroY || baixo || cima) && direita) {
+    lateralSegundoComponente = LateralComponente.LESTE;
+  } else if ((centroX && centroX) || cima) {
+    lateralSegundoComponente = LateralComponente.NORTE;
+  } else {
+    lateralSegundoComponente = LateralComponente.SUL;
+  }
 
   let nomeElementoConexao: string = "conexao";
-  let anguloConexao: number = calcularAnguloConexao(x1, y1, x2, y2);
-  let distanciaConexao: number = calcularDistanciaConexao(x1, y1, x2, y2);
   let conexao: HTMLDivElement = criarElemento(diagrama, nomeElementoConexao) as HTMLDivElement;
-  console.log(distanciaConexao);
-  console.log(anguloConexao);
   carregarCSS(nomeElementoConexao);
   registrarEventosComponente(conexao);
-  conexao.style.width = `${distanciaConexao}px`;
-  conexao.style.rotate = `${anguloConexao}rad`;
-  conexao.style.left = `${x1}px`;
-  conexao.style.top = `${y1}px`;
+
+  let novoComponenteConexao: ComponenteDiagrama = new ComponenteConexao(
+    conexao,
+    [],
+    x1,
+    y1,
+    x2,
+    y2,
+    lateralPrimeiroComponente,
+    lateralSegundoComponente,
+    primeiroComponente,
+    segundoComponente,
+  );
+
+  repositorioComponentes.adicionarComponente(novoComponenteConexao);
   limparCoordenadaInicial();
 }
 
@@ -386,14 +453,17 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
   }
 
   if (teclaAnterior === bindings.get("leaderKey") && event.key === bindings.get("colarElemento")) {
+    let ultimoElemento: HTMLDivElement = diagrama?.lastElementChild as HTMLDivElement;
     colarElemento(diagrama);
 
     setTimeout(() => {
-      let componentesDiagrama: NodeListOf<HTMLDivElement> =
-        document.querySelectorAll("div.componente");
-      componentesDiagrama.forEach((componenteDiagrama: HTMLDivElement) => {
-        registrarEventosComponente(componenteDiagrama);
-      });
+      let novoElemento: HTMLDivElement = diagrama?.lastElementChild as HTMLDivElement;
+
+      if (ultimoElemento !== novoElemento) {
+        registrarEventosComponente(novoElemento);
+        novoElemento.setAttribute("data-id", String(geradorIDComponente.pegarProximoID()));
+        repositorioComponentes.adicionarComponente(new ComponenteDiagrama(novoElemento, []));
+      }
     }, 200);
     return;
   }
@@ -401,42 +471,38 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
   switch (event.key) {
     // Limpar selecao
     case bindings.get("removerSelecao"):
-      elementoSelecionado = removerSelecao();
+      selecionadorComponente.removerSelecao();
+      elementoSelecionado = selecionadorComponente.pegarHTMLElementoSelecionado();
       atualizarInputs(elementoSelecionado, inputs);
-      setas.forEach((seta) => {
-        seta.style.display = "none";
-      });
       break;
 
     // Apagar elemento
     case bindings.get("apagarElemento"):
       apagarElemento(diagrama, elementoSelecionado);
-      elementoSelecionado = removerSelecao();
+      selecionadorComponente.removerSelecao();
+      elementoSelecionado = selecionadorComponente.pegarHTMLElementoSelecionado();
       atualizarInputs(elementoSelecionado, inputs);
-      setas.forEach((seta) => {
-        seta.style.display = "none";
-      });
       break;
 
     // Mover elemento
     case bindings.get("moverElementoParaCima"):
-      moverElemento(elementoSelecionado, DirecoesMovimento.CIMA, incrementoMovimentacaoElemento);
+      moverElemento(elementoSelecionado, DirecoesMovimento.CIMA, incrementoMovimentacao);
+      selecionadorComponente.moverSetasParaComponenteSelecionado();
       break;
 
     case bindings.get("moverElementoParaBaixo"):
-      moverElemento(elementoSelecionado, DirecoesMovimento.BAIXO, incrementoMovimentacaoElemento);
+      moverElemento(elementoSelecionado, DirecoesMovimento.BAIXO, incrementoMovimentacao);
+      selecionadorComponente.moverSetasParaComponenteSelecionado();
       break;
 
     case bindings.get("moverElementoParaDireita"):
-      moverElemento(elementoSelecionado, DirecoesMovimento.DIREITA, incrementoMovimentacaoElemento);
+      moverElemento(elementoSelecionado, DirecoesMovimento.DIREITA, incrementoMovimentacao);
+      selecionadorComponente.moverSetasParaComponenteSelecionado();
       break;
 
     case bindings.get("moverElementoParaEsquerda"):
-      moverElemento(
-        elementoSelecionado,
-        DirecoesMovimento.ESQUERDA,
-        incrementoMovimentacaoElemento,
-      );
+      moverElemento(elementoSelecionado, DirecoesMovimento.ESQUERDA, incrementoMovimentacao);
+      selecionadorComponente.moverSetasParaComponenteSelecionado();
       break;
   }
 
