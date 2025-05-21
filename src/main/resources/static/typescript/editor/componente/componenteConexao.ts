@@ -10,7 +10,7 @@
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
 import { ComponenteDiagrama, LateralComponente } from "./componenteDiagrama.js";
-import { PropriedadeComponente } from "./propriedadeComponente.js";
+import { PropriedadeComponente } from "./propriedade/propriedadeComponente.js";
 import { ComponenteDiagramaOuvinte } from "./componenteDiagramaOuvinte.js";
 
 export class ComponenteConexao extends ComponenteDiagrama implements ComponenteDiagramaOuvinte {
@@ -25,7 +25,7 @@ export class ComponenteConexao extends ComponenteDiagrama implements ComponenteD
 
   constructor(
     htmlConexao: HTMLDivElement,
-    propriedades: PropriedadeComponente<any>[],
+    propriedades: PropriedadeComponente[],
     x1: number,
     y1: number,
     x2: number,

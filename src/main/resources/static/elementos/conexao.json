@@ -4,6 +4,11 @@
   "classesElemento": [
     "elemento-conexao"
   ],
-  "propriedades": {
-  }
+  "propriedades": [
+    {
+      "classeElemento": "elemento-conexao",
+      "nomePropriedade": "rotate",
+      "sufixo": "rad"
+    }
+  ]
 }

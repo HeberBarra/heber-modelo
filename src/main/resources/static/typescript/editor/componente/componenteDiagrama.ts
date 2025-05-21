@@ -11,7 +11,7 @@
  */
 import { ComponenteDiagramaOuvido } from "./componenteDiagramaOuvido.js";
 import { ComponenteDiagramaOuvinte } from "./componenteDiagramaOuvinte.js";
-import { PropriedadeComponente } from "./propriedadeComponente.js";
+import { PropriedadeComponente } from "./propriedade/propriedadeComponente.js";
 import { converterPixeisParaNumero } from "../../conversor/conversor.js";
 
 export enum LateralComponente {
@@ -22,12 +22,12 @@ export enum LateralComponente {
 }
 
 export class ComponenteDiagrama implements ComponenteDiagramaOuvido {
-  constructor(htmlComponente: HTMLDivElement, propriedades: PropriedadeComponente<any>[] | null) {
+  constructor(htmlComponente: HTMLDivElement, propriedades: PropriedadeComponente[] | null) {
     this._htmlComponente = htmlComponente;
     this._propriedades = propriedades ?? [];
   }
 
-  private readonly _propriedades: PropriedadeComponente<any>[];
+  private readonly _propriedades: PropriedadeComponente[];
   private _ouvintes: ComponenteDiagramaOuvinte[] = [];
   protected readonly _htmlComponente: HTMLDivElement;
   protected _recebeSetas: boolean = true;
@@ -36,11 +36,15 @@ export class ComponenteDiagrama implements ComponenteDiagramaOuvido {
     return this._htmlComponente;
   }
 
+  get propriedades(): PropriedadeComponente[] {
+    return this._propriedades;
+  }
+
   get recebeSetas(): boolean {
     return this._recebeSetas;
   }
 
-  public definirValorPropriedade<T>(nomePropriedade: string, valorPropriedade: T): void {
+  public definirValorPropriedade(nomePropriedade: string, valorPropriedade: string): void {
     this._propriedades.forEach((propriedade) => {
       if (propriedade.nome === nomePropriedade) {
         propriedade.definirValorPropriedade(valorPropriedade);

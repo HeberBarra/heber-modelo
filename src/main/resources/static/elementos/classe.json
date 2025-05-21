@@ -4,6 +4,11 @@
   "classesElemento": [
     "elemento-classe"
   ],
-  "propriedades": {
-  }
+  "propriedades": [
+    {
+      "classeElemento": "nome",
+      "nomePropriedade": "innerText",
+      "sufixo": ""
+    }
+  ]
 }

@@ -23,7 +23,26 @@
     },
     "propriedades": {
       "description": "Define as propriedades deste tipo de elemento que podem ser editadas",
-      "type": "object"
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "classeElemento": {
+            "type": "string"
+          },
+          "nomePropriedade": {
+            "type": "string"
+          },
+          "sufixo": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "classeElemento",
+          "nomePropriedade",
+          "sufixo"
+        ]
+      }
     }
   },
   "required": [
