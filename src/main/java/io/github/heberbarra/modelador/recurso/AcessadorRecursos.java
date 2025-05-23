@@ -12,7 +12,9 @@
 package io.github.heberbarra.modelador.recurso;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import io.github.cdimascio.dotenv.DotenvBuilder;
 import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
+import io.github.heberbarra.modelador.configurador.PastaConfiguracaoPrograma;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.io.File;
@@ -85,7 +87,10 @@ public class AcessadorRecursos implements Recurso {
     @Override
     public String pegarValorVariavelAmbiente(String nomeVariavel) {
         if (dotenv == null) {
-            dotenv = Dotenv.load();
+            PastaConfiguracaoPrograma pastaConfiguracaoPrograma = new PastaConfiguracaoPrograma();
+            DotenvBuilder dotenvBuilder = new DotenvBuilder();
+            dotenvBuilder.directory(pastaConfiguracaoPrograma.getPasta());
+            dotenv = dotenvBuilder.load();
         }
 
         return dotenv.get(nomeVariavel);
