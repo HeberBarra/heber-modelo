@@ -13,6 +13,7 @@ import { JSONPropriedade, ValoresJSONComponente } from "./valoresJSONComponente.
 import { ComponenteDiagrama } from "./componenteDiagrama.js";
 import { FabricaPropriedade } from "./propriedade/fabricaPropriedade.js";
 import { PropriedadeComponente } from "./propriedade/propriedadeComponente.js";
+import { CLASSE_COMUM_ELEMENTOS } from "../classesCSSElementos.js";
 
 export class FabricaComponente {
   private async pegarJSON(nomeComponente: string): Promise<ValoresJSONComponente> {
@@ -29,6 +30,8 @@ export class FabricaComponente {
         let propriedades: PropriedadeComponente[] = [];
 
         elementoHTML.innerHTML = valores.valorHtmlInterno;
+        elementoHTML.classList.add(CLASSE_COMUM_ELEMENTOS);
+        elementoHTML.classList.add(valores.classesElemento.join(" "));
         valores.propriedades.forEach((propriedade: JSONPropriedade): void => {
           let propriedadeComponente: PropriedadeComponente | null =
             fabricaPropriedade.criarPropriedade(
