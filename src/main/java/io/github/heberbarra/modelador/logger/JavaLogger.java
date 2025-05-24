@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 public class JavaLogger {
 
     private static String nomeArquivo = "log.txt";
-    private static File pastaLogs = new File("log/");
+    private static File pastaLogs = new SelecionadorPastaLogs().getPastaLogs();
     private static final Logger logger = Logger.getLogger(JavaLogger.class.getName());
     protected static ConsoleHandler consoleHandler = criarConsoleHandler();
     protected static FileHandler fileHandler = criarFileHandler(nomeArquivo);
@@ -70,9 +70,8 @@ public class JavaLogger {
 
     protected static FileHandler criarFileHandler(String nomeArquivo) {
         try {
-            logger.finest(String.valueOf(pastaLogs.mkdir()));
+            logger.finest(String.valueOf(pastaLogs.mkdirs()));
             return new JavaLoggerArquivo(pastaLogs, nomeArquivo);
-
         } catch (IOException e) {
             logger.warning("Falha ao criar logger. Erro: %s".formatted(e.getMessage()));
             return null;
