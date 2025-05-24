@@ -9,41 +9,11 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-import { CLASSE_COMUM_ELEMENTOS } from "./classesCSSElementos.js";
 import { converterPixeisParaNumero } from "../conversor/conversor.js";
-import { FabricaElemento } from "./fabricaElemento.js";
-import { GeradorIDComponente } from "./componente/geradorIDComponente.js";
 
 /***********************************/
 /* CRIAÇÃO E EXCLUSÃO DE ELEMENTOS */
 /***********************************/
-
-let fabricaElemento: FabricaElemento = new FabricaElemento();
-let geradorIDComponente: GeradorIDComponente = GeradorIDComponente.pegarInstance();
-
-export const criarElemento = (
-  elementoPai: HTMLElement | null,
-  nomeElemento: string,
-): HTMLDivElement | null => {
-  if (elementoPai === null) return null;
-
-  let nomeElementoFormatado = nomeElemento.toLowerCase();
-  let promiseHtml: Promise<string> = fabricaElemento.pegarHTMLElemento(nomeElementoFormatado);
-  let promiseClasses: Promise<string[]> =
-    fabricaElemento.pegarClassesElemento(nomeElementoFormatado);
-
-  let novoElemento: HTMLDivElement = document.createElement("div");
-  novoElemento.classList.add(CLASSE_COMUM_ELEMENTOS);
-  promiseClasses.then((classes) => classes.forEach((classe) => novoElemento.classList.add(classe)));
-  promiseHtml.then((valor) => {
-    novoElemento.innerHTML = valor;
-    novoElemento.setAttribute("data-id", `${geradorIDComponente.pegarProximoID()}`);
-  });
-
-  elementoPai.appendChild(novoElemento);
-
-  return novoElemento;
-};
 
 export const apagarElemento = (
   elementoPai: HTMLElement | null,
