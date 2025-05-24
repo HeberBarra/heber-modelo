@@ -20,12 +20,7 @@ import {
   modificarPropriedadeElemento,
 } from "./editor/editorPropriedades.js";
 import { colarElemento, copiarElemento, cortarElemento } from "./editor/clipboard.js";
-import {
-  apagarElemento,
-  criarElemento,
-  DirecoesMovimento,
-  moverElemento,
-} from "./editor/manipularElemento.js";
+import { apagarElemento, DirecoesMovimento, moverElemento } from "./editor/manipularElemento.js";
 import { carregarCSS } from "./editor/carregarCSS.js";
 import { ComponenteDiagrama, LateralComponente } from "./editor/componente/componenteDiagrama.js";
 import { RepositorioComponenteDiagrama } from "./editor/componente/repositorioComponenteDiagrama.js";
@@ -409,26 +404,28 @@ function conectarElementos(event: MouseEvent): void {
     lateralSegundoComponente = LateralComponente.SUL;
   }
 
-  let nomeElementoConexao: string = "conexao";
-  let conexao: HTMLDivElement = criarElemento(diagrama, nomeElementoConexao) as HTMLDivElement;
-  carregarCSS(nomeElementoConexao);
-  registrarEventosComponente(conexao);
-
-  let novoComponenteConexao: ComponenteDiagrama = new ComponenteConexao(
-    conexao,
-    [],
-    x1,
-    y1,
-    x2,
-    y2,
-    lateralPrimeiroComponente,
-    lateralSegundoComponente,
-    primeiroComponente,
-    segundoComponente,
-  );
-
-  repositorioComponentes.adicionarComponente(novoComponenteConexao);
-  limparCoordenadaInicial();
+  const nomeElementoConexao: string = "conexao";
+  fabricaComponente
+    .criarComponente(nomeElementoConexao)
+    .then((componente: ComponenteDiagrama): void => {
+      carregarCSS(nomeElementoConexao);
+      registrarEventosComponente(componente.htmlComponente);
+      let componenteConexao: ComponenteDiagrama = new ComponenteConexao(
+        componente.htmlComponente,
+        componente.propriedades,
+        x1 as number,
+        y1 as number,
+        x2,
+        y2,
+        lateralPrimeiroComponente as LateralComponente,
+        lateralSegundoComponente,
+        primeiroComponente,
+        segundoComponente,
+      );
+      repositorioComponentes.adicionarComponente(componenteConexao);
+      diagrama?.appendChild(componenteConexao.htmlComponente);
+      limparCoordenadaInicial();
+    });
 }
 
 diagrama?.addEventListener("click", limparCoordenadaInicial);
