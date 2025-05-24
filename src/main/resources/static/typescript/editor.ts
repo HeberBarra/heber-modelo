@@ -30,14 +30,16 @@ import { carregarCSS } from "./editor/carregarCSS.js";
 import { ComponenteDiagrama, LateralComponente } from "./editor/componente/componenteDiagrama.js";
 import { RepositorioComponenteDiagrama } from "./editor/componente/repositorioComponenteDiagrama.js";
 import { SelecionadorComponente } from "./editor/componente/selecionadorComponente.js";
-import { GeradorIDComponente } from "./editor/geradorIDComponente.js";
+import { GeradorIDComponente } from "./editor/componente/geradorIDComponente.js";
 import { ComponenteConexao } from "./editor/componente/componenteConexao.js";
+import { FabricaComponente } from "./editor/componente/fabricaComponente.js";
 
 /****************************/
 /* VARIÁVEIS COMPARTILHADAS */
 /****************************/
 
 let diagrama: HTMLElement | null = document.querySelector("main");
+let fabricaComponente: FabricaComponente = new FabricaComponente();
 let geradorIDComponente: GeradorIDComponente = GeradorIDComponente.pegarInstance();
 let repositorioComponentes: RepositorioComponenteDiagrama = new RepositorioComponenteDiagrama();
 let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
@@ -281,13 +283,16 @@ botoesCriarElemento.forEach((btn) => {
 
     if (nomeElemento === null) return;
 
-    let novoElemento: HTMLDivElement | null = criarElemento(diagrama, nomeElemento);
-
-    if (novoElemento === null) return;
-
-    carregarCSS(nomeElemento);
-    registrarEventosComponente(novoElemento);
-    repositorioComponentes.adicionarComponente(new ComponenteDiagrama(novoElemento, []));
+    fabricaComponente.criarComponente(nomeElemento).then((componente: ComponenteDiagrama): void => {
+      carregarCSS(nomeElemento);
+      registrarEventosComponente(componente.htmlComponente);
+      componente.htmlComponente.setAttribute(
+        "data-id",
+        String(geradorIDComponente.pegarProximoID()),
+      );
+      repositorioComponentes.adicionarComponente(componente);
+      diagrama?.appendChild(componente.htmlComponente);
+    });
   });
 });
 

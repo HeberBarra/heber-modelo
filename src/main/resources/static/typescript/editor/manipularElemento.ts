@@ -12,7 +12,7 @@
 import { CLASSE_COMUM_ELEMENTOS } from "./classesCSSElementos.js";
 import { converterPixeisParaNumero } from "../conversor/conversor.js";
 import { FabricaElemento } from "./fabricaElemento.js";
-import { GeradorIDComponente } from "./geradorIDComponente.js";
+import { GeradorIDComponente } from "./componente/geradorIDComponente.js";
 
 /***********************************/
 /* CRIAÇÃO E EXCLUSÃO DE ELEMENTOS */
