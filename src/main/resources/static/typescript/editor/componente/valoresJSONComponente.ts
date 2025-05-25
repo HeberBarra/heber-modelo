@@ -17,6 +17,7 @@ export interface ValoresJSONComponente {
 
 export interface JSONPropriedade {
   classeElemento: string;
+  label: string;
   nomePropriedade: string;
   sufixo: string;
 }

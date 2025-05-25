@@ -30,6 +30,9 @@
           "classeElemento": {
             "type": "string"
           },
+          "label": {
+            "type": "string"
+          },
           "nomePropriedade": {
             "type": "string"
           },
@@ -39,6 +42,7 @@
         },
         "required": [
           "classeElemento",
+          "label",
           "nomePropriedade",
           "sufixo"
         ]

@@ -31,7 +31,7 @@ export class SelecionadorComponente {
   private readonly _setaDireita: HTMLElement;
   private readonly _setaEsquerda: HTMLElement;
 
-  public selecionarElemento(componente: ComponenteDiagrama) {
+  public selecionarElemento(componente: ComponenteDiagrama): void {
     if (this._componenteSelecionado !== null) {
       this._componenteSelecionado.htmlComponente.classList.remove(CLASSE_ELEMENTO_SELECIONADO);
     }

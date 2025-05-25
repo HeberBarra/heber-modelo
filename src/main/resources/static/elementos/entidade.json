@@ -1,8 +1,15 @@
 {
   "$schema": ".elemento.schema.json",
-  "valorHtmlInterno": "<div contenteditable=\"true\" spellcheck=\"true\">ENTIDADE</div>",
+  "valorHtmlInterno": "<div contenteditable=\"true\" spellcheck=\"true\" class=\"nome\">ENTIDADE</div>",
   "classesElemento": [
     "elemento-entidade"
   ],
-  "propriedades": []
+  "propriedades": [
+    {
+      "classeElemento": "nome",
+      "label": "nome",
+      "nomePropriedade": "innerText",
+      "sufixo": ""
+    }
+  ]
 }

@@ -17,11 +17,12 @@ export class FabricaPropriedade {
     nomePropriedade: string,
     sufixo: string,
     elementoHTML: HTMLElement,
+    label: string,
   ): PropriedadeComponente | null {
     if (nomePropriedade === "innerText") {
-      return new PropriedadeInnerText(elementoHTML, sufixo);
+      return new PropriedadeInnerText(elementoHTML, sufixo, label);
     } else {
-      return new PropriedadeComponente(nomePropriedade, elementoHTML, sufixo);
+      return new PropriedadeComponente(nomePropriedade, elementoHTML, sufixo, label);
     }
   }
 }

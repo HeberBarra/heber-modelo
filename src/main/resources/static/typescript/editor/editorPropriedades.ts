@@ -9,6 +9,7 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
+import { PropriedadeComponente } from "./componente/propriedade/propriedadeComponente.js";
 
 export class InputPropriedade {
   private readonly _elementoInput: HTMLInputElement | null;
@@ -49,7 +50,7 @@ const ajustarValorAtributo = (valor: string): string => {
     return `${parseFloat(valor)}px`;
   }
 
-  let resultadoExpressao = calcularExpressao(valor);
+  let resultadoExpressao: number | null = calcularExpressao(valor);
 
   if (resultadoExpressao === null) {
     return "0px";
@@ -76,7 +77,7 @@ export const atualizarValorInput = (
 ): void => {
   if (elemento === null || elemento === undefined || inputAtributo === null) return;
 
-  let valorPropriedade = getComputedStyle(elemento).getPropertyValue(nomePropriedade);
+  let valorPropriedade: string = getComputedStyle(elemento).getPropertyValue(nomePropriedade);
   inputAtributo.value = valorPropriedade.substring(0, valorPropriedade.length - 2);
 };
 
@@ -85,13 +86,22 @@ export const atualizarInputs = (
   inputs: InputPropriedade[],
 ): void => {
   if (elementoSelecionado !== null) {
-    inputs.forEach((input) => input.atualizar(elementoSelecionado));
+    inputs.forEach((input: InputPropriedade): void => input.atualizar(elementoSelecionado));
     return;
   }
 
-  inputs.forEach((input) => {
+  inputs.forEach((input: InputPropriedade): void => {
     if (input.elementoInput !== null) {
       input.elementoInput.value = "";
     }
   });
+};
+
+export const limparPropriedades = (abaPropriedades: HTMLElement | null): void => {
+  if (abaPropriedades === null) return;
+
+  let propriedades: NodeListOf<HTMLElement> = abaPropriedades.querySelectorAll(
+    `.${PropriedadeComponente.CLASSE_PROPRIEDADE_CUSTOMIZADA}`,
+  );
+  propriedades.forEach((propriedade) => propriedade.remove());
 };

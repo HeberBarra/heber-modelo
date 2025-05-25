@@ -13,9 +13,14 @@ import { JSONPropriedade, ValoresJSONComponente } from "./valoresJSONComponente.
 import { ComponenteDiagrama } from "./componenteDiagrama.js";
 import { FabricaPropriedade } from "./propriedade/fabricaPropriedade.js";
 import { PropriedadeComponente } from "./propriedade/propriedadeComponente.js";
-import { CLASSE_COMUM_ELEMENTOS } from "../classesCSSElementos.js";
 
 export class FabricaComponente {
+  private static _CLASSE_COMUM_ELEMENTOS: string = "componente";
+
+  static get CLASSE_COMUM_ELEMENTOS(): string {
+    return this._CLASSE_COMUM_ELEMENTOS;
+  }
+
   private async pegarJSON(nomeComponente: string): Promise<ValoresJSONComponente> {
     return await fetch(`/elementos/${nomeComponente.toLowerCase()}.json`).then(
       (response: Response): Promise<ValoresJSONComponente> => response.json(),
@@ -30,7 +35,7 @@ export class FabricaComponente {
         let propriedades: PropriedadeComponente[] = [];
 
         elementoHTML.innerHTML = valores.valorHtmlInterno;
-        elementoHTML.classList.add(CLASSE_COMUM_ELEMENTOS);
+        elementoHTML.classList.add(FabricaComponente.CLASSE_COMUM_ELEMENTOS);
         elementoHTML.classList.add(valores.classesElemento.join(" "));
         valores.propriedades.forEach((propriedade: JSONPropriedade): void => {
           let propriedadeComponente: PropriedadeComponente | null =
@@ -38,6 +43,7 @@ export class FabricaComponente {
               propriedade.nomePropriedade,
               propriedade.sufixo,
               elementoHTML.querySelector(`.${propriedade.classeElemento}`) as HTMLElement,
+              propriedade.label,
             );
           if (propriedadeComponente !== null) {
             propriedades.push(propriedadeComponente);

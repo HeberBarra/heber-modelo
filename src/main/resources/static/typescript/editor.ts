@@ -17,6 +17,7 @@ import {
   atualizarInputs,
   atualizarValorInput,
   InputPropriedade,
+  limparPropriedades,
   modificarPropriedadeElemento,
 } from "./editor/editorPropriedades.js";
 import { colarElemento, copiarElemento, cortarElemento } from "./editor/clipboard.js";
@@ -28,11 +29,13 @@ import { SelecionadorComponente } from "./editor/componente/selecionadorComponen
 import { GeradorIDComponente } from "./editor/componente/geradorIDComponente.js";
 import { ComponenteConexao } from "./editor/componente/componenteConexao.js";
 import { FabricaComponente } from "./editor/componente/fabricaComponente.js";
+import { PropriedadeComponente } from "./editor/componente/propriedade/propriedadeComponente.js";
 
 /****************************/
 /* VARIÁVEIS COMPARTILHADAS */
 /****************************/
 
+let abaPropriedades: HTMLDivElement | null = document.querySelector("section#propriedades");
 let diagrama: HTMLElement | null = document.querySelector("main");
 let fabricaComponente: FabricaComponente = new FabricaComponente();
 let geradorIDComponente: GeradorIDComponente = GeradorIDComponente.pegarInstance();
@@ -182,7 +185,12 @@ function mouseDownSelecionarElemento(event: Event): void {
   if (componente === null) return;
 
   selecionadorComponente.selecionarElemento(componente);
+  limparPropriedades(abaPropriedades);
   elementoSelecionado = selecionadorComponente.componenteSelecionado?.htmlComponente as HTMLElement;
+  componente.propriedades.forEach((propriedade: PropriedadeComponente): void => {
+    let editorPropriedade: HTMLLabelElement = propriedade.criarElementoInputPropriedade();
+    abaPropriedades?.appendChild(editorPropriedade);
+  });
   atualizarInputs(elementoSelecionado, inputs);
 }
 
@@ -474,6 +482,7 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
     // Limpar selecao
     case bindings.get("removerSelecao"):
       selecionadorComponente.removerSelecao();
+      limparPropriedades(abaPropriedades);
       elementoSelecionado = selecionadorComponente.pegarHTMLElementoSelecionado();
       atualizarInputs(elementoSelecionado, inputs);
       break;
@@ -482,6 +491,7 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
     case bindings.get("apagarElemento"):
       apagarElemento(diagrama, elementoSelecionado);
       selecionadorComponente.removerSelecao();
+      limparPropriedades(abaPropriedades);
       elementoSelecionado = selecionadorComponente.pegarHTMLElementoSelecionado();
       atualizarInputs(elementoSelecionado, inputs);
       break;

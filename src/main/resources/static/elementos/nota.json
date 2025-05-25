@@ -1,8 +1,15 @@
 {
   "$schema": ".elemento.schema.json",
-  "valorHtmlInterno": "<div contenteditable=\"true\" spellcheck=\"true\">NOTA</div>",
+  "valorHtmlInterno": "<div contenteditable=\"true\" spellcheck=\"true\" class=\"texto\">NOTA</div>",
   "classesElemento": [
     "elemento-nota"
   ],
-  "propriedades": []
+  "propriedades": [
+    {
+      "classeElemento": "texto",
+      "label": "texto",
+      "nomePropriedade": "innerText",
+      "sufixo": ""
+    }
+  ]
 }

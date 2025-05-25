@@ -10,6 +10,5 @@
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
 
-export const CLASSE_COMUM_ELEMENTOS: string = "componente";
 export const CLASSE_ELEMENTO_SELECIONADO: string = "selected";
 export const CLASSE_PAINEL_OCULTO: string = "hidden";
