@@ -20,7 +20,7 @@ export class InputPropriedade {
     this.nomePropriedade = propriedade;
   }
 
-  public atualizar(elementoSelecionado: HTMLElement | null) {
+  public atualizar(elementoSelecionado: HTMLElement | null): void {
     atualizarValorInput(elementoSelecionado, this._elementoInput, this.nomePropriedade);
   }
 
