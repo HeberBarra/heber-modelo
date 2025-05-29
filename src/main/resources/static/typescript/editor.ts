@@ -30,6 +30,7 @@ import { GeradorIDComponente } from "./editor/componente/geradorIDComponente.js"
 import { ComponenteConexao } from "./editor/componente/componenteConexao.js";
 import { FabricaComponente } from "./editor/componente/fabricaComponente.js";
 import { PropriedadeComponente } from "./editor/componente/propriedade/propriedadeComponente.js";
+import { Ponto } from "./editor/ponto.js";
 
 /****************************/
 /* VARIÁVEIS COMPARTILHADAS */
@@ -305,8 +306,7 @@ botoesCriarElemento.forEach((btn) => {
 
 const setas: NodeListOf<HTMLElement> = document.querySelectorAll(".seta");
 let lateralPrimeiroComponente: LateralComponente | null;
-let x1: number | null;
-let y1: number | null;
+let ponto1: Ponto | null = null;
 
 setas.forEach((seta) =>
   seta.addEventListener("click", () => {
@@ -330,15 +330,13 @@ setas.forEach((seta) =>
       lateralPrimeiroComponente = LateralComponente.SUL;
     }
 
-    x1 = ponto[0];
-    y1 = ponto[1];
+    ponto1 = new Ponto(ponto[0], ponto[1]);
   }),
 );
 
 function limparCoordenadaInicial(): void {
   lateralPrimeiroComponente = null;
-  x1 = null;
-  y1 = null;
+  ponto1 = null;
 }
 
 function conectarElementos(event: MouseEvent): void {
@@ -350,10 +348,8 @@ function conectarElementos(event: MouseEvent): void {
   let segundoComponente: ComponenteDiagrama | null =
     repositorioComponentes.pegarComponentePorHTML(elementoAlvo);
   if (
-    x1 === null ||
-    y1 === null ||
-    x1 === undefined ||
-    y1 === undefined ||
+    ponto1 === null ||
+    ponto1 === undefined ||
     lateralPrimeiroComponente === undefined ||
     lateralPrimeiroComponente === null ||
     primeiroComponente === null ||
@@ -413,6 +409,8 @@ function conectarElementos(event: MouseEvent): void {
   }
 
   const nomeElementoConexao: string = "conexao";
+  let ponto2: Ponto = new Ponto(x2, y2);
+
   fabricaComponente
     .criarComponente(nomeElementoConexao)
     .then((componente: ComponenteDiagrama): void => {
@@ -421,10 +419,8 @@ function conectarElementos(event: MouseEvent): void {
       let componenteConexao: ComponenteDiagrama = new ComponenteConexao(
         componente.htmlComponente,
         componente.propriedades,
-        x1 as number,
-        y1 as number,
-        x2,
-        y2,
+        ponto1 as Ponto,
+        ponto2,
         lateralPrimeiroComponente as LateralComponente,
         lateralSegundoComponente,
         primeiroComponente,
