@@ -9,19 +9,29 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
+import { ComponenteDiagrama } from "../componenteDiagrama.js";
+
 export class PropriedadeComponente {
-  constructor(nome: string, htmlElemento: HTMLElement, sufixo: string, label: string) {
+  constructor(
+    nome: string,
+    componente: ComponenteDiagrama,
+    sufixo: string,
+    label: string,
+    classeElemento: string,
+  ) {
     this._nome = nome;
-    this._htmlElemento = htmlElemento;
+    this._componente = componente;
     this._sufixo = sufixo;
     this._label = label;
+    this._classeElemento = classeElemento.startsWith(".") ? classeElemento : `.${classeElemento}`;
   }
 
   private static _CLASSE_PROPRIEDADE_CUSTOMIZADA: string = "custom";
   protected _nome: string;
-  protected _htmlElemento: HTMLElement;
+  protected _componente: ComponenteDiagrama;
   protected _sufixo: string;
   protected _label: string;
+  protected _classeElemento: string;
 
   static get CLASSE_PROPRIEDADE_CUSTOMIZADA(): string {
     return this._CLASSE_PROPRIEDADE_CUSTOMIZADA;
@@ -32,11 +42,17 @@ export class PropriedadeComponente {
   }
 
   protected pegarValorPropriedade(): string {
-    return this._htmlElemento.getAttribute(this._nome) ?? "";
+    return (
+      this._componente.htmlComponente
+        .querySelector(this._classeElemento)
+        ?.getAttribute(this._nome) ?? ""
+    );
   }
 
   public definirValorPropriedade(valor: string): void {
-    this._htmlElemento.setAttribute(this._nome, `${valor}${this._sufixo}`);
+    this._componente.htmlComponente
+      .querySelector(this._classeElemento)
+      ?.setAttribute(this._nome, `${valor}${this._sufixo}`);
   }
 
   private formatarLabel(): string {
@@ -49,6 +65,7 @@ export class PropriedadeComponente {
 
     elementoInput.addEventListener("input", (): void => {
       this.definirValorPropriedade(elementoInput.value);
+      this._componente.atualizarOuvintes();
     });
 
     elementoInput.value = this.pegarValorPropriedade();
@@ -61,15 +78,20 @@ export class PropriedadeComponente {
 }
 
 export class PropriedadeInnerText extends PropriedadeComponente {
-  constructor(htmlElemento: HTMLElement, sufixo: string, label: string) {
-    super("innerText", htmlElemento, sufixo, label);
+  constructor(
+    componente: ComponenteDiagrama,
+    sufixo: string,
+    label: string,
+    classeElemento: string,
+  ) {
+    super("innerText", componente, sufixo, label, classeElemento);
   }
 
   definirValorPropriedade(valor: string) {
-    this._htmlElemento.innerText = `${valor}${this._sufixo}`;
+    this._componente.htmlComponente.innerText = `${valor}${this._sufixo}`;
   }
 
   protected pegarValorPropriedade(): string {
-    return this._htmlElemento.innerText;
+    return this._componente.htmlComponente.innerText;
   }
 }
