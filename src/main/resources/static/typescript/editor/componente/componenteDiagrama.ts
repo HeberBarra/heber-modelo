@@ -45,15 +45,17 @@ export class ComponenteDiagrama implements ComponenteDiagramaOuvido {
   }
 
   public definirValorPropriedade(nomePropriedade: string, valorPropriedade: string): void {
-    this._propriedades.forEach((propriedade) => {
+    this._propriedades.forEach((propriedade: PropriedadeComponente): void => {
       if (propriedade.nome === nomePropriedade) {
         propriedade.definirValorPropriedade(valorPropriedade);
+        this.atualizarOuvintes();
         return;
       }
     });
 
     if (this._htmlComponente.hasAttribute(nomePropriedade)) {
       this._htmlComponente.setAttribute(nomePropriedade, String(valorPropriedade));
+      this.atualizarOuvintes();
       return;
     }
 
@@ -115,7 +117,7 @@ export class ComponenteDiagrama implements ComponenteDiagramaOuvido {
   }
 
   atualizarOuvintes(): void {
-    this._ouvintes.forEach((ouvinte) => {
+    this._ouvintes.forEach((ouvinte: ComponenteDiagramaOuvinte): void => {
       ouvinte.atualizar(this._htmlComponente);
     });
   }

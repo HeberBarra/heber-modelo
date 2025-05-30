@@ -11,18 +11,20 @@
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
 import { PropriedadeComponente, PropriedadeInnerText } from "./propriedadeComponente.js";
+import { ComponenteDiagrama } from "../componenteDiagrama.js";
 
 export class FabricaPropriedade {
   public criarPropriedade(
     nomePropriedade: string,
     sufixo: string,
-    elementoHTML: HTMLElement,
+    componente: ComponenteDiagrama,
     label: string,
+    classeElemento: string,
   ): PropriedadeComponente | null {
     if (nomePropriedade === "innerText") {
-      return new PropriedadeInnerText(elementoHTML, sufixo, label);
+      return new PropriedadeInnerText(componente, sufixo, label, classeElemento);
     } else {
-      return new PropriedadeComponente(nomePropriedade, elementoHTML, sufixo, label);
+      return new PropriedadeComponente(nomePropriedade, componente, sufixo, label, classeElemento);
     }
   }
 }

@@ -32,25 +32,26 @@ export class FabricaComponente {
       (valores: ValoresJSONComponente): ComponenteDiagrama => {
         let fabricaPropriedade: FabricaPropriedade = new FabricaPropriedade();
         let elementoHTML: HTMLDivElement = document.createElement("div");
-        let propriedades: PropriedadeComponente[] = [];
-
         elementoHTML.innerHTML = valores.valorHtmlInterno;
+
         elementoHTML.classList.add(FabricaComponente.CLASSE_COMUM_ELEMENTOS);
         elementoHTML.classList.add(valores.classesElemento.join(" "));
+        let componente: ComponenteDiagrama = new ComponenteDiagrama(elementoHTML, []);
         valores.propriedades.forEach((propriedade: JSONPropriedade): void => {
           let propriedadeComponente: PropriedadeComponente | null =
             fabricaPropriedade.criarPropriedade(
               propriedade.nomePropriedade,
               propriedade.sufixo,
-              elementoHTML.querySelector(`.${propriedade.classeElemento}`) as HTMLElement,
+              componente,
               propriedade.label,
+              propriedade.classeElemento,
             );
           if (propriedadeComponente !== null) {
-            propriedades.push(propriedadeComponente);
+            componente.propriedades.push(propriedadeComponente);
           }
         });
 
-        return new ComponenteDiagrama(elementoHTML, propriedades);
+        return componente;
       },
     );
   }

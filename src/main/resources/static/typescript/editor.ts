@@ -235,11 +235,13 @@ inputs.push(new InputPropriedade(editorTamanhoFonte, "font-size"));
 editorEixoX?.addEventListener("input", () => {
   modificarPropriedadeElemento(elementoSelecionado, editorEixoX, "left");
   selecionadorComponente.moverSetasParaComponenteSelecionado();
+  selecionadorComponente.componenteSelecionado?.atualizarOuvintes();
 });
 
 editorEixoY?.addEventListener("input", () => {
   modificarPropriedadeElemento(elementoSelecionado, editorEixoY, "top");
   selecionadorComponente.moverSetasParaComponenteSelecionado();
+  selecionadorComponente.componenteSelecionado?.atualizarOuvintes();
 });
 
 editorAltura?.addEventListener("input", () => {
@@ -305,6 +307,7 @@ botoesCriarElemento.forEach((btn) => {
 /********************/
 
 const setas: NodeListOf<HTMLElement> = document.querySelectorAll(".seta");
+let primeiroComponente: ComponenteDiagrama | null = null;
 let lateralPrimeiroComponente: LateralComponente | null;
 let ponto1: Ponto | null = null;
 
@@ -313,20 +316,20 @@ setas.forEach((seta) =>
     if (elementoSelecionado === null || selecionadorComponente.componenteSelecionado === null)
       return;
 
-    let componenteSelecionado: ComponenteDiagrama = selecionadorComponente.componenteSelecionado;
+    primeiroComponente = selecionadorComponente.componenteSelecionado;
     let ponto: number[];
 
     if (seta.classList.contains("seta-direita")) {
-      ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.LESTE);
+      ponto = primeiroComponente.calcularPontoLateralComponente(LateralComponente.LESTE);
       lateralPrimeiroComponente = LateralComponente.LESTE;
     } else if (seta.classList.contains("seta-esquerda")) {
-      ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.OESTE);
+      ponto = primeiroComponente.calcularPontoLateralComponente(LateralComponente.OESTE);
       lateralPrimeiroComponente = LateralComponente.OESTE;
     } else if (seta.classList.contains("seta-superior")) {
-      ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.NORTE);
+      ponto = primeiroComponente.calcularPontoLateralComponente(LateralComponente.NORTE);
       lateralPrimeiroComponente = LateralComponente.NORTE;
     } else {
-      ponto = componenteSelecionado.calcularPontoLateralComponente(LateralComponente.SUL);
+      ponto = primeiroComponente.calcularPontoLateralComponente(LateralComponente.SUL);
       lateralPrimeiroComponente = LateralComponente.SUL;
     }
 
@@ -344,7 +347,7 @@ function conectarElementos(event: MouseEvent): void {
   event.stopPropagation();
   event.stopImmediatePropagation();
   let elementoAlvo: HTMLElement = event.target as HTMLElement;
-  let primeiroComponente: ComponenteDiagrama | null = selecionadorComponente.componenteSelecionado;
+
   let segundoComponente: ComponenteDiagrama | null =
     repositorioComponentes.pegarComponentePorHTML(elementoAlvo);
   if (
@@ -423,7 +426,7 @@ function conectarElementos(event: MouseEvent): void {
         ponto2,
         lateralPrimeiroComponente as LateralComponente,
         lateralSegundoComponente,
-        primeiroComponente,
+        primeiroComponente as ComponenteDiagrama,
         segundoComponente,
       );
       repositorioComponentes.adicionarComponente(componenteConexao);
