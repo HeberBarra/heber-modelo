@@ -31,6 +31,7 @@ export class RepositorioComponenteDiagrama {
 
     for (let i: number = 0; i < this._componentesDiagrama.length; i++) {
       if (this._componentesDiagrama[i].pegarIDElemento() === id) {
+        this._componentesDiagrama[i].htmlComponente.remove();
         novaListaComponentes = this._componentesDiagrama.slice(0, i);
 
         if (i + 1 <= this._componentesDiagrama.length - 1) {
