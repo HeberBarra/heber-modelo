@@ -21,7 +21,6 @@ import {
   modificarPropriedadeElemento,
 } from "./editor/editorPropriedades.js";
 import { colarElemento, copiarElemento, cortarElemento } from "./editor/clipboard.js";
-import { apagarElemento } from "./editor/manipularElemento.js";
 import { carregarCSS } from "./editor/carregarCSS.js";
 import { ComponenteDiagrama, LateralComponente } from "./editor/componente/componenteDiagrama.js";
 import { RepositorioComponenteDiagrama } from "./editor/componente/repositorioComponenteDiagrama.js";
@@ -489,11 +488,15 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
 
     // Apagar elemento
     case bindings.get("apagarElemento"):
-      apagarElemento(diagrama, elementoSelecionado);
-      selecionadorComponente.removerSelecao();
-      limparPropriedades(abaPropriedades);
-      elementoSelecionado = selecionadorComponente.pegarHTMLElementoSelecionado();
-      atualizarInputs(elementoSelecionado, inputs);
+      let componenteAlvo: ComponenteDiagrama | null = selecionadorComponente.componenteSelecionado;
+
+      if (componenteAlvo !== null) {
+        repositorioComponentes.removerComponente(componenteAlvo);
+        selecionadorComponente.removerSelecao();
+        elementoSelecionado = selecionadorComponente.pegarHTMLElementoSelecionado();
+        limparPropriedades(abaPropriedades);
+        atualizarInputs(elementoSelecionado, inputs);
+      }
       break;
 
     // Mover elemento
