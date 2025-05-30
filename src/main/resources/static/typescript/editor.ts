@@ -21,7 +21,7 @@ import {
   modificarPropriedadeElemento,
 } from "./editor/editorPropriedades.js";
 import { colarElemento, copiarElemento, cortarElemento } from "./editor/clipboard.js";
-import { apagarElemento, DirecoesMovimento, moverElemento } from "./editor/manipularElemento.js";
+import { apagarElemento } from "./editor/manipularElemento.js";
 import { carregarCSS } from "./editor/carregarCSS.js";
 import { ComponenteDiagrama, LateralComponente } from "./editor/componente/componenteDiagrama.js";
 import { RepositorioComponenteDiagrama } from "./editor/componente/repositorioComponenteDiagrama.js";
@@ -31,6 +31,7 @@ import { ComponenteConexao } from "./editor/componente/componenteConexao.js";
 import { FabricaComponente } from "./editor/componente/fabricaComponente.js";
 import { PropriedadeComponente } from "./editor/componente/propriedade/propriedadeComponente.js";
 import { Ponto } from "./editor/ponto.js";
+import { DirecoesMovimento, moverComponente } from "./editor/componente/manipularComponente.js";
 
 /****************************/
 /* VARIÁVEIS COMPARTILHADAS */
@@ -497,22 +498,38 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
 
     // Mover elemento
     case bindings.get("moverElementoParaCima"):
-      moverElemento(elementoSelecionado, DirecoesMovimento.CIMA, incrementoMovimentacao);
+      moverComponente(
+        selecionadorComponente.componenteSelecionado,
+        DirecoesMovimento.CIMA,
+        incrementoMovimentacao,
+      );
       selecionadorComponente.moverSetasParaComponenteSelecionado();
       break;
 
     case bindings.get("moverElementoParaBaixo"):
-      moverElemento(elementoSelecionado, DirecoesMovimento.BAIXO, incrementoMovimentacao);
+      moverComponente(
+        selecionadorComponente.componenteSelecionado,
+        DirecoesMovimento.BAIXO,
+        incrementoMovimentacao,
+      );
       selecionadorComponente.moverSetasParaComponenteSelecionado();
       break;
 
     case bindings.get("moverElementoParaDireita"):
-      moverElemento(elementoSelecionado, DirecoesMovimento.DIREITA, incrementoMovimentacao);
+      moverComponente(
+        selecionadorComponente.componenteSelecionado,
+        DirecoesMovimento.DIREITA,
+        incrementoMovimentacao,
+      );
       selecionadorComponente.moverSetasParaComponenteSelecionado();
       break;
 
     case bindings.get("moverElementoParaEsquerda"):
-      moverElemento(elementoSelecionado, DirecoesMovimento.ESQUERDA, incrementoMovimentacao);
+      moverComponente(
+        selecionadorComponente.componenteSelecionado,
+        DirecoesMovimento.ESQUERDA,
+        incrementoMovimentacao,
+      );
       selecionadorComponente.moverSetasParaComponenteSelecionado();
       break;
   }
