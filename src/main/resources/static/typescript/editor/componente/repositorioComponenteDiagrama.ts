@@ -26,6 +26,11 @@ export class RepositorioComponenteDiagrama {
     }
   }
 
+  public removerComponente(componente: ComponenteDiagrama): void {
+    let id: number = componente.pegarIDElemento();
+    this.removerComponentePorID(id);
+  }
+
   public removerComponentePorID(id: number): void {
     let novaListaComponentes: ComponenteDiagrama[] = [];
 
