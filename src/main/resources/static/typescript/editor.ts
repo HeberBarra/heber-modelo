@@ -154,6 +154,7 @@ function dragElement(event: MouseEvent): void {
 
   if (componente === null) return;
   selecionadorComponente.moverSetas(componente);
+  componente.atualizarOuvintes();
 }
 
 /**************************/
