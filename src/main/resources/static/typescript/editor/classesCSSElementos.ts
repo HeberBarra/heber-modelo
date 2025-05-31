@@ -11,4 +11,3 @@
  */
 
 export const CLASSE_ELEMENTO_SELECIONADO: string = "selected";
-export const CLASSE_PAINEL_OCULTO: string = "hidden";
