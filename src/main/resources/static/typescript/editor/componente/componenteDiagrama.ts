@@ -116,9 +116,41 @@ export class ComponenteDiagrama implements ComponenteDiagramaOuvido {
     this._ouvintes.push(ouvinte);
   }
 
+  removerOuvinte(
+    ouvinte: ComponenteDiagramaOuvinte,
+    alertar: boolean,
+  ): ComponenteDiagramaOuvinte | null {
+    let indexOuvinte: number = this._ouvintes.indexOf(ouvinte);
+
+    if (alertar) {
+      ouvinte.alertarRemovido();
+    }
+
+    if (indexOuvinte > -1) {
+      this._ouvintes.splice(indexOuvinte, 1);
+      return ouvinte;
+    }
+
+    return null;
+  }
+
   atualizarOuvintes(): void {
     this._ouvintes.forEach((ouvinte: ComponenteDiagramaOuvinte): void => {
       ouvinte.atualizar(this._htmlComponente);
     });
+  }
+
+  removerTodosOuvintes(): ComponenteDiagramaOuvinte[] {
+    let ouvintesRemovidos: ComponenteDiagramaOuvinte[] = [];
+    let ouvintesCopia: ComponenteDiagramaOuvinte[] = this._ouvintes.slice();
+    ouvintesCopia.forEach((ouvinte: ComponenteDiagramaOuvinte): void => {
+      let ouvinteRemovido: ComponenteDiagramaOuvinte | null = this.removerOuvinte(ouvinte, true);
+
+      if (ouvinteRemovido !== null) {
+        ouvintesRemovidos.push(ouvinteRemovido);
+      }
+    });
+
+    return ouvintesRemovidos;
   }
 }

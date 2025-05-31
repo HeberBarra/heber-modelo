@@ -11,4 +11,6 @@
  */
 export interface ComponenteDiagramaOuvinte {
   atualizar(htmlElemento: HTMLDivElement): void;
+  alertarRemovido(): void;
+  isDependente(): boolean;
 }

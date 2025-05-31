@@ -13,6 +13,11 @@ import { ComponenteDiagramaOuvinte } from "./componenteDiagramaOuvinte.js";
 
 export interface ComponenteDiagramaOuvido {
   adicionarOuvinte(ouvinte: ComponenteDiagramaOuvinte): void;
+  removerOuvinte(
+    ouvinte: ComponenteDiagramaOuvinte,
+    alertar: boolean,
+  ): ComponenteDiagramaOuvinte | null;
 
   atualizarOuvintes(): void;
+  removerTodosOuvintes(): ComponenteDiagramaOuvinte[];
 }
