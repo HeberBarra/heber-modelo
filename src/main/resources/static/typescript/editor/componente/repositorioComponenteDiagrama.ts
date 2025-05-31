@@ -9,7 +9,9 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-import { ComponenteDiagrama } from "./componenteDiagrama";
+import { ComponenteDiagrama } from "./componenteDiagrama.js";
+import { ComponenteDiagramaOuvinte } from "./componenteDiagramaOuvinte.js";
+import { ComponenteConexao } from "./componenteConexao.js";
 
 export class RepositorioComponenteDiagrama {
   private _componentesDiagrama: ComponenteDiagrama[] = [];
@@ -31,21 +33,32 @@ export class RepositorioComponenteDiagrama {
     this.removerComponentePorID(id);
   }
 
+  private removerComponenteArray(componente: ComponenteDiagrama): void {
+    let indexComponente: number = this._componentesDiagrama.indexOf(componente);
+
+    if (indexComponente > -1) {
+      this._componentesDiagrama.splice(indexComponente, 1);
+    }
+  }
+
   public removerComponentePorID(id: number): void {
-    let novaListaComponentes: ComponenteDiagrama[] = [];
+    let componenteAlvo: ComponenteDiagrama | null = this.pegarComponentePorID(id);
 
-    for (let i: number = 0; i < this._componentesDiagrama.length; i++) {
-      if (this._componentesDiagrama[i].pegarIDElemento() === id) {
-        this._componentesDiagrama[i].htmlComponente.remove();
-        novaListaComponentes = this._componentesDiagrama.slice(0, i);
-
-        if (i + 1 <= this._componentesDiagrama.length - 1) {
-          novaListaComponentes.concat(this._componentesDiagrama.slice(i + 1));
-        }
-      }
+    if (componenteAlvo === null) {
+      return;
     }
 
-    this._componentesDiagrama = novaListaComponentes;
+    componenteAlvo.htmlComponente.remove();
+    let componentes: ComponenteDiagramaOuvinte[] = componenteAlvo.removerTodosOuvintes();
+    this.removerComponenteArray(componenteAlvo);
+
+    componentes.forEach((componente: ComponenteDiagramaOuvinte): void => {
+      if (componente.isDependente()) {
+        if (componente instanceof ComponenteConexao) {
+          this.removerComponenteArray(componente);
+        }
+      }
+    });
   }
 
   public pegarComponentePorID(id: number): ComponenteDiagrama | null {

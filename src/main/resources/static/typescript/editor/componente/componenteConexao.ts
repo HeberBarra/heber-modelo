@@ -83,4 +83,14 @@ export class ComponenteConexao extends ComponenteDiagrama implements ComponenteD
 
     this.ajustarConexao();
   }
+
+  alertarRemovido(): void {
+    this._htmlComponente.remove();
+    this._primeiroComponente.removerOuvinte(this, false);
+    this._segundoComponente.removerOuvinte(this, false);
+  }
+
+  isDependente(): boolean {
+    return true;
+  }
 }
