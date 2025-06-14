@@ -1,0 +1,23 @@
+.elemento-atributo {
+  background-color: transparent;
+  border: none;
+  width: fit-content;
+  height: fit-content;
+  padding: 1rem;
+
+  &:hover {
+    background-color: transparent;
+  }
+
+  .marcador-atributo {
+    border: solid 0.1rem var(--cor-borda);
+    border-radius: 50%;
+    width: 1rem;
+    aspect-ratio: 1 / 1;
+    margin: 0.2rem;
+  }
+
+  .marcador-atributo.primary-key {
+    background-color: var(--cor-borda);
+  }
+}

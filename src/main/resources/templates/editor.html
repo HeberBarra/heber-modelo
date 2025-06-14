@@ -7,6 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/editor.css}" />
     <script type="module" th:src="@{/javascript/editor.js}" defer></script>
     <script type="module" th:src="@{/javascript/variaveisConfiguracao.js}"></script>
+    <script th:src="@{/javascript/callbacksElementos.js}"></script>
     <script th:inline="javascript">
       incrementoMovimentacao = Number("[(${incrementoMovimentacaoElemento})]");
     </script>
@@ -161,6 +162,9 @@ Licensed works, modifications, and larger works may be distributed under differe
         </button>
         <button class="criar-elemento" data-nome-elemento="agregacao" title="agregação">
           AGREGAÇÃO
+        </button>
+        <button class="criar-elemento" data-nome-elemento="atributo" title="atributo">
+          ATRIBUTO
         </button>
       </section>
     </aside>
