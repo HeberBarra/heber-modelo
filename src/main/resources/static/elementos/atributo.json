@@ -1,0 +1,15 @@
+{
+  "$schema": ".elemento.schema.json",
+  "valorHtmlInterno": "<div class=\"marcador-atributo\" onclick=\"callbackMarcador(event)\"></div><div contenteditable=\"true\" spellcheck=\"true\" class=\"nome\">atributo</div>",
+  "classesElemento": [
+    "elemento-atributo"
+  ],
+  "propriedades": [
+    {
+      "classeElemento": "nome",
+      "label": "nome",
+      "nomePropriedade": "innerText",
+      "sufixo": ""
+    }
+  ]
+}
