@@ -87,11 +87,25 @@ export class PropriedadeInnerText extends PropriedadeComponente {
     super("innerText", componente, sufixo, label, classeElemento);
   }
 
-  definirValorPropriedade(valor: string) {
-    this._componente.htmlComponente.innerText = `${valor}${this._sufixo}`;
+  definirValorPropriedade(valor: string): void {
+    let elemento: HTMLElement | null = this._componente.htmlComponente.querySelector(
+      this._classeElemento,
+    );
+
+    if (elemento != null) {
+      elemento.innerText = `${valor}${this._sufixo}`;
+    }
   }
 
   protected pegarValorPropriedade(): string {
-    return this._componente.htmlComponente.innerText;
+    let elemento: HTMLElement | null = this._componente.htmlComponente.querySelector(
+      this._classeElemento,
+    );
+
+    if (elemento === null) {
+      return "";
+    }
+
+    return elemento?.innerText;
   }
 }
