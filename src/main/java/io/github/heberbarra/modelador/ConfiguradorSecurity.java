@@ -11,29 +11,23 @@
  */
 package io.github.heberbarra.modelador;
 
-import io.github.heberbarra.modelador.banco.entidade.usuario.DetalhesUsuario;
+import io.github.heberbarra.modelador.logger.JavaLogger;
+import java.util.logging.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.web.PathPatternRequestMatcherBuilderFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class ConfiguradorSecurity {
 
-    private final DetalhesUsuario userDetailsService;
-
-    public ConfiguradorSecurity(DetalhesUsuario userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+    private final Logger logger = JavaLogger.obterLogger(ConfiguradorSecurity.class.getName());
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -47,16 +41,19 @@ public class ConfiguradorSecurity {
         httpSecurity.formLogin(
                 form -> form.loginPage("/login").loginProcessingUrl("/login").defaultSuccessUrl("/index", true));
 
-        httpSecurity.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")));
+        httpSecurity.logout(logout -> {
+            try {
+                logout.logoutRequestMatcher(requestMatcherBuilder().getObject().matcher("/logout"));
+            } catch (Exception e) {
+                logger.severe("Falha ao tentar criar configurador de logout. Erro: %s".formatted(e.getMessage()));
+            }
+        });
 
         return httpSecurity.build();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService);
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
-        return new ProviderManager(authenticationProvider);
+    public PathPatternRequestMatcherBuilderFactoryBean requestMatcherBuilder() {
+        return new PathPatternRequestMatcherBuilderFactoryBean();
     }
 }
