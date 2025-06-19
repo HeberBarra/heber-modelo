@@ -8,15 +8,12 @@
     <script type="module" th:src="@{/javascript/editor.js}" defer></script>
     <script type="module" th:src="@{/javascript/variaveisConfiguracao.js}"></script>
     <script th:src="@{/javascript/callbacksElementos.js}"></script>
+    <script th:src="@{/javascript/grade.js}"></script>
     <script th:inline="javascript">
       incrementoMovimentacao = Number("[(${incrementoMovimentacaoElemento})]");
+      configurarGrade("--espessura-grade", "[(${espessuraGrade})]");
+      configurarGrade("--tamanho-quadrado-grade", "[(${tamanhoQuadradoGrade})]");
     </script>
-    <style th:inline="css">
-      :root {
-        --espessura-grade: [(${espessuraGrade})];
-        --tamanho-quadrado-grade: [(${tamanhoQuadradoGrade})];
-      }
-    </style>
     <title>Editor</title>
   </head>
   <body>
