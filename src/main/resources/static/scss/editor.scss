@@ -186,6 +186,13 @@ main {
   background-color: transparent;
 }
 
+fieldset.componentes-diagrama {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  gap: 0.2rem;
+  padding: 0.5rem;
+}
+
 .componente {
   display: flex;
   background-color: var(--cor-fundo);

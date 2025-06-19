@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "nome": {
+      "type": "string"
+    },
+    "elementos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "nome": {
+            "type": "string"
+          },
+          "tipo": {
+            "type": "string"
+          }
+        },
+        "required": ["nome", "tipo"]
+      }
+    }
+  },
+  "required": ["nome", "elementos"]
+}

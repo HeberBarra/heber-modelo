@@ -30,6 +30,7 @@ import { PainelLateral } from "./editor/painelLateral.js";
 import { PropriedadeComponente } from "./editor/componente/propriedade/propriedadeComponente.js";
 import { Ponto } from "./editor/ponto.js";
 import { DirecoesMovimento, moverComponente } from "./editor/componente/manipularComponente.js";
+import { CarregadorDiagrama } from "./editor/diagrama/carregadorDiagrama.js";
 
 /****************************/
 /* VARIÁVEIS COMPARTILHADAS */
@@ -262,32 +263,6 @@ editorTamanhoFonte?.addEventListener("focusout", () => {
   atualizarValorInput(elementoSelecionado, editorTamanhoFonte, "font-size");
 });
 
-/******************************/
-/* BOTÕES CRIAR NOVO ELEMENTO */
-/******************************/
-
-let botoesCriarElemento: NodeListOf<HTMLButtonElement> =
-  document.querySelectorAll("button.criar-elemento");
-
-botoesCriarElemento.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    let nomeElemento: string | null = btn.getAttribute("data-nome-elemento");
-
-    if (nomeElemento === null) return;
-
-    fabricaComponente.criarComponente(nomeElemento).then((componente: ComponenteDiagrama): void => {
-      carregarCSS(nomeElemento);
-      registrarEventosComponente(componente.htmlComponente);
-      componente.htmlComponente.setAttribute(
-        "data-id",
-        String(geradorIDComponente.pegarProximoID()),
-      );
-      repositorioComponentes.adicionarComponente(componente);
-      diagrama?.appendChild(componente.htmlComponente);
-    });
-  });
-});
-
 /********************/
 /* CONEXÕES E SETAS */
 /********************/
@@ -422,6 +397,45 @@ function conectarElementos(event: MouseEvent): void {
 }
 
 diagrama?.addEventListener("click", limparCoordenadaInicial);
+
+/**************************/
+/* CARREGAMENTO DIAGRAMAS */
+/**************************/
+
+let carregadorDiagrama: CarregadorDiagrama = new CarregadorDiagrama();
+let sectionComponentes: HTMLElement | null = document.querySelector("#componentes");
+let inputsCarregarDiagrama: NodeListOf<HTMLInputElement> =
+  document.querySelectorAll("input.carregar-diagrama");
+
+function callbackCriarComponente(event: Event): void {
+  let btn: HTMLButtonElement = event.target as HTMLButtonElement;
+  let nomeElemento: string | null = btn.getAttribute("data-nome-elemento");
+
+  if (nomeElemento === null) {
+    return;
+  }
+
+  fabricaComponente.criarComponente(nomeElemento).then((componente: ComponenteDiagrama): void => {
+    carregarCSS(nomeElemento);
+    registrarEventosComponente(componente.htmlComponente);
+    componente.htmlComponente.setAttribute("data-id", String(geradorIDComponente.pegarProximoID()));
+    repositorioComponentes.adicionarComponente(componente);
+    diagrama?.appendChild(componente.htmlComponente);
+  });
+}
+
+inputsCarregarDiagrama.forEach((input: HTMLInputElement): void => {
+  input.addEventListener("click", (event: Event): void => {
+    let elementoAlvo: HTMLInputElement = event.target as HTMLInputElement;
+    carregadorDiagrama
+      .carregarDiagrama(elementoAlvo.value.toLowerCase(), callbackCriarComponente)
+      .then((fieldset: HTMLFieldSetElement): void => {
+        sectionComponentes?.append(fieldset);
+        // TODO: Criar maneira para remover botões
+        input.disabled = true;
+      });
+  });
+});
 
 /***********************/
 /* BINDINGS DO USUÁRIO */

@@ -1,0 +1,38 @@
+{
+  "$schema": ".diagrama.schema.json",
+  "nome": "Diagrama Entidade Relacionamento",
+  "elementos": [
+    {
+      "nome": "agregação",
+      "tipo": "agregacao"
+    },
+    {
+      "nome": "atributo der",
+      "tipo": "atributo_der"
+    },
+    {
+      "nome": "classe",
+      "tipo": "classe"
+    },
+    {
+      "nome": "entidade",
+      "tipo": "entidade"
+    },
+    {
+      "nome": "especialização",
+      "tipo": "especializacao"
+    },
+    {
+      "nome": "nota",
+      "tipo": "nota"
+    },
+    {
+      "nome": "relacionamento",
+      "tipo": "relacionamento"
+    },
+    {
+      "nome": "texto",
+      "tipo": "texto"
+    }
+  ]
+}
