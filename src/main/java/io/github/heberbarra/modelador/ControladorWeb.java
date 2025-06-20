@@ -19,6 +19,7 @@ import io.github.heberbarra.modelador.configurador.Configurador;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.configurador.LeitorConfiguracao;
 import io.github.heberbarra.modelador.configurador.WatcherPastaConfiguracao;
+import io.github.heberbarra.modelador.editor.NovoDiagramaDTO;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.token.GeradorToken;
 import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
@@ -46,6 +47,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.tomlj.TomlTable;
 
@@ -245,8 +247,10 @@ public class ControladorWeb {
         return "solicitar";
     }
 
-    @RequestMapping({"/editor", "/editor.html"})
-    public String editor(ModelMap modelMap) {
+    @RequestMapping(
+            value = {"/editor", "/editor.html"},
+            method = {RequestMethod.GET, RequestMethod.POST})
+    public String editor(ModelMap modelMap, @ModelAttribute("novoDiagramaDTO") NovoDiagramaDTO novoDiagramaDTO) {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Editor");
         injetarBindings(modelMap);
@@ -262,6 +266,7 @@ public class ControladorWeb {
         modelMap.addAttribute(
                 "incrementoMovimentacaoElemento",
                 configurador.pegarValorConfiguracao("editor", "incrementoMovimentacaoElemento", long.class));
+        modelMap.addAttribute("novoDiagramaDTO", novoDiagramaDTO);
 
         return "editor";
     }
@@ -270,6 +275,7 @@ public class ControladorWeb {
     public String novoDiagrama(ModelMap modelMap) {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Criar Novo Diagrama");
+        modelMap.addAttribute("novoDiagramaDTO", new NovoDiagramaDTO());
 
         return "novo";
     }

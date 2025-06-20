@@ -112,7 +112,7 @@ Licensed works, modifications, and larger works may be distributed under differe
           </label>
         </section>
         <section id="banco-de-dados">
-          <h2>BANCO DE DADOS</h2>
+          <h2>BANCO DE DADOS/OUTROS</h2>
           <label title="Diagrama de Entidade Relacionamento">
             <input class="carregar-diagrama" type="checkbox" value="DER" />
             <span class="traco">-</span>
@@ -169,6 +169,30 @@ Licensed works, modifications, and larger works may be distributed under differe
       </section>
     </aside>
     <main>
+      <div
+        class="info-diagrama"
+        id="nome-diagrama"
+        style="display: none"
+        th:text="${novoDiagramaDTO.getNome()}"
+      ></div>
+      <div
+        class="info-diagrama"
+        id="autor-diagrama"
+        style="display: none"
+        th:text="${novoDiagramaDTO.getAutor()}"
+      ></div>
+      <div
+        class="info-diagrama"
+        id="email-diagrama"
+        style="display: none"
+        th:text="${novoDiagramaDTO.getEmail()}"
+      ></div>
+      <div
+        class="info-diagrama"
+        id="tipos-diagrama"
+        style="display: none"
+        th:text="${novoDiagramaDTO.getTiposDiagrama()}"
+      ></div>
       <div class="seta seta-superior" style="display: none; rotate: 270deg"></div>
       <div class="seta seta-inferior" style="display: none; rotate: -270deg"></div>
       <div class="seta seta-direita" style="display: none"></div>
