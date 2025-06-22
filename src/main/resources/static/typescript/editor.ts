@@ -406,6 +406,7 @@ let carregadorDiagrama: CarregadorDiagrama = new CarregadorDiagrama();
 let sectionComponentes: HTMLElement | null = document.querySelector("#componentes");
 let inputsCarregarDiagrama: NodeListOf<HTMLInputElement> =
   document.querySelectorAll("input.carregar-diagrama");
+let tiposDiagrama: HTMLElement | null = document.querySelector("#tipos-diagrama");
 
 function callbackCriarComponente(event: Event): void {
   let btn: HTMLButtonElement = event.target as HTMLButtonElement;
@@ -423,6 +424,26 @@ function callbackCriarComponente(event: Event): void {
     diagrama?.appendChild(componente.htmlComponente);
   });
 }
+
+tiposDiagrama?.innerText
+  ?.substring(1, tiposDiagrama?.innerText.length - 1)
+  .toLowerCase()
+  .split(",")
+  .forEach((tipo: string): void => {
+    tipo = tipo.trim();
+    carregadorDiagrama
+      .carregarDiagrama(tipo, callbackCriarComponente)
+      .then((fieldset: HTMLFieldSetElement): void => {
+        sectionComponentes?.append(fieldset);
+      });
+
+    inputsCarregarDiagrama.forEach((input: HTMLInputElement): void => {
+      if (input.value.toLowerCase() === tipo) {
+        input.checked = true;
+        input.disabled = true;
+      }
+    });
+  });
 
 inputsCarregarDiagrama.forEach((input: HTMLInputElement): void => {
   input.addEventListener("click", (event: Event): void => {
