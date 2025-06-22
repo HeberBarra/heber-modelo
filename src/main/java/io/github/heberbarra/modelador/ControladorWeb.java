@@ -19,6 +19,7 @@ import io.github.heberbarra.modelador.configurador.Configurador;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.configurador.LeitorConfiguracao;
 import io.github.heberbarra.modelador.configurador.WatcherPastaConfiguracao;
+import io.github.heberbarra.modelador.editor.ListadorTiposDiagrama;
 import io.github.heberbarra.modelador.editor.NovoDiagramaDTO;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.token.GeradorToken;
@@ -267,6 +268,9 @@ public class ControladorWeb {
                 "incrementoMovimentacaoElemento",
                 configurador.pegarValorConfiguracao("editor", "incrementoMovimentacaoElemento", long.class));
         modelMap.addAttribute("novoDiagramaDTO", novoDiagramaDTO);
+        modelMap.addAttribute("diagramasUML", ListadorTiposDiagrama.pegarDiagramasUML());
+        modelMap.addAttribute("diagramasBD", ListadorTiposDiagrama.pegarDiagramasBancoDados());
+        modelMap.addAttribute("diagramasOutros", ListadorTiposDiagrama.pegarDiagramasOutros());
 
         return "editor";
     }
@@ -276,6 +280,9 @@ public class ControladorWeb {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Criar Novo Diagrama");
         modelMap.addAttribute("novoDiagramaDTO", new NovoDiagramaDTO());
+        modelMap.addAttribute("diagramasUML", ListadorTiposDiagrama.pegarDiagramasUML());
+        modelMap.addAttribute("diagramasBD", ListadorTiposDiagrama.pegarDiagramasBancoDados());
+        modelMap.addAttribute("diagramasOutros", ListadorTiposDiagrama.pegarDiagramasOutros());
 
         return "novo";
     }

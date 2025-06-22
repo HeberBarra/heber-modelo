@@ -40,108 +40,23 @@ Licensed works, modifications, and larger works may be distributed under differe
         <h2>DIAGRAMAS</h2>
         <section id="UML">
           <h2>UML</h2>
-          <label title="Diagrama de Atividades">
-            <input type="checkbox" value="DDA" />
+          <label th:each="d : ${diagramasUML}" th:title="${d.getTitulo()}">
+            <input class="carregar-diagrama" type="checkbox" th:value="${d.getValor()}" />
             <span class="traco">-</span>
-            DDA
-          </label>
-          <label title="Diagrama de Caso de Uso">
-            <input type="checkbox" value="DCU" />
-            <span class="traco">-</span>
-            DCU
-          </label>
-          <label title="Diagrama de Classes">
-            <input type="checkbox" value="DCL" />
-            <span class="traco">-</span>
-            DCL
-          </label>
-          <label title="Diagrama de Comunicação">
-            <input type="checkbox" value="DCM" />
-            <span class="traco">-</span>
-            DCM
-          </label>
-          <label title="Diagrama de Componentes">
-            <input type="checkbox" value="DCP" />
-            <span class="traco">-</span>
-            DCP
-          </label>
-          <label title="Diagrama de Estrutura Composta">
-            <input type="checkbox" value="DEC" />
-            <span class="traco">-</span>
-            DEC
-          </label>
-          <label title="Diagrama de Implantação">
-            <input type="checkbox" value="DDI" />
-            <span class="traco">-</span>
-            DDI
-          </label>
-          <label title="Diagrama de Visão Geral da Interação">
-            <input type="checkbox" value="DVI" />
-            <span class="traco">-</span>
-            DVI
-          </label>
-          <label title="Diagrama de Objetos">
-            <input type="checkbox" value="DDO" />
-            <span class="traco">-</span>
-            DDO
-          </label>
-          <label title="Diagrama de Pacotes">
-            <input type="checkbox" value="DDP" />
-            <span class="traco">-</span>
-            DDP
-          </label>
-          <label title="Diagrama de Perfil">
-            <input type="checkbox" value="DPF" />
-            <span class="traco">-</span>
-            DPF
-          </label>
-          <label title="Diagrama de Transição de Estados">
-            <input type="checkbox" value="DTE" />
-            <span class="traco">-</span>
-            DTE
-          </label>
-          <label title="Diagrama de Tempo">
-            <input type="checkbox" value="DDT" />
-            <span class="traco">-</span>
-            DDT
-          </label>
-          <label title="Diagrama de Sequência">
-            <input type="checkbox" value="DDS" />
-            <span class="traco">-</span>
-            DDS
+            <span th:text="${d.getNome()}"></span>
           </label>
         </section>
         <section id="banco-de-dados">
           <h2>BANCO DE DADOS/OUTROS</h2>
-          <label title="Diagrama de Entidade Relacionamento">
-            <input class="carregar-diagrama" type="checkbox" value="DER" />
+          <label th:each="d : ${diagramasBD}" th:title="${d.getTitulo()}">
+            <input class="carregar-diagrama" type="checkbox" th:value="${d.getValor()}" />
             <span class="traco">-</span>
-            DER
+            <span th:text="${d.getNome()}"></span>
           </label>
-          <label title="Descrição Relacional">
-            <input type="checkbox" value="DRL" />
+          <label th:each="d : ${diagramasOutros}" th:title="${d.getTitulo()}">
+            <input class="carregar-diagrama" type="checkbox" th:value="${d.getValor()}" />
             <span class="traco">-</span>
-            DRL
-          </label>
-          <label title="Modelo Relacional">
-            <input type="checkbox" value="MLR" />
-            <span class="traco">-</span>
-            MLR
-          </label>
-          <label title="Dicionário de Dados">
-            <input type="checkbox" value="DDD" />
-            <span class="traco">-</span>
-            DDD
-          </label>
-          <label title="Fluxograma">
-            <input type="checkbox" value="FLX" />
-            <span class="traco">-</span>
-            FLX
-          </label>
-          <label title="Organograma">
-            <input type="checkbox" value="ORG" />
-            <span class="traco">-</span>
-            ORG
+            <span th:text="${d.getNome()}"></span>
           </label>
         </section>
       </section>
