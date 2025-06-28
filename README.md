@@ -3,7 +3,6 @@
     Heber Modelo
 </h1>
 
-![GitHub actions status](https://img.shields.io/github/actions/workflow/status/HeberBarra/heber-modelo/ci.yml?branch=main&logo=github&label=Build)
 ![GitHub Latest release](https://img.shields.io/github/v/release/HeberBarra/heber-modelo?logo=github&label=Release)
 ![Project license](https://img.shields.io/github/license/HeberBarra/heber-modelo?logo=github&label=License)
 ![Project Top Language](https://img.shields.io/github/languages/top/HeberBarra/heber-modelo?logo=openjdk&label=Java)
