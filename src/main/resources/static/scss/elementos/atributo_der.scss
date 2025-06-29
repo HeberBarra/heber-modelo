@@ -3,10 +3,14 @@
   border: none;
   width: fit-content;
   height: fit-content;
-  padding: 1rem 1rem 1rem 0;
+  padding: 1rem 0;
 
   &:hover {
     background-color: transparent;
+  }
+
+  .nome {
+    margin: 0.2rem;
   }
 
   .marcador-atributo {
@@ -14,7 +18,7 @@
     border-radius: 50%;
     width: 1rem;
     aspect-ratio: 1 / 1;
-    margin: 0.2rem 0.2rem 0.2rem 0;
+    margin: 0.2rem 0;
   }
 
   .marcador-atributo.primary-key {
