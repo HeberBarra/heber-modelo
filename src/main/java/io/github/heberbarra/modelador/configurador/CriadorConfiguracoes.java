@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -11,13 +11,13 @@
  */
 package io.github.heberbarra.modelador.configurador;
 
-import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.json.AtributoJsonConfiguracao;
 import io.github.heberbarra.modelador.configurador.json.AtributoJsonPaleta;
 import io.github.heberbarra.modelador.configurador.json.JsonVerificadorConfiguracoes;
 import io.github.heberbarra.modelador.configurador.json.JsonVerificadorPaleta;
-import io.github.heberbarra.modelador.configurador.toml.ConversorToml;
 import io.github.heberbarra.modelador.configurador.toml.ConversorTomlPrograma;
+import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
+import io.github.heberbarra.modelador.infrastructure.conversor.IConversorTOMLString;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.io.BufferedWriter;
@@ -39,7 +39,7 @@ import java.util.logging.Logger;
 public class CriadorConfiguracoes {
 
     private static final Logger logger = JavaLogger.obterLogger(CriadorConfiguracoes.class.getName());
-    private final ConversorToml conversorToml;
+    private final IConversorTOMLString conversorToml;
     private final Map<String, List<Map<String, String>>> configuracaoPadrao;
     private final Map<String, List<Map<String, String>>> paletaPadrao;
 
@@ -100,7 +100,7 @@ public class CriadorConfiguracoes {
      * @see CriadorConfiguracoes#sobrescreverArquivoConfiguracoes(String, String, String)
      */
     public void criarArquivoConfiguracoes(String pastaConfiguracao, String arquivoConfiguracoes) {
-        String dadosToml = conversorToml.converterMapConfiguracaoParaStringToml(configuracaoPadrao);
+        String dadosToml = conversorToml.converterMapConfiguracaoParaStringTOML(configuracaoPadrao);
         criarArquivo(dadosToml, pastaConfiguracao + "/" + arquivoConfiguracoes);
     }
 
@@ -112,7 +112,7 @@ public class CriadorConfiguracoes {
      * @see CriadorConfiguracoes#sobrescreverArquivoPaleta(String, String, String)
      */
     public void criarArquivoPaleta(String pastaConfiguracao, String arquivoPaleta) {
-        String dadosToml = conversorToml.converterMapPaletaParaStringToml(paletaPadrao);
+        String dadosToml = conversorToml.converterMapPaletaParaStringTOML(paletaPadrao);
         criarArquivo(dadosToml, pastaConfiguracao + "/" + arquivoPaleta);
     }
 

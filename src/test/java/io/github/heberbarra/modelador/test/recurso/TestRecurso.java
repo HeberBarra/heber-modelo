@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -11,9 +11,9 @@
  */
 package io.github.heberbarra.modelador.test.recurso;
 
+import io.github.heberbarra.modelador.infrastructure.acessador.IAcessadorRecurso;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.recurso.AcessadorRecursos;
-import io.github.heberbarra.modelador.recurso.Recurso;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +28,7 @@ public class TestRecurso {
 
     @Test
     protected void testPegarInputStreamRecurso() {
-        Recurso recurso = new AcessadorRecursos();
+        IAcessadorRecurso recurso = new AcessadorRecursos();
 
         try (InputStream streamRecurso = recurso.pegarRecurso("recursos/TestRecurso.txt")) {
             assert streamRecurso != null;
@@ -39,7 +39,7 @@ public class TestRecurso {
 
     @Test
     protected void testPegarFileRecurso() {
-        Recurso recurso = new AcessadorRecursos();
+        IAcessadorRecurso recurso = new AcessadorRecursos();
         File arquivoRecurso = recurso.pegarArquivoRecurso("recursos/TestRecurso.txt");
 
         assert arquivoRecurso != null;
@@ -47,7 +47,7 @@ public class TestRecurso {
 
     @Test
     protected void testPathRecurso() {
-        Recurso recurso = new AcessadorRecursos();
+        IAcessadorRecurso recurso = new AcessadorRecursos();
         Path pathRecurso = recurso.pegarCaminhoRecurso("recursos/TestRecurso.txt");
 
         assert pathRecurso != null;
@@ -55,7 +55,7 @@ public class TestRecurso {
 
     @Test
     protected void testLerRecurso() {
-        Recurso recurso = new AcessadorRecursos();
+        IAcessadorRecurso recurso = new AcessadorRecursos();
         String textoArquivoEsperado = "Hello, World!";
 
         try (InputStream recursoStream = recurso.pegarRecurso("recursos/TestRecurso.txt")) {

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -11,9 +11,10 @@
  */
 package io.github.heberbarra.modelador.configurador;
 
-import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
-import io.github.heberbarra.modelador.configurador.toml.ConversorToml;
 import io.github.heberbarra.modelador.configurador.toml.ConversorTomlPrograma;
+import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
+import io.github.heberbarra.modelador.domain.configuracao.IConfigurador;
+import io.github.heberbarra.modelador.infrastructure.conversor.IConversorTOMLString;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.util.List;
@@ -27,13 +28,13 @@ import java.util.logging.Logger;
  *
  * @since v0.0.1-SNAPSHOT
  */
-public final class ConfiguradorPrograma implements Configurador {
+public final class ConfiguradorPrograma implements IConfigurador {
 
     public static final String ARQUIVO_PALETA = "paleta.toml";
     public static final String ARQUIVO_CONFIGURACOES = "config.toml";
     private static final Logger logger = JavaLogger.obterLogger(ConfiguradorPrograma.class.getName());
     private static volatile ConfiguradorPrograma configurador;
-    private final ConversorToml conversorToml;
+    private final IConversorTOMLString conversorToml;
     private final PastaConfiguracaoPrograma pastaConfiguracao;
     private final CriadorConfiguracoes criadorConfiguracoes;
     private final VerificadorConfiguracaoPrograma verificadorConfiguracao;
@@ -68,9 +69,9 @@ public final class ConfiguradorPrograma implements Configurador {
     public void lerConfiguracaoPadrao() {
         verificadorConfiguracao.lerArquivosTemplate();
         criadorConfiguracoes.pegarConfiguracaoPadrao(
-                verificadorConfiguracao.getLeitorConfiguracoes().getInformacoesJson());
+                verificadorConfiguracao.getLeitorConfiguracoes().getInformacoesJSON());
         criadorConfiguracoes.pegarPaletaPadrao(
-                verificadorConfiguracao.getLeitorPaleta().getInformacoesJson());
+                verificadorConfiguracao.getLeitorPaleta().getInformacoesJSON());
     }
 
     /**
@@ -145,8 +146,8 @@ public final class ConfiguradorPrograma implements Configurador {
                 "nomeVariavel",
                 "valorPadraoVariavel");
 
-        String dadosConfiguracoesToml = conversorToml.converterMapConfiguracaoParaStringToml(dadosConfiguracoes);
-        String dadosPaletaToml = conversorToml.converterMapPaletaParaStringToml(dadosPaleta);
+        String dadosConfiguracoesToml = conversorToml.converterMapConfiguracaoParaStringTOML(dadosConfiguracoes);
+        String dadosPaletaToml = conversorToml.converterMapPaletaParaStringTOML(dadosPaleta);
 
         criadorConfiguracoes.sobrescreverArquivoConfiguracoes(
                 pastaConfiguracao.getPasta(), ARQUIVO_CONFIGURACOES, dadosConfiguracoesToml);

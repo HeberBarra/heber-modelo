@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -13,8 +13,9 @@ package io.github.heberbarra.modelador.recurso;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import io.github.cdimascio.dotenv.DotenvBuilder;
-import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.PastaConfiguracaoPrograma;
+import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
+import io.github.heberbarra.modelador.infrastructure.acessador.IAcessadorRecurso;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.io.File;
@@ -25,7 +26,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.logging.Logger;
 
-public class AcessadorRecursos implements Recurso {
+public class AcessadorRecursos implements IAcessadorRecurso {
 
     private static final Logger logger = JavaLogger.obterLogger(AcessadorRecursos.class.getName());
     private Dotenv dotenv;

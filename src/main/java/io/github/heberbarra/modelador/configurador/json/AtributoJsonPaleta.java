@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -11,10 +11,11 @@
  */
 package io.github.heberbarra.modelador.configurador.json;
 
+import io.github.heberbarra.modelador.domain.model.json.AtributoJSON;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class AtributoJsonPaleta extends AtributoJson {
+public class AtributoJsonPaleta extends AtributoJSON {
 
     private String nomeVariavel;
     private String valorPadraoVariavel;

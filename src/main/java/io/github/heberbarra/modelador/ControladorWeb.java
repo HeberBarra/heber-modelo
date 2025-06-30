@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -14,11 +14,11 @@ package io.github.heberbarra.modelador;
 import io.github.heberbarra.modelador.banco.entidade.usuario.IUsuarioServices;
 import io.github.heberbarra.modelador.banco.entidade.usuario.Usuario;
 import io.github.heberbarra.modelador.banco.entidade.usuario.UsuarioDTO;
-import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
-import io.github.heberbarra.modelador.configurador.Configurador;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.configurador.LeitorConfiguracao;
 import io.github.heberbarra.modelador.configurador.WatcherPastaConfiguracao;
+import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
+import io.github.heberbarra.modelador.domain.configuracao.IConfigurador;
 import io.github.heberbarra.modelador.editor.ListadorTiposDiagrama;
 import io.github.heberbarra.modelador.editor.NovoDiagramaDTO;
 import io.github.heberbarra.modelador.logger.JavaLogger;
@@ -60,7 +60,7 @@ public class ControladorWeb {
 
     private static final Logger logger = JavaLogger.obterLogger(ControladorWeb.class.getName());
     private static final String TOKEN_SECRETO;
-    private static final Configurador configurador;
+    private static final IConfigurador configurador;
     private final TaskExecutor taskExecutor;
     private final IUsuarioServices usuarioServices;
 

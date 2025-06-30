@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -12,8 +12,8 @@
 package io.github.heberbarra.modelador.test.configurador;
 
 import io.github.heberbarra.modelador.configurador.CombinadorConfiguracoes;
-import io.github.heberbarra.modelador.configurador.toml.ConversorToml;
 import io.github.heberbarra.modelador.configurador.toml.ConversorTomlPrograma;
+import io.github.heberbarra.modelador.infrastructure.conversor.IConversorTOMLString;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +28,7 @@ public class TestCombinadorConfiguracoes {
     @Test
     protected void testCombinarConfiguracoes() {
         CombinadorConfiguracoes combinadorConfiguracoes = new CombinadorConfiguracoes();
-        ConversorToml conversorToml = new ConversorTomlPrograma();
+        IConversorTOMLString conversorToml = new ConversorTomlPrograma();
         String nomeAtributo = "atributo";
         String nomeValor = "valorPadrao";
         String chaveTipo = "tipo";
@@ -46,7 +46,7 @@ public class TestCombinadorConfiguracoes {
         Map<String, List<Map<String, String>>> mapConfiguracoesUsuario =
                 criarMapConfiguracoesUsuario(nomeAtributo, nomeValor, chaveTipo);
 
-        String configuracoesUsuario = conversorToml.converterMapConfiguracaoParaStringToml(mapConfiguracoesUsuario);
+        String configuracoesUsuario = conversorToml.converterMapConfiguracaoParaStringTOML(mapConfiguracoesUsuario);
         TomlTable tomlConfiguracoes = Toml.parse(configuracoesUsuario);
         Map<String, List<Map<String, String>>> resultadoCombinacao = combinadorConfiguracoes.combinarConfiguracoes(
                 configuracoesPadrao, tomlConfiguracoes, nomeAtributo, nomeValor);
@@ -102,7 +102,7 @@ public class TestCombinadorConfiguracoes {
     @Test
     protected void testCombinarPaletas() {
         CombinadorConfiguracoes combinadorConfiguracoes = new CombinadorConfiguracoes();
-        ConversorToml conversorToml = new ConversorTomlPrograma();
+        IConversorTOMLString conversorToml = new ConversorTomlPrograma();
         String nomeAtributo = "nomeVariavel";
         String nomeValor = "valorPadraoVariavel";
 
@@ -122,7 +122,7 @@ public class TestCombinadorConfiguracoes {
 
         Map<String, List<Map<String, String>>> mapPaletaUsuario =
                 Map.of("paleta", List.of(Map.of("cor_teste_3", "#222222")));
-        String paletaUsuario = conversorToml.converterMapPaletaParaStringToml(mapPaletaUsuario);
+        String paletaUsuario = conversorToml.converterMapPaletaParaStringTOML(mapPaletaUsuario);
         TomlTable tomlPaleta = Toml.parse(paletaUsuario);
 
         Map<String, List<Map<String, String>>> resultadoCombinacao =

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -12,6 +12,7 @@
 package io.github.heberbarra.modelador.configurador;
 
 import io.github.heberbarra.modelador.Principal;
+import io.github.heberbarra.modelador.domain.configuracao.IPastaConfiguracao;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.recurso.AcessadorRecursos;
 import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
@@ -33,14 +34,13 @@ import java.util.logging.Logger;
  *
  * @since v0.0.1-SNAPSHOT
  */
-public class PastaConfiguracaoPrograma extends PastaConfiguracao {
+public class PastaConfiguracaoPrograma implements IPastaConfiguracao {
 
     private static final Logger logger = JavaLogger.obterLogger(PastaConfiguracaoPrograma.class.getName());
     private final String pasta = decidirPastaConfiguracao();
     private final AcessadorRecursos acessadorRecursos;
 
     public PastaConfiguracaoPrograma() {
-        super();
         acessadorRecursos = new AcessadorRecursos();
     }
 

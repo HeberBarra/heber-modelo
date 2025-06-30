@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -13,8 +13,9 @@ package io.github.heberbarra.modelador.atualizador;
 
 import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.calculadorhash.CalculadorHash;
-import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
+import io.github.heberbarra.modelador.domain.atualizador.IAtualizador;
+import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.io.BufferedReader;
@@ -39,7 +40,7 @@ import java.util.logging.Logger;
  *
  * @since v0.0.3-SNAPSHOT
  */
-public class AtualizadorPrograma implements Atualizador {
+public class AtualizadorPrograma implements IAtualizador {
 
     public static final URL URL_ARQUIVO_JAR;
     public static final URL URL_ARQUIVO_SHA256;
@@ -83,7 +84,8 @@ public class AtualizadorPrograma implements Atualizador {
      *
      * @return {@code true} caso haja uma atualização disponível.
      */
-    public boolean verificarAtualizacao() {
+    @Override
+    public boolean verificarAtualizacaoDisponivel() {
         return comparadorVersao.compararVersoes() == ComparadorVersao.MAIOR;
     }
 
@@ -91,7 +93,7 @@ public class AtualizadorPrograma implements Atualizador {
      * Atualiza automaticamente o programa caso as atualizações automáticas estejam habilitadas na configuração do programa.
      */
     public void atualizar() {
-        if (!verificarAtualizacao()) {
+        if (!verificarAtualizacaoDisponivel()) {
             return;
         }
 
