@@ -8,3 +8,10 @@ const callbackMarcador = (event: Event): void => {
     elementoAlvo.classList.add(classeChavePrimaria);
   }
 };
+
+const callbackInverterAtributo = (event: MouseEvent): void => {
+  if (event.button == 1) {
+    let elementoAlvo: HTMLElement = (event.target as HTMLElement).parentElement as HTMLElement;
+    elementoAlvo.append(...Array.from(elementoAlvo.childNodes).reverse());
+  }
+};

@@ -1,0 +1,12 @@
+.elemento-texto {
+  border: none;
+  background-color: transparent;
+  width: fit-content;
+  height: fit-content;
+  padding: 1rem;
+
+  &:hover {
+    border: none;
+    background-color: transparent;
+  }
+}

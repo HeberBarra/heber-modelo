@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -11,6 +11,7 @@
  */
 package io.github.heberbarra.modelador.configurador.toml;
 
+import io.github.heberbarra.modelador.infrastructure.conversor.IConversorTOMLString;
 import java.util.List;
 import java.util.Map;
 
@@ -19,10 +20,12 @@ import java.util.Map;
  *
  * @since v0.0.1-SNAPSHOT
  */
-public class ConversorTomlPrograma implements ConversorToml {
+public class ConversorTomlPrograma implements IConversorTOMLString {
+
+    public static int INDENTACAO = 2;
 
     @Override
-    public String converterMapPaletaParaStringToml(Map<String, List<Map<String, String>>> dados) {
+    public String converterMapPaletaParaStringTOML(Map<String, List<Map<String, String>>> dados) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("[paleta]\n");
 
@@ -35,7 +38,7 @@ public class ConversorTomlPrograma implements ConversorToml {
     }
 
     @Override
-    public String converterMapConfiguracaoParaStringToml(Map<String, List<Map<String, String>>> dados) {
+    public String converterMapConfiguracaoParaStringTOML(Map<String, List<Map<String, String>>> dados) {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (String categoria : dados.keySet()) {

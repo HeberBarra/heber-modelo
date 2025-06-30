@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -14,11 +14,13 @@ package io.github.heberbarra.modelador;
 import io.github.heberbarra.modelador.banco.entidade.usuario.IUsuarioServices;
 import io.github.heberbarra.modelador.banco.entidade.usuario.Usuario;
 import io.github.heberbarra.modelador.banco.entidade.usuario.UsuarioDTO;
-import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
-import io.github.heberbarra.modelador.configurador.Configurador;
 import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.configurador.LeitorConfiguracao;
 import io.github.heberbarra.modelador.configurador.WatcherPastaConfiguracao;
+import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
+import io.github.heberbarra.modelador.domain.configuracao.IConfigurador;
+import io.github.heberbarra.modelador.editor.ListadorTiposDiagrama;
+import io.github.heberbarra.modelador.editor.NovoDiagramaDTO;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.token.GeradorToken;
 import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
@@ -46,6 +48,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.tomlj.TomlTable;
 
@@ -57,7 +60,7 @@ public class ControladorWeb {
 
     private static final Logger logger = JavaLogger.obterLogger(ControladorWeb.class.getName());
     private static final String TOKEN_SECRETO;
-    private static final Configurador configurador;
+    private static final IConfigurador configurador;
     private final TaskExecutor taskExecutor;
     private final IUsuarioServices usuarioServices;
 
@@ -245,8 +248,10 @@ public class ControladorWeb {
         return "solicitar";
     }
 
-    @RequestMapping({"/editor", "/editor.html"})
-    public String editor(ModelMap modelMap) {
+    @RequestMapping(
+            value = {"/editor", "/editor.html"},
+            method = {RequestMethod.GET, RequestMethod.POST})
+    public String editor(ModelMap modelMap, @ModelAttribute("novoDiagramaDTO") NovoDiagramaDTO novoDiagramaDTO) {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Editor");
         injetarBindings(modelMap);
@@ -262,6 +267,10 @@ public class ControladorWeb {
         modelMap.addAttribute(
                 "incrementoMovimentacaoElemento",
                 configurador.pegarValorConfiguracao("editor", "incrementoMovimentacaoElemento", long.class));
+        modelMap.addAttribute("novoDiagramaDTO", novoDiagramaDTO);
+        modelMap.addAttribute("diagramasUML", ListadorTiposDiagrama.pegarDiagramasUML());
+        modelMap.addAttribute("diagramasBD", ListadorTiposDiagrama.pegarDiagramasBancoDados());
+        modelMap.addAttribute("diagramasOutros", ListadorTiposDiagrama.pegarDiagramasOutros());
 
         return "editor";
     }
@@ -270,6 +279,10 @@ public class ControladorWeb {
     public String novoDiagrama(ModelMap modelMap) {
         injetarPaleta(modelMap);
         injetarNomePrograma(modelMap, " - Criar Novo Diagrama");
+        modelMap.addAttribute("novoDiagramaDTO", new NovoDiagramaDTO());
+        modelMap.addAttribute("diagramasUML", ListadorTiposDiagrama.pegarDiagramasUML());
+        modelMap.addAttribute("diagramasBD", ListadorTiposDiagrama.pegarDiagramasBancoDados());
+        modelMap.addAttribute("diagramasOutros", ListadorTiposDiagrama.pegarDiagramasOutros());
 
         return "novo";
     }

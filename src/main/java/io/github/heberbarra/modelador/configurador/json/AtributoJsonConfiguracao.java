@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -12,11 +12,12 @@
 package io.github.heberbarra.modelador.configurador.json;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import io.github.heberbarra.modelador.domain.model.json.AtributoJSON;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @JsonPropertyOrder({"categoria", "atributo", "tipo", "valorPadrao"})
-public class AtributoJsonConfiguracao extends AtributoJson {
+public class AtributoJsonConfiguracao extends AtributoJSON {
 
     private String categoria;
     private String atributo;

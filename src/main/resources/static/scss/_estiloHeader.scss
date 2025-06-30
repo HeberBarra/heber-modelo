@@ -34,7 +34,19 @@ header {
   button {
     grid-column: 1;
     max-height: 80%;
-    max-width: 80%;
+    aspect-ratio: 1 / 1;
+
+    a {
+      color: var(--cor-botao);
+    }
+
+    a:hover {
+      color: var(--cor-botao-hover);
+    }
+
+    .svg-cor-fonte {
+      color: var(--cor-letra);
+    }
   }
 
   h1 {

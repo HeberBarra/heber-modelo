@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -24,6 +24,7 @@ public class TestGeradorToken {
         String primeiroToken = geradorToken.getToken();
         String segundoToken = geradorToken.getToken();
 
+        //noinspection ConstantValue
         assert primeiroToken.equals(segundoToken);
     }
 

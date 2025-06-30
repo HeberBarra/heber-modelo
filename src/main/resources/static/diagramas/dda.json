@@ -1,0 +1,10 @@
+{
+  "$schema": ".diagrama.schema.json",
+  "nome": "Diagrama de Atividades",
+  "elementos": [
+    {
+      "nome": "nota",
+      "tipo": "nota"
+    }
+  ]
+}

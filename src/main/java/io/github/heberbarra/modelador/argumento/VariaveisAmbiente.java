@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -11,7 +11,8 @@
  */
 package io.github.heberbarra.modelador.argumento;
 
-import io.github.heberbarra.modelador.codigosaida.CodigoSaida;
+import io.github.heberbarra.modelador.domain.argumento.Argumento;
+import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
 import java.util.List;
 
 public class VariaveisAmbiente extends Argumento {

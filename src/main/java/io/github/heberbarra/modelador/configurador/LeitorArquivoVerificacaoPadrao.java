@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -12,7 +12,8 @@
 package io.github.heberbarra.modelador.configurador;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.heberbarra.modelador.configurador.json.JsonVerificador;
+import io.github.heberbarra.modelador.domain.configuracao.LeitorAbstratoArquivoVerificador;
+import io.github.heberbarra.modelador.domain.verificador.VerificadorAbstratoJSONAtributo;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
 import java.io.File;
@@ -24,7 +25,8 @@ import java.util.logging.Logger;
  *
  * @since v0.0.2-SNAPSHOT
  */
-public class LeitorArquivoVerificacaoPadrao<T extends JsonVerificador<?>> extends LeitorArquivoVerificacao<T> {
+public class LeitorArquivoVerificacaoPadrao<T extends VerificadorAbstratoJSONAtributo<?>>
+        extends LeitorAbstratoArquivoVerificador<T> {
 
     private static final Logger logger = JavaLogger.obterLogger(LeitorArquivoVerificacaoPadrao.class.getName());
 
@@ -37,7 +39,7 @@ public class LeitorArquivoVerificacaoPadrao<T extends JsonVerificador<?>> extend
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            informacoesJson = objectMapper.readValue(arquivoVerificador, tipoVerificador);
+            informacoesJSON = objectMapper.readValue(arquivoVerificador, tipoVerificador);
         } catch (IOException e) {
             logger.severe(TradutorWrapper.tradutor
                     .traduzirMensagem("error.file.read.template")

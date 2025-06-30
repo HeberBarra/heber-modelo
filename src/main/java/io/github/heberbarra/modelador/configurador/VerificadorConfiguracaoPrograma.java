@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis, Matheus Jun Alves Matuda.
  * <p>
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -13,6 +13,8 @@ package io.github.heberbarra.modelador.configurador;
 
 import io.github.heberbarra.modelador.configurador.json.JsonVerificadorConfiguracoes;
 import io.github.heberbarra.modelador.configurador.json.JsonVerificadorPaleta;
+import io.github.heberbarra.modelador.domain.configuracao.IVerificadorConfiguracao;
+import io.github.heberbarra.modelador.domain.configuracao.LeitorAbstratoArquivoVerificador;
 import io.github.heberbarra.modelador.logger.JavaLogger;
 import io.github.heberbarra.modelador.recurso.AcessadorRecursos;
 import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
@@ -28,10 +30,10 @@ import org.tomlj.TomlTable;
  *
  * @since v0.0.2-SNAPSHOT
  */
-public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao {
+public class VerificadorConfiguracaoPrograma implements IVerificadorConfiguracao {
 
     private static final Logger logger = JavaLogger.obterLogger(VerificadorConfiguracaoPrograma.class.getName());
-    private final List<LeitorArquivoVerificacao<?>> leitores;
+    private final List<LeitorAbstratoArquivoVerificador<?>> leitores;
     private boolean configuracaoErrada;
 
     public VerificadorConfiguracaoPrograma() {
@@ -51,7 +53,7 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
      * @see LeitorArquivoVerificacaoPadrao
      */
     public void lerArquivosTemplate() {
-        leitores.forEach(LeitorArquivoVerificacao::lerArquivo);
+        leitores.forEach(LeitorAbstratoArquivoVerificador::lerArquivo);
     }
 
     @Override
@@ -60,7 +62,7 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
     }
 
     @Override
-    public void registrarLeitor(LeitorArquivoVerificacao leitorArquivoVerificacao) {
+    public void registrarLeitor(LeitorAbstratoArquivoVerificador<?> leitorArquivoVerificacao) {
         leitores.add(leitorArquivoVerificacao);
     }
 
@@ -70,7 +72,7 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
      * @see LeitorArquivoVerificacaoPadrao
      */
     public void mostrarInformacoes() {
-        leitores.forEach(leitor -> System.out.println(leitor.getInformacoesJson()));
+        leitores.forEach(leitor -> System.out.println(leitor.getInformacoesJSON()));
     }
 
     @SuppressWarnings("unchecked")
@@ -209,7 +211,7 @@ public class VerificadorConfiguracaoPrograma implements VerificadorConfiguracao 
         configuracaoErrada = true;
     }
 
-    public List<LeitorArquivoVerificacao<?>> getLeitores() {
+    public List<LeitorAbstratoArquivoVerificador<?>> getLeitores() {
         return leitores;
     }
 }
