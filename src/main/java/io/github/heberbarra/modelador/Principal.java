@@ -11,15 +11,16 @@
  */
 package io.github.heberbarra.modelador;
 
-import io.github.heberbarra.modelador.argumento.executador.ExecutadorArgumentos;
-import io.github.heberbarra.modelador.atualizador.AtualizadorPrograma;
-import io.github.heberbarra.modelador.banco.UsuarioBanco;
-import io.github.heberbarra.modelador.configurador.ConfiguradorPrograma;
-import io.github.heberbarra.modelador.configurador.PastaConfiguracaoPrograma;
-import io.github.heberbarra.modelador.logger.JavaLogger;
-import io.github.heberbarra.modelador.recurso.AcessadorRecursos;
-import io.github.heberbarra.modelador.tradutor.SeletorLinguagem;
-import io.github.heberbarra.modelador.tradutor.TradutorWrapper;
+import io.github.heberbarra.modelador.application.logging.JavaLogger;
+import io.github.heberbarra.modelador.application.tradutor.SeletorLinguagem;
+import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
+import io.github.heberbarra.modelador.application.usecase.executar.ExecutadorArgumentos;
+import io.github.heberbarra.modelador.infrastructure.acessador.AcessadorRecursos;
+import io.github.heberbarra.modelador.infrastructure.atualizador.AtualizadorPrograma;
+import io.github.heberbarra.modelador.infrastructure.configuracao.ConfiguradorPrograma;
+import io.github.heberbarra.modelador.infrastructure.configuracao.PastaConfiguracaoPrograma;
+import io.github.heberbarra.modelador.infrastructure.controller.ControladorWeb;
+import io.github.heberbarra.modelador.infrastructure.security.UsuarioBanco;
 import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
