@@ -11,9 +11,9 @@
  */
 package io.github.heberbarra.modelador.test.recurso;
 
+import io.github.heberbarra.modelador.application.logging.JavaLogger;
+import io.github.heberbarra.modelador.infrastructure.acessador.AcessadorRecursos;
 import io.github.heberbarra.modelador.infrastructure.acessador.IAcessadorRecurso;
-import io.github.heberbarra.modelador.logger.JavaLogger;
-import io.github.heberbarra.modelador.recurso.AcessadorRecursos;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
