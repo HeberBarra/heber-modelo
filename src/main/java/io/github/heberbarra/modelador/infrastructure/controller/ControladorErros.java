@@ -11,6 +11,7 @@
  */
 package io.github.heberbarra.modelador.infrastructure.controller;
 
+import io.github.heberbarra.modelador.ControladorWeb;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.web.servlet.error.ErrorController;

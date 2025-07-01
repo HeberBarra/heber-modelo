@@ -9,9 +9,8 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-package io.github.heberbarra.modelador.infrastructure.controller;
+package io.github.heberbarra.modelador;
 
-import io.github.heberbarra.modelador.Principal;
 import io.github.heberbarra.modelador.application.diagrama.ListadorTiposDiagrama;
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;

@@ -19,7 +19,6 @@ import io.github.heberbarra.modelador.infrastructure.acessador.AcessadorRecursos
 import io.github.heberbarra.modelador.infrastructure.atualizador.AtualizadorPrograma;
 import io.github.heberbarra.modelador.infrastructure.configuracao.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.infrastructure.configuracao.PastaConfiguracaoPrograma;
-import io.github.heberbarra.modelador.infrastructure.controller.ControladorWeb;
 import io.github.heberbarra.modelador.infrastructure.security.UsuarioBanco;
 import java.io.File;
 import java.io.IOException;
