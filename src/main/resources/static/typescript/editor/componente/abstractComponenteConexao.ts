@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  *
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -10,20 +10,23 @@
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
 import { ComponenteDiagrama, LateralComponente } from "./componenteDiagrama.js";
+import { Ponto } from "../ponto.js";
 import { PropriedadeComponente } from "./propriedade/propriedadeComponente.js";
 import { ComponenteDiagramaOuvinte } from "./componenteDiagramaOuvinte.js";
-import { Ponto } from "../ponto.js";
 
-export class ComponenteConexao extends ComponenteDiagrama implements ComponenteDiagramaOuvinte {
-  private _ponto1: Ponto;
-  private _ponto2: Ponto;
-  private readonly _lateralPrimeiroPonto: LateralComponente;
-  private readonly _lateralSegundoPonto: LateralComponente;
-  private readonly _primeiroComponente: ComponenteDiagrama;
-  private readonly _segundoComponente: ComponenteDiagrama;
+export abstract class AbstractComponenteConexao
+  extends ComponenteDiagrama
+  implements ComponenteDiagramaOuvinte
+{
+  protected _ponto1: Ponto;
+  protected _ponto2: Ponto;
+  protected readonly _lateralPrimeiroPonto: LateralComponente;
+  protected readonly _lateralSegundoPonto: LateralComponente;
+  protected readonly _primeiroComponente: ComponenteDiagrama;
+  protected readonly _segundoComponente: ComponenteDiagrama;
 
   constructor(
-    htmlConexao: HTMLDivElement,
+    htmlComponente: HTMLDivElement,
     propriedades: PropriedadeComponente[],
     ponto1: Ponto,
     ponto2: Ponto,
@@ -32,7 +35,7 @@ export class ComponenteConexao extends ComponenteDiagrama implements ComponenteD
     primeiroComponente: ComponenteDiagrama,
     segundoComponente: ComponenteDiagrama,
   ) {
-    super(htmlConexao, propriedades);
+    super(htmlComponente, propriedades);
     this._ponto1 = ponto1;
     this._ponto2 = ponto2;
     this._lateralPrimeiroPonto = lateralPrimeiroPonto;
@@ -42,45 +45,23 @@ export class ComponenteConexao extends ComponenteDiagrama implements ComponenteD
     this._primeiroComponente.adicionarOuvinte(this);
     this._segundoComponente.adicionarOuvinte(this);
     this._recebeSetas = false;
-
     this.ajustarConexao();
   }
 
-  private ajustarConexao(): void {
-    let angulo: number = this.calcularAnguloConexao();
-    let distancia: number = this.calcularDistanciaConexao();
-
-    this._htmlComponente.style.width = `${distancia}px`;
-    this._htmlComponente.style.rotate = `${angulo}rad`;
-    this._htmlComponente.style.top = `${this._ponto1.y}px`;
-    this._htmlComponente.style.left = `${this._ponto1.x}px`;
-  }
-
-  private calcularAnguloConexao(): number {
-    let deltaX: number = this._ponto2.x - this._ponto1.x;
-    let deltaY: number = this._ponto2.y - this._ponto1.y;
-
-    return Math.atan2(deltaY, deltaX);
-  }
-
-  private calcularDistanciaConexao(): number {
-    let deltaX: number = this._ponto2.x - this._ponto1.x;
-    let deltaY: number = this._ponto2.y - this._ponto1.y;
-
-    return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-  }
+  protected abstract ajustarConexao(): void;
 
   atualizar(htmlElemento: HTMLDivElement): void {
-    let ponto: number[];
-
     if (this._primeiroComponente.htmlComponente === htmlElemento) {
-      ponto = this._primeiroComponente.calcularPontoLateralComponente(this._lateralPrimeiroPonto);
+      let ponto: number[] = this._primeiroComponente.calcularPontoLateralComponente(
+        this._lateralPrimeiroPonto,
+      );
       this._ponto1 = new Ponto(ponto[0], ponto[1]);
     } else {
-      ponto = this._segundoComponente.calcularPontoLateralComponente(this._lateralSegundoPonto);
+      let ponto: number[] = this._segundoComponente.calcularPontoLateralComponente(
+        this._lateralSegundoPonto,
+      );
       this._ponto2 = new Ponto(ponto[0], ponto[1]);
     }
-
     this.ajustarConexao();
   }
 

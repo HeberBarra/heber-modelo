@@ -225,6 +225,7 @@ fieldset.componentes-diagrama {
   background: var(--cor-borda);
   clip-path: polygon(0% 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0% 80%);
   opacity: 0.7;
+  z-index: 1;
 
   &:hover {
     background: var(--cor-borda-componente-selecionado);
