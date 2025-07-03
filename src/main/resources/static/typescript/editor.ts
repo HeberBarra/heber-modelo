@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  *
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -24,7 +24,7 @@ import { ComponenteDiagrama, LateralComponente } from "./editor/componente/compo
 import { RepositorioComponenteDiagrama } from "./editor/componente/repositorioComponenteDiagrama.js";
 import { SelecionadorComponente } from "./editor/componente/selecionadorComponente.js";
 import { GeradorIDComponente } from "./editor/componente/geradorIDComponente.js";
-import { ComponenteConexao } from "./editor/componente/componenteConexao.js";
+import { ComponenteConexaoAngulada } from "./editor/componente/componenteConexaoAngulada.js";
 import { FabricaComponente } from "./editor/componente/fabricaComponente.js";
 import { PainelLateral } from "./editor/painelLateral.js";
 import { PropriedadeComponente } from "./editor/componente/propriedade/propriedadeComponente.js";
@@ -372,7 +372,7 @@ function conectarElementos(event: MouseEvent): void {
     lateralSegundoComponente = LateralComponente.SUL;
   }
 
-  const nomeElementoConexao: string = "conexao";
+  const nomeElementoConexao: string = "conexao_angulada";
   let ponto2: Ponto = new Ponto(x2, y2);
 
   fabricaComponente
@@ -380,7 +380,7 @@ function conectarElementos(event: MouseEvent): void {
     .then((componente: ComponenteDiagrama): void => {
       carregarCSS(nomeElementoConexao);
       registrarEventosComponente(componente.htmlComponente);
-      let componenteConexao: ComponenteDiagrama = new ComponenteConexao(
+      let componenteConexao: ComponenteDiagrama = new ComponenteConexaoAngulada(
         componente.htmlComponente,
         componente.propriedades,
         ponto1 as Ponto,

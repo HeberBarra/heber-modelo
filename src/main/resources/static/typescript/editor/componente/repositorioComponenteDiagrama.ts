@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+ * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  *
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
@@ -11,7 +11,7 @@
  */
 import { ComponenteDiagrama } from "./componenteDiagrama.js";
 import { ComponenteDiagramaOuvinte } from "./componenteDiagramaOuvinte.js";
-import { ComponenteConexao } from "./componenteConexao.js";
+import { AbstractComponenteConexao } from "./abstractComponenteConexao.js";
 
 export class RepositorioComponenteDiagrama {
   private _componentesDiagrama: ComponenteDiagrama[] = [];
@@ -54,7 +54,7 @@ export class RepositorioComponenteDiagrama {
 
     componentes.forEach((componente: ComponenteDiagramaOuvinte): void => {
       if (componente.isDependente()) {
-        if (componente instanceof ComponenteConexao) {
+        if (componente instanceof AbstractComponenteConexao) {
           this.removerComponenteArray(componente);
         }
       }
