@@ -24,13 +24,16 @@ import { ComponenteDiagrama, LateralComponente } from "./editor/componente/compo
 import { RepositorioComponenteDiagrama } from "./editor/componente/repositorioComponenteDiagrama.js";
 import { SelecionadorComponente } from "./editor/componente/selecionadorComponente.js";
 import { GeradorIDComponente } from "./editor/componente/geradorIDComponente.js";
-import { ComponenteConexaoAngulada } from "./editor/componente/componenteConexaoAngulada.js";
 import { FabricaComponente } from "./editor/componente/fabricaComponente.js";
 import { PainelLateral } from "./editor/painelLateral.js";
 import { PropriedadeComponente } from "./editor/componente/propriedade/propriedadeComponente.js";
 import { Ponto } from "./editor/ponto.js";
 import { DirecoesMovimento, moverComponente } from "./editor/componente/manipularComponente.js";
 import { CarregadorDiagrama } from "./editor/diagrama/carregadorDiagrama.js";
+import {
+  FabricaComponenteConexao,
+  TipoConexao,
+} from "./editor/componente/conexao/fabricaComponenteConexao.js";
 
 /****************************/
 /* VARIÁVEIS COMPARTILHADAS */
@@ -39,6 +42,7 @@ import { CarregadorDiagrama } from "./editor/diagrama/carregadorDiagrama.js";
 let abaPropriedades: HTMLDivElement | null = document.querySelector("section#propriedades");
 let diagrama: HTMLElement | null = document.querySelector("main");
 let fabricaComponente: FabricaComponente = new FabricaComponente();
+let fabricaConexao: FabricaComponenteConexao = new FabricaComponenteConexao();
 let geradorIDComponente: GeradorIDComponente = GeradorIDComponente.pegarInstance();
 let repositorioComponentes: RepositorioComponenteDiagrama = new RepositorioComponenteDiagrama();
 let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
@@ -372,28 +376,26 @@ function conectarElementos(event: MouseEvent): void {
     lateralSegundoComponente = LateralComponente.SUL;
   }
 
-  const nomeElementoConexao: string = "conexao_angulada";
   let ponto2: Ponto = new Ponto(x2, y2);
-
-  fabricaComponente
-    .criarComponente(nomeElementoConexao)
-    .then((componente: ComponenteDiagrama): void => {
-      carregarCSS(nomeElementoConexao);
-      registrarEventosComponente(componente.htmlComponente);
-      let componenteConexao: ComponenteDiagrama = new ComponenteConexaoAngulada(
-        componente.htmlComponente,
-        componente.propriedades,
-        ponto1 as Ponto,
-        ponto2,
-        lateralPrimeiroComponente as LateralComponente,
-        lateralSegundoComponente,
-        primeiroComponente as ComponenteDiagrama,
-        segundoComponente,
-      );
-      repositorioComponentes.adicionarComponente(componenteConexao);
-      diagrama?.appendChild(componenteConexao.htmlComponente);
-      limparCoordenadaInicial();
-    });
+  let tipoConexao: TipoConexao = TipoConexao.CONEXAO_ANGULADA;
+  fabricaComponente.criarComponente(tipoConexao).then((componente: ComponenteDiagrama): void => {
+    carregarCSS(tipoConexao);
+    registrarEventosComponente(componente.htmlComponente);
+    let componenteConexao: ComponenteDiagrama = fabricaConexao.criarConexao(
+      tipoConexao,
+      componente.htmlComponente,
+      componente.propriedades,
+      ponto1 as Ponto,
+      ponto2,
+      lateralPrimeiroComponente as LateralComponente,
+      lateralSegundoComponente,
+      primeiroComponente as ComponenteDiagrama,
+      segundoComponente,
+    );
+    repositorioComponentes.adicionarComponente(componenteConexao);
+    diagrama?.appendChild(componenteConexao.htmlComponente);
+    limparCoordenadaInicial();
+  });
 }
 
 diagrama?.addEventListener("click", limparCoordenadaInicial);
