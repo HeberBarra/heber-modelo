@@ -11,7 +11,7 @@
  */
 import { ComponenteDiagrama } from "./componenteDiagrama.js";
 import { ComponenteDiagramaOuvinte } from "./componenteDiagramaOuvinte.js";
-import { AbstractComponenteConexao } from "./abstractComponenteConexao.js";
+import { AbstractComponenteConexao } from "./conexao/abstractComponenteConexao.js";
 
 export class RepositorioComponenteDiagrama {
   private _componentesDiagrama: ComponenteDiagrama[] = [];

@@ -9,10 +9,10 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-import { ComponenteDiagrama, LateralComponente } from "./componenteDiagrama.js";
-import { Ponto } from "../ponto.js";
-import { PropriedadeComponente } from "./propriedade/propriedadeComponente.js";
-import { ComponenteDiagramaOuvinte } from "./componenteDiagramaOuvinte.js";
+import { ComponenteDiagrama, LateralComponente } from "../componenteDiagrama.js";
+import { Ponto } from "../../ponto.js";
+import { PropriedadeComponente } from "../propriedade/propriedadeComponente.js";
+import { ComponenteDiagramaOuvinte } from "../componenteDiagramaOuvinte.js";
 
 export abstract class AbstractComponenteConexao
   extends ComponenteDiagrama
