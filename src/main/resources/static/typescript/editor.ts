@@ -30,10 +30,8 @@ import { PropriedadeComponente } from "./editor/componente/propriedade/proprieda
 import { Ponto } from "./editor/ponto.js";
 import { DirecoesMovimento, moverComponente } from "./editor/componente/manipularComponente.js";
 import { CarregadorDiagrama } from "./editor/diagrama/carregadorDiagrama.js";
-import {
-  FabricaComponenteConexao,
-  TipoConexao,
-} from "./editor/componente/conexao/fabricaComponenteConexao.js";
+import { FabricaComponenteConexao } from "./editor/componente/conexao/fabricaComponenteConexao.js";
+import { TipoConexao } from "./editor/componente/conexao/tipoConexao.js";
 
 /****************************/
 /* VARIÁVEIS COMPARTILHADAS */
@@ -42,7 +40,6 @@ import {
 let abaPropriedades: HTMLDivElement | null = document.querySelector("section#propriedades");
 let diagrama: HTMLElement | null = document.querySelector("main");
 let fabricaComponente: FabricaComponente = new FabricaComponente();
-let fabricaConexao: FabricaComponenteConexao = new FabricaComponenteConexao();
 let geradorIDComponente: GeradorIDComponente = GeradorIDComponente.pegarInstance();
 let repositorioComponentes: RepositorioComponenteDiagrama = new RepositorioComponenteDiagrama();
 let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
@@ -272,9 +269,11 @@ editorTamanhoFonte?.addEventListener("focusout", () => {
 /********************/
 
 const setas: NodeListOf<HTMLElement> = document.querySelectorAll(".seta");
+let fabricaConexao: FabricaComponenteConexao = new FabricaComponenteConexao();
 let primeiroComponente: ComponenteDiagrama | null = null;
 let lateralPrimeiroComponente: LateralComponente | null;
 let ponto1: Ponto | null = null;
+let tipoConexao: TipoConexao = TipoConexao.CONEXAO_ANGULADA;
 
 setas.forEach((seta) =>
   seta.addEventListener("click", () => {
@@ -377,7 +376,6 @@ function conectarElementos(event: MouseEvent): void {
   }
 
   let ponto2: Ponto = new Ponto(x2, y2);
-  let tipoConexao: TipoConexao = TipoConexao.CONEXAO_ANGULADA;
   fabricaComponente.criarComponente(tipoConexao).then((componente: ComponenteDiagrama): void => {
     carregarCSS(tipoConexao);
     registrarEventosComponente(componente.htmlComponente);
@@ -398,6 +396,16 @@ function conectarElementos(event: MouseEvent): void {
   });
 }
 
+document.querySelectorAll(".btn-tipo-conexao").forEach((btn) => {
+  btn.addEventListener("click", (event: Event): void => {
+    tipoConexao =
+      TipoConexao[
+        (event.target as HTMLElement)
+          .getAttribute("data-tipo-conexao")
+          ?.toUpperCase() as keyof typeof TipoConexao
+      ];
+  });
+});
 diagrama?.addEventListener("click", limparCoordenadaInicial);
 
 /**************************/
