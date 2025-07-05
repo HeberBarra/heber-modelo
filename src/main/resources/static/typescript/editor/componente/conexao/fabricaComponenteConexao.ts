@@ -15,11 +15,7 @@ import { ComponenteConexaoReta } from "./componenteConexaoReta.js";
 import { ComponenteDiagrama, LateralComponente } from "../componenteDiagrama.js";
 import { Ponto } from "../../ponto.js";
 import { PropriedadeComponente } from "../propriedade/propriedadeComponente.js";
-
-export enum TipoConexao {
-  CONEXAO_ANGULADA = "conexao_angulada",
-  CONEXAO_RETA = "conexao_reta",
-}
+import { TipoConexao } from "./tipoConexao.js";
 
 export class FabricaComponenteConexao {
   public criarConexao(
