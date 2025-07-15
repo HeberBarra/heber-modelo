@@ -43,7 +43,6 @@ export function colarElemento(elementoPai: HTMLElement | null): void {
     return;
   }
 
-  // @ts-ignore
   navigator.clipboard.readText().then((conteudo: string): void => {
     let novoElemento: HTMLElement | null = document.createElement("div");
     elementoPai.appendChild(novoElemento);
