@@ -15,6 +15,7 @@ import { FabricaPropriedade } from "./propriedade/fabricaPropriedade.js";
 import { PropriedadeComponente } from "./propriedade/propriedadeComponente.js";
 
 export class FabricaComponente {
+  public static PROPRIEDADE_NOME_COMPONENTE: string = "data-nome-componente";
   private static _CLASSE_COMUM_ELEMENTOS: string = "componente";
 
   static get CLASSE_COMUM_ELEMENTOS(): string {
@@ -33,7 +34,7 @@ export class FabricaComponente {
         let fabricaPropriedade: FabricaPropriedade = new FabricaPropriedade();
         let elementoHTML: HTMLDivElement = document.createElement("div");
         elementoHTML.innerHTML = valores.valorHtmlInterno;
-
+        elementoHTML.setAttribute(FabricaComponente.PROPRIEDADE_NOME_COMPONENTE, nomeComponente);
         elementoHTML.classList.add(FabricaComponente.CLASSE_COMUM_ELEMENTOS);
         elementoHTML.classList.add(valores.classesElemento.join(" "));
         let componente: ComponenteDiagrama = new ComponenteDiagrama(elementoHTML, []);

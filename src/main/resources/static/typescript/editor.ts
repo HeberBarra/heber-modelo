@@ -488,7 +488,12 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
   }
 
   if (teclaAnterior === bindings.get("leaderKey") && event.key === bindings.get("cortarElemento")) {
-    cortarElemento(elementoSelecionado);
+    if (cortarElemento(selecionadorComponente.componenteSelecionado)) {
+      repositorioComponentes.removerComponente(
+        selecionadorComponente.componenteSelecionado as ComponenteDiagrama,
+      );
+      selecionadorComponente.removerSelecao();
+    }
     return;
   }
 
@@ -496,13 +501,24 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
     let ultimoElemento: HTMLDivElement = diagrama?.lastElementChild as HTMLDivElement;
     colarElemento(diagrama);
 
-    setTimeout(() => {
+    setTimeout((): void => {
       let novoElemento: HTMLDivElement = diagrama?.lastElementChild as HTMLDivElement;
 
       if (ultimoElemento !== novoElemento) {
         registrarEventosComponente(novoElemento);
         novoElemento.setAttribute("data-id", String(geradorIDComponente.pegarProximoID()));
-        repositorioComponentes.adicionarComponente(new ComponenteDiagrama(novoElemento, []));
+        let nomeNovoComponente: string | null = novoElemento.getAttribute(
+          FabricaComponente.PROPRIEDADE_NOME_COMPONENTE,
+        );
+
+        if (nomeNovoComponente !== null) {
+          fabricaComponente
+            .criarComponente(nomeNovoComponente)
+            .then((componente: ComponenteDiagrama): void => {
+              componente.htmlComponente = novoElemento;
+              repositorioComponentes.adicionarComponente(componente);
+            });
+        }
       }
     }, 200);
     return;
