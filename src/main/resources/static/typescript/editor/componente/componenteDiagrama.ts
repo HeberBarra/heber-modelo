@@ -29,11 +29,15 @@ export class ComponenteDiagrama implements ComponenteDiagramaOuvido {
 
   private readonly _propriedades: PropriedadeComponente[];
   private _ouvintes: ComponenteDiagramaOuvinte[] = [];
-  protected readonly _htmlComponente: HTMLDivElement;
+  protected _htmlComponente: HTMLDivElement;
   protected _recebeSetas: boolean = true;
 
   get htmlComponente(): HTMLDivElement {
     return this._htmlComponente;
+  }
+
+  set htmlComponente(novoHtmlComponente: HTMLDivElement) {
+    this._htmlComponente = novoHtmlComponente;
   }
 
   get propriedades(): PropriedadeComponente[] {

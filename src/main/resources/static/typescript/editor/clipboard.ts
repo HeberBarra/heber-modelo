@@ -10,40 +10,43 @@
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
 import { CLASSE_ELEMENTO_SELECIONADO } from "./classesCSSElementos.js";
+import { ComponenteDiagrama } from "./componente/componenteDiagrama.js";
 
-export const copiarElemento = (elementoSelecionado: HTMLElement | null): void => {
+export function copiarElemento(elementoSelecionado: HTMLElement | null): void {
   if (elementoSelecionado == null) {
     return;
   }
 
   elementoSelecionado.classList.remove(CLASSE_ELEMENTO_SELECIONADO);
   navigator.clipboard.writeText(elementoSelecionado.outerHTML).then(
-    () => {},
-    () => {
-      window.alert("Erro ao tentar copiar elemento");
-    },
+    (): void => {},
+    (): void => {},
   );
   elementoSelecionado.classList.add(CLASSE_ELEMENTO_SELECIONADO);
-};
+}
 
-export const cortarElemento = (elementoSelecionado: HTMLElement | null): void => {
-  if (elementoSelecionado == null) {
-    return;
+export function cortarElemento(componenteSelecionado: ComponenteDiagrama | null): boolean {
+  if (componenteSelecionado == null) {
+    return false;
   }
 
-  copiarElemento(elementoSelecionado);
+  copiarElemento(componenteSelecionado.htmlComponente);
 
-  elementoSelecionado.parentNode?.removeChild(elementoSelecionado);
-};
+  componenteSelecionado.htmlComponente.parentNode?.removeChild(
+    componenteSelecionado.htmlComponente,
+  );
+  return true;
+}
 
-export const colarElemento = (elementoPai: HTMLElement | null): void => {
+export function colarElemento(elementoPai: HTMLElement | null): void {
   if (elementoPai == null) {
     return;
   }
 
-  navigator.clipboard.readText().then((conteudo: string) => {
+  // @ts-ignore
+  navigator.clipboard.readText().then((conteudo: string): void => {
     let novoElemento: HTMLElement | null = document.createElement("div");
     elementoPai.appendChild(novoElemento);
     novoElemento.outerHTML = conteudo;
   });
-};
+}
