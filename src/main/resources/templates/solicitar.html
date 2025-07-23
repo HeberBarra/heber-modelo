@@ -7,7 +7,7 @@
     <title>Solicitar Nova Senha</title>
   </head>
   <!--
-Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
 
 Licensed under the Massachusetts Institute of Technology (MIT) License.
 You may obtain a copy of the license at:
@@ -25,7 +25,11 @@ Licensed works, modifications, and larger works may be distributed under differe
           <input type="email" name="email" placeholder="Digite seu email / matrícula" required />
         </label>
         <label>
-          <textarea name="incoveniente" placeholder="Digite sua incoveniente" required></textarea>
+          <textarea
+            name="inconveniente"
+            placeholder="Digite o seu inconveniente(razão pela qual deseja mudar a sua senha)"
+            required
+          ></textarea>
         </label>
         <button id="continuar">continuar</button>
         <span
@@ -34,6 +38,7 @@ Licensed works, modifications, and larger works may be distributed under differe
         >
       </form>
     </main>
+    <div th:replace="~{fragments/cookiesBanner :: #cookies-banner}"></div>
     <footer th:replace="~{fragments/licenseFooter :: footer}"></footer>
   </body>
 </html>

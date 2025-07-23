@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <!--suppress HtmlUnknownTag -->
     <th:block th:replace="~{fragments/head :: head}"></th:block>
     <link rel="stylesheet" th:if="${desligar != null}" th:href="@{/css/desligar.css}" />
     <script th:src="@{/javascript/avisoCookies.js}" defer></script>
@@ -9,7 +8,7 @@
   </head>
   <body>
     <!--
-Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
 
 Licensed under the Massachusetts Institute of Technology (MIT) License.
 You may obtain a copy of the license at:
@@ -28,14 +27,9 @@ Licensed works, modifications, and larger works may be distributed under differe
       <button><a href="termos.html">TERMOS GERAIS DE USO</a></button>
       <button><a href="logout">LOGOUT</a></button>
     </main>
-    <div id="aviso-cookies">
-      Este aplicativo utiliza cookies para permitir a funcionalidade do sistema de login, requirido
-      pelos modos conjunto e avaliação. Caso não queria a utilização desses cookies basta utilizar
-      somente o modo solo, sem efetuar cadastro ou login.
-      <button type="button" style="cursor: pointer">OK</button>
-    </div>
+    <div th:replace="~{fragments/cookiesBanner :: #cookies-banner}"></div>
     <footer>
-      Licença MIT &copy; Heber Ferreira Barra; João Gabriel de Cristo; Matheus Jun Alves Matuda.
+      Licença MIT &copy; Heber Ferreira Barra; Matheus de Assis de Paula; Matheus Jun Alves Matuda.
       <button th:if="${desligar != null}" type="submit" id="btn-desligar">
         <svg
           width="256"
