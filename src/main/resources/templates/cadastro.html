@@ -9,16 +9,16 @@
   </head>
   <body>
     <!--
-Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+    Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
 
-Licensed under the Massachusetts Institute of Technology (MIT) License.
-You may obtain a copy of the license at:
+    Licensed under the Massachusetts Institute of Technology (MIT) License.
+    You may obtain a copy of the license at:
 
-https://choosealicense.com/licenses/mit/
+    https://choosealicense.com/licenses/mit/
 
-A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
-Licensed works, modifications, and larger works may be distributed under different terms and without source code.
--->
+    A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
+    Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+    -->
     <header th:replace="~{fragments/header :: header}"></header>
     <main>
       <form action="cadastro.html" method="post" th:object="${usuario}">
@@ -33,6 +33,7 @@ Licensed works, modifications, and larger works may be distributed under differe
         <button type="button" id="btn-enviar">Enviar</button>
         <button type="submit" id="btn-enviar-verdadeiro" style="display: none"></button>
       </form>
+      <div th:replace="~{fragments/cookiesBanner.html :: #cookies-banner}"></div>
     </main>
     <footer th:replace="~{fragments/licenseFooter :: footer}"></footer>
   </body>
