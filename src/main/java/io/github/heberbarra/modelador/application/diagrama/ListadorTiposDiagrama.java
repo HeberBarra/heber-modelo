@@ -38,7 +38,7 @@ public class ListadorTiposDiagrama {
         return List.of(
                 new TipoDiagramaDTO("DDD", "DDD", "Dicionário de Dados"),
                 new TipoDiagramaDTO("DER", "DER", "Diagrama de Entidade Relacionamento"),
-                new TipoDiagramaDTO("DRL", "DRL", "Diagrama Relacional"),
+                new TipoDiagramaDTO("DRL", "DRL", "Diagrama do Modelo Relacional"),
                 new TipoDiagramaDTO("MLR", "MLR", "Modelo Relacional"));
     }
 

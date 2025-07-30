@@ -1,0 +1,18 @@
+{
+  "$schema": ".diagrama.schema.json",
+  "nome": "Diagrama do Modelo Relacional",
+  "elementos": [
+    {
+      "nome": "entidade",
+      "tipo": "entidade_relacional"
+    },
+    {
+      "nome": "nota",
+      "tipo": "nota"
+    },
+    {
+      "nome": "texto",
+      "tipo": "texto"
+    }
+  ]
+}
