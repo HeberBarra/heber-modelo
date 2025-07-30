@@ -11,10 +11,6 @@
       "tipo": "atributo_der"
     },
     {
-      "nome": "classe",
-      "tipo": "classe"
-    },
-    {
       "nome": "entidade",
       "tipo": "entidade"
     },
