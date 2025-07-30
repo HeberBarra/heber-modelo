@@ -36,7 +36,7 @@ export class FabricaComponente {
         elementoHTML.innerHTML = valores.valorHtmlInterno;
         elementoHTML.setAttribute(FabricaComponente.PROPRIEDADE_NOME_COMPONENTE, nomeComponente);
         elementoHTML.classList.add(FabricaComponente.CLASSE_COMUM_ELEMENTOS);
-        elementoHTML.classList.add(valores.classesElemento.join(" "));
+        elementoHTML.classList.add(...valores.classesElemento);
         let componente: ComponenteDiagrama = new ComponenteDiagrama(elementoHTML, []);
         valores.propriedades.forEach((propriedade: JSONPropriedade): void => {
           let propriedadeComponente: PropriedadeComponente | null =
