@@ -27,7 +27,7 @@ import org.springframework.core.type.filter.AssignableTypeFilter;
 public class ColetorCodigosSaida {
 
     private static final Logger logger = JavaLogger.obterLogger(ColetorCodigosSaida.class.getName());
-    public static final String PACOTE_ENUMS_CODIGOS_SAIDA = "io.github.heberbarra.modelador.codigosaida";
+    public static final String PACOTE_ENUMS_CODIGOS_SAIDA = "io.github.heberbarra.modelador.domain.codigo";
     private final Set<DadosCodigoSaida> dadosCodigosSaida;
 
     public ColetorCodigosSaida() {
