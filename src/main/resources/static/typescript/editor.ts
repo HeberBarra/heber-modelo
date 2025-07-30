@@ -274,6 +274,8 @@ let primeiroComponente: ComponenteDiagrama | null = null;
 let lateralPrimeiroComponente: LateralComponente | null;
 let ponto1: Ponto | null = null;
 
+carregarCSS(TipoConexao.CONEXAO_ANGULADA);
+
 setas.forEach((seta: HTMLElement): void =>
   seta.addEventListener("click", (): void => {
     if (elementoSelecionado === null || selecionadorComponente.componenteSelecionado === null)
