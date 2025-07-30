@@ -450,18 +450,20 @@ tiposDiagrama?.innerText
   .split(",")
   .forEach((tipo: string): void => {
     tipo = tipo.trim();
-    carregadorDiagrama
-      .carregarDiagrama(tipo, callbackCriarComponente)
-      .then((fieldset: HTMLFieldSetElement): void => {
-        sectionComponentes?.append(fieldset);
-      });
+    if (tipo !== "") {
+      carregadorDiagrama
+        .carregarDiagrama(tipo, callbackCriarComponente)
+        .then((fieldset: HTMLFieldSetElement): void => {
+          sectionComponentes?.append(fieldset);
+        });
 
-    inputsCarregarDiagrama.forEach((input: HTMLInputElement): void => {
-      if (input.value.toLowerCase() === tipo) {
-        input.checked = true;
-        input.disabled = true;
-      }
-    });
+      inputsCarregarDiagrama.forEach((input: HTMLInputElement): void => {
+        if (input.value.toLowerCase() === tipo) {
+          input.checked = true;
+          input.disabled = true;
+        }
+      });
+    }
   });
 
 inputsCarregarDiagrama.forEach((input: HTMLInputElement): void => {
