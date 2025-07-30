@@ -244,3 +244,22 @@ fieldset#conexoes-basicas {
     opacity: 1;
   }
 }
+
+.seletor-tipo-conexao {
+  z-index: 5;
+  display: flex;
+  gap: 0.2rem;
+  width: fit-content;
+  height: fit-content;
+  background-color: var(--cor-fundo);
+  border: var(--cor-borda) solid 0.3rem;
+  border-radius: 0.5rem;
+  padding: 0.2rem;
+
+  button {
+    padding: 0.2rem;
+    width: fit-content;
+    height: fit-content;
+    font-size: 10pt;
+  }
+}

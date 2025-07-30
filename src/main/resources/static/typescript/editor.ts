@@ -273,10 +273,9 @@ let fabricaConexao: FabricaComponenteConexao = new FabricaComponenteConexao();
 let primeiroComponente: ComponenteDiagrama | null = null;
 let lateralPrimeiroComponente: LateralComponente | null;
 let ponto1: Ponto | null = null;
-let tipoConexao: TipoConexao = TipoConexao.CONEXAO_ANGULADA;
 
-setas.forEach((seta) =>
-  seta.addEventListener("click", () => {
+setas.forEach((seta: HTMLElement): void =>
+  seta.addEventListener("click", (): void => {
     if (elementoSelecionado === null || selecionadorComponente.componenteSelecionado === null)
       return;
 
@@ -376,36 +375,46 @@ function conectarElementos(event: MouseEvent): void {
   }
 
   let ponto2: Ponto = new Ponto(x2, y2);
-  fabricaComponente.criarComponente(tipoConexao).then((componente: ComponenteDiagrama): void => {
-    carregarCSS(tipoConexao);
-    registrarEventosComponente(componente.htmlComponente);
-    let componenteConexao: ComponenteDiagrama = fabricaConexao.criarConexao(
-      tipoConexao,
-      componente.htmlComponente,
-      componente.propriedades,
-      ponto1 as Ponto,
-      ponto2,
-      lateralPrimeiroComponente as LateralComponente,
-      lateralSegundoComponente,
-      primeiroComponente as ComponenteDiagrama,
-      segundoComponente,
-    );
-    repositorioComponentes.adicionarComponente(componenteConexao);
-    diagrama?.appendChild(componenteConexao.htmlComponente);
-    limparCoordenadaInicial();
-  });
+  let seletorTipoConexao: HTMLDivElement = document.createElement("div");
+  diagrama?.append(seletorTipoConexao);
+  seletorTipoConexao.classList.add("seletor-tipo-conexao");
+
+  for (let tipo in TipoConexao) {
+    let btnTipoConexao: HTMLButtonElement = document.createElement("button");
+    let tipoConexao: TipoConexao = TipoConexao[tipo as keyof typeof TipoConexao];
+
+    btnTipoConexao.innerText = tipoConexao.split("_").join(" ");
+
+    btnTipoConexao.addEventListener("click", (event: MouseEvent): void => {
+      event.stopPropagation();
+      fabricaComponente.criarComponente(tipo).then((componente: ComponenteDiagrama): void => {
+        carregarCSS(tipoConexao);
+        registrarEventosComponente(componente.htmlComponente);
+
+        let componenteConexao: ComponenteDiagrama = fabricaConexao.criarConexao(
+          tipoConexao,
+          componente.htmlComponente,
+          componente.propriedades,
+          ponto1 as Ponto,
+          ponto2,
+          lateralPrimeiroComponente as LateralComponente,
+          lateralSegundoComponente,
+          primeiroComponente as ComponenteDiagrama,
+          segundoComponente,
+        );
+
+        repositorioComponentes.adicionarComponente(componenteConexao);
+        diagrama?.append(componenteConexao.htmlComponente);
+        limparCoordenadaInicial();
+      });
+      seletorTipoConexao.remove();
+    });
+    seletorTipoConexao.append(btnTipoConexao);
+  }
+
+  seletorTipoConexao.focus();
 }
 
-document.querySelectorAll(".btn-tipo-conexao").forEach((btn) => {
-  btn.addEventListener("click", (event: Event): void => {
-    tipoConexao =
-      TipoConexao[
-        (event.target as HTMLElement)
-          .getAttribute("data-tipo-conexao")
-          ?.toUpperCase() as keyof typeof TipoConexao
-      ];
-  });
-});
 diagrama?.addEventListener("click", limparCoordenadaInicial);
 
 /**************************/
