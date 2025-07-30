@@ -30,6 +30,7 @@ export class FabricaComponenteConexao {
     segundoComponente: ComponenteDiagrama,
   ): AbstractComponenteConexao {
     switch (tipoConexao) {
+      case TipoConexao.CONEXAO_SETA:
       case TipoConexao.CONEXAO_ENTIDADE_FRACA:
       case TipoConexao.CONEXAO_ANGULADA:
         return new ComponenteConexaoAngulada(

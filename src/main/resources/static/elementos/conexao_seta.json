@@ -1,0 +1,9 @@
+{
+  "$schema": ".elemento.schema.json",
+  "valorHtmlInterno": "<div class=\"ponta-seta\"></div>",
+  "classesElemento": [
+    "elemento-conexao-angulada",
+    "elemento-conexao-seta"
+  ],
+  "propriedades": []
+}

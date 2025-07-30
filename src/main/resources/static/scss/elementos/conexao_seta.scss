@@ -1,0 +1,8 @@
+.elemento-conexao-seta div.ponta-seta {
+  background-color: inherit;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 80% 50%);
+  position: absolute;
+  height: 1rem;
+  width: 1rem;
+  right: 0;
+}
