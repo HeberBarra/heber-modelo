@@ -12,7 +12,6 @@
 package io.github.heberbarra.modelador;
 
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
-import io.github.heberbarra.modelador.application.tradutor.SeletorLinguagem;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
 import io.github.heberbarra.modelador.application.usecase.executar.ExecutadorArgumentos;
 import io.github.heberbarra.modelador.infrastructure.acessador.AcessadorRecursos;
@@ -48,7 +47,7 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
     private static final ConfiguradorPrograma configurador = ConfiguradorPrograma.getInstance();
 
     public static void main(String[] args) {
-        SeletorLinguagem.selecionarLinguagem(args);
+        Locale.setDefault(Locale.of("pt", "br"));
         System.setProperty("spring.jpa.properties.hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         criarArquivoDotEnv();
         ExecutadorArgumentos executadorArgumentos = new ExecutadorArgumentos(args);
