@@ -1,14 +1,16 @@
-/**
+/*
  * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
- * <p>
+ *
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
- * <p>
- * https://choosealicense.com/licenses/mit/
- * <p>
+ *
+ *   https://choosealicense.com/licenses/mit/
+ *
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ *
  */
+
 package io.github.heberbarra.modelador.application.usecase.ejetar;
 
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
@@ -112,7 +114,9 @@ public class EjetorArquivosBanco {
     private void copiarArquivoDotEnv() {
         PastaConfiguracaoPrograma pastaConfiguracaoPrograma = new PastaConfiguracaoPrograma();
         String nomeEnv = configurador.pegarValorConfiguracao("ejetor", "nome_arquivo_env", String.class);
-        Path arquivoEnv = new File("%s/%s".formatted(pastaConfiguracaoPrograma.getPasta(),nomeEnv)).getAbsoluteFile().toPath();
+        Path arquivoEnv = new File("%s/%s".formatted(pastaConfiguracaoPrograma.getPasta(), nomeEnv))
+                .getAbsoluteFile()
+                .toPath();
         File arquivoLink = new File(destinoArquivos, "/.env");
         Path caminhoLink = arquivoLink.toPath();
 

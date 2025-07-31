@@ -16,7 +16,7 @@ package io.github.heberbarra.modelador.domain.argumento;
 import java.util.List;
 import java.util.Locale;
 
-/*
+/**
  * Seleciona a linguagem que o programa deve usar.
  *
  * @since v0.0.24-SNAPSHOT

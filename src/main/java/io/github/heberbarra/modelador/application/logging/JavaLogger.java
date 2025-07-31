@@ -1,16 +1,19 @@
-/**
+/*
  * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
- * <p>
+ *
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
- * <p>
- * https://choosealicense.com/licenses/mit/
- * <p>
+ *
+ *   https://choosealicense.com/licenses/mit/
+ *
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ *
  */
+
 package io.github.heberbarra.modelador.application.logging;
 
+import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.ConsoleHandler;
@@ -20,14 +23,18 @@ import java.util.logging.Logger;
 
 public class JavaLogger {
 
+    private static final Logger logger = Logger.getLogger(JavaLogger.class.getName());
     private static String nomeArquivo = "log.txt";
     private static File pastaLogs = new SelecionadorPastaLogs().getPastaLogs();
-    private static final Logger logger = Logger.getLogger(JavaLogger.class.getName());
     protected static ConsoleHandler consoleHandler = criarConsoleHandler();
     protected static FileHandler fileHandler = criarFileHandler(nomeArquivo);
 
     static {
-        // https://stackoverflow.com/questions/2533227/how-can-i-disable-the-default-console-handler-while-using-the-java-logging-api
+        /*
+         * TÖRÖK, Péter. How can I disable the default console handler, while using the java logging API?
+         * Postado em: 28 mar. 2010 [site]. Disponível em: <https://stackoverflow.com/questions/2533227>.
+         * Acesso em: 17 maio 2024.
+         */
         Logger loggerGlobal = Logger.getLogger("");
         Handler[] handlers = loggerGlobal.getHandlers();
         for (Handler handler : handlers) {
@@ -73,7 +80,9 @@ public class JavaLogger {
             logger.finest(String.valueOf(pastaLogs.mkdirs()));
             return new JavaLoggerArquivo(pastaLogs, nomeArquivo);
         } catch (IOException e) {
-            logger.warning("Falha ao criar logger. Erro: %s".formatted(e.getMessage()));
+            logger.warning(TradutorWrapper.tradutor
+                    .traduzirMensagem("error.logger.create")
+                    .formatted(e.getMessage()));
             return null;
         }
     }
