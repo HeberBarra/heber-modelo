@@ -13,6 +13,8 @@
 
 package io.github.heberbarra.modelador.domain.model;
 
+import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
+
 public class TipoDiagramaDTO {
 
     private String nome;
@@ -21,10 +23,10 @@ public class TipoDiagramaDTO {
 
     public TipoDiagramaDTO() {}
 
-    public TipoDiagramaDTO(String nome, String valor, String titulo) {
-        this.nome = nome;
+    public TipoDiagramaDTO(String chaveNome, String valor, String chaveTitulo) {
+        this.nome = TradutorWrapper.tradutor.traduzirMensagem(chaveNome);
         this.valor = valor;
-        this.titulo = titulo;
+        this.titulo = TradutorWrapper.tradutor.traduzirMensagem(chaveTitulo);
     }
 
     public String getNome() {
