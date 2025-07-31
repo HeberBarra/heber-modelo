@@ -1,14 +1,16 @@
-/**
+/*
  * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
- * <p>
+ *
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
- * <p>
- * https://choosealicense.com/licenses/mit/
- * <p>
+ *
+ *   https://choosealicense.com/licenses/mit/
+ *
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ *
  */
+
 package io.github.heberbarra.modelador.application.usecase.hash;
 
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
@@ -19,9 +21,11 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Logger;
 
 /**
- * Baseado em: <a href="https://www.baeldung.com/sha-256-hashing-java">SHA-256 Java</a>
- * <p>
  * Utilizado para calcular o hash utilizando vários algoritmos, veja os métodos disponíveis para descobrir os algoritmos disponíveis
+ * <p>
+ * TIAN, Beau. SHA-256 and SHA3-256 Hashing in Java. Postado em: 20 nov. 2016
+ * [blog]. Disponível em: <<a href="https://www.baeldung.com/sha-256-hashing-java">https://www.baeldung.com/sha-256-hashing-java</a>>.
+ * Acesso em: 24 nov. 2024.
  *
  * @since v0.0.3-SNAPSHOT
  */
