@@ -13,6 +13,8 @@
 
 package io.github.heberbarra.modelador.application.diagrama;
 
+import io.github.heberbarra.modelador.application.logging.JavaLogger;
+import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
 import io.github.heberbarra.modelador.domain.model.TipoDiagramaDTO;
 import java.util.List;
 
@@ -20,32 +22,34 @@ public class ListadorTiposDiagrama {
 
     public static List<TipoDiagramaDTO> pegarDiagramasUML() {
         return List.of(
-                new TipoDiagramaDTO("DDA", "DDA", "Diagrama de Atividades"),
-                new TipoDiagramaDTO("DCU", "DCU", "Diagrama de Caso de Uso"),
-                new TipoDiagramaDTO("DCL", "DCL", "Diagrama de Classes"),
-                new TipoDiagramaDTO("DCM", "DCM", "Diagrama de Comunicação"),
-                new TipoDiagramaDTO("DCP", "DCP", "Diagrama de Componentes"),
-                new TipoDiagramaDTO("DEC", "DEC", "Diagrama de Estrutura Composta"),
-                new TipoDiagramaDTO("DDI", "DDI", "Diagrama de Implantação"),
-                new TipoDiagramaDTO("DVI", "DVI", "Diagrama de Visão Geral da Interação"),
-                new TipoDiagramaDTO("DDO", "DDO", "Diagrama de Objetos"),
-                new TipoDiagramaDTO("DDP", "DDP", "Diagrama de Pacotes"),
-                new TipoDiagramaDTO("DPF", "DPF", "Diagrama de Perfil"),
-                new TipoDiagramaDTO("DTE", "DTE", "Diagrama de Transição de Estados"),
-                new TipoDiagramaDTO("DDT", "DDT", "Diagrama de Tempo"),
-                new TipoDiagramaDTO("DDS", "DDS", "Diagrama de Sequência"));
+                new TipoDiagramaDTO("diagram.activities.label", "DDA", "diagram.activities.title"),
+                new TipoDiagramaDTO("diagram.use-case.label", "DCU", "diagram.use-case.title"),
+                new TipoDiagramaDTO("diagram.class.label", "DCL", "diagram.class.title"),
+                new TipoDiagramaDTO("diagram.communication.label", "DCM", "diagram.communication.title"),
+                new TipoDiagramaDTO("diagram.components.label", "DCP", "diagram.components.title"),
+                new TipoDiagramaDTO("diagram.structure.label", "DEC", "diagram.structure.title"),
+                new TipoDiagramaDTO("diagram.deployment.label", "DDI", "diagram.deployment.title"),
+                new TipoDiagramaDTO("diagram.vision.label", "DVI", "diagram.vision.title"),
+                new TipoDiagramaDTO("diagram.objects.label", "DDO", "diagram.objects.title"),
+                new TipoDiagramaDTO("diagram.packages.label", "DDP", "diagram.packages.title"),
+                new TipoDiagramaDTO("diagram.profile.label", "DPF", "diagram.profile.title"),
+                new TipoDiagramaDTO("diagram.state.label", "DTE", "diagram.state.title"),
+                new TipoDiagramaDTO("diagram.time.label", "DDT", "diagram.time.title"),
+                new TipoDiagramaDTO("diagram.sequence.label", "DDS", "diagram.sequence.title"));
     }
 
     public static List<TipoDiagramaDTO> pegarDiagramasBancoDados() {
         return List.of(
-                new TipoDiagramaDTO("DDD", "DDD", "Dicionário de Dados"),
-                new TipoDiagramaDTO("DER", "DER", "Diagrama de Entidade Relacionamento"),
-                new TipoDiagramaDTO("DRL", "DRL", "Diagrama do Modelo Relacional"),
-                new TipoDiagramaDTO("MLR", "MLR", "Modelo Relacional"));
+                new TipoDiagramaDTO("diagram.dictionary.label", "DDD", "diagram.dictionary.title"),
+                new TipoDiagramaDTO("diagram.entity.label", "DER", "diagram.entity.title"),
+                new TipoDiagramaDTO("diagram.relational.label", "DRL", "diagram.relational.title"),
+                new TipoDiagramaDTO("diagram.relational-model.label", "MLR", "diagram.relational-model.title"));
     }
 
     public static List<TipoDiagramaDTO> pegarDiagramasOutros() {
         return List.of(
-                new TipoDiagramaDTO("FLX", "FLX", "Fluxograma"), new TipoDiagramaDTO("ORG", "ORG", "Organograma"));
+                new TipoDiagramaDTO("diagram.flowchart.label", "FLX", "diagram.flowchart.title"),
+                new TipoDiagramaDTO("diagram.organizational.label", "ORG", "diagram.organizational.title")
+        );
     }
 }

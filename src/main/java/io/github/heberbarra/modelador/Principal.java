@@ -23,6 +23,7 @@ import io.github.heberbarra.modelador.infrastructure.configuracao.PastaConfigura
 import io.github.heberbarra.modelador.infrastructure.security.UsuarioBanco;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -47,9 +48,17 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
     public static final String NOME_PROGRAMA = "Heber-Modelo";
     private static final Logger logger = JavaLogger.obterLogger(Principal.class.getName());
     private static final ConfiguradorPrograma configurador = ConfiguradorPrograma.getInstance();
+    private static Locale locale;
 
     public static void main(String[] args) {
-        Locale.setDefault(Locale.of("pt", "br"));
+
+        if (Arrays.stream(args).toList().contains("--language=english")) {
+            locale = Locale.ENGLISH;
+        } else {
+            locale = Locale.of("pt", "br");
+        }
+
+        Locale.setDefault(locale);
         System.setProperty("spring.jpa.properties.hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         criarArquivoDotEnv();
         ExecutadorArgumentos executadorArgumentos = new ExecutadorArgumentos(args);
@@ -89,7 +98,7 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
-        sessionLocaleResolver.setDefaultLocale(Locale.of("pt", "br"));
+        sessionLocaleResolver.setDefaultLocale(locale);
 
         return sessionLocaleResolver;
     }
