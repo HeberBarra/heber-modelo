@@ -106,6 +106,10 @@ public class ComparadorVersao {
      * @return a versão sem o prefixo
      */
     private String removerPrefixo(String versao) {
+        if (versao == null) {
+            return null;
+        }
+
         if (versao.toLowerCase().startsWith(PREFIXO_VERSAO)) {
             return versao.substring(PREFIXO_VERSAO.length());
         }
