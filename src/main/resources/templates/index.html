@@ -20,16 +20,16 @@ Licensed works, modifications, and larger works may be distributed under differe
 -->
     <header th:replace="~{fragments/header :: header}"></header>
     <main>
-      <button><a href="novo.html">CRIAR NOVO DIAGRAMA</a></button>
-      <button><a>CRIAR NOVA SESSÃO</a></button>
-      <button><a>ENTRAR NUMA SESSÃO</a></button>
-      <button><a href="privacidade.html">POLÍTICA DE PRIVACIDADE</a></button>
-      <button><a href="termos.html">TERMOS GERAIS DE USO</a></button>
-      <button><a href="logout">LOGOUT</a></button>
+      <button><a th:text="#{web.page.home.menu.1}" href="novo.html"></a></button>
+      <button><a th:text="#{web.page.home.menu.2}"></a></button>
+      <button><a th:text="#{web.page.home.menu.3}"></a></button>
+      <button><a th:text="#{web.page.home.menu.4}" href="privacidade.html"></a></button>
+      <button><a th:text="#{web.page.home.menu.5}" href="termos.html"></a></button>
+      <button><a th:text="#{web.page.home.menu.6}" href="logout"></a></button>
     </main>
     <div th:replace="~{fragments/cookiesBanner :: #cookies-banner}"></div>
     <footer>
-      Licença MIT &copy; Heber Ferreira Barra; Matheus de Assis de Paula; Matheus Jun Alves Matuda.
+      MIT &copy; Heber Ferreira Barra; Matheus de Assis de Paula; Matheus Jun Alves Matuda.
       <button th:if="${desligar != null}" type="submit" id="btn-desligar">
         <svg
           width="256"
