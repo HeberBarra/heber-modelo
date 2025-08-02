@@ -15,10 +15,13 @@ package io.github.heberbarra.modelador.domain.repository;
 
 import io.github.heberbarra.modelador.infrastructure.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
 public interface IUsuarioRepositorio extends JpaRepository<Usuario, Long> {
 
     Usuario getUsuarioByMatricula(long matricula);
+
+    Optional<Usuario> findUsuarioByMatricula(long matricula);
 
     Usuario getUsuarioByNome(String name);
 
