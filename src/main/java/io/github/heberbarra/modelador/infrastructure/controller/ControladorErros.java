@@ -14,10 +14,8 @@
 package io.github.heberbarra.modelador.infrastructure.controller;
 
 import io.github.heberbarra.modelador.ControladorWeb;
-import io.github.heberbarra.modelador.domain.model.WebMapAtributos;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -27,10 +25,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ControladorErros implements ErrorController {
 
     @RequestMapping("/error")
-    public String handleError(@Autowired WebMapAtributos webMapAtributos, HttpServletRequest request, ModelMap modelMap) {
+    public String handleError(HttpServletRequest request, ModelMap modelMap) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         Object errorMessage = request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
-        modelMap.addAllAttributes(webMapAtributos);
+        ControladorWeb.InjetorAtributos.injetarPaleta(modelMap);
         modelMap.addAttribute("status", status);
         modelMap.addAttribute("error", errorMessage);
 

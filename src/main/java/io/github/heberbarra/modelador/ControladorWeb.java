@@ -13,6 +13,7 @@
 
 package io.github.heberbarra.modelador;
 
+import io.github.heberbarra.modelador.application.diagrama.ListadorTiposDiagrama;
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
 import io.github.heberbarra.modelador.application.usecase.gerar.GeradorToken;
@@ -20,7 +21,6 @@ import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
 import io.github.heberbarra.modelador.domain.configuracao.IConfigurador;
 import io.github.heberbarra.modelador.domain.model.NovoDiagramaDTO;
 import io.github.heberbarra.modelador.domain.model.UsuarioDTO;
-import io.github.heberbarra.modelador.domain.model.WebMapAtributos;
 import io.github.heberbarra.modelador.infrastructure.configuracao.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.infrastructure.configuracao.WatcherPastaConfiguracao;
 import io.github.heberbarra.modelador.infrastructure.entity.Usuario;
@@ -30,10 +30,10 @@ import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -51,6 +51,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.tomlj.TomlTable;
 
 @EnableAsync
 @Controller
@@ -75,6 +76,43 @@ public class ControladorWeb {
         GeradorToken geradorToken = new GeradorToken();
         geradorToken.gerarToken();
         TOKEN_SECRETO = geradorToken.getToken();
+    }
+
+    public static class InjetorAtributos {
+
+        public static void injetarBindings(ModelMap modelMap) {
+            TomlTable tabelaBindings = ((ConfiguradorPrograma) configurador)
+                    .getLeitorConfiguracao()
+                    .getInformacoesConfiguracoes()
+                    .getTable("bindings");
+
+            if (tabelaBindings == null) return;
+
+            for (String nomeBindings : tabelaBindings.dottedKeySet()) {
+                modelMap.addAttribute(nomeBindings, tabelaBindings.get(nomeBindings));
+            }
+        }
+
+        public static void injetarPaleta(ModelMap modelMap) {
+            Map<String, String> variaveisPaleta = configurador.pegarInformacoesPaleta();
+            StringBuilder stringBuilder = new StringBuilder(":root{%n".formatted());
+
+            for (String variavel : variaveisPaleta.keySet()) {
+                stringBuilder.append("    --%s: %s;%n".formatted(variavel.replace("_", "-"), variaveisPaleta.get(variavel)));
+            }
+
+            stringBuilder.append("  }%n".formatted());
+            modelMap.addAttribute("paleta", stringBuilder.toString());
+        }
+
+        public static void injetarTituloPagina(ModelMap modelMap, String nomePagina) {
+            String titulo = TradutorWrapper.tradutor.traduzirMensagem("web.page.%s.title".formatted(nomePagina));
+            String nomePrograma = Principal.NOME_PROGRAMA.replace("-", " ");
+            String sufixo = titulo.isBlank() ? "" : " - " + titulo;
+
+            modelMap.addAttribute("programa", nomePrograma + sufixo);
+        }
+
     }
 
     @PostConstruct
@@ -137,18 +175,18 @@ public class ControladorWeb {
     }
 
     @RequestMapping({"/", "/index", "/index.html", "home", "home.html"})
-    public String index(@Autowired WebMapAtributos webModel, ModelMap modelMap) {
-        webModel.adicionarTituloPagina("web.page.home.title");
-        webModel.injetarTokenDesligar(TOKEN_SECRETO);
-        modelMap.addAllAttributes(webModel);
+    public String index(ModelMap modelMap) {
+        InjetorAtributos.injetarTituloPagina(modelMap, "home");
+        InjetorAtributos.injetarPaleta(modelMap);
+        modelMap.addAttribute("desligar", TOKEN_SECRETO);
 
         return "index";
     }
 
     @GetMapping({"/cadastro", "/cadastro.html"})
-    public String cadastro(@Autowired WebMapAtributos webMapAtributos, ModelMap modelMap) {
-        webMapAtributos.adicionarTituloPagina("web.page.register.title");
-        modelMap.addAllAttributes(webMapAtributos);
+    public String cadastro(ModelMap modelMap) {
+        InjetorAtributos.injetarTituloPagina(modelMap, "register");
+        InjetorAtributos.injetarPaleta(modelMap);
         modelMap.addAttribute("usuario", new UsuarioDTO());
 
         return "cadastro";
@@ -187,9 +225,9 @@ public class ControladorWeb {
     }
 
     @RequestMapping({"/login", "/login.html"})
-    public String login(@Autowired WebMapAtributos webMapAtributos, @AuthenticationPrincipal UserDetails userDetails, ModelMap modelMap) {
-        webMapAtributos.adicionarTituloPagina("web.page.login.title");
-        modelMap.addAllAttributes(webMapAtributos);
+    public String login(@AuthenticationPrincipal UserDetails userDetails, ModelMap modelMap) {
+        InjetorAtributos.injetarTituloPagina(modelMap, "login");
+        InjetorAtributos.injetarPaleta(modelMap);
 
         if (userDetails == null) return "login";
 
@@ -197,17 +235,17 @@ public class ControladorWeb {
     }
 
     @RequestMapping({"/redefinir", "/redefinir.html"})
-    public String redefinirSenha(@Autowired WebMapAtributos webMapAtributos, ModelMap modelMap) {
-        webMapAtributos.adicionarTituloPagina("web.page.reset-password.title");
-        modelMap.addAllAttributes(webMapAtributos);
+    public String redefinirSenha(ModelMap modelMap) {
+        InjetorAtributos.injetarTituloPagina(modelMap, "reset-password");
+        InjetorAtributos.injetarPaleta(modelMap);
 
         return "redefinir";
     }
 
     @RequestMapping({"solicitar", "solicitar.html"})
-    public String solicitarNovaSenha(@Autowired WebMapAtributos webMapAtributos, ModelMap modelMap) {
-        webMapAtributos.adicionarTituloPagina("web.page.request-password-change.title");
-        modelMap.addAllAttributes(webMapAtributos);
+    public String solicitarNovaSenha(ModelMap modelMap) {
+        InjetorAtributos.injetarTituloPagina(modelMap, "request-password-change");
+        InjetorAtributos.injetarPaleta(modelMap);
 
         return "solicitar";
     }
@@ -215,11 +253,14 @@ public class ControladorWeb {
     @RequestMapping(
             value = {"/editor", "/editor.html"},
             method = {RequestMethod.GET, RequestMethod.POST})
-    public String editor(@Autowired WebMapAtributos webMapAtributos,ModelMap modelMap, @ModelAttribute("novoDiagramaDTO") NovoDiagramaDTO novoDiagramaDTO) {
-        webMapAtributos.adicionarTituloPagina("web.page.editor.title");
-        webMapAtributos.injetarInfoDiagramas(novoDiagramaDTO);
-        webMapAtributos.injetarBindings();
-        modelMap.addAllAttributes(webMapAtributos);
+    public String editor(ModelMap modelMap, @ModelAttribute("novoDiagramaDTO") NovoDiagramaDTO novoDiagramaDTO) {
+        InjetorAtributos.injetarTituloPagina(modelMap, "editor");
+        InjetorAtributos.injetarPaleta(modelMap);
+        InjetorAtributos.injetarBindings(modelMap);
+        modelMap.addAttribute("novoDiagramaDTO", novoDiagramaDTO);
+        modelMap.addAttribute("diagramasUML", ListadorTiposDiagrama.pegarDiagramasUML());
+        modelMap.addAttribute("diagramasBD", ListadorTiposDiagrama.pegarDiagramasBancoDados());
+        modelMap.addAttribute("diagramasOutros", ListadorTiposDiagrama.pegarDiagramasOutros());
 
         if (configurador.pegarValorConfiguracao("grade", "exibir", boolean.class)) {
             long tamanhoQuadradoGrade = configurador.pegarValorConfiguracao("grade", "tamanho_quadrado_px", long.class);
@@ -237,10 +278,13 @@ public class ControladorWeb {
     }
 
     @RequestMapping({"/novo", "/novo.html"})
-    public String novoDiagrama(@Autowired WebMapAtributos webMapAtributos, ModelMap modelMap) {
-        webMapAtributos.adicionarTituloPagina("web.page.new-diagram.title");
-        webMapAtributos.injetarInfoDiagramas(new NovoDiagramaDTO());
-        modelMap.addAllAttributes(webMapAtributos);
+    public String novoDiagrama(ModelMap modelMap) {
+        InjetorAtributos.injetarTituloPagina(modelMap, "new-diagram");
+        InjetorAtributos.injetarPaleta(modelMap);
+        modelMap.addAttribute("novoDiagramaDTO", new NovoDiagramaDTO());
+        modelMap.addAttribute("diagramasUML", ListadorTiposDiagrama.pegarDiagramasUML());
+        modelMap.addAttribute("diagramasBD", ListadorTiposDiagrama.pegarDiagramasBancoDados());
+        modelMap.addAttribute("diagramasOutros", ListadorTiposDiagrama.pegarDiagramasOutros());
 
         return "novo";
     }
@@ -251,10 +295,10 @@ public class ControladorWeb {
     }
 
     @PostMapping({"/desligar", "/desligar.html"})
-    public void desligar(@Autowired WebMapAtributos webMapAtributos, ModelMap modelMap, @RequestParam("token") String token) {
-        webMapAtributos.adicionarTituloPagina("web.page.shutdown.title");
-        webMapAtributos.injetarTokenDesligar(TOKEN_SECRETO);
-        modelMap.addAllAttributes(webMapAtributos);
+    public void desligar(ModelMap modelMap, @RequestParam("token") String token) {
+        InjetorAtributos.injetarTituloPagina(modelMap, "shutdown");
+        InjetorAtributos.injetarPaleta(modelMap);
+        modelMap.addAttribute("desligar", TOKEN_SECRETO);
 
         if (configurador.pegarValorConfiguracao("programa", "desativar_botao_desligar", boolean.class)) return;
 
@@ -267,9 +311,9 @@ public class ControladorWeb {
     }
 
     @RequestMapping({"/perfil", "/perfil.html"})
-    public String perfil(@Autowired WebMapAtributos webMapAtributos, @AuthenticationPrincipal UserDetails userDetails, ModelMap modelMap) {
-        webMapAtributos.adicionarTituloPagina( "web.page.profile.title");
-        modelMap.addAllAttributes(webMapAtributos);
+    public String perfil(@AuthenticationPrincipal UserDetails userDetails, ModelMap modelMap) {
+        InjetorAtributos.injetarTituloPagina(modelMap, "profile");
+        InjetorAtributos.injetarPaleta(modelMap);
 
         if (userDetails == null) {
             return "redirect:/login";
@@ -282,17 +326,17 @@ public class ControladorWeb {
     }
 
     @RequestMapping({"/privacidade", "/privacidade.html"})
-    public String politicaPrivacidade(@Autowired WebMapAtributos webMapAtributos, ModelMap modelMap) {
-        webMapAtributos.adicionarTituloPagina("web.page.privacy.title");
-        modelMap.addAllAttributes(webMapAtributos);
+    public String politicaPrivacidade(ModelMap modelMap) {
+        InjetorAtributos.injetarTituloPagina(modelMap, "privacy");
+        InjetorAtributos.injetarPaleta(modelMap);
 
         return "privacidade";
     }
 
     @RequestMapping({"/termos", "/termos.html"})
-    public String termosGerais(@Autowired WebMapAtributos webMapAtributos, ModelMap modelMap) {
-        webMapAtributos.adicionarTituloPagina("web.page.terms.title");
-        modelMap.addAllAttributes(webMapAtributos);
+    public String termosGerais(ModelMap modelMap) {
+        InjetorAtributos.injetarTituloPagina(modelMap, "terms");
+        InjetorAtributos.injetarPaleta(modelMap);
 
         return "termos";
     }
