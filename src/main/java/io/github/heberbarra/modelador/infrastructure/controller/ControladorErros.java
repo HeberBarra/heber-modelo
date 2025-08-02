@@ -14,14 +14,20 @@
 package io.github.heberbarra.modelador.infrastructure.controller;
 
 import io.github.heberbarra.modelador.ControladorWeb;
+import io.github.heberbarra.modelador.domain.exception.UsuarioNotFoundException;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Controller
+@RestControllerAdvice
 public class ControladorErros implements ErrorController {
 
     @RequestMapping("/error")
@@ -34,4 +40,11 @@ public class ControladorErros implements ErrorController {
 
         return "error";
     }
+
+    @ExceptionHandler(UsuarioNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public String usuarioNotFound(UsuarioNotFoundException exception) {
+        return exception.getMessage();
+    }
+
 }

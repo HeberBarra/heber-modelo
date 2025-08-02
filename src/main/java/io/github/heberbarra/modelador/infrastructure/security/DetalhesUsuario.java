@@ -18,6 +18,7 @@ import io.github.heberbarra.modelador.domain.repository.IUsuarioRepositorio;
 import io.github.heberbarra.modelador.infrastructure.entity.Usuario;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
