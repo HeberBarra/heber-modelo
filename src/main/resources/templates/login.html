@@ -21,22 +21,41 @@ Licensed works, modifications, and larger works may be distributed under differe
 -->
     <header th:replace="~{fragments/header :: header}"></header>
     <main>
-      <div class="info" th:text="#{web.page.login.registration-success}" th:if="${param.cadastroSuccess}"></div>
+      <div
+        class="info"
+        th:text="#{web.page.login.registration-success}"
+        th:if="${param.cadastroSuccess}"
+      ></div>
       <div class="aviso" th:text="#{web.page.login.error}" th:if="${param.error}"></div>
       <form action="login" method="post">
         <label>
-          <input type="text" name="username" th:placeholder="#{web.page.login.username.placeholder}" required
+          <input
+            type="text"
+            name="username"
+            th:placeholder="#{web.page.login.username.placeholder}"
+            required
         /></label>
         <label>
-          <input type="password" name="password" th:placeholder="#{web.page.login.password.placeholder}" required />
+          <input
+            type="password"
+            name="password"
+            th:placeholder="#{web.page.login.password.placeholder}"
+            required
+          />
           <a href="solicitar.html" th:text="#{web.page.login.request-new-password}"></a>
         </label>
         <button th:text="#{web.page.login.continue}" id="continuar"></button>
-        <span><th:block th:text="#{web.page.login.register.1}"></th:block>&nbsp;<a href="cadastro.html" th:text="#{web.page.login.register.2}" id="cadastro"></a></span>
+        <span
+          ><th:block th:text="#{web.page.login.register.1}"></th:block>&nbsp;<a
+            href="cadastro.html"
+            th:text="#{web.page.login.register.2}"
+            id="cadastro"
+          ></a
+        ></span>
         <span id="privacidade"
           ><th:block th:text="#{web.page.login.privacy-notice.1}"></th:block>
-          <a href="privacidade.html" th:text="#{web.page.login.privacy-notice.2}" id="politica"></a></span
-        >
+          <a href="privacidade.html" th:text="#{web.page.login.privacy-notice.2}" id="politica"></a
+        ></span>
       </form>
     </main>
     <div th:replace="~{fragments/cookiesBanner :: #cookies-banner}"></div>

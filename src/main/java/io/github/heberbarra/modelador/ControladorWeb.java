@@ -24,7 +24,7 @@ import io.github.heberbarra.modelador.domain.model.UsuarioDTO;
 import io.github.heberbarra.modelador.infrastructure.configuracao.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.infrastructure.configuracao.WatcherPastaConfiguracao;
 import io.github.heberbarra.modelador.infrastructure.entity.Usuario;
-import io.github.heberbarra.modelador.infrastructure.security.IUsuarioServices;
+import io.github.heberbarra.modelador.infrastructure.services.UsuarioServices;
 import jakarta.annotation.PostConstruct;
 import java.awt.Desktop;
 import java.io.IOException;
@@ -63,10 +63,10 @@ public class ControladorWeb {
     private static final String TOKEN_SECRETO;
     private static final IConfigurador configurador;
     private final TaskExecutor taskExecutor;
-    private final IUsuarioServices usuarioServices;
+    private final UsuarioServices usuarioServices;
 
     public ControladorWeb(
-            @Qualifier("applicationTaskExecutor") TaskExecutor taskExecutor, IUsuarioServices usuarioServices) {
+            @Qualifier("applicationTaskExecutor") TaskExecutor taskExecutor, UsuarioServices usuarioServices) {
         this.taskExecutor = taskExecutor;
         this.usuarioServices = usuarioServices;
     }
@@ -98,7 +98,8 @@ public class ControladorWeb {
             StringBuilder stringBuilder = new StringBuilder(":root{%n".formatted());
 
             for (String variavel : variaveisPaleta.keySet()) {
-                stringBuilder.append("    --%s: %s;%n".formatted(variavel.replace("_", "-"), variaveisPaleta.get(variavel)));
+                stringBuilder.append(
+                        "    --%s: %s;%n".formatted(variavel.replace("_", "-"), variaveisPaleta.get(variavel)));
             }
 
             stringBuilder.append("  }%n".formatted());
@@ -112,7 +113,6 @@ public class ControladorWeb {
 
             modelMap.addAttribute("programa", nomePrograma + sufixo);
         }
-
     }
 
     @PostConstruct
@@ -314,10 +314,6 @@ public class ControladorWeb {
     public String perfil(@AuthenticationPrincipal UserDetails userDetails, ModelMap modelMap) {
         InjetorAtributos.injetarTituloPagina(modelMap, "profile");
         InjetorAtributos.injetarPaleta(modelMap);
-
-        if (userDetails == null) {
-            return "redirect:/login";
-        }
 
         Usuario usuario = usuarioServices.findUserByNome(userDetails.getUsername());
         modelMap.addAttribute("usuario", usuario);

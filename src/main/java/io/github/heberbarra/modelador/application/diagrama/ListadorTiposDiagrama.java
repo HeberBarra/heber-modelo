@@ -13,8 +13,6 @@
 
 package io.github.heberbarra.modelador.application.diagrama;
 
-import io.github.heberbarra.modelador.application.logging.JavaLogger;
-import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
 import io.github.heberbarra.modelador.domain.model.TipoDiagramaDTO;
 import java.util.List;
 
@@ -49,7 +47,6 @@ public class ListadorTiposDiagrama {
     public static List<TipoDiagramaDTO> pegarDiagramasOutros() {
         return List.of(
                 new TipoDiagramaDTO("diagram.flowchart.label", "FLX", "diagram.flowchart.title"),
-                new TipoDiagramaDTO("diagram.organizational.label", "ORG", "diagram.organizational.title")
-        );
+                new TipoDiagramaDTO("diagram.organizational.label", "ORG", "diagram.organizational.title"));
     }
 }
