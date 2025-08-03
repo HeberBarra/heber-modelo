@@ -3,7 +3,6 @@
   <head>
     <th:block th:replace="~{fragments/head :: head}"></th:block>
     <link rel="stylesheet" th:if="${desligar != null}" th:href="@{/css/desligar.css}" />
-    <script th:src="@{/javascript/avisoCookies.js}" defer></script>
     <title>Heber-Modelo</title>
   </head>
   <body>
@@ -25,7 +24,7 @@ Licensed works, modifications, and larger works may be distributed under differe
       <button><a th:text="#{web.page.home.menu.3}"></a></button>
       <button><a th:text="#{web.page.home.menu.4}" href="privacidade.html"></a></button>
       <button><a th:text="#{web.page.home.menu.5}" href="termos.html"></a></button>
-      <button><a th:text="#{web.page.home.menu.6}" href="logout"></a></button>
+      <button><a th:text="#{web.page.home.menu.6}" href="/logout"></a></button>
     </main>
     <div th:replace="~{fragments/cookiesBanner :: #cookies-banner}"></div>
     <footer>

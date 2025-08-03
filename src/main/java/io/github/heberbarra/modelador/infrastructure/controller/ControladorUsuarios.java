@@ -13,18 +13,19 @@
 
 package io.github.heberbarra.modelador.infrastructure.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import io.github.heberbarra.modelador.domain.exception.UsuarioNotFoundException;
 import io.github.heberbarra.modelador.domain.repository.IUsuarioRepositorio;
 import io.github.heberbarra.modelador.infrastructure.assembler.UsuarioModelAssembler;
 import io.github.heberbarra.modelador.infrastructure.entity.Usuario;
+import java.util.List;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.List;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class ControladorUsuarios {
@@ -37,25 +38,21 @@ public class ControladorUsuarios {
         this.assembler = assembler;
     }
 
-    @GetMapping("usuarios")
+    @GetMapping("/usuarios")
     public CollectionModel<EntityModel<Usuario>> all() {
-        List<EntityModel<Usuario>> usuarios = repositorio
-                .findAll()
-                .stream()
-                .peek(usuario -> usuario.setSenha(""))
-                .map(assembler::toModel)
-                .toList();
+        List<EntityModel<Usuario>> usuarios =
+                repositorio.findAll().stream().map(assembler::toModel).toList();
 
-        return CollectionModel.of(usuarios, linkTo(methodOn(ControladorUsuarios.class).all()).withSelfRel());
+        return CollectionModel.of(
+                usuarios, linkTo(methodOn(ControladorUsuarios.class).all()).withSelfRel());
     }
 
-    @GetMapping("usuarios/{matricula}")
+    @GetMapping("/usuarios/{matricula}")
     public EntityModel<Usuario> one(@PathVariable Long matricula) {
-        Usuario usuario = repositorio.findUsuarioByMatricula(matricula)
+        Usuario usuario = repositorio
+                .findUsuarioByMatricula(matricula)
                 .orElseThrow(() -> new UsuarioNotFoundException(matricula));
-        usuario.setSenha("");
 
         return assembler.toModel(usuario);
     }
-
 }
