@@ -46,7 +46,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServerFactory>, WebMvcConfigurer {
 
     public static final String NOME_PROGRAMA = "Heber-Modelo";
-    public static String tipoUsuario;
+    private static String tipoUsuario;
     private static final Logger logger = JavaLogger.obterLogger(Principal.class.getName());
     private static final ConfiguradorPrograma configurador = ConfiguradorPrograma.getInstance();
     private static Locale locale;
@@ -148,5 +148,9 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
     @Override
     public void addInterceptors(@NonNull InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
+    }
+
+    public static String getTipoUsuario() {
+        return tipoUsuario;
     }
 }

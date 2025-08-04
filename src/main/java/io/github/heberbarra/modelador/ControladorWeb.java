@@ -195,7 +195,7 @@ public class ControladorWeb {
     @PostMapping({"/cadastro", "/cadastro.html"})
     public String cadastro(@ModelAttribute("usuario") UsuarioDTO usuarioDTO) {
 
-        usuarioDTO.setTipo(Principal.tipoUsuario);
+        usuarioDTO.setTipo(Principal.getTipoUsuario());
         usuarioDTO.setNome(usuarioDTO.getNome().trim());
         usuarioDTO.setEmail(usuarioDTO.getEmail().trim());
         usuarioDTO.setSenha(usuarioDTO.getSenha().trim());
