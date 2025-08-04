@@ -138,6 +138,18 @@
       "atributo": "apagarElemento",
       "tipo": "String",
       "valorPadrao": "Delete"
+    },
+    {
+      "categoria": "mysql",
+      "atributo": "modoProfessor",
+      "tipo": "Boolean",
+      "valorPadrao": false
+    },
+    {
+      "categoria": "mysql",
+      "atributo": "host",
+      "tipo": "String",
+      "valorPadrao": "localhost"
     }
   ]
 }
