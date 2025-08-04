@@ -46,6 +46,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServerFactory>, WebMvcConfigurer {
 
     public static final String NOME_PROGRAMA = "Heber-Modelo";
+    public static String tipoUsuario;
     private static final Logger logger = JavaLogger.obterLogger(Principal.class.getName());
     private static final ConfiguradorPrograma configurador = ConfiguradorPrograma.getInstance();
     private static Locale locale;
@@ -114,14 +115,33 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
     @Bean
     public DataSource dataSource() {
         AcessadorRecursos acessadorRecursos = new AcessadorRecursos();
+
         String host = acessadorRecursos.pegarValorVariavelAmbiente("MYSQL_HOST");
         String port = acessadorRecursos.pegarValorVariavelAmbiente("MYSQL_PORT");
+
+        if (host == null || host.isBlank()) {
+            host = configurador.pegarValorConfiguracao("mysql", "host", String.class);
+        }
+
+        if (port == null || port.isBlank()) {
+            port = String.valueOf(configurador.pegarValorConfiguracao("mysql", "porta", long.class));
+        }
+
+        String username = UsuarioBanco.ESTUDANTE.getNomeUsuario();
+        String password = acessadorRecursos.pegarValorVariavelAmbiente(UsuarioBanco.ESTUDANTE.getNomeVariavelSenha());
+        tipoUsuario = "E";
+
+        if (configurador.pegarValorConfiguracao("mysql", "modoProfessor", boolean.class)) {
+            username = UsuarioBanco.PROFESSOR.getNomeUsuario();
+            password = acessadorRecursos.pegarValorVariavelAmbiente(UsuarioBanco.PROFESSOR.getNomeVariavelSenha());
+            tipoUsuario = "P";
+        }
 
         return DataSourceBuilder.create()
                 .driverClassName("com.mysql.cj.jdbc.Driver")
                 .url("jdbc:mysql://%s:%s/db_HeberModelo".formatted(host, port))
-                .username(UsuarioBanco.ESTUDANTE.getNomeUsuario())
-                .password(acessadorRecursos.pegarValorVariavelAmbiente(UsuarioBanco.ESTUDANTE.getNomeVariavelSenha()))
+                .username(username)
+                .password(password)
                 .build();
     }
 
