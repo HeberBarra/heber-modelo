@@ -56,6 +56,18 @@
     {
       "nomeVariavel": "cor_borda_componente_selecionado",
       "valorPadraoVariavel": "#FFDC73"
+    },
+    {
+      "nomeVariavel": "cor_chave_primaria",
+      "valorPadraoVariavel": "#FFCA18"
+    },
+    {
+      "nomeVariavel": "cor_chave_estrangeira",
+      "valorPadraoVariavel": "#00A8F3"
+    },
+    {
+      "nomeVariavel": "cor_chave_mista",
+      "valorPadraoVariavel": "#241A3B"
     }
   ]
 }
