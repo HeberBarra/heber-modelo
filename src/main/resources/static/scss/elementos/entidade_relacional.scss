@@ -9,6 +9,10 @@
     div.nome,
     div.atributo {
       border-color: var(--cor-borda-componente-selecionado);
+
+      span.chave svg .svg-cor-fill {
+        color: var(--cor-componente-hover);
+      }
     }
   }
 
@@ -30,8 +34,36 @@
     width: 100%;
 
     span.chave {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       pointer-events: none;
       grid-column: 1;
+
+      svg {
+        height: 200%;
+        pointer-events: none;
+
+        .svg-cor-fill {
+          color: var(--cor-fundo);
+        }
+
+        &.chave-primaria {
+          color: var(--cor-chave-primaria);
+        }
+
+        &.chave-estrangeira {
+          color: var(--cor-chave-estrangeira);
+        }
+
+        &.chave-mista {
+          color: var(--cor-chave-mista);
+        }
+      }
+
+      svg.chave-escondida {
+        display: none;
+      }
     }
 
     span.texto {

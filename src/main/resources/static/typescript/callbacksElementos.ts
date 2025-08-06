@@ -27,9 +27,29 @@ const callbackAlterarAtributoRelacional = (event: MouseEvent): void => {
   }
 
   let elementoChave: HTMLElement | null = (event.target as HTMLElement).querySelector(".chave");
+  let svgChave: string =
+    "<svg width='10px' height='20px' viewBox='0 0 90 221' xmlns='http://www.w3.org/2000/svg'>" +
+    "<rect x='30' y='71' width='30' height='125' fill='currentColor'/>" +
+    "<path d='M45 221L60.2169 195.779L54.4046 154.971H35.5954L29.7831 195.779L45 221Z' fill='currentColor'/>" +
+    "<rect x='30' y='194' width='30' height='1' fill='currentColor'/>" +
+    "<path d='M41 175.5L60.05 164.675V186.325L41 175.5Z' fill='currentColor' class='svg-cor-fill'/>" +
+    "<path d='M41 151.5L60.05 140.675V162.325L41 151.5Z' fill='currentColor' class='svg-cor-fill'/>" +
+    "<path d='M41 127.5L60.05 116.675V138.325L41 127.5Z' fill='currentColor' class='svg-cor-fill'/>" +
+    "<circle cx='45' cy='45' r='45' fill='currentColor'/>" +
+    "<circle cx='45' cy='45' r='25' fill='currentColor' class='svg-cor-fill'/></svg>";
+  elementoChave?.setHTMLUnsafe(svgChave);
 
-  // Placeholders para as imagens de chave primária, estrangeira e mista.
-  let valoresFundo: string[] = ["", "var(--cor-borda)", "var(--cor-botao)", "var(--cor-cabecalho)"];
+  let elementoSvg: SVGSVGElement | null | undefined = elementoChave?.querySelector("svg");
+  if (elementoChave === null || elementoSvg === null || elementoSvg === undefined) {
+    return;
+  }
+
+  let classesChave: string[] = [
+    "chave-escondida",
+    "chave-primaria",
+    "chave-estrangeira",
+    "chave-mista",
+  ];
   let nomeAtributoIndex: string = "index-fundo";
   let indexAtual: number = Number(
     elementoChave?.hasAttribute(nomeAtributoIndex)
@@ -37,13 +57,13 @@ const callbackAlterarAtributoRelacional = (event: MouseEvent): void => {
       : "0",
   );
 
-  if (indexAtual === valoresFundo.length - 1) {
+  if (indexAtual === classesChave.length - 1) {
     indexAtual = -1;
   }
 
   indexAtual++;
 
-  elementoChave?.style.setProperty("background-color", valoresFundo[indexAtual]);
+  elementoSvg.classList.value = classesChave[indexAtual];
   elementoChave?.setAttribute(nomeAtributoIndex, String(indexAtual));
 };
 
