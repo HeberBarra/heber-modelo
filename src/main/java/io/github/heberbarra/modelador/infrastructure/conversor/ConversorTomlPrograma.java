@@ -11,9 +11,8 @@
  *
  */
 
-package io.github.heberbarra.modelador.infrastructure.convesor;
+package io.github.heberbarra.modelador.infrastructure.conversor;
 
-import io.github.heberbarra.modelador.infrastructure.conversor.IConversorTOMLString;
 import java.util.List;
 import java.util.Map;
 
