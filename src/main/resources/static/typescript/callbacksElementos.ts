@@ -37,10 +37,23 @@ const callbackAlterarAtributoRelacional = (event: MouseEvent): void => {
     "<path d='M41 127.5L60.05 116.675V138.325L41 127.5Z' fill='currentColor' class='svg-cor-fill'/>" +
     "<circle cx='45' cy='45' r='45' fill='currentColor'/>" +
     "<circle cx='45' cy='45' r='25' fill='currentColor' class='svg-cor-fill'/></svg>";
-  elementoChave?.setHTMLUnsafe(svgChave);
 
-  let elementoSvg: SVGSVGElement | null | undefined = elementoChave?.querySelector("svg");
-  if (elementoChave === null || elementoSvg === null || elementoSvg === undefined) {
+  let elementoSvg: SVGSVGElement | HTMLElement | null | undefined =
+    elementoChave?.querySelector("svg");
+  if (elementoSvg === null || elementoSvg === undefined) {
+    elementoSvg = document.createElement("div");
+    elementoSvg.innerHTML = svgChave;
+    elementoChave?.prepend(elementoSvg);
+    elementoSvg = elementoChave?.querySelector("svg");
+  }
+
+  let descChave: HTMLSpanElement | null | undefined = elementoChave?.querySelector("span");
+  if (
+    descChave === null ||
+    descChave === undefined ||
+    elementoSvg === null ||
+    elementoSvg === undefined
+  ) {
     return;
   }
 
@@ -50,6 +63,7 @@ const callbackAlterarAtributoRelacional = (event: MouseEvent): void => {
     "chave-estrangeira",
     "chave-mista",
   ];
+  let descChaves: string[] = ["", "PK", "FK", "PF"];
   let nomeAtributoIndex: string = "index-fundo";
   let indexAtual: number = Number(
     elementoChave?.hasAttribute(nomeAtributoIndex)
@@ -64,6 +78,7 @@ const callbackAlterarAtributoRelacional = (event: MouseEvent): void => {
   indexAtual++;
 
   elementoSvg.classList.value = classesChave[indexAtual];
+  descChave.innerText = descChaves[indexAtual];
   elementoChave?.setAttribute(nomeAtributoIndex, String(indexAtual));
 };
 
@@ -71,5 +86,5 @@ const callbackCriarAtributoRelacional = (event: MouseEvent): void => {
   let novoAtributo: HTMLDivElement = document.createElement("div");
   (event.target as HTMLElement).parentElement?.append(novoAtributo);
   novoAtributo.outerHTML =
-    '<div class="atributo" onmouseup="callbackAlterarAtributoRelacional(event)"><span class="chave"></span><span contenteditable="true" spellcheck="true" class="texto">atributo: tipo</span></div>';
+    '<div class="atributo" onmouseup="callbackAlterarAtributoRelacional(event)"><span class="chave"><span class="desc-chave"></span></span><span contenteditable="true" spellcheck="true" class="texto">atributo: tipo</span></div>';
 };
