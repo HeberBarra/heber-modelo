@@ -64,6 +64,10 @@
       svg.chave-escondida {
         display: none;
       }
+
+      span.desc-chave {
+        pointer-events: none;
+      }
     }
 
     span.texto {
