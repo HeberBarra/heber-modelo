@@ -4,7 +4,7 @@
     <!--suppress HtmlUnknownTag -->
     <th:block th:replace="~{fragments/head :: head}"></th:block>
     <link rel="stylesheet" th:href="@{/css/solicitar.css}" />
-    <title>Solicitar Nova Senha</title>
+    <title th:text="#{web.page.request-password-change.title}"></title>
   </head>
   <!--
 Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
@@ -22,20 +22,43 @@ Licensed works, modifications, and larger works may be distributed under differe
     <main>
       <form action="" method="post">
         <label>
-          <input type="email" name="email" placeholder="Digite seu email / matrícula" required />
+          <th:block th:text="#{web.page.request-password-change.label.id}"></th:block>:
+          <input
+            type="number"
+            name="matricula"
+            th:placeholder="#{web.page.request-password-change.placeholder.id}"
+            required
+          />
         </label>
         <label>
+          <th:block th:text="#{web.page.request-password-change.label.name}"></th:block>:
+          <input
+            type="text"
+            name="nome"
+            th:placeholder="#{web.page.request-password-change.placeholder.name}"
+            required
+          />
+        </label>
+        <label>
+          <th:block th:text="#{web.page.request-password-change.label.reason}"></th:block>:
           <textarea
-            name="inconveniente"
-            placeholder="Digite o seu inconveniente(razão pela qual deseja mudar a sua senha)"
+            name="justificativa"
+            th:placeholder="#{web.page.request-password-change.placeholder.reason}"
             required
           ></textarea>
         </label>
-        <button id="continuar">continuar</button>
-        <span
-          >Ao continuar com o acesso, você concorda com a nossa
-          <a href="privacidade.html" id="politica">política de privacidade</a></span
-        >
+        <button
+          th:text="#{web.page.request-password-change.label.button.continue}"
+          id="continuar"
+        ></button>
+        <span>
+          <th:block th:text="#{web.page.request-password-change.privacy-notice.1}"></th:block>
+          <a
+            href="privacidade.html"
+            th:text="#{web.page.request-password-change.privacy-notice.2}"
+            id="politica"
+          ></a>
+        </span>
       </form>
     </main>
     <div th:replace="~{fragments/cookiesBanner :: #cookies-banner}"></div>

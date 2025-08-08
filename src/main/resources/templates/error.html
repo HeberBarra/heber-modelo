@@ -3,7 +3,7 @@
   <head>
     <!--suppress HtmlUnknownTag -->
     <th:block th:replace="~{fragments/head :: head}"></th:block>
-    <title th:text="${'Erro ' + status}"></title>
+    <title th:text="#{web.page.error.title} + ' ' + ${status}"></title>
   </head>
   <body>
     <!--
@@ -18,10 +18,10 @@ A short and simple permissive license with conditions only requiring preservatio
 Licensed works, modifications, and larger works may be distributed under different terms and without source code.
 -->
     <header>
-      <h1 th:text="${'Erro ' + status + ': ' + error}"></h1>
+      <h1 th:text="#{web.page.error.title} + ' ' + ${status + ': ' + error}"></h1>
     </header>
     <main>
-      Ocorreu um erro inesperado...
+      <th:block th:text="#{web.page.error.message}"></th:block>
       <button type="button"><a href="index.html">HOME</a></button>
     </main>
   </body>

@@ -5,7 +5,7 @@
     <th:block th:replace="~{fragments/head :: head}"></th:block>
     <link rel="stylesheet" th:href="@{/css/cadastro.css}" />
     <script th:src="@{/javascript/login.js}" defer></script>
-    <title>Perfil</title>
+    <title th:text="#{web.page.profile.title}"></title>
   </head>
   <body>
     <!--
@@ -22,15 +22,23 @@ Licensed works, modifications, and larger works may be distributed under differe
     <div th:replace="~{fragments/header :: header}"></div>
     <main>
       <form>
-        <label>Matrícula: <input type="number" readonly th:value="${usuario.matricula}" /></label>
-        <label>Nome: <input type="text" readonly th:value="${usuario.nome}" /></label>
-        <label>E-mail <input type="email" readonly th:value="${usuario.email}" /></label>
-        <label th:if="${usuario.tipo == 'E'}"
-          >Papel: <input type="text" readonly value="Estudante"
+        <label>
+          <th:block th:text="#{web.page.profile.label.id}"></th:block>
+          :<input type="number" readonly th:value="${usuario.matricula}"
         /></label>
-        <label th:if="${usuario.tipo == 'P'}"
-          >Papel: <input type="text" readonly value="Professor"
+        <label>
+          <th:block th:text="#{web.page.profile.label.name}"></th:block>
+          :<input type="text" readonly th:value="${usuario.nome}"
         /></label>
+        <label>
+          <th:block th:text="#{web.page.profile.label.email}"></th:block>
+          :<input type="email" readonly th:value="${usuario.email}"
+        /></label>
+        <label>
+          <th:block th:text="#{web.page.profile.label.role}"></th:block>:
+          <input type="text" readonly value="Estudante" th:if="${usuario.tipo == 'E'}" />
+          <input type="text" readonly value="Professor" th:if="${usuario.tipo == 'P'}" />
+        </label>
       </form>
     </main>
     <div th:replace="~{fragments/cookiesBanner :: #cookies-banner}"></div>
