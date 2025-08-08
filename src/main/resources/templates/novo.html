@@ -21,12 +21,21 @@ Licensed works, modifications, and larger works may be distributed under differe
     <header th:replace="~{fragments/header :: header}"></header>
     <main>
       <form action="/editor" method="post" th:object="${novoDiagramaDTO}">
-        <label>Nome do Arquivo:<input type="text" name="nome" /></label>
-        <label>Autor:<input type="text" name="autor" required /></label>
-        <label>E-Mail:<input type="email" name="email" /></label>
+        <label>
+          <th:block th:text="#{web.page.new-diagram.label.filename}"></th:block>
+          :<input type="text" name="nome" required />
+        </label>
+        <label>
+          <th:block th:text="#{web.page.new-diagram.label.author}"></th:block>
+          :<input type="text" name="autor" required />
+        </label>
+        <label>
+          <th:block th:text="#{web.page.new-diagram.label.email}"></th:block>
+          :<input type="email" name="email" />
+        </label>
         <div class="diagramas">
           <section id="diagramas-uml">
-            <h3>UML</h3>
+            <h3 th:text="#{web.page.new-diagram.label.uml}"></h3>
             <div class="checkbox-group">
               <label
                 th:each="d,status : ${diagramasUML}"
@@ -51,7 +60,7 @@ Licensed works, modifications, and larger works may be distributed under differe
             </div>
           </section>
           <section id="diagramas-banco">
-            <h3>Banco de Dados</h3>
+            <h3 th:text="#{web.page.new-diagram.label.database}"></h3>
             <div class="checkbox-group">
               <label th:each="d : ${diagramasBD}" th:title="${d.getTitulo()}">
                 <input type="checkbox" th:field="*{tiposDiagrama}" th:value="${d.getValor()}" />
@@ -61,7 +70,7 @@ Licensed works, modifications, and larger works may be distributed under differe
             </div>
           </section>
           <section id="diagramas-outros">
-            <h3>Outros</h3>
+            <h3 th:text="#{web.page.new-diagram.label.others}"></h3>
             <div class="checkbox-group">
               <label th:each="d : ${diagramasOutros}" th:title="${d.getTitulo()}">
                 <input type="checkbox" th:field="*{tiposDiagrama}" th:value="${d.getValor()}" />
@@ -72,8 +81,10 @@ Licensed works, modifications, and larger works may be distributed under differe
           </section>
         </div>
         <div class="botoes">
-          <button type="submit">CONFIRMAR</button>
-          <button type="reset"><a href="index.html">CANCELAR</a></button>
+          <button type="submit" th:text="#{web.page.new-diagram.label.button.confirm}"></button>
+          <button type="reset">
+            <a href="index.html" th:text="#{web.page.new-diagram.label.button.cancel}"></a>
+          </button>
         </div>
       </form>
     </main>

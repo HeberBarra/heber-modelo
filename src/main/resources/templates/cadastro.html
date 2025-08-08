@@ -5,7 +5,7 @@
     <th:block th:replace="~{fragments/head :: head}"></th:block>
     <link rel="stylesheet" th:href="@{/css/cadastro.css}" />
     <script th:src="@{/javascript/cadastro.js}" defer></script>
-    <title>Cadastro</title>
+    <title th:text="#{web.page.register.title}">Cadastro</title>
   </head>
   <body>
     <!--
@@ -23,36 +23,61 @@
     <main>
       <form action="cadastro.html" method="post" th:object="${usuario}">
         <div class="aviso" th:if="${param.exists}" th:text="#{web.page.register.use-exists}"></div>
-        <label
-          ><th:block th:text="#{web.page.register.label.full-name}"></th:block
-          ><input type="text" name="nome" required
-        /></label>
-        <label
-          ><th:block th:text="#{web.page.register.label.student-id}"></th:block
-          ><input type="number" name="matricula" required
-        /></label>
+        <label>
+          <th:block th:text="#{web.page.register.label.full-name}"></th:block>
+          <input
+            type="text"
+            name="nome"
+            th:placeholder="#{web.page.register.placeholder.name}"
+            required
+          />
+        </label>
+        <label>
+          <th:block th:text="#{web.page.register.label.student-id}"></th:block>
+          <input
+            type="number"
+            name="matricula"
+            th:placeholder="#{web.page.register.placeholder.id}"
+            required
+          />
+        </label>
         <div
           class="aviso"
           th:if="${param.invalidEmail}"
           th:text="#{web.page.register.invalid-email}"
         ></div>
-        <label
-          ><th:block th:text="#{web.page.register.label.email}"></th:block
-          ><input type="email" name="email" required
-        /></label>
+        <label>
+          <th:block th:text="#{web.page.register.label.email}"></th:block>
+          <input
+            type="email"
+            name="email"
+            th:placeholder="#{web.page.register.placeholder.email}"
+            required
+          />
+        </label>
         <div
           class="aviso"
           th:if="${param.mismatch}"
           th:text="#{web.page.register.passwords-differ}"
         ></div>
-        <label
-          ><th:block th:text="#{web.page.register.label.password}"></th:block
-          ><input type="password" name="senha" required
-        /></label>
-        <label
-          ><th:block th:text="#{web.page.register.label.confirm-password}"></th:block
-          ><input type="password" name="confirmarSenha" required
-        /></label>
+        <label>
+          <th:block th:text="#{web.page.register.label.password}"></th:block>
+          <input
+            type="password"
+            name="senha"
+            th:placeholder="#{web.page.register.placeholder.password}"
+            required
+          />
+        </label>
+        <label>
+          <th:block th:text="#{web.page.register.label.confirm-password}"></th:block>
+          <input
+            type="password"
+            name="confirmarSenha"
+            th:placeholder="#{web.page.register.placeholder.confirm-password}"
+            required
+          />
+        </label>
         <button th:text="#{web.page.register.label.submit}" type="button" id="btn-enviar"></button>
         <button type="submit" id="btn-enviar-verdadeiro" style="display: none"></button>
       </form>

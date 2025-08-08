@@ -4,7 +4,7 @@
     <!--suppress HtmlUnknownTag -->
     <th:block th:replace="~{fragments/head :: head}"></th:block>
     <link rel="stylesheet" th:href="@{/css/redefinir.css}" />
-    <title>Redefinir Senha</title>
+    <title th:text="#{web.page.reset-password.title}"></title>
   </head>
   <!--
 Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
@@ -22,16 +22,32 @@ Licensed works, modifications, and larger works may be distributed under differe
     <main>
       <form action="" method="post">
         <label>
-          <input type="text" name="senhaNova" placeholder="Digite a nova senha" required
-        /></label>
-        <label>
-          <input type="text" name="confirmarSenha" placeholder="Confirme a nova senha" required />
+          <th:block th:text="#{web.page.reset-password.label.new-password}"></th:block>:
+          <input
+            type="password"
+            name="senhaNova"
+            th:placeholder="#{web.page.reset-password.placeholder.new-password}"
+            required
+          />
         </label>
-        <button id="continuar">continuar</button>
-        <span
-          >Ao continuar com o acesso, você concorda com a nossa
-          <a href="privacidade.html" id="politica">política de privacidade</a></span
-        >
+        <label>
+          <th:block th:text="#{web.page.reset-password.label.confirm-password}"></th:block>:
+          <input
+            type="password"
+            name="confirmarSenha"
+            th:placeholder="#{web.page.reset-password.placeholder.confirm-password}"
+            required
+          />
+        </label>
+        <button th:text="#{web.page.reset-password.label.button.continue}" id="continuar"></button>
+        <span>
+          <th:block th:text="#{web.page.reset-password.privacy-notice.1}"></th:block>&nbsp;
+          <a
+            href="privacidade.html"
+            th:text="#{web.page.reset-password.privacy-notice.2}"
+            id="politica"
+          ></a>
+        </span>
       </form>
     </main>
     <div th:replace="~{fragments/cookiesBanner :: #cookies-banner}"></div>
