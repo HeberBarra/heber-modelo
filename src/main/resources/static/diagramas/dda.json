@@ -5,7 +5,8 @@
   "elementos": [
     {
       "nome": "nota",
-      "tipo": "nota"
+      "tipo": "nota",
+      "chaveI18N": "element.note"
     }
   ]
 }

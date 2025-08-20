@@ -5,31 +5,38 @@
   "elementos": [
     {
       "nome": "agregação",
-      "tipo": "agregacao"
+      "tipo": "agregacao",
+      "chaveI18N": "element.aggregation"
     },
     {
-      "nome": "atributo der",
-      "tipo": "atributo_der"
+      "nome": "atributo",
+      "tipo": "atributo_der",
+      "chaveI18N": "element.entity-attribute"
     },
     {
       "nome": "entidade",
-      "tipo": "entidade"
+      "tipo": "entidade",
+      "chaveI18N": "element.entity"
     },
     {
       "nome": "especialização",
-      "tipo": "especializacao"
+      "tipo": "especializacao",
+      "chaveI18N": "element.specialization"
     },
     {
       "nome": "nota",
-      "tipo": "nota"
+      "tipo": "nota",
+      "chaveI18N": "element.note"
     },
     {
       "nome": "relacionamento",
-      "tipo": "relacionamento"
+      "tipo": "relacionamento",
+      "chaveI18N": "element.relationship"
     },
     {
       "nome": "texto",
-      "tipo": "texto"
+      "tipo": "texto",
+      "chaveI18N": "element.text"
     }
   ]
 }

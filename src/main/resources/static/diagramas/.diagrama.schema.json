@@ -17,6 +17,9 @@
           },
           "tipo": {
             "type": "string"
+          },
+          "chaveI18N": {
+            "type": "string"
           }
         },
         "required": ["nome", "tipo"]

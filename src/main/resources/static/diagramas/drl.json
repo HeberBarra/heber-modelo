@@ -5,15 +5,18 @@
   "elementos": [
     {
       "nome": "entidade",
-      "tipo": "entidade_relacional"
+      "tipo": "entidade_relacional",
+      "chaveI18N": "element.entity-relational"
     },
     {
       "nome": "nota",
-      "tipo": "nota"
+      "tipo": "nota",
+      "chaveI18N": "element.note"
     },
     {
       "nome": "texto",
-      "tipo": "texto"
+      "tipo": "texto",
+      "chaveI18N": "element.text"
     }
   ]
 }
