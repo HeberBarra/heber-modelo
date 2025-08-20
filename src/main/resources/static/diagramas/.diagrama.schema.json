@@ -4,6 +4,9 @@
     "nome": {
       "type": "string"
     },
+    "chaveI18N": {
+      "type": "string"
+    },
     "elementos": {
       "type": "array",
       "items": {
