@@ -9,7 +9,11 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-import { DiagramaJSON, TipoComponenteJSON } from "./diagramaJSON.js";
+import { ResponseTraducaoJSON } from "../../model/response/responseTraducaoJSON.js";
+import {
+  ResponseDiagramaJSON,
+  TipoComponenteJSON,
+} from "../../model/response/responseDiagramaJSON";
 
 export class CarregadorDiagrama {
   private gerarBotaoCriarElemento(
@@ -33,11 +37,21 @@ export class CarregadorDiagrama {
   ): Promise<HTMLFieldSetElement> {
     return await fetch(`diagramas/${nomeDiagrama}.json`).then(
       async (response: Response): Promise<HTMLFieldSetElement> => {
-        const diagramaJSON: DiagramaJSON = await response.json();
+        const diagramaJSON: ResponseDiagramaJSON = await response.json();
+
+        let valorNomeDiagrama: string = diagramaJSON.nome;
+        if (diagramaJSON.chaveI18N !== null && diagramaJSON.chaveI18N !== undefined) {
+          valorNomeDiagrama = await fetch(`/traducao/${diagramaJSON.chaveI18N}`).then(
+            async (response: Response): Promise<string> => {
+              const responseTraducao: ResponseTraducaoJSON = await response.json();
+              return responseTraducao.mensagem;
+            },
+          );
+        }
 
         let fieldset: HTMLFieldSetElement = document.createElement("fieldset");
         let nomeDiagrama: HTMLLegendElement = document.createElement("legend");
-        nomeDiagrama.innerText = diagramaJSON.nome;
+        nomeDiagrama.innerText = valorNomeDiagrama;
         fieldset.append(nomeDiagrama);
         fieldset.classList.add("componentes-diagrama");
 
