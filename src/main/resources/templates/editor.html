@@ -14,7 +14,7 @@
       configurarGrade("--espessura-grade", "[(${espessuraGrade})]");
       configurarGrade("--tamanho-quadrado-grade", "[(${tamanhoQuadradoGrade})]");
     </script>
-    <title>Editor</title>
+    <title th:text="#{web.page.editor.title}"></title>
   </head>
   <body>
     <!--
@@ -31,15 +31,15 @@ Licensed works, modifications, and larger works may be distributed under differe
     <header th:replace="~{fragments/header :: header}"></header>
     <aside id="painel-esquerdo">
       <div class="wrapper-botoes-alterar-secoes">
-        <button class="btn-voltar-secao">Voltar Seção</button>
-        <button class="btn-proxima-secao">Próxima Seção</button>
+        <button class="btn-voltar-secao" th:text="#{web.page.editor.backward}"></button>
+        <button class="btn-proxima-secao" th:text="#{web.page.editor.forward}"></button>
       </div>
       <button type="button" class="btn-painel-esquerdo btn-esconder">&lt;</button>
       <button type="button" class="btn-painel-esquerdo btn-mostrar">&gt;</button>
       <section id="diagramas" class="pagina">
-        <h2>DIAGRAMAS</h2>
+        <h2 th:text="#{web.page.editor.section.diagrams}"></h2>
         <section id="UML">
-          <h2>UML</h2>
+          <h2 th:text="#{web.page.editor.section.diagramas.uml}"></h2>
           <label th:each="d : ${diagramasUML}" th:title="${d.getTitulo()}">
             <input class="carregar-diagrama" type="checkbox" th:value="${d.getValor()}" />
             <span class="traco">-</span>
@@ -47,7 +47,7 @@ Licensed works, modifications, and larger works may be distributed under differe
           </label>
         </section>
         <section id="banco-de-dados">
-          <h2>BANCO DE DADOS/OUTROS</h2>
+          <h2 th:text="#{web.page.editor.section.diagramas.others}"></h2>
           <label th:each="d : ${diagramasBD}" th:title="${d.getTitulo()}">
             <input class="carregar-diagrama" type="checkbox" th:value="${d.getValor()}" />
             <span class="traco">-</span>
@@ -61,26 +61,41 @@ Licensed works, modifications, and larger works may be distributed under differe
         </section>
       </section>
       <section id="componentes" class="pagina">
-        <h2>COMPONENTES</h2>
+        <h2 th:text="#{web.page.editor.section.components}"></h2>
       </section>
     </aside>
     <aside id="painel-direito">
       <div class="wrapper-botoes-alterar-secoes">
-        <button class="btn-voltar-secao">Voltar Seção</button>
-        <button class="btn-proxima-secao">Próxima Seção</button>
+        <button class="btn-voltar-secao" th:text="#{web.page.editor.backward}"></button>
+        <button class="btn-proxima-secao" th:text="#{web.page.editor.forward}"></button>
       </div>
       <button type="button" class="btn-painel-direito btn-esconder">&gt;</button>
       <button type="button" class="btn-painel-direito btn-mostrar">&lt;</button>
       <section id="propriedades" class="pagina">
-        <h2>PROPRIEDADES</h2>
-        <label>X: <input type="text" name="componente-x" /></label>
-        <label>Y: <input type="text" name="componente-y" /></label>
-        <label>Altura: <input type="text" name="componente-altura" /></label>
-        <label>Largura: <input type="text" name="componente-largura" /></label>
-        <label>Tamanho Fonte: <input type="text" name="componente-tamanho-fonte" /></label>
+        <h2 th:text="#{web.page.editor.section.properties}"></h2>
+        <label>
+          <th:block th:text="#{web.page.editor.section.properties.x}"></th:block>
+          <input type="text" name="componente-x" />
+        </label>
+        <label>
+          <th:block th:text="#{web.page.editor.section.properties.y}"></th:block>
+          <input type="text" name="componente-y" />
+        </label>
+        <label>
+          <th:block th:text="#{web.page.editor.section.properties.height}"></th:block>
+          <input type="text" name="componente-altura" />
+        </label>
+        <label>
+          <th:block th:text="#{web.page.editor.section.properties.width}"></th:block>
+          <input type="text" name="componente-largura" />
+        </label>
+        <label>
+          <th:block th:text="#{web.page.editor.section.properties.fontsize}"></th:block>
+          <input type="text" name="componente-tamanho-fonte" />
+        </label>
       </section>
       <section id="paginas" class="pagina">
-        <h2>PÁGINAS</h2>
+        <h2 th:text="#{web.page.editor.section.pages}"></h2>
       </section>
     </aside>
     <main>
