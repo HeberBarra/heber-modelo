@@ -19,4 +19,5 @@ export interface ResponseDiagramaJSON {
 export interface TipoComponenteJSON {
   nome: string;
   tipo: string;
+  chaveI18N: string;
 }

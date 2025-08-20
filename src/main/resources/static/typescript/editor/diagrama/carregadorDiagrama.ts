@@ -43,7 +43,7 @@ export class CarregadorDiagrama {
         if (diagramaJSON.chaveI18N !== null && diagramaJSON.chaveI18N !== undefined) {
           valorNomeDiagrama = await fetch(`/traducao/${diagramaJSON.chaveI18N}`).then(
             async (response: Response): Promise<string> => {
-              const responseTraducao: ResponseTraducaoJSON = await response.json();
+              let responseTraducao: ResponseTraducaoJSON = await response.json();
               return responseTraducao.mensagem;
             },
           );
@@ -55,15 +55,22 @@ export class CarregadorDiagrama {
         fieldset.append(nomeDiagrama);
         fieldset.classList.add("componentes-diagrama");
 
-        diagramaJSON.elementos.forEach((tipoElemento: TipoComponenteJSON): void => {
+        for (const tipoElemento of diagramaJSON.elementos) {
+          let nomeElemento: string = tipoElemento.nome;
+
+          if (tipoElemento.chaveI18N !== null && tipoElemento.chaveI18N !== undefined) {
+            nomeElemento = await fetch(`/traducao/${tipoElemento.chaveI18N}`).then(
+              async (response: Response): Promise<string> => {
+                let responseTraducao: ResponseTraducaoJSON = await response.json();
+                return responseTraducao.mensagem;
+              },
+            );
+          }
+
           fieldset.append(
-            this.gerarBotaoCriarElemento(
-              callbackCriarComponente,
-              tipoElemento.nome,
-              tipoElemento.tipo,
-            ),
+            this.gerarBotaoCriarElemento(callbackCriarComponente, nomeElemento, tipoElemento.tipo),
           );
-        });
+        }
 
         return fieldset;
       },
