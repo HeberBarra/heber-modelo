@@ -1,40 +1,35 @@
 @charset "UTF-8";
+@use "variaveis";
 
-/**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+/*!
+ * Copyright (c) 2025. Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  *
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
  *
- *     https://choosealicense.com/licenses/mit/
+ *   https://choosealicense.com/licenses/mit/
  *
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ *
  */
 
-@font-face {
-  font-family: "Cookie";
-  src:
-    local("Cookie"),
-    url("/fonts/Cookie/Cookie-Regular.ttf") format("truetype");
-}
-
 header {
-  width: 100%;
-  max-height: 5rem;
-  display: grid;
-  grid-template-columns: 5% 90% 5%;
-  background: var(--cor-cabecalho);
+  align-items: center;
+  background-color: var(--cor-cabecalho);
   color: var(--cor-letra);
-  padding: 0.7rem;
-  text-align: left;
-  font-family: "Cookie", Roboto, cursive;
-  font-size: 2rem;
+  display: grid;
+  font-family: "Cookie", Roboto, Arial, serif;
+  font-size: variaveis.$fontsizeHeader;
+  grid-template-columns: 10% 80% 10%;
+  height: fit-content;
+  padding: variaveis.$paddingPadrao;
+  width: 100%;
 
   button {
-    grid-column: 1;
-    max-height: 80%;
     aspect-ratio: 1 / 1;
+    grid-column: 1;
+    width: 4rem;
 
     a {
       color: var(--cor-botao);
@@ -43,13 +38,9 @@ header {
     a:hover {
       color: var(--cor-botao-hover);
     }
-
-    .svg-cor-fonte {
-      color: var(--cor-letra);
-    }
   }
+}
 
-  h1 {
-    grid-column: 2;
-  }
+.svg-cor-fonte {
+  color: var(--cor-letra);
 }

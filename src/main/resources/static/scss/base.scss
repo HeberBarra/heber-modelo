@@ -1,46 +1,62 @@
 @charset "UTF-8";
+@use "estiloComum";
+@use "estiloFooter";
+@use "estiloHeader";
+@use "variaveis";
 
-/**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+/*!
+ * Copyright (c) 2025. Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  *
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
  *
- *     https://choosealicense.com/licenses/mit/
+ *   https://choosealicense.com/licenses/mit/
  *
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ *
  */
 
-@use "estiloComum";
-@use "estiloHeader";
+body {
+  display: grid;
+  grid-template-rows: 15% 80% 5%;
+}
+
+header {
+  height: 100%;
+}
 
 main {
-  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 2rem;
+  display: flex;
   flex-direction: column;
-  background-color: var(--cor-fundo);
+  gap: 2rem;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
 
   button {
+    font-size: variaveis.$fontsizeHeader * 0.75;
     width: 40%;
-    font-size: 1.5rem;
   }
 }
 
-#cookies-banner {
+footer {
+  height: 100%;
+}
+
+section#cookies-banner {
+  background-color: var(--cor-cabecalho);
+  bottom: 0;
+  color: var(--cor-letra);
   display: flex;
   flex-direction: column;
+  padding: variaveis.$paddingPadrao;
   position: absolute;
-  bottom: 0;
-  background-color: var(--cor-cabecalho);
-  color: var(--cor-letra);
-  padding: 0.7rem;
   z-index: 100;
 
   button {
-    width: 20%;
     align-self: flex-end;
+    width: 20%;
   }
 }
