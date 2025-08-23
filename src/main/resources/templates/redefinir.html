@@ -23,31 +23,24 @@ Licensed works, modifications, and larger works may be distributed under differe
       <form action="" method="post">
         <label>
           <th:block th:text="#{web.page.reset-password.label.new-password}"></th:block>:
-          <input
-            type="password"
-            name="senhaNova"
-            th:placeholder="#{web.page.reset-password.placeholder.new-password}"
-            required
-          />
+          <input type="password" name="senhaNova" required />
         </label>
         <label>
           <th:block th:text="#{web.page.reset-password.label.confirm-password}"></th:block>:
-          <input
-            type="password"
-            name="confirmarSenha"
-            th:placeholder="#{web.page.reset-password.placeholder.confirm-password}"
-            required
-          />
+          <input type="password" name="confirmarSenha" required />
         </label>
         <button th:text="#{web.page.reset-password.label.button.continue}" id="continuar"></button>
-        <span>
-          <th:block th:text="#{web.page.reset-password.privacy-notice.1}"></th:block>&nbsp;
-          <a
-            href="privacidade.html"
-            th:text="#{web.page.reset-password.privacy-notice.2}"
-            id="politica"
-          ></a>
-        </span>
+        <small>
+          <span>
+            <th:block th:text="#{web.page.reset-password.privacy-notice.1}"></th:block>&nbsp;
+            <a
+              href="privacidade.html"
+              th:text="#{web.page.reset-password.privacy-notice.2}"
+              id="politica"
+            ></a>
+            .
+          </span>
+        </small>
       </form>
     </main>
     <div th:replace="~{fragments/cookiesBanner :: #cookies-banner}"></div>

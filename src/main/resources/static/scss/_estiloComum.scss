@@ -1,33 +1,39 @@
 @charset "UTF-8";
+@use "variaveis";
 
-/**
- * Copyright (C) 2025 Heber Ferreira Barra, João Gabriel de Cristo, Matheus Jun Alves Matuda.
+/*!
+ * Copyright (c) 2025. Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  *
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
  *
- *     https://choosealicense.com/licenses/mit/
+ *   https://choosealicense.com/licenses/mit/
  *
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ *
  */
 
 * {
-  padding: 0;
-  margin: 0;
+  border: none;
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+//noinspection CssUnknownTarget
+@font-face {
+  font-family: "Cookie";
+  src:
+    local("Cookie"),
+    url("/fonts/Cookie/Cookie-Regular.ttf") format("truetype");
 }
 
 body {
-  display: grid;
+  background-color: var(--cor-fundo);
   min-width: 100vw;
   max-width: 100vw;
-  min-height: 100vh;
-  background-color: var(--cor-fundo);
-}
-
-header {
-  align-self: flex-start;
+  height: 100vh;
 }
 
 main,
@@ -37,28 +43,11 @@ aside {
   font-family: Arial, serif;
 }
 
-main {
-  align-self: center;
-  grid-row: 2;
-  min-height: 100%;
-}
-
-footer {
-  align-self: flex-end;
-  width: 100%;
-  background: var(--cor-cabecalho);
-  color: var(--cor-letra);
-  text-align: center;
-  max-height: 2rem;
-  padding: 0.1rem;
-}
-
 button {
-  border: none;
-  border-radius: 1rem;
-  background: var(--cor-botao);
+  background-color: var(--cor-botao);
+  border-radius: variaveis.$borderRadiusBotao;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: variaveis.$paddingPadrao;
 
   &,
   & > a {
@@ -70,16 +59,16 @@ button {
   }
 
   &:hover {
-    background: var(--cor-botao-hover);
+    background-color: var(--cor-botao-hover);
   }
 
   a {
-    display: flex;
     align-items: center;
+    display: flex;
+    height: 100%;
     justify-content: center;
+    padding: variaveis.$paddingPadrao;
     text-decoration: none;
     width: 100%;
-    height: 100%;
-    padding: 0.5rem;
   }
 }

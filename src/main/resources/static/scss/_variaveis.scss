@@ -1,5 +1,4 @@
 @charset "UTF-8";
-@use "variaveis";
 
 /*!
  * Copyright (c) 2025. Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
@@ -14,6 +13,11 @@
  *
  */
 
-span.traco {
-  font-size: variaveis.$fontsizeHeader * 0.75;
-}
+$borderRadiusBotao: 1rem;
+$borderRadiusInput: 0.5rem;
+$estiloBordaPainel: var(--cor-borda) solid 0.1rem;
+$fontsizeHeader: 2rem;
+$gapForm: 0.5rem;
+$paddingPadrao: 0.5rem;
+$tamanhoBordaInput: 0.1rem;
+$tamanhoBotaoInput: 2rem;
