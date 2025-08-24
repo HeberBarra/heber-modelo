@@ -11,8 +11,18 @@
  */
 
 let btnDesligar: HTMLButtonElement | null = document.querySelector("#btn-desligar");
-let formDesligar: HTMLFormElement | null = document.querySelector("#form-desligar");
+btnDesligar?.addEventListener("click", async (): Promise<void> => {
+  let tokenDesligar: string = document.cookie.split("TOKEN_DESLIGAR=")[1].split(";")[0];
 
-btnDesligar?.addEventListener("click", () => {
-  formDesligar?.submit();
+  await fetch(`/desligar?token=${tokenDesligar}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      token: tokenDesligar,
+    }),
+  }).then(async (response: Response): Promise<void> => {
+    if (response.ok) {
+      window.alert(await fetch("/traducao/app.end"));
+    }
+  });
 });

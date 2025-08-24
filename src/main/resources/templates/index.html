@@ -3,6 +3,7 @@
   <head>
     <th:block th:replace="~{fragments/head :: head}"></th:block>
     <link rel="stylesheet" th:if="${desligar != null}" th:href="@{/css/desligar.css}" />
+    <script th:src="@{/javascript/desligar.js}" defer></script>
     <title>Heber-Modelo</title>
   </head>
   <body>
@@ -54,9 +55,5 @@ Licensed works, modifications, and larger works may be distributed under differe
         </svg>
       </button>
     </footer>
-    <form th:if="${desligar != null}" id="form-desligar" action="desligar.html" method="post">
-      <label><input type="text" name="token" th:value="${desligar}" /></label>
-    </form>
-    <script th:if="${desligar != null}" th:src="@{/javascript/desligar.js}"></script>
   </body>
 </html>

@@ -26,6 +26,8 @@ import io.github.heberbarra.modelador.infrastructure.configuracao.WatcherPastaCo
 import io.github.heberbarra.modelador.infrastructure.entity.Usuario;
 import io.github.heberbarra.modelador.infrastructure.services.UsuarioServices;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URI;
@@ -175,10 +177,12 @@ public class ControladorWeb {
     }
 
     @RequestMapping({"/", "/index", "/index.html", "home", "home.html"})
-    public String index(ModelMap modelMap) {
+    public String index(ModelMap modelMap, HttpServletResponse response) {
         InjetorAtributos.injetarTituloPagina(modelMap, "home");
         InjetorAtributos.injetarPaleta(modelMap);
-        modelMap.addAttribute("desligar", TOKEN_SECRETO);
+        Cookie cookieTokenDesligar = new Cookie("TOKEN_DESLIGAR", TOKEN_SECRETO);
+        modelMap.addAttribute("desligar", "");
+        response.addCookie(cookieTokenDesligar);
 
         return "index";
     }
@@ -286,17 +290,8 @@ public class ControladorWeb {
         return "novo";
     }
 
-    @GetMapping({"desligar", "desligar.html"})
-    public String desligar() {
-        return "redirect:index";
-    }
-
-    @PostMapping({"/desligar", "/desligar.html"})
-    public void desligar(ModelMap modelMap, @RequestParam("token") String token) {
-        InjetorAtributos.injetarTituloPagina(modelMap, "shutdown");
-        InjetorAtributos.injetarPaleta(modelMap);
-        modelMap.addAttribute("desligar", TOKEN_SECRETO);
-
+    @PostMapping({"/desligar"})
+    public void desligar(@RequestParam("token") String token) {
         if (configurador.pegarValorConfiguracao("programa", "desativar_botao_desligar", boolean.class)) return;
 
         if (TOKEN_SECRETO.equals(token)) {
