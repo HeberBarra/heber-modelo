@@ -20,14 +20,8 @@ const callbackInverterAtributo = (event: MouseEvent): void => {
 /* Diagrama do Modelo Relacional */
 /*********************************/
 
-const callbackAlterarAtributoRelacional = (event: MouseEvent): void => {
-  if (event.button == 1) {
-    (event.target as HTMLElement).remove();
-    return;
-  }
-
-  let elementoChave: HTMLElement | null = (event.target as HTMLElement).querySelector(".chave");
-  let svgChave: string =
+class ModeloChaveRelacional {
+  private static _svgChave: string =
     "<svg width='10px' height='20px' viewBox='0 0 90 221' xmlns='http://www.w3.org/2000/svg'>" +
     "<rect x='30' y='71' width='30' height='125' fill='currentColor'/>" +
     "<path d='M45 221L60.2169 195.779L54.4046 154.971H35.5954L29.7831 195.779L45 221Z' fill='currentColor'/>" +
@@ -38,11 +32,39 @@ const callbackAlterarAtributoRelacional = (event: MouseEvent): void => {
     "<circle cx='45' cy='45' r='45' fill='currentColor'/>" +
     "<circle cx='45' cy='45' r='25' fill='currentColor' class='svg-cor-fill'/></svg>";
 
+  private readonly _classeChave: string;
+  private readonly _descricaoChave: string;
+
+  constructor(classeChave: string, descricaoChave: string) {
+    this._classeChave = classeChave;
+    this._descricaoChave = descricaoChave;
+  }
+
+  static get svgChave(): string {
+    return this._svgChave;
+  }
+
+  get classeChave(): string {
+    return this._classeChave;
+  }
+
+  get descricaoChave(): string {
+    return this._descricaoChave;
+  }
+}
+
+const callbackAlterarAtributoRelacional = (event: MouseEvent): void => {
+  if (event.button == 1) {
+    (event.target as HTMLElement).remove();
+    return;
+  }
+
+  let elementoChave: HTMLElement | null = (event.target as HTMLElement).querySelector(".chave");
   let elementoSvg: SVGSVGElement | HTMLElement | null | undefined =
     elementoChave?.querySelector("svg");
   if (elementoSvg === null || elementoSvg === undefined) {
     elementoSvg = document.createElement("div");
-    elementoSvg.innerHTML = svgChave;
+    elementoSvg.innerHTML = ModeloChaveRelacional.svgChave;
     elementoChave?.prepend(elementoSvg);
     elementoSvg = elementoChave?.querySelector("svg");
   }
@@ -57,13 +79,14 @@ const callbackAlterarAtributoRelacional = (event: MouseEvent): void => {
     return;
   }
 
-  let classesChave: string[] = [
-    "chave-escondida",
-    "chave-primaria",
-    "chave-estrangeira",
-    "chave-mista",
+  let chavesRelacionais: ModeloChaveRelacional[] = [
+    new ModeloChaveRelacional("chave-escondida", ""),
+    new ModeloChaveRelacional("chave-primaria", "PK"),
+    new ModeloChaveRelacional("chave-estrangeira", "FK"),
+    new ModeloChaveRelacional("chave-mista", "PF"),
+    new ModeloChaveRelacional("chave-unica", "UQ"),
   ];
-  let descChaves: string[] = ["", "PK", "FK", "PF"];
+
   let nomeAtributoIndex: string = "index-fundo";
   let indexAtual: number = Number(
     elementoChave?.hasAttribute(nomeAtributoIndex)
@@ -71,20 +94,21 @@ const callbackAlterarAtributoRelacional = (event: MouseEvent): void => {
       : "0",
   );
 
-  if (indexAtual === classesChave.length - 1) {
+  if (indexAtual === chavesRelacionais.length - 1) {
     indexAtual = -1;
   }
 
   indexAtual++;
 
-  elementoSvg.classList.value = classesChave[indexAtual];
-  descChave.innerText = descChaves[indexAtual];
+  elementoSvg.classList.value = chavesRelacionais[indexAtual].classeChave;
+  descChave.innerText = chavesRelacionais[indexAtual].descricaoChave;
   elementoChave?.setAttribute(nomeAtributoIndex, String(indexAtual));
 };
 
 const callbackCriarAtributoRelacional = (event: MouseEvent): void => {
   let novoAtributo: HTMLDivElement = document.createElement("div");
   (event.target as HTMLElement).parentElement?.append(novoAtributo);
+  // noinspection JSCheckFunctionSignatures,JSDeprecatedSymbols
   novoAtributo.outerHTML =
     '<div class="atributo" onmouseup="callbackAlterarAtributoRelacional(event)"><span class="chave"><span class="desc-chave"></span></span><span contenteditable="true" spellcheck="true" class="texto">atributo: tipo</span></div>';
 };
