@@ -14,7 +14,7 @@ let btnDesligar: HTMLButtonElement | null = document.querySelector("#btn-desliga
 btnDesligar?.addEventListener("click", async (): Promise<void> => {
   let tokenDesligar: string = document.cookie.split("TOKEN_DESLIGAR=")[1].split(";")[0];
 
-  await fetch(`/desligar?token=${tokenDesligar}`, {
+  await fetch(`/desligar`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({

@@ -16,13 +16,12 @@ package io.github.heberbarra.modelador;
 import io.github.heberbarra.modelador.application.diagrama.ListadorTiposDiagrama;
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
-import io.github.heberbarra.modelador.application.usecase.gerar.GeradorToken;
-import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
 import io.github.heberbarra.modelador.domain.configuracao.IConfigurador;
 import io.github.heberbarra.modelador.domain.model.NovoDiagramaDTO;
 import io.github.heberbarra.modelador.domain.model.UsuarioDTO;
 import io.github.heberbarra.modelador.infrastructure.configuracao.ConfiguradorPrograma;
 import io.github.heberbarra.modelador.infrastructure.configuracao.WatcherPastaConfiguracao;
+import io.github.heberbarra.modelador.infrastructure.controller.ControladorDesligar;
 import io.github.heberbarra.modelador.infrastructure.entity.Usuario;
 import io.github.heberbarra.modelador.infrastructure.services.UsuarioServices;
 import jakarta.annotation.PostConstruct;
@@ -52,7 +51,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.tomlj.TomlTable;
 
 @EnableAsync
@@ -62,7 +60,6 @@ import org.tomlj.TomlTable;
 public class ControladorWeb {
 
     private static final Logger logger = JavaLogger.obterLogger(ControladorWeb.class.getName());
-    private static final String TOKEN_SECRETO;
     private static final IConfigurador configurador;
     private final TaskExecutor taskExecutor;
     private final UsuarioServices usuarioServices;
@@ -75,9 +72,6 @@ public class ControladorWeb {
 
     static {
         configurador = ConfiguradorPrograma.getInstance();
-        GeradorToken geradorToken = new GeradorToken();
-        geradorToken.gerarToken();
-        TOKEN_SECRETO = geradorToken.getToken();
     }
 
     public static class InjetorAtributos {
@@ -180,7 +174,7 @@ public class ControladorWeb {
     public String index(ModelMap modelMap, HttpServletResponse response) {
         InjetorAtributos.injetarTituloPagina(modelMap, "home");
         InjetorAtributos.injetarPaleta(modelMap);
-        Cookie cookieTokenDesligar = new Cookie("TOKEN_DESLIGAR", TOKEN_SECRETO);
+        Cookie cookieTokenDesligar = new Cookie("TOKEN_DESLIGAR", ControladorDesligar.TOKEN_SECRETO);
         modelMap.addAttribute("desligar", "");
         response.addCookie(cookieTokenDesligar);
 
@@ -288,18 +282,6 @@ public class ControladorWeb {
         modelMap.addAttribute("diagramasOutros", ListadorTiposDiagrama.pegarDiagramasOutros());
 
         return "novo";
-    }
-
-    @PostMapping({"/desligar"})
-    public void desligar(@RequestParam("token") String token) {
-        if (configurador.pegarValorConfiguracao("programa", "desativar_botao_desligar", boolean.class)) return;
-
-        if (TOKEN_SECRETO.equals(token)) {
-            logger.info(TradutorWrapper.tradutor.traduzirMensagem("app.end"));
-            System.exit(CodigoSaida.OK.getCodigo());
-        }
-
-        logger.severe(TradutorWrapper.tradutor.traduzirMensagem("error.shutdown.invalid.token"));
     }
 
     @RequestMapping({"/perfil", "/perfil.html"})
