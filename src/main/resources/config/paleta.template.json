@@ -68,6 +68,10 @@
     {
       "nomeVariavel": "cor_chave_mista",
       "valorPadraoVariavel": "#241A3B"
+    },
+    {
+      "nomeVariavel": "cor_chave_unica",
+      "valorPadraoVariavel": "#D6D5D4"
     }
   ]
 }

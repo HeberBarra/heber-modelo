@@ -59,6 +59,10 @@
         &.chave-mista {
           color: var(--cor-chave-mista);
         }
+
+        &.chave-unica {
+          color: var(--cor-chave-unica);
+        }
       }
 
       svg.chave-escondida {
