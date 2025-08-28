@@ -4,6 +4,7 @@
     <!--suppress HtmlUnknownTag -->
     <th:block th:replace="~{fragments/head :: head}"></th:block>
     <link rel="stylesheet" th:href="@{/css/novo.css}" />
+    <script th:src="@{/javascript/novo.js}" defer></script>
     <title th:text="#{web.page.new-diagram.title}"></title>
   </head>
   <body>
@@ -25,14 +26,49 @@ Licensed works, modifications, and larger works may be distributed under differe
           <th:block th:text="#{web.page.new-diagram.label.filename}"></th:block>
           <input type="text" name="nome" required />
         </label>
-        <label>
-          <th:block th:text="#{web.page.new-diagram.label.author}"></th:block>
-          <input type="text" name="autor" required />
-        </label>
-        <label>
-          <th:block th:text="#{web.page.new-diagram.label.email}"></th:block>
-          <input type="email" name="email" />
-        </label>
+        <label
+          id="label-author"
+          style="display: none"
+          th:text="#{web.page.new-diagram.label.author}"
+        ></label>
+        <label
+          id="label-name"
+          style="display: none"
+          th:text="#{web.page.new-diagram.label.name}"
+        ></label>
+        <label
+          id="label-e-mail"
+          style="display: none"
+          th:text="#{web.page.new-diagram.label.email}"
+        ></label>
+        <div class="autores-wrapper">
+          <div class="autores">
+            <fieldset>
+              <legend th:text="#{web.page.new-diagram.label.author}"></legend>
+              <label>
+                <th:block th:text="#{web.page.new-diagram.label.name}"></th:block>
+                <input type="text" name="autor[]" required />
+              </label>
+              <label>
+                <th:block th:text="#{web.page.new-diagram.label.email}"></th:block>
+                <input type="email" name="email[]" />
+              </label>
+            </fieldset>
+          </div>
+          <div class="btn-wrapper">
+            <button
+              id="btn-criar-autor"
+              type="button"
+              th:text="#{web.page.new-diagram.label.button.author.add}"
+            ></button>
+            <button
+              id="btn-remover-autor"
+              disabled
+              type="button"
+              th:text="#{web.page.new-diagram.label.button.author.remove}"
+            ></button>
+          </div>
+        </div>
         <div class="diagramas">
           <fieldset id="diagramas-uml">
             <legend th:text="#{web.page.new-diagram.label.uml}"></legend>

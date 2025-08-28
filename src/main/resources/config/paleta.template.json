@@ -72,6 +72,10 @@
     {
       "nomeVariavel": "cor_chave_unica",
       "valorPadraoVariavel": "#D6D5D4"
+    },
+    {
+      "nomeVariavel": "cor_botao_desativado",
+      "valorPadraoVariavel": "#241A3B"
     }
   ]
 }
