@@ -187,6 +187,8 @@ main {
 }
 
 fieldset.componentes-diagrama {
+  border: $estiloBordaPainel;
+  border-radius: 0.5rem;
   display: grid;
   grid-template-columns: 50% 50%;
   gap: 0.2rem;
