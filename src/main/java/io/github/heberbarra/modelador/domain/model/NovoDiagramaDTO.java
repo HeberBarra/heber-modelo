@@ -17,13 +17,13 @@ import java.util.List;
 
 public class NovoDiagramaDTO {
     private String nome;
-    private String autor;
-    private String email;
+    private List<String> autor;
+    private List<String> email;
     private List<String> tiposDiagrama;
 
     public NovoDiagramaDTO() {}
 
-    public NovoDiagramaDTO(String nome, String autor, String email, List<String> tiposDiagrama) {
+    public NovoDiagramaDTO(String nome, List<String> autor, List<String> email, List<String> tiposDiagrama) {
         this.nome = nome;
         this.autor = autor;
         this.email = email;
@@ -38,19 +38,19 @@ public class NovoDiagramaDTO {
         this.nome = nome;
     }
 
-    public String getAutor() {
+    public List<String> getAutor() {
         return autor;
     }
 
-    public void setAutor(String autor) {
+    public void setAutor(List<String> autor) {
         this.autor = autor;
     }
 
-    public String getEmail() {
+    public List<String> getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(List<String> email) {
         this.email = email;
     }
 

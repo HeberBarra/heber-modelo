@@ -15,11 +15,59 @@
  *
  */
 
+body {
+  grid-template-rows: auto;
+}
+
 form {
   display: flex;
   flex-direction: column;
   gap: variaveis.$gapForm;
+  margin: 1rem 0;
   width: 50%;
+
+  div.autores-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    div.btn-wrapper {
+      justify-content: space-evenly;
+      display: flex;
+      flex-direction: row;
+
+      button {
+        align-items: center;
+        aspect-ratio: 8 / 1;
+        display: flex;
+        font-size: 100%;
+        justify-content: center;
+        width: 30%;
+      }
+
+      button:disabled,
+      button:disabled:hover {
+        background-color: var(--cor-botao-desativado);
+        cursor: default;
+      }
+    }
+
+    div.autores {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      fieldset {
+        border: var(--cor-borda) solid variaveis.$tamanhoBordaInput;
+        border-radius: variaveis.$borderRadiusInput;
+        padding: variaveis.$paddingPadrao;
+
+        legend {
+          text-align: center;
+        }
+      }
+    }
+  }
 
   div.botoes {
     align-self: center;
