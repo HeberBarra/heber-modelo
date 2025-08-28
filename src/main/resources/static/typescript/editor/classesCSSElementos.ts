@@ -11,3 +11,4 @@
  */
 
 export const CLASSE_ELEMENTO_SELECIONADO: string = "selected";
+export const CLASSE_LINK_CSS_CARREGADO: string = "css-carregado";
