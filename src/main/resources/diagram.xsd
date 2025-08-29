@@ -6,9 +6,9 @@
     <xs:element name="diagram">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="creation-datetime" type="xs:dateTime"/>
-                <xs:element name="last-modification" type="xs:dateTime"/>
-                <xs:element name="authors">
+                <xs:element name="creation-datetime" type="xs:date"/>
+                <xs:element name="last-modification" type="xs:date"/>
+                <xs:element name="authors" minOccurs="0">
                     <xs:complexType>
                         <xs:sequence maxOccurs="unbounded">
                             <xs:element name="author">
@@ -24,8 +24,22 @@
                 </xs:element>
                 <xs:element name="types">
                     <xs:complexType>
-                        <xs:sequence>
+                        <xs:sequence maxOccurs="unbounded">
                             <xs:element name="diagram-type" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="links">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="link">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="name-component" type="xs:string" />
+                                        <xs:element name="uri-component" type="xs:anyURI" />
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
@@ -42,13 +56,13 @@
                                                         <xs:complexType>
                                                             <xs:sequence>
                                                                 <xs:element name="component-name" type="xs:string"/>
-                                                                <xs:element name="component-data" type="xs:anyType"/>
-                                                                <xs:element name="component-height" type="xs:integer"/>
-                                                                <xs:element name="component-width" type="xs:integer"/>
-                                                                <xs:element name="component-x" type="xs:integer"/>
-                                                                <xs:element name="component-y" type="xs:integer"/>
+                                                                <xs:element name="component-data" type="xs:string"/>
+                                                                <xs:element name="component-height" type="xs:double"/>
+                                                                <xs:element name="component-width" type="xs:double"/>
+                                                                <xs:element name="component-x" type="xs:double"/>
+                                                                <xs:element name="component-y" type="xs:double"/>
                                                                 <xs:element name="component-font-size"
-                                                                            type="xs:integer"/>
+                                                                            type="xs:double"/>
                                                             </xs:sequence>
                                                         </xs:complexType>
                                                     </xs:element>
