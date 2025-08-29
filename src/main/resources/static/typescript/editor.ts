@@ -25,13 +25,13 @@ import { RepositorioComponenteDiagrama } from "./editor/componente/repositorioCo
 import { SelecionadorComponente } from "./editor/componente/selecionadorComponente.js";
 import { GeradorIDComponente } from "./editor/componente/geradorIDComponente.js";
 import { FabricaComponente } from "./editor/componente/fabricaComponente.js";
-import { PainelLateral } from "./editor/painelLateral.js";
 import { PropriedadeComponente } from "./editor/componente/propriedade/propriedadeComponente.js";
 import { Ponto } from "./editor/ponto.js";
 import { DirecoesMovimento, moverComponente } from "./editor/componente/manipularComponente.js";
 import { CarregadorDiagrama } from "./editor/diagrama/carregadorDiagrama.js";
 import { FabricaComponenteConexao } from "./editor/componente/conexao/fabricaComponenteConexao.js";
 import { TipoConexao } from "./editor/componente/conexao/tipoConexao.js";
+import "./editor/painelLateral.js";
 
 /****************************/
 /* VARIÁVEIS COMPARTILHADAS */
@@ -49,68 +49,6 @@ componentes.forEach((componente: HTMLDivElement): void => {
   repositorioComponentes.adicionarComponente(new ComponenteDiagrama(componente, []));
 });
 
-/********************/
-/* PAINÉIS LATERAIS */
-/********************/
-
-// Criação dos objetos dos painéis laterais foi encapsulada numa função anônima sem nome para não poluir o escopo local com variáveis desnecessárias
-// Painel direito
-((): void => {
-  let painelDireito: HTMLElement | null = document.querySelector("#painel-direito");
-  let secoesPainelDireito: NodeListOf<HTMLElement> =
-    document.querySelectorAll("#painel-direito .pagina");
-  let btnAvancarSecaoPainelDireito: HTMLButtonElement | null = document.querySelector(
-    "aside#painel-direito button.btn-proxima-secao",
-  );
-  let btnVoltarSecaoPainelDireito: HTMLButtonElement | null = document.querySelector(
-    "aside#painel-direito button.btn-voltar-secao",
-  );
-  let btnEsconderPainelDireito: HTMLButtonElement | null = document.querySelector(
-    ".btn-painel-direito.btn-esconder",
-  );
-  let btnMostrarPainelDireito: HTMLButtonElement | null = document.querySelector(
-    ".btn-painel-direito.btn-mostrar",
-  );
-
-  new PainelLateral(
-    painelDireito,
-    secoesPainelDireito,
-    btnAvancarSecaoPainelDireito,
-    btnVoltarSecaoPainelDireito,
-    btnEsconderPainelDireito,
-    btnMostrarPainelDireito,
-  );
-})();
-
-// Painel esquerdo
-((): void => {
-  let painelEsquerdo: HTMLElement | null = document.querySelector("#painel-esquerdo");
-  let secoesPainelEsquerdo: NodeListOf<HTMLElement> = document.querySelectorAll(
-    "#painel-esquerdo .pagina",
-  );
-  let btnAvancarSecaoPainelEsquerdo: HTMLButtonElement | null = document.querySelector(
-    "aside#painel-esquerdo button.btn-proxima-secao",
-  );
-
-  let btnVoltarSecaoPainelEsquerdo: HTMLButtonElement | null = document.querySelector(
-    "aside#painel-esquerdo button.btn-voltar-secao",
-  );
-  let btnEsconderPainelEsquerdo: HTMLButtonElement | null = document.querySelector(
-    ".btn-painel-esquerdo.btn-esconder",
-  );
-  let btnMostrarPainelEsquerdo: HTMLButtonElement | null = document.querySelector(
-    ".btn-painel-esquerdo.btn-mostrar",
-  );
-
-  new PainelLateral(
-    painelEsquerdo,
-    secoesPainelEsquerdo,
-    btnAvancarSecaoPainelEsquerdo,
-    btnVoltarSecaoPainelEsquerdo,
-    btnEsconderPainelEsquerdo,
-    btnMostrarPainelEsquerdo,
-  );
-})();
 /*********************************/
 /* MOVIMENTAÇÃO DE UM COMPONENTE */
 /*********************************/

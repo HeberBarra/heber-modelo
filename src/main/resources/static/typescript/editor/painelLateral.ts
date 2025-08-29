@@ -9,7 +9,7 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
-export class PainelLateral {
+class PainelLateral {
   public readonly CLASSE_PAINEL_OCULTO: string = "hidden";
   private _indexSecaoAtual: number;
   private _secoes: NodeListOf<HTMLElement>;
@@ -79,3 +79,17 @@ export class PainelLateral {
     painel?.style.removeProperty("border");
   }
 }
+
+function configurarPainel(id: string): void {
+  let painel: HTMLElement | null = document.querySelector(id);
+  let secoes: NodeListOf<HTMLElement> = document.querySelectorAll(`${id} .pagina`);
+  let btnAvancar: HTMLButtonElement | null = document.querySelector(`${id} .btn-proxima-secao`);
+  let btnVoltar: HTMLButtonElement | null = document.querySelector(`${id} .btn-voltar-secao`);
+  let btnEsconder: HTMLButtonElement | null = document.querySelector(`${id} .btn-esconder`);
+  let btnMostrar: HTMLButtonElement | null = document.querySelector(`${id} .btn-mostrar`);
+
+  new PainelLateral(painel, secoes, btnAvancar, btnVoltar, btnEsconder, btnMostrar);
+}
+
+configurarPainel("#painel-direito");
+configurarPainel("#painel-esquerdo");
