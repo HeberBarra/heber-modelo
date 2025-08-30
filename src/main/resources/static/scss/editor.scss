@@ -215,8 +215,8 @@ fieldset#conexoes-basicas {
   justify-content: center;
   position: absolute;
   cursor: crosshair;
-  width: 300px;
-  height: 200px;
+  width: 150px;
+  height: 100px;
   border: var(--cor-borda) solid 0.3rem;
 
   &:hover {
@@ -235,8 +235,8 @@ fieldset#conexoes-basicas {
 
 .seta {
   position: absolute;
-  width: 5rem;
-  height: 5rem;
+  width: 3rem;
+  height: 3rem;
   background: var(--cor-borda);
   clip-path: polygon(0% 20%, 60% 20%, 60% 0%, 100% 50%, 60% 100%, 60% 80%, 0% 80%);
   opacity: 0.7;
