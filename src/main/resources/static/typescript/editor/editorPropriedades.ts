@@ -9,9 +9,14 @@
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
  */
+import { ComponenteDiagrama } from "./componente/componenteDiagrama.js";
 import { PropriedadeComponente } from "./componente/propriedade/propriedadeComponente.js";
+import { RepositorioComponente } from "./componente/repositorio/repositorioComponente.js";
+import { repositorioComponenteFactory } from "./componente/repositorio/repositorioComponenteFactory.js";
+import { SelecionadorComponente } from "./componente/selecionador/selecionadorComponente.js";
+import { selecionadorComponenteFactory } from "./componente/selecionador/selecionadorComponenteFactory.js";
 
-export class InputPropriedade {
+class InputPropriedade {
   private readonly _elementoInput: HTMLInputElement | null;
   private readonly nomePropriedade: string;
 
@@ -29,13 +34,8 @@ export class InputPropriedade {
   }
 }
 
-const verificarStringNumero = (valor: string): boolean => {
-  let regexVerificarNumero: RegExp = /^-?\d+$/g;
-  return regexVerificarNumero.test(valor);
-};
-
 // NOTE: Não funciona com parênteses.
-const calcularExpressao = (expressao: string): number | null => {
+function calcularExpressao(expressao: string): number | null {
   let regexFiltroExpressao: RegExp = /(?<!\S)[0-9]+(?:[-+%~^*\/]+?\d+(?:\.\d+)?)+(?!\S)/g;
 
   if (expressao.match(regexFiltroExpressao) === null) {
@@ -43,10 +43,11 @@ const calcularExpressao = (expressao: string): number | null => {
   }
 
   return eval(expressao);
-};
+}
 
-const ajustarValorAtributo = (valor: string): string => {
-  if (verificarStringNumero(valor)) {
+function ajustarValorAtributo(valor: string): string {
+  let regexVerificarNumero: RegExp = /^-?\d+$/g;
+  if (regexVerificarNumero.test(valor)) {
     return `${parseFloat(valor)}px`;
   }
 
@@ -57,34 +58,34 @@ const ajustarValorAtributo = (valor: string): string => {
   }
 
   return `${resultadoExpressao}px`;
-};
+}
 
-export const modificarPropriedadeElemento = (
+function modificarPropriedadeElemento(
   elemento: HTMLElement | null,
   inputAtributo: HTMLInputElement | null,
   nomePropriedade: string,
-): void => {
+): void {
   if (elemento === null || inputAtributo === null) return;
 
   let novoValorAtributo: string = ajustarValorAtributo(inputAtributo.value);
   elemento.style.setProperty(nomePropriedade, novoValorAtributo);
-};
+}
 
-export const atualizarValorInput = (
+export function atualizarValorInput(
   elemento: HTMLElement | null,
   inputAtributo: HTMLInputElement | null,
   nomePropriedade: string,
-): void => {
+): void {
   if (elemento === null || elemento === undefined || inputAtributo === null) return;
 
   let valorPropriedade: string = getComputedStyle(elemento).getPropertyValue(nomePropriedade);
   inputAtributo.value = valorPropriedade.substring(0, valorPropriedade.length - 2);
-};
+}
 
-export const atualizarInputs = (
+export function atualizarInputs(
   elementoSelecionado: HTMLElement | null,
   inputs: InputPropriedade[],
-): void => {
+): void {
   if (elementoSelecionado !== null) {
     inputs.forEach((input: InputPropriedade): void => input.atualizar(elementoSelecionado));
     return;
@@ -95,13 +96,141 @@ export const atualizarInputs = (
       input.elementoInput.value = "";
     }
   });
-};
+}
 
-export const limparPropriedades = (abaPropriedades: HTMLElement | null): void => {
+export function limparPropriedades(abaPropriedades: HTMLElement | null): void {
   if (abaPropriedades === null) return;
 
   let propriedades: NodeListOf<HTMLElement> = abaPropriedades.querySelectorAll(
     `.${PropriedadeComponente.CLASSE_PROPRIEDADE_CUSTOMIZADA}`,
   );
-  propriedades.forEach((propriedade) => propriedade.remove());
-};
+  propriedades.forEach((propriedade: HTMLElement): void => propriedade.remove());
+}
+
+export let inputs: InputPropriedade[] = [];
+
+export function mouseDownSelecionarElemento(event: Event): void {
+  let selecionador: SelecionadorComponente = selecionadorComponenteFactory.build();
+  let repositorio: RepositorioComponente = repositorioComponenteFactory.build();
+  let abaPropriedades: HTMLElement | null = document.querySelector("section#propriedades");
+  let componente: ComponenteDiagrama | null = repositorio.pegarComponentePorHTML(
+    event.target as HTMLElement,
+  );
+
+  if (componente === null) {
+    return;
+  }
+
+  selecionador.selecionarElemento(componente);
+  limparPropriedades(abaPropriedades);
+  componente.propriedades.forEach((propriedade: PropriedadeComponente): void => {
+    let editorPropriedade: HTMLLabelElement = propriedade.criarElementoInputPropriedade();
+    abaPropriedades?.appendChild(editorPropriedade);
+  });
+
+  atualizarInputs(selecionador.componenteSelecionado?.htmlComponente ?? null, inputs);
+}
+
+export const editorEixoX: HTMLInputElement | null = document.querySelector(
+  "#propriedades input[name='componente-x']",
+);
+
+export const editorEixoY: HTMLInputElement | null = document.querySelector(
+  "#propriedades input[name='componente-y']",
+);
+
+let editorAltura: HTMLInputElement | null = document.querySelector(
+  "#propriedades input[name='componente-altura']",
+);
+
+let editorLargura: HTMLInputElement | null = document.querySelector(
+  "#propriedades input[name='componente-largura']",
+);
+
+let editorTamanhoFonte: HTMLInputElement | null = document.querySelector(
+  "#propriedades input[name='componente-tamanho-fonte']",
+);
+
+let selecionadorComponente: SelecionadorComponente = selecionadorComponenteFactory.build();
+
+inputs.push(new InputPropriedade(editorEixoX, "left"));
+inputs.push(new InputPropriedade(editorEixoY, "top"));
+inputs.push(new InputPropriedade(editorAltura, "height"));
+inputs.push(new InputPropriedade(editorLargura, "width"));
+inputs.push(new InputPropriedade(editorTamanhoFonte, "font-size"));
+
+editorEixoX?.addEventListener("input", (): void => {
+  modificarPropriedadeElemento(
+    selecionadorComponente.pegarHTMLElementoSelecionado(),
+    editorEixoX,
+    "left",
+  );
+  selecionadorComponente.moverSetasParaComponenteSelecionado();
+  selecionadorComponente.componenteSelecionado?.atualizarOuvintes();
+});
+
+editorEixoY?.addEventListener("input", (): void => {
+  modificarPropriedadeElemento(
+    selecionadorComponente.pegarHTMLElementoSelecionado(),
+    editorEixoY,
+    "top",
+  );
+  selecionadorComponente.moverSetasParaComponenteSelecionado();
+  selecionadorComponente.componenteSelecionado?.atualizarOuvintes();
+});
+
+editorAltura?.addEventListener("input", (): void => {
+  modificarPropriedadeElemento(
+    selecionadorComponente.pegarHTMLElementoSelecionado(),
+    editorAltura,
+    "height",
+  );
+});
+
+editorLargura?.addEventListener("input", (): void => {
+  modificarPropriedadeElemento(
+    selecionadorComponente.pegarHTMLElementoSelecionado(),
+    editorLargura,
+    "width",
+  );
+});
+
+editorTamanhoFonte?.addEventListener("input", (): void => {
+  modificarPropriedadeElemento(
+    selecionadorComponente.pegarHTMLElementoSelecionado(),
+    editorTamanhoFonte,
+    "font-size",
+  );
+});
+
+editorEixoX?.addEventListener("focusout", (): void => {
+  atualizarValorInput(selecionadorComponente.pegarHTMLElementoSelecionado(), editorEixoX, "left");
+});
+
+editorEixoY?.addEventListener("focusout", (): void => {
+  atualizarValorInput(selecionadorComponente.pegarHTMLElementoSelecionado(), editorEixoY, "top");
+});
+
+editorAltura?.addEventListener("focusout", (): void => {
+  atualizarValorInput(
+    selecionadorComponente.pegarHTMLElementoSelecionado(),
+    editorAltura,
+    "height",
+  );
+});
+
+editorLargura?.addEventListener("focusout", (): void => {
+  atualizarValorInput(
+    selecionadorComponente.pegarHTMLElementoSelecionado(),
+    editorLargura,
+    "width",
+  );
+});
+
+editorTamanhoFonte?.addEventListener("focusout", (): void => {
+  atualizarValorInput(
+    selecionadorComponente.pegarHTMLElementoSelecionado(),
+    editorTamanhoFonte,
+    "font-size",
+  );
+});

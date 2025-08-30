@@ -14,18 +14,21 @@ import { converterPixeisParaNumero } from "./conversor/conversor.js";
 import {
   atualizarInputs,
   atualizarValorInput,
-  InputPropriedade,
   limparPropriedades,
-  modificarPropriedadeElemento,
+  mouseDownSelecionarElemento,
+  editorEixoX,
+  editorEixoY,
+  inputs,
 } from "./editor/editorPropriedades.js";
 import { colarElemento, copiarElemento, cortarElemento } from "./editor/clipboard.js";
 import { carregarCSS } from "./editor/carregarCSS.js";
 import { ComponenteDiagrama, LateralComponente } from "./editor/componente/componenteDiagrama.js";
-import { RepositorioComponenteDiagrama } from "./editor/componente/repositorioComponenteDiagrama.js";
-import { SelecionadorComponente } from "./editor/componente/selecionadorComponente.js";
+import { RepositorioComponente } from "./editor/componente/repositorio/repositorioComponente.js";
+import { repositorioComponenteFactory } from "./editor/componente/repositorio/repositorioComponenteFactory.js";
+import { SelecionadorComponente } from "./editor/componente/selecionador/selecionadorComponente.js";
+import { selecionadorComponenteFactory } from "./editor/componente/selecionador/selecionadorComponenteFactory.js";
 import { GeradorIDComponente } from "./editor/componente/geradorIDComponente.js";
 import { FabricaComponente } from "./editor/componente/fabricaComponente.js";
-import { PropriedadeComponente } from "./editor/componente/propriedade/propriedadeComponente.js";
 import { Ponto } from "./editor/ponto.js";
 import { DirecoesMovimento, moverComponente } from "./editor/componente/manipularComponente.js";
 import { CarregadorDiagrama } from "./editor/diagrama/carregadorDiagrama.js";
@@ -41,9 +44,9 @@ let abaPropriedades: HTMLDivElement | null = document.querySelector("section#pro
 let diagrama: HTMLElement | null = document.querySelector("main");
 let fabricaComponente: FabricaComponente = new FabricaComponente();
 let geradorIDComponente: GeradorIDComponente = GeradorIDComponente.pegarInstance();
-let repositorioComponentes: RepositorioComponenteDiagrama = new RepositorioComponenteDiagrama();
+let repositorioComponentes: RepositorioComponente = repositorioComponenteFactory.build();
 let componentes: NodeListOf<HTMLDivElement> = document.querySelectorAll(".componente");
-let selecionadorComponente: SelecionadorComponente = new SelecionadorComponente();
+let selecionadorComponente: SelecionadorComponente = selecionadorComponenteFactory.build();
 
 componentes.forEach((componente: HTMLDivElement): void => {
   repositorioComponentes.adicionarComponente(new ComponenteDiagrama(componente, []));
@@ -85,8 +88,8 @@ function dragElement(event: MouseEvent): void {
   window.scrollTo(x, y);
   componenteAtual.style.left = `${x}px`;
   componenteAtual.style.top = `${y}px`;
-  atualizarValorInput(elementoSelecionado, editorEixoY, "top");
-  atualizarValorInput(elementoSelecionado, editorEixoX, "left");
+  atualizarValorInput(selecionadorComponente.pegarHTMLElementoSelecionado(), editorEixoY, "top");
+  atualizarValorInput(selecionadorComponente.pegarHTMLElementoSelecionado(), editorEixoX, "left");
 
   let componente: ComponenteDiagrama | null = repositorioComponentes.pegarComponentePorHTML(
     event.target as HTMLElement,
@@ -97,29 +100,9 @@ function dragElement(event: MouseEvent): void {
   componente.atualizarOuvintes();
 }
 
-/**************************/
-/* EDITOR DE PROPRIEDADES */
-/**************************/
-
-let elementoSelecionado: HTMLElement | null;
-let inputs: InputPropriedade[] = [];
-
-function mouseDownSelecionarElemento(event: Event): void {
-  let componente: ComponenteDiagrama | null = repositorioComponentes.pegarComponentePorHTML(
-    event.target as HTMLElement,
-  );
-
-  if (componente === null) return;
-
-  selecionadorComponente.selecionarElemento(componente);
-  limparPropriedades(abaPropriedades);
-  elementoSelecionado = selecionadorComponente.componenteSelecionado?.htmlComponente as HTMLElement;
-  componente.propriedades.forEach((propriedade: PropriedadeComponente): void => {
-    let editorPropriedade: HTMLLabelElement = propriedade.criarElementoInputPropriedade();
-    abaPropriedades?.appendChild(editorPropriedade);
-  });
-  atualizarInputs(elementoSelecionado, inputs);
-}
+/***********************/
+/* EVENTOS COMPONENTES */
+/***********************/
 
 const registrarEventosComponente = (componente: HTMLDivElement): void => {
   componente.addEventListener("click", conectarElementos);
@@ -128,78 +111,8 @@ const registrarEventosComponente = (componente: HTMLDivElement): void => {
   componente.addEventListener("mouseup", mouseUpPararMoverElemento);
 };
 
-componentes.forEach((componente) => {
+componentes.forEach((componente: HTMLDivElement): void => {
   registrarEventosComponente(componente);
-});
-
-let editorEixoX: HTMLInputElement | null = document.querySelector(
-  "#propriedades input[name='componente-x']",
-);
-
-let editorEixoY: HTMLInputElement | null = document.querySelector(
-  "#propriedades input[name='componente-y']",
-);
-
-let editorAltura: HTMLInputElement | null = document.querySelector(
-  "#propriedades input[name='componente-altura']",
-);
-
-let editorLargura: HTMLInputElement | null = document.querySelector(
-  "#propriedades input[name='componente-largura']",
-);
-
-let editorTamanhoFonte: HTMLInputElement | null = document.querySelector(
-  "#propriedades input[name='componente-tamanho-fonte']",
-);
-
-inputs.push(new InputPropriedade(editorEixoX, "left"));
-inputs.push(new InputPropriedade(editorEixoY, "top"));
-inputs.push(new InputPropriedade(editorAltura, "height"));
-inputs.push(new InputPropriedade(editorLargura, "width"));
-inputs.push(new InputPropriedade(editorTamanhoFonte, "font-size"));
-
-editorEixoX?.addEventListener("input", () => {
-  modificarPropriedadeElemento(elementoSelecionado, editorEixoX, "left");
-  selecionadorComponente.moverSetasParaComponenteSelecionado();
-  selecionadorComponente.componenteSelecionado?.atualizarOuvintes();
-});
-
-editorEixoY?.addEventListener("input", () => {
-  modificarPropriedadeElemento(elementoSelecionado, editorEixoY, "top");
-  selecionadorComponente.moverSetasParaComponenteSelecionado();
-  selecionadorComponente.componenteSelecionado?.atualizarOuvintes();
-});
-
-editorAltura?.addEventListener("input", () => {
-  modificarPropriedadeElemento(elementoSelecionado, editorAltura, "height");
-});
-
-editorLargura?.addEventListener("input", () => {
-  modificarPropriedadeElemento(elementoSelecionado, editorLargura, "width");
-});
-
-editorTamanhoFonte?.addEventListener("input", () => {
-  modificarPropriedadeElemento(elementoSelecionado, editorTamanhoFonte, "font-size");
-});
-
-editorEixoX?.addEventListener("focusout", () => {
-  atualizarValorInput(elementoSelecionado, editorEixoX, "left");
-});
-
-editorEixoY?.addEventListener("focusout", () => {
-  atualizarValorInput(elementoSelecionado, editorEixoY, "top");
-});
-
-editorAltura?.addEventListener("focusout", () => {
-  atualizarValorInput(elementoSelecionado, editorAltura, "height");
-});
-
-editorLargura?.addEventListener("focusout", () => {
-  atualizarValorInput(elementoSelecionado, editorLargura, "width");
-});
-
-editorTamanhoFonte?.addEventListener("focusout", () => {
-  atualizarValorInput(elementoSelecionado, editorTamanhoFonte, "font-size");
 });
 
 /********************/
@@ -216,8 +129,7 @@ carregarCSS(TipoConexao.CONEXAO_ANGULADA);
 
 setas.forEach((seta: HTMLElement): void =>
   seta.addEventListener("click", (): void => {
-    if (elementoSelecionado === null || selecionadorComponente.componenteSelecionado === null)
-      return;
+    if (selecionadorComponente.componenteSelecionado === null) return;
 
     primeiroComponente = selecionadorComponente.componenteSelecionado;
     let ponto: number[];
@@ -425,16 +337,16 @@ inputsCarregarDiagrama.forEach((input: HTMLInputElement): void => {
 
 let teclaAnterior: string | null = null;
 
-document.addEventListener("keydown", (event: KeyboardEvent) => {
-  atualizarValorInput(elementoSelecionado, editorEixoY, "top");
-  atualizarValorInput(elementoSelecionado, editorEixoX, "left");
+document.addEventListener("keydown", (event: KeyboardEvent): void => {
+  atualizarValorInput(selecionadorComponente.pegarHTMLElementoSelecionado(), editorEixoY, "top");
+  atualizarValorInput(selecionadorComponente.pegarHTMLElementoSelecionado(), editorEixoX, "left");
   if (teclaAnterior === null) {
     teclaAnterior = event.key;
   }
 
   // Leader key bindings
   if (teclaAnterior === bindings.get("leaderKey") && event.key === bindings.get("copiarElemento")) {
-    copiarElemento(elementoSelecionado);
+    copiarElemento(selecionadorComponente.pegarHTMLElementoSelecionado());
     return;
   }
 
@@ -480,8 +392,7 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
     case bindings.get("removerSelecao"):
       selecionadorComponente.removerSelecao();
       limparPropriedades(abaPropriedades);
-      elementoSelecionado = selecionadorComponente.pegarHTMLElementoSelecionado();
-      atualizarInputs(elementoSelecionado, inputs);
+      atualizarInputs(selecionadorComponente.pegarHTMLElementoSelecionado(), inputs);
       break;
 
     // Apagar elemento
@@ -491,9 +402,8 @@ document.addEventListener("keydown", (event: KeyboardEvent) => {
       if (componenteAlvo !== null) {
         repositorioComponentes.removerComponente(componenteAlvo);
         selecionadorComponente.removerSelecao();
-        elementoSelecionado = selecionadorComponente.pegarHTMLElementoSelecionado();
         limparPropriedades(abaPropriedades);
-        atualizarInputs(elementoSelecionado, inputs);
+        atualizarInputs(selecionadorComponente.pegarHTMLElementoSelecionado(), inputs);
       }
       break;
 

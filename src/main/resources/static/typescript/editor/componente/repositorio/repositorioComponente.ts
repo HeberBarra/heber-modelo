@@ -1,19 +1,21 @@
-/**
- * Copyright (C) 2025 Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
+/*
+ * Copyright (c) 2025. Heber Ferreira Barra, Matheus de Assis de Paula, Matheus Jun Alves Matuda.
  *
  * Licensed under the Massachusetts Institute of Technology (MIT) License.
  * You may obtain a copy of the license at:
  *
- *     https://choosealicense.com/licenses/mit/
+ *   https://choosealicense.com/licenses/mit/
  *
  * A short and simple permissive license with conditions only requiring preservation of copyright and license notices.
  * Licensed works, modifications, and larger works may be distributed under different terms and without source code.
+ *
  */
-import { ComponenteDiagrama } from "./componenteDiagrama.js";
-import { ComponenteDiagramaOuvinte } from "./componenteDiagramaOuvinte.js";
-import { AbstractComponenteConexao } from "./conexao/abstractComponenteConexao.js";
 
-export class RepositorioComponenteDiagrama {
+import { ComponenteDiagrama } from "../componenteDiagrama.js";
+import { ComponenteDiagramaOuvinte } from "../componenteDiagramaOuvinte.js";
+import { AbstractComponenteConexao } from "../conexao/abstractComponenteConexao.js";
+
+export class RepositorioComponente {
   private _componentesDiagrama: ComponenteDiagrama[] = [];
 
   public adicionarComponente(componenteDiagrama: ComponenteDiagrama): void {
