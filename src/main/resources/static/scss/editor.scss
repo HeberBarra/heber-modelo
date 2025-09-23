@@ -94,9 +94,10 @@ aside {
   }
 
   div.wrapper-botoes-alterar-secoes {
-    width: 100%;
     display: flex;
+    gap: 0.7rem;
     justify-content: space-between;
+    width: 100%;
   }
 
   section#propriedades {

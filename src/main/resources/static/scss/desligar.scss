@@ -24,9 +24,9 @@ footer {
   }
 
   button {
-    aspect-ratio: 1 / 1;
     color: var(--cor-botao);
     grid-column: 3;
+    height: 2rem;
     width: 2rem;
 
     &:hover {
