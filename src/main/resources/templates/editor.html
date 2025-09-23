@@ -43,22 +43,9 @@ Licensed works, modifications, and larger works may be distributed under differe
       <button type="button" class="btn-painel-esquerdo btn-mostrar">&gt;</button>
       <section id="diagramas" class="pagina">
         <h2 th:text="#{web.page.editor.section.diagrams}"></h2>
-        <section id="UML">
-          <h2 th:text="#{web.page.editor.section.diagramas.uml}"></h2>
-          <label th:each="d : ${diagramasUML}" th:title="${d.getTitulo()}">
-            <input class="carregar-diagrama" type="checkbox" th:value="${d.getValor()}" />
-            <span class="traco">-</span>
-            <span th:text="${d.getNome()}"></span>
-          </label>
-        </section>
         <section id="banco-de-dados">
           <h2 th:text="#{web.page.editor.section.diagramas.others}"></h2>
           <label th:each="d : ${diagramasBD}" th:title="${d.getTitulo()}">
-            <input class="carregar-diagrama" type="checkbox" th:value="${d.getValor()}" />
-            <span class="traco">-</span>
-            <span th:text="${d.getNome()}"></span>
-          </label>
-          <label th:each="d : ${diagramasOutros}" th:title="${d.getTitulo()}">
             <input class="carregar-diagrama" type="checkbox" th:value="${d.getValor()}" />
             <span class="traco">-</span>
             <span th:text="${d.getNome()}"></span>
