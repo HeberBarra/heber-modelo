@@ -15,6 +15,8 @@ package io.github.heberbarra.modelador.infrastructure.configurador;
 
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
+import io.github.heberbarra.modelador.domain.configurador.IWatcherConfiguracao;
+import io.github.heberbarra.modelador.infrastructure.factory.ConfiguradorFactory;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -23,8 +25,6 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.logging.Logger;
-import io.github.heberbarra.modelador.domain.configurador.IWatcherConfiguracao;
-import io.github.heberbarra.modelador.infrastructure.factory.ConfiguradorFactory;
 import org.tomlj.TomlTable;
 
 public class WatcherPastaConfiguracao implements IWatcherConfiguracao {

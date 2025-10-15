@@ -51,8 +51,7 @@ public final class Configurador implements IConfigurador {
             IPastaConfiguracao pastaConfiguracao,
             CriadorConfiguracoes criadorConfiguracoes,
             LeitorConfiguracao leitorConfiguracao,
-            VerificadorConfiguracaoPrograma verificadorConfiguracao
-    ) {
+            VerificadorConfiguracaoPrograma verificadorConfiguracao) {
         this.combinadorConfiguracoes = combinadorConfiguracoes;
         this.conversorToml = conversorToml;
         this.pastaConfiguracao = pastaConfiguracao;
@@ -79,7 +78,8 @@ public final class Configurador implements IConfigurador {
     public void criarArquivos() {
         criadorConfiguracoes.criarPastaConfiguracao(pastaConfiguracao.decidirPastaConfiguracao());
         lerConfiguracaoPadrao();
-        criadorConfiguracoes.criarArquivoConfiguracoes(pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_CONFIGURACOES);
+        criadorConfiguracoes.criarArquivoConfiguracoes(
+                pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_CONFIGURACOES);
         criadorConfiguracoes.criarArquivoPaleta(pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_PALETA);
     }
 
@@ -147,7 +147,8 @@ public final class Configurador implements IConfigurador {
 
         criadorConfiguracoes.sobrescreverArquivoConfiguracoes(
                 pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_CONFIGURACOES, dadosConfiguracoesToml);
-        criadorConfiguracoes.sobrescreverArquivoPaleta(pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_PALETA, dadosPaletaToml);
+        criadorConfiguracoes.sobrescreverArquivoPaleta(
+                pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_PALETA, dadosPaletaToml);
         this.lerConfiguracao();
     }
 

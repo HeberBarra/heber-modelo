@@ -12,11 +12,12 @@
  */
 
 package io.github.heberbarra.modelador.infrastructure.configurador;
+
+import io.github.heberbarra.modelador.domain.configurador.ICombinadorConfiguracoes;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import io.github.heberbarra.modelador.domain.configurador.ICombinadorConfiguracoes;
 import org.tomlj.TomlTable;
 
 public class CombinadorConfiguracoes implements ICombinadorConfiguracoes {

@@ -16,6 +16,7 @@ package io.github.heberbarra.modelador.infrastructure.configurador;
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
 import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
+import io.github.heberbarra.modelador.domain.configurador.ILeitorConfiguracao;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
@@ -23,7 +24,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
-import io.github.heberbarra.modelador.domain.configurador.ILeitorConfiguracao;
 import org.tomlj.Toml;
 import org.tomlj.TomlTable;
 

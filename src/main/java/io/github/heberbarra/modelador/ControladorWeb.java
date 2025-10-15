@@ -130,7 +130,8 @@ public class ControladorWeb {
         Optional<Long> porta = configurador.pegarValorConfiguracao("programa", "porta", long.class);
 
         if (host.isPresent() && porta.isPresent()) {
-            logger.info(TradutorWrapper.tradutor.traduzirMensagem("app.ready")
+            logger.info(TradutorWrapper.tradutor
+                    .traduzirMensagem("app.ready")
                     .formatted(host.get(), Math.toIntExact(porta.get())));
         }
     }
@@ -138,7 +139,8 @@ public class ControladorWeb {
     @SuppressWarnings("HttpUrlsUsage")
     @EventListener(ApplicationReadyEvent.class)
     public void abrirWebBrowser() throws IOException {
-        Optional<Boolean> abrirBrowser = configurador.pegarValorConfiguracao("programa", "abrir_navegador_automaticamente", boolean.class);
+        Optional<Boolean> abrirBrowser =
+                configurador.pegarValorConfiguracao("programa", "abrir_navegador_automaticamente", boolean.class);
         if (abrirBrowser.isEmpty() || (!abrirBrowser.get())) return;
 
         logger.info(TradutorWrapper.tradutor.traduzirMensagem("app.opening.browser"));
@@ -267,7 +269,8 @@ public class ControladorWeb {
 
         Optional<Boolean> exibirGrade = configurador.pegarValorConfiguracao("grade", "exibir", boolean.class);
         if (exibirGrade.isPresent() && exibirGrade.get()) {
-            Optional<Long> tamanhoQuadradoGrade = configurador.pegarValorConfiguracao("grade", "tamanho_quadrado_px", long.class);
+            Optional<Long> tamanhoQuadradoGrade =
+                    configurador.pegarValorConfiguracao("grade", "tamanho_quadrado_px", long.class);
             Optional<Long> espessuraGrade = configurador.pegarValorConfiguracao("grade", "espessura", long.class);
 
             if (tamanhoQuadradoGrade.isPresent() && espessuraGrade.isPresent()) {

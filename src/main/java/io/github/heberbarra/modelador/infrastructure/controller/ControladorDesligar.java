@@ -45,7 +45,8 @@ public class ControladorDesligar {
 
     @PostMapping("/desligar")
     public void desligar(@RequestBody RequestTokenDesligar request) {
-        Optional<Boolean> desativarBotaoDesligar = configurador.pegarValorConfiguracao("programa", "desativar_botao_desligar", boolean.class);
+        Optional<Boolean> desativarBotaoDesligar =
+                configurador.pegarValorConfiguracao("programa", "desativar_botao_desligar", boolean.class);
 
         if (desativarBotaoDesligar.isPresent() && desativarBotaoDesligar.get()) return;
 

@@ -125,11 +125,15 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
         String port = acessadorRecursos.pegarValorVariavelAmbiente("MYSQL_PORT");
 
         if (host == null || host.isBlank()) {
-            host = configurador.pegarValorConfiguracao("mysql", "host", String.class).orElseThrow();
+            host = configurador
+                    .pegarValorConfiguracao("mysql", "host", String.class)
+                    .orElseThrow();
         }
 
         if (port == null || port.isBlank()) {
-            Long numeroPorta = configurador.pegarValorConfiguracao("mysql", "porta", long.class).orElseThrow();
+            Long numeroPorta = configurador
+                    .pegarValorConfiguracao("mysql", "porta", long.class)
+                    .orElseThrow();
             port = String.valueOf(numeroPorta);
         }
 

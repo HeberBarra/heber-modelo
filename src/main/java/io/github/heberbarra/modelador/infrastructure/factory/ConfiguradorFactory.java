@@ -1,5 +1,8 @@
 package io.github.heberbarra.modelador.infrastructure.factory;
 
+import static io.github.heberbarra.modelador.infrastructure.configurador.Configurador.ARQUIVO_CONFIGURACOES;
+import static io.github.heberbarra.modelador.infrastructure.configurador.Configurador.ARQUIVO_PALETA;
+
 import io.github.heberbarra.modelador.domain.configurador.ICombinadorConfiguracoes;
 import io.github.heberbarra.modelador.domain.configurador.IConfigurador;
 import io.github.heberbarra.modelador.domain.configurador.IPastaConfiguracao;
@@ -13,8 +16,6 @@ import io.github.heberbarra.modelador.infrastructure.conversor.ConversorTomlProg
 import io.github.heberbarra.modelador.infrastructure.conversor.IConversorTOMLString;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-import static io.github.heberbarra.modelador.infrastructure.configurador.Configurador.ARQUIVO_CONFIGURACOES;
-import static io.github.heberbarra.modelador.infrastructure.configurador.Configurador.ARQUIVO_PALETA;
 
 @Service
 public class ConfiguradorFactory {
@@ -29,10 +30,7 @@ public class ConfiguradorFactory {
             IPastaConfiguracao pastaConfiguracao = new PastaConfiguracaoPrograma();
             CriadorConfiguracoes criadorConfiguracoes = new CriadorConfiguracoes();
             LeitorConfiguracao leitorConfiguracao = new LeitorConfiguracao(
-                    pastaConfiguracao.decidirPastaConfiguracao(),
-                    ARQUIVO_CONFIGURACOES,
-                    ARQUIVO_PALETA
-            );
+                    pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_CONFIGURACOES, ARQUIVO_PALETA);
             VerificadorConfiguracaoPrograma verificadorConfiguracaoPrograma = new VerificadorConfiguracaoPrograma();
 
             configurador = new Configurador(
@@ -41,11 +39,9 @@ public class ConfiguradorFactory {
                     pastaConfiguracao,
                     criadorConfiguracoes,
                     leitorConfiguracao,
-                    verificadorConfiguracaoPrograma
-            );
+                    verificadorConfiguracaoPrograma);
         }
 
         return configurador;
     }
-
 }

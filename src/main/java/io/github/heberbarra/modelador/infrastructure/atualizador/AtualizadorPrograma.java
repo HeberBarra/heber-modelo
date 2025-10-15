@@ -98,7 +98,8 @@ public class AtualizadorPrograma implements IAtualizador {
         }
 
         logger.info(TradutorWrapper.tradutor.traduzirMensagem("update.new"));
-        Optional<Boolean> atualizacaoAutomatica = configurador.pegarValorConfiguracao("atualizador", "atualizacao_automatica", boolean.class);
+        Optional<Boolean> atualizacaoAutomatica =
+                configurador.pegarValorConfiguracao("atualizador", "atualizacao_automatica", boolean.class);
         if (atualizacaoAutomatica.isPresent() && atualizacaoAutomatica.get()) {
             baixarAtualizacao();
             return;

@@ -53,7 +53,9 @@ public class EjetorArquivosBanco {
     public EjetorArquivosBanco() {
         this.acessadorRecursos = new AcessadorRecursos();
         this.configurador = ConfiguradorFactory.build();
-        this.destinoArquivos = configurador.pegarValorConfiguracao("ejetor", "destino", String.class).orElseThrow();
+        this.destinoArquivos = configurador
+                .pegarValorConfiguracao("ejetor", "destino", String.class)
+                .orElseThrow();
     }
 
     /**
@@ -74,7 +76,8 @@ public class EjetorArquivosBanco {
         ejetarArquivo(destinoArquivos, ARQUIVO_DOCKER_COMPOSE);
         ejetarArquivo(destinoArquivos, ARQUIVO_DOCKER);
 
-        Optional<Boolean> copiarArquivoEnv = configurador.pegarValorConfiguracao("ejetor", "copiar_arquivo_env", boolean.class);
+        Optional<Boolean> copiarArquivoEnv =
+                configurador.pegarValorConfiguracao("ejetor", "copiar_arquivo_env", boolean.class);
         if (copiarArquivoEnv.isPresent() && copiarArquivoEnv.get()) {
             copiarArquivoDotEnv();
         }
@@ -116,7 +119,9 @@ public class EjetorArquivosBanco {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void copiarArquivoDotEnv() {
         PastaConfiguracaoPrograma pastaConfiguracaoPrograma = new PastaConfiguracaoPrograma();
-        String nomeEnv = configurador.pegarValorConfiguracao("ejetor", "nome_arquivo_env", String.class).orElseThrow();
+        String nomeEnv = configurador
+                .pegarValorConfiguracao("ejetor", "nome_arquivo_env", String.class)
+                .orElseThrow();
         Path arquivoEnv = new File("%s/%s".formatted(pastaConfiguracaoPrograma.getPasta(), nomeEnv))
                 .getAbsoluteFile()
                 .toPath();
