@@ -11,12 +11,12 @@
  *
  */
 
-package io.github.heberbarra.modelador.infrastructure.configuracao;
+package io.github.heberbarra.modelador.infrastructure.configurador;
 
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
-import io.github.heberbarra.modelador.domain.configuracao.IVerificadorConfiguracao;
-import io.github.heberbarra.modelador.domain.configuracao.LeitorAbstratoArquivoVerificador;
+import io.github.heberbarra.modelador.domain.configurador.IVerificadorConfiguracao;
+import io.github.heberbarra.modelador.domain.configurador.LeitorAbstratoArquivoVerificador;
 import io.github.heberbarra.modelador.infrastructure.acessador.AcessadorRecursos;
 import io.github.heberbarra.modelador.infrastructure.verificador.JsonVerificadorConfiguracoes;
 import io.github.heberbarra.modelador.infrastructure.verificador.JsonVerificadorPaleta;
@@ -26,12 +26,6 @@ import java.util.Map;
 import java.util.logging.Logger;
 import org.tomlj.TomlTable;
 
-/**
- * Analisa a configuração do usuário, e reporta os erros encontrados.
- * A variável {@link VerificadorConfiguracaoPrograma#configuracaoErrada} é definida como {@code true} caso haja algum erro grave.
- *
- * @since v0.0.2-SNAPSHOT
- */
 public class VerificadorConfiguracaoPrograma implements IVerificadorConfiguracao {
 
     private static final Logger logger = JavaLogger.obterLogger(VerificadorConfiguracaoPrograma.class.getName());
@@ -68,11 +62,7 @@ public class VerificadorConfiguracaoPrograma implements IVerificadorConfiguracao
         leitores.add(leitorArquivoVerificacao);
     }
 
-    /**
-     * Mostra na tela as informações de todos os leitores disponíveis.
-     *
-     * @see LeitorArquivoVerificacaoPadrao
-     */
+    @Override
     public void mostrarInformacoes() {
         leitores.forEach(leitor -> System.out.println(leitor.getInformacoesJSON()));
     }

@@ -11,7 +11,7 @@
  *
  */
 
-package io.github.heberbarra.modelador.infrastructure.configuracao;
+package io.github.heberbarra.modelador.infrastructure.configurador;
 
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
@@ -23,21 +23,23 @@ import java.nio.file.WatchEvent;
 import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.util.logging.Logger;
+import io.github.heberbarra.modelador.domain.configurador.IWatcherConfiguracao;
+import io.github.heberbarra.modelador.infrastructure.factory.ConfiguradorFactory;
 import org.tomlj.TomlTable;
 
-public class WatcherPastaConfiguracao implements Runnable {
+public class WatcherPastaConfiguracao implements IWatcherConfiguracao {
 
     private static final Logger logger = JavaLogger.obterLogger(WatcherPastaConfiguracao.class.getName());
     private static final int DELAY_RELOAD = 500;
-    private final ConfiguradorPrograma configurador;
+    private final Configurador configurador;
     private final CriadorConfiguracoes criadorConfiguracoes;
     private final LeitorConfiguracao leitorConfiguracao;
     private final VerificadorConfiguracaoPrograma verificadorConfiguracaoPrograma;
     private final Path pastaConfiguracao;
 
     public WatcherPastaConfiguracao() {
-        configurador = ConfiguradorPrograma.getInstance();
-        criadorConfiguracoes = configurador.getCriadorConfiguracoes();
+        configurador = (Configurador) ConfiguradorFactory.build();
+        criadorConfiguracoes = configurador.getCriadorConfiguracoesConcreto();
         leitorConfiguracao = configurador.getLeitorConfiguracao();
         verificadorConfiguracaoPrograma = new VerificadorConfiguracaoPrograma();
         pastaConfiguracao = Path.of(new PastaConfiguracaoPrograma().decidirPastaConfiguracao());

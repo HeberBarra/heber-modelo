@@ -11,12 +11,12 @@
  *
  */
 
-package io.github.heberbarra.modelador.infrastructure.configuracao;
+package io.github.heberbarra.modelador.infrastructure.configurador;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
-import io.github.heberbarra.modelador.domain.configuracao.LeitorAbstratoArquivoVerificador;
+import io.github.heberbarra.modelador.domain.configurador.LeitorAbstratoArquivoVerificador;
 import io.github.heberbarra.modelador.domain.verificador.VerificadorAbstratoJSONAtributo;
 import java.io.File;
 import java.io.IOException;

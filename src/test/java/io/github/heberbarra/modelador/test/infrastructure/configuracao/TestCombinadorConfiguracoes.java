@@ -13,7 +13,7 @@
 
 package io.github.heberbarra.modelador.test.infrastructure.configuracao;
 
-import io.github.heberbarra.modelador.infrastructure.configuracao.CombinadorConfiguracoes;
+import io.github.heberbarra.modelador.infrastructure.configurador.CombinadorConfiguracoes;
 import io.github.heberbarra.modelador.infrastructure.conversor.ConversorTomlPrograma;
 import io.github.heberbarra.modelador.infrastructure.conversor.IConversorTOMLString;
 import java.util.ArrayList;

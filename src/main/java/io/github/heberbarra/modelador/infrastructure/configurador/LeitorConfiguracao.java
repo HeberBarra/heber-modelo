@@ -11,7 +11,7 @@
  *
  */
 
-package io.github.heberbarra.modelador.infrastructure.configuracao;
+package io.github.heberbarra.modelador.infrastructure.configurador;
 
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
@@ -21,7 +21,9 @@ import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.logging.Logger;
+import io.github.heberbarra.modelador.domain.configurador.ILeitorConfiguracao;
 import org.tomlj.Toml;
 import org.tomlj.TomlTable;
 
@@ -30,7 +32,7 @@ import org.tomlj.TomlTable;
  *
  * @since v0.0.2-SNAPSHOT
  */
-public class LeitorConfiguracao {
+public class LeitorConfiguracao implements ILeitorConfiguracao {
 
     private static final Logger logger = JavaLogger.obterLogger(LeitorConfiguracao.class.getName());
     private String pastaConfiguracao;
@@ -53,45 +55,33 @@ public class LeitorConfiguracao {
         lerArquivoPaleta();
     }
 
-    /**
-     * Pega o valor de um atributo específico, sendo necessário indicar o nome, a tabela e o tipo do atributo
-     *
-     * @param categoria a tabela/categoria na qual se encontra o atributo
-     * @param atributo  o nome do atributo desejado
-     * @param tipo      o tipo do atributo, devendo ser de um dos seguintes tipos: {@code String}, {@code long}, {@code double} ou {@code boolean}
-     * @return o valor do atributo requirido ou {@code null} caso valor não tenha sido encontrado.
-     */
+    @Override
     @SuppressWarnings("unchecked")
-    public <T> T pegarValorConfiguracao(String categoria, String atributo, Class<T> tipo) {
+    public <T> Optional<T> pegarValorConfiguracao(String categoria, String atributo, Class<T> tipo) {
         TomlTable tabelaCategoria = informacoesConfiguracoes.getTable(categoria);
 
         if (tabelaCategoria == null) {
             logger.warning(TradutorWrapper.tradutor
                     .traduzirMensagem("error.config.category.notfound")
                     .formatted(categoria));
-            return null;
+            return Optional.empty();
         }
 
         if (tipo == long.class) {
-            return (T) tabelaCategoria.getLong(atributo);
+            return Optional.ofNullable((T) tabelaCategoria.getLong(atributo));
         } else if (tipo == double.class) {
-            return (T) tabelaCategoria.getDouble(atributo);
+            return Optional.ofNullable((T) tabelaCategoria.getDouble(atributo));
         } else if (tipo == boolean.class) {
-            return (T) tabelaCategoria.getBoolean(atributo);
+            return Optional.ofNullable((T) tabelaCategoria.getBoolean(atributo));
         } else if (tipo == String.class) {
-            return (T) tabelaCategoria.getString(atributo);
+            return Optional.ofNullable((T) tabelaCategoria.getString(atributo));
         } else {
             logger.warning(TradutorWrapper.tradutor.traduzirMensagem("error.config.attribute.get.invalid.type"));
-            return null;
+            return Optional.empty();
         }
     }
 
-    /**
-     * Pega o código hexadecimal da cor específica da paleta.
-     *
-     * @param nomeVariavel o nome da variável na paleta de cores
-     * @return o código hexadecimal da cor
-     */
+    @Override
     public String pegarCorPaleta(String nomeVariavel) {
         return Objects.requireNonNull(informacoesPaleta.getTable("paleta")).getString(nomeVariavel);
     }
@@ -113,14 +103,8 @@ public class LeitorConfiguracao {
         return informacoes;
     }
 
-    /**
-     * Lê um arquivo TOML e retorna as informações lidas como uma tabela TOML
-     * Caso ocorra um erro durante a leitura do arquivo, o programa será encerrado com o seguinte código de saída: {@link CodigoSaida#ERRO_LEITURA_ARQUIVO}
-     *
-     * @param nomeArquivo o nome do arquivo que deve ser lido
-     * @return as informações lidas como uma tabela TOML
-     */
-    private TomlTable lerArquivo(String nomeArquivo) {
+    @Override
+    public TomlTable lerArquivo(String nomeArquivo) {
         try {
             return Toml.parse(Path.of(pastaConfiguracao, nomeArquivo));
         } catch (IOException e) {
@@ -138,6 +122,7 @@ public class LeitorConfiguracao {
         informacoesConfiguracoes = lerArquivo(arquivoConfiguracoes);
     }
 
+    @Override
     public TomlTable lerArquivoConfiguracoesSemSalvar() {
         return lerArquivo(arquivoConfiguracoes);
     }
@@ -146,10 +131,12 @@ public class LeitorConfiguracao {
         informacoesPaleta = lerArquivo(arquivoPaleta);
     }
 
+    @Override
     public TomlTable lerArquivoPaletaSemSalvar() {
         return lerArquivo(arquivoPaleta);
     }
 
+    @Override
     public String[] pegarStringConfiguracao() {
         String tomlConfiguracoes = informacoesConfiguracoes.toToml();
         String tomlPaleta = informacoesPaleta.toToml();

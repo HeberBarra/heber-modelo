@@ -15,9 +15,10 @@ package io.github.heberbarra.modelador.application.usecase.ejetar;
 
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
+import io.github.heberbarra.modelador.domain.configurador.IConfigurador;
 import io.github.heberbarra.modelador.infrastructure.acessador.AcessadorRecursos;
-import io.github.heberbarra.modelador.infrastructure.configuracao.ConfiguradorPrograma;
-import io.github.heberbarra.modelador.infrastructure.configuracao.PastaConfiguracaoPrograma;
+import io.github.heberbarra.modelador.infrastructure.configurador.PastaConfiguracaoPrograma;
+import io.github.heberbarra.modelador.infrastructure.factory.ConfiguradorFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 /**
@@ -45,13 +47,13 @@ public class EjetorArquivosBanco {
     public static final String ARQUIVO_DOCKER_COMPOSE = PASTA_ARQUIVOS_BANCO + "docker-compose.yml";
     public static final String ARQUIVO_DOCKER = PASTA_ARQUIVOS_BANCO + "Dockerfile";
     private final AcessadorRecursos acessadorRecursos;
-    private final ConfiguradorPrograma configurador;
+    private final IConfigurador configurador;
     private final String destinoArquivos;
 
     public EjetorArquivosBanco() {
         this.acessadorRecursos = new AcessadorRecursos();
-        this.configurador = ConfiguradorPrograma.getInstance();
-        this.destinoArquivos = configurador.pegarValorConfiguracao("ejetor", "destino", String.class);
+        this.configurador = ConfiguradorFactory.build();
+        this.destinoArquivos = configurador.pegarValorConfiguracao("ejetor", "destino", String.class).orElseThrow();
     }
 
     /**
@@ -72,7 +74,8 @@ public class EjetorArquivosBanco {
         ejetarArquivo(destinoArquivos, ARQUIVO_DOCKER_COMPOSE);
         ejetarArquivo(destinoArquivos, ARQUIVO_DOCKER);
 
-        if (configurador.pegarValorConfiguracao("ejetor", "copiar_arquivo_env", boolean.class)) {
+        Optional<Boolean> copiarArquivoEnv = configurador.pegarValorConfiguracao("ejetor", "copiar_arquivo_env", boolean.class);
+        if (copiarArquivoEnv.isPresent() && copiarArquivoEnv.get()) {
             copiarArquivoDotEnv();
         }
     }
@@ -113,7 +116,7 @@ public class EjetorArquivosBanco {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void copiarArquivoDotEnv() {
         PastaConfiguracaoPrograma pastaConfiguracaoPrograma = new PastaConfiguracaoPrograma();
-        String nomeEnv = configurador.pegarValorConfiguracao("ejetor", "nome_arquivo_env", String.class);
+        String nomeEnv = configurador.pegarValorConfiguracao("ejetor", "nome_arquivo_env", String.class).orElseThrow();
         Path arquivoEnv = new File("%s/%s".formatted(pastaConfiguracaoPrograma.getPasta(), nomeEnv))
                 .getAbsoluteFile()
                 .toPath();

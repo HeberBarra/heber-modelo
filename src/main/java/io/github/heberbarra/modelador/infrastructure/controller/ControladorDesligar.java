@@ -17,10 +17,11 @@ import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
 import io.github.heberbarra.modelador.application.usecase.gerar.GeradorToken;
 import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
-import io.github.heberbarra.modelador.domain.configuracao.IConfigurador;
+import io.github.heberbarra.modelador.domain.configurador.IConfigurador;
 import io.github.heberbarra.modelador.domain.model.RequestTokenDesligar;
-import io.github.heberbarra.modelador.infrastructure.configuracao.ConfiguradorPrograma;
+import java.util.Optional;
 import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,8 +33,8 @@ public class ControladorDesligar {
     private static final Logger logger = JavaLogger.obterLogger(ControladorDesligar.class.getName());
     private final IConfigurador configurador;
 
-    public ControladorDesligar() {
-        this.configurador = ConfiguradorPrograma.getInstance();
+    public ControladorDesligar(@Autowired IConfigurador configurador) {
+        this.configurador = configurador;
     }
 
     static {
@@ -44,7 +45,9 @@ public class ControladorDesligar {
 
     @PostMapping("/desligar")
     public void desligar(@RequestBody RequestTokenDesligar request) {
-        if (configurador.pegarValorConfiguracao("programa", "desativar_botao_desligar", boolean.class)) return;
+        Optional<Boolean> desativarBotaoDesligar = configurador.pegarValorConfiguracao("programa", "desativar_botao_desligar", boolean.class);
+
+        if (desativarBotaoDesligar.isPresent() && desativarBotaoDesligar.get()) return;
 
         if (TOKEN_SECRETO.equals(request.getToken())) {
             logger.info(TradutorWrapper.tradutor.traduzirMensagem("app.end"));

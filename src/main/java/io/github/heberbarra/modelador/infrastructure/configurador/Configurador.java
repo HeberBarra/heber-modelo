@@ -11,16 +11,19 @@
  *
  */
 
-package io.github.heberbarra.modelador.infrastructure.configuracao;
+package io.github.heberbarra.modelador.infrastructure.configurador;
 
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
 import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
-import io.github.heberbarra.modelador.domain.configuracao.IConfigurador;
-import io.github.heberbarra.modelador.infrastructure.conversor.ConversorTomlPrograma;
+import io.github.heberbarra.modelador.domain.configurador.CriadorConfiguracoesBase;
+import io.github.heberbarra.modelador.domain.configurador.ICombinadorConfiguracoes;
+import io.github.heberbarra.modelador.domain.configurador.IConfigurador;
+import io.github.heberbarra.modelador.domain.configurador.IPastaConfiguracao;
 import io.github.heberbarra.modelador.infrastructure.conversor.IConversorTOMLString;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 /**
@@ -30,43 +33,34 @@ import java.util.logging.Logger;
  *
  * @since v0.0.1-SNAPSHOT
  */
-public final class ConfiguradorPrograma implements IConfigurador {
+public final class Configurador implements IConfigurador {
 
     public static final String ARQUIVO_PALETA = "paleta.toml";
     public static final String ARQUIVO_CONFIGURACOES = "config.toml";
-    private static final Logger logger = JavaLogger.obterLogger(ConfiguradorPrograma.class.getName());
-    private static volatile ConfiguradorPrograma configurador;
+    private static final Logger logger = JavaLogger.obterLogger(Configurador.class.getName());
+    private final ICombinadorConfiguracoes combinadorConfiguracoes;
     private final IConversorTOMLString conversorToml;
-    private final PastaConfiguracaoPrograma pastaConfiguracao;
+    private final IPastaConfiguracao pastaConfiguracao;
     private final CriadorConfiguracoes criadorConfiguracoes;
-    private final VerificadorConfiguracaoPrograma verificadorConfiguracao;
-    private final CombinadorConfiguracoes combinadorConfiguracoes;
     private final LeitorConfiguracao leitorConfiguracao;
+    private final VerificadorConfiguracaoPrograma verificadorConfiguracao;
 
-    private ConfiguradorPrograma() {
-        conversorToml = new ConversorTomlPrograma();
-        pastaConfiguracao = new PastaConfiguracaoPrograma();
-        criadorConfiguracoes = new CriadorConfiguracoes();
-        verificadorConfiguracao = new VerificadorConfiguracaoPrograma();
-        leitorConfiguracao =
-                new LeitorConfiguracao(pastaConfiguracao.getPasta(), ARQUIVO_CONFIGURACOES, ARQUIVO_PALETA);
-        combinadorConfiguracoes = new CombinadorConfiguracoes();
+    public Configurador(
+            ICombinadorConfiguracoes combinadorConfiguracoes,
+            IConversorTOMLString conversorToml,
+            IPastaConfiguracao pastaConfiguracao,
+            CriadorConfiguracoes criadorConfiguracoes,
+            LeitorConfiguracao leitorConfiguracao,
+            VerificadorConfiguracaoPrograma verificadorConfiguracao
+    ) {
+        this.combinadorConfiguracoes = combinadorConfiguracoes;
+        this.conversorToml = conversorToml;
+        this.pastaConfiguracao = pastaConfiguracao;
+        this.criadorConfiguracoes = criadorConfiguracoes;
+        this.leitorConfiguracao = leitorConfiguracao;
+        this.verificadorConfiguracao = verificadorConfiguracao;
     }
 
-    public static synchronized ConfiguradorPrograma getInstance() {
-        if (configurador == null) {
-            configurador = new ConfiguradorPrograma();
-        }
-
-        return configurador;
-    }
-
-    /**
-     * Lê as configurações padrões do programa, para permitir a geração dos arquivos caso não existam ainda
-     *
-     * @see CriadorConfiguracoes
-     * @see ConfiguradorPrograma#criarArquivos()
-     */
     @Override
     public void lerConfiguracaoPadrao() {
         verificadorConfiguracao.lerArquivosTemplate();
@@ -83,10 +77,10 @@ public final class ConfiguradorPrograma implements IConfigurador {
      */
     @Override
     public void criarArquivos() {
-        criadorConfiguracoes.criarPastaConfiguracao(pastaConfiguracao.getPasta());
+        criadorConfiguracoes.criarPastaConfiguracao(pastaConfiguracao.decidirPastaConfiguracao());
         lerConfiguracaoPadrao();
-        criadorConfiguracoes.criarArquivoConfiguracoes(pastaConfiguracao.getPasta(), ARQUIVO_CONFIGURACOES);
-        criadorConfiguracoes.criarArquivoPaleta(pastaConfiguracao.getPasta(), ARQUIVO_PALETA);
+        criadorConfiguracoes.criarArquivoConfiguracoes(pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_CONFIGURACOES);
+        criadorConfiguracoes.criarArquivoPaleta(pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_PALETA);
     }
 
     /**
@@ -152,53 +146,50 @@ public final class ConfiguradorPrograma implements IConfigurador {
         String dadosPaletaToml = conversorToml.converterMapPaletaParaStringTOML(dadosPaleta);
 
         criadorConfiguracoes.sobrescreverArquivoConfiguracoes(
-                pastaConfiguracao.getPasta(), ARQUIVO_CONFIGURACOES, dadosConfiguracoesToml);
-        criadorConfiguracoes.sobrescreverArquivoPaleta(pastaConfiguracao.getPasta(), ARQUIVO_PALETA, dadosPaletaToml);
+                pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_CONFIGURACOES, dadosConfiguracoesToml);
+        criadorConfiguracoes.sobrescreverArquivoPaleta(pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_PALETA, dadosPaletaToml);
         this.lerConfiguracao();
     }
 
-    /**
-     * Pega o código hexadecimal de uma cor específica da paleta.
-     *
-     * @param nomeVariavel o nome da variável na paleta de cores
-     * @return o código hexadecimal da cor
-     * @see LeitorConfiguracao
-     */
     @Override
     public String pegarCorPaleta(String nomeVariavel) {
         return leitorConfiguracao.pegarCorPaleta(nomeVariavel);
     }
 
-    /**
-     * Pega todas as variáveis da paleta com seus respectivos códigos hexadecimais
-     *
-     * @return um {@link Map} contendo as informações da paleta de cores
-     * @see LeitorConfiguracao
-     */
     @Override
     public Map<String, String> pegarInformacoesPaleta() {
         return leitorConfiguracao.pegarVariaveisPaleta();
     }
 
-    /**
-     * Pega o valor de um atributo específico, sendo necessário indicar o nome, a tabela e o tipo do atributo.
-     *
-     * @param categoria a tabela/categoria na qual se encontra o atributo desejado
-     * @param atributo  o nome do atributo desejado
-     * @param tipo      o tipo do atributo, devendo ser de um dos seguintes tipos: {@code String}, {@code long}, {@code double} ou {@code boolean}
-     * @return o valor do atributo requirido ou {@code null} caso o valor não tenha sido encontrado.
-     * @see LeitorConfiguracao
-     */
     @Override
-    public <T> T pegarValorConfiguracao(String categoria, String atributo, Class<T> tipo) {
+    public <T> Optional<T> pegarValorConfiguracao(String categoria, String atributo, Class<T> tipo) {
         return leitorConfiguracao.pegarValorConfiguracao(categoria, atributo, tipo);
     }
 
-    public CriadorConfiguracoes getCriadorConfiguracoes() {
+    public CriadorConfiguracoes getCriadorConfiguracoesConcreto() {
         return criadorConfiguracoes;
+    }
+
+    public CriadorConfiguracoesBase<?> getCriadorConfiguracoes() {
+        return null;
+    }
+
+    @Override
+    public ICombinadorConfiguracoes getCombinarConfiguracoes() {
+        return combinadorConfiguracoes;
     }
 
     public LeitorConfiguracao getLeitorConfiguracao() {
         return leitorConfiguracao;
+    }
+
+    @Override
+    public IPastaConfiguracao getPastaConfiguracao() {
+        return pastaConfiguracao;
+    }
+
+    @Override
+    public VerificadorConfiguracaoPrograma getVerificadorConfiguracao() {
+        return verificadorConfiguracao;
     }
 }

@@ -15,7 +15,8 @@ package io.github.heberbarra.modelador.domain.argumento;
 
 import io.github.heberbarra.modelador.application.usecase.ejetar.EjetorArquivosBanco;
 import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
-import io.github.heberbarra.modelador.infrastructure.configuracao.ConfiguradorPrograma;
+import io.github.heberbarra.modelador.domain.configurador.IConfigurador;
+import io.github.heberbarra.modelador.infrastructure.factory.ConfiguradorFactory;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class EjetorArquivosDocker extends Argumento {
      */
     @Override
     public void run() {
-        ConfiguradorPrograma configurador = ConfiguradorPrograma.getInstance();
+        IConfigurador configurador = ConfiguradorFactory.build();
         configurador.criarArquivos();
         configurador.lerConfiguracao();
         EjetorArquivosBanco ejetorArquivosBanco = new EjetorArquivosBanco();

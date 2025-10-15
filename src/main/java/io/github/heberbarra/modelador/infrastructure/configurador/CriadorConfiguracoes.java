@@ -11,11 +11,13 @@
  *
  */
 
-package io.github.heberbarra.modelador.infrastructure.configuracao;
+package io.github.heberbarra.modelador.infrastructure.configurador;
 
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
 import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
+import io.github.heberbarra.modelador.domain.configurador.CriadorConfiguracoesBase;
+import io.github.heberbarra.modelador.domain.configurador.IPastaConfiguracao;
 import io.github.heberbarra.modelador.domain.model.json.AtributoJsonConfiguracao;
 import io.github.heberbarra.modelador.domain.model.json.AtributoJsonPaleta;
 import io.github.heberbarra.modelador.infrastructure.conversor.ConversorTomlPrograma;
