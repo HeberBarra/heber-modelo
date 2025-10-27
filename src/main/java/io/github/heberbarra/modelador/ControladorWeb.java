@@ -20,7 +20,7 @@ import io.github.heberbarra.modelador.domain.configurador.IConfigurador;
 import io.github.heberbarra.modelador.domain.model.NovoDiagramaDTO;
 import io.github.heberbarra.modelador.domain.model.UsuarioDTO;
 import io.github.heberbarra.modelador.infrastructure.configurador.Configurador;
-import io.github.heberbarra.modelador.infrastructure.configurador.WatcherPastaConfiguracao;
+import io.github.heberbarra.modelador.infrastructure.configurador.WatcherConfiguracao;
 import io.github.heberbarra.modelador.infrastructure.controller.ControladorDesligar;
 import io.github.heberbarra.modelador.infrastructure.entity.Usuario;
 import io.github.heberbarra.modelador.infrastructure.factory.ConfiguradorFactory;
@@ -120,8 +120,8 @@ public class ControladorWeb {
 
     @EventListener(ApplicationReadyEvent.class)
     public void iniciarWatcherConfig() {
-        WatcherPastaConfiguracao watcherPastaConfiguracao = new WatcherPastaConfiguracao();
-        taskExecutor.execute(watcherPastaConfiguracao);
+        WatcherConfiguracao watcherConfiguracao = new WatcherConfiguracao();
+        taskExecutor.execute(watcherConfiguracao);
     }
 
     @EventListener(ApplicationReadyEvent.class)

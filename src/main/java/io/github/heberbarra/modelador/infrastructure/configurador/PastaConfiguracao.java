@@ -21,13 +21,13 @@ import io.github.heberbarra.modelador.infrastructure.acessador.AcessadorRecursos
 import java.io.File;
 import java.util.logging.Logger;
 
-public class PastaConfiguracaoPrograma implements IPastaConfiguracao {
+public class PastaConfiguracao implements IPastaConfiguracao {
 
-    private static final Logger logger = JavaLogger.obterLogger(PastaConfiguracaoPrograma.class.getName());
+    private static final Logger logger = JavaLogger.obterLogger(PastaConfiguracao.class.getName());
     private final String pasta = decidirPastaConfiguracao();
     private final AcessadorRecursos acessadorRecursos;
 
-    public PastaConfiguracaoPrograma() {
+    public PastaConfiguracao() {
         acessadorRecursos = new AcessadorRecursos();
     }
 
@@ -78,6 +78,7 @@ public class PastaConfiguracaoPrograma implements IPastaConfiguracao {
         }
     }
 
+    @Override
     public String getPasta() {
         return pasta;
     }

@@ -10,8 +10,8 @@ import io.github.heberbarra.modelador.infrastructure.configurador.CombinadorConf
 import io.github.heberbarra.modelador.infrastructure.configurador.Configurador;
 import io.github.heberbarra.modelador.infrastructure.configurador.CriadorConfiguracoes;
 import io.github.heberbarra.modelador.infrastructure.configurador.LeitorConfiguracao;
-import io.github.heberbarra.modelador.infrastructure.configurador.PastaConfiguracaoPrograma;
-import io.github.heberbarra.modelador.infrastructure.configurador.VerificadorConfiguracaoPrograma;
+import io.github.heberbarra.modelador.infrastructure.configurador.PastaConfiguracao;
+import io.github.heberbarra.modelador.infrastructure.configurador.VerificadorConfiguracao;
 import io.github.heberbarra.modelador.infrastructure.conversor.ConversorTomlPrograma;
 import io.github.heberbarra.modelador.infrastructure.conversor.IConversorTOMLString;
 import org.springframework.context.annotation.Bean;
@@ -27,17 +27,17 @@ public class ConfiguradorFactory {
         if (configurador == null) {
             ICombinadorConfiguracoes combinadorConfiguracoes = new CombinadorConfiguracoes();
             IConversorTOMLString conversorTOMLString = new ConversorTomlPrograma();
-            IPastaConfiguracao pastaConfiguracao = new PastaConfiguracaoPrograma();
-            CriadorConfiguracoes criadorConfiguracoes = new CriadorConfiguracoes();
+            IPastaConfiguracao pastaConfiguracao = new PastaConfiguracao();
+            CriadorConfiguracoes criadorConfiguracoes = new CriadorConfiguracoes(pastaConfiguracao);
             LeitorConfiguracao leitorConfiguracao = new LeitorConfiguracao(
                     pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_CONFIGURACOES, ARQUIVO_PALETA);
-            VerificadorConfiguracaoPrograma verificadorConfiguracaoPrograma = new VerificadorConfiguracaoPrograma();
+            VerificadorConfiguracao verificadorConfiguracaoPrograma = new VerificadorConfiguracao();
 
             configurador = new Configurador(
+                    criadorConfiguracoes,
                     combinadorConfiguracoes,
                     conversorTOMLString,
                     pastaConfiguracao,
-                    criadorConfiguracoes,
                     leitorConfiguracao,
                     verificadorConfiguracaoPrograma);
         }

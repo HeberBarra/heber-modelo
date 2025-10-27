@@ -10,6 +10,7 @@ version = "0.0.23-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 java {

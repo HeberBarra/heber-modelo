@@ -17,7 +17,7 @@ import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
 import io.github.heberbarra.modelador.domain.configurador.IConfigurador;
 import io.github.heberbarra.modelador.infrastructure.acessador.AcessadorRecursos;
-import io.github.heberbarra.modelador.infrastructure.configurador.PastaConfiguracaoPrograma;
+import io.github.heberbarra.modelador.infrastructure.configurador.PastaConfiguracao;
 import io.github.heberbarra.modelador.infrastructure.factory.ConfiguradorFactory;
 import java.io.File;
 import java.io.IOException;
@@ -118,11 +118,11 @@ public class EjetorArquivosBanco {
      */
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void copiarArquivoDotEnv() {
-        PastaConfiguracaoPrograma pastaConfiguracaoPrograma = new PastaConfiguracaoPrograma();
+        PastaConfiguracao pastaPrograma = new PastaConfiguracao();
         String nomeEnv = configurador
                 .pegarValorConfiguracao("ejetor", "nome_arquivo_env", String.class)
                 .orElseThrow();
-        Path arquivoEnv = new File("%s/%s".formatted(pastaConfiguracaoPrograma.getPasta(), nomeEnv))
+        Path arquivoEnv = new File("%s/%s".formatted(pastaPrograma.getPasta(), nomeEnv))
                 .getAbsoluteFile()
                 .toPath();
         File arquivoLink = new File(destinoArquivos, "/.env");

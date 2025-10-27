@@ -19,8 +19,11 @@ import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
 import io.github.heberbarra.modelador.domain.configurador.CriadorConfiguracoesBase;
 import io.github.heberbarra.modelador.domain.configurador.ICombinadorConfiguracoes;
 import io.github.heberbarra.modelador.domain.configurador.IConfigurador;
+import io.github.heberbarra.modelador.domain.configurador.ILeitorConfiguracao;
 import io.github.heberbarra.modelador.domain.configurador.IPastaConfiguracao;
+import io.github.heberbarra.modelador.domain.configurador.IVerificadorConfiguracao;
 import io.github.heberbarra.modelador.infrastructure.conversor.IConversorTOMLString;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -38,20 +41,20 @@ public final class Configurador implements IConfigurador {
     public static final String ARQUIVO_PALETA = "paleta.toml";
     public static final String ARQUIVO_CONFIGURACOES = "config.toml";
     private static final Logger logger = JavaLogger.obterLogger(Configurador.class.getName());
+    private final CriadorConfiguracoesBase criadorConfiguracoes;
     private final ICombinadorConfiguracoes combinadorConfiguracoes;
     private final IConversorTOMLString conversorToml;
+    private final ILeitorConfiguracao leitorConfiguracao;
     private final IPastaConfiguracao pastaConfiguracao;
-    private final CriadorConfiguracoes criadorConfiguracoes;
-    private final LeitorConfiguracao leitorConfiguracao;
-    private final VerificadorConfiguracaoPrograma verificadorConfiguracao;
+    private final IVerificadorConfiguracao verificadorConfiguracao;
 
     public Configurador(
+            CriadorConfiguracoesBase criadorConfiguracoes,
             ICombinadorConfiguracoes combinadorConfiguracoes,
             IConversorTOMLString conversorToml,
             IPastaConfiguracao pastaConfiguracao,
-            CriadorConfiguracoes criadorConfiguracoes,
-            LeitorConfiguracao leitorConfiguracao,
-            VerificadorConfiguracaoPrograma verificadorConfiguracao) {
+            ILeitorConfiguracao leitorConfiguracao,
+            IVerificadorConfiguracao verificadorConfiguracao) {
         this.combinadorConfiguracoes = combinadorConfiguracoes;
         this.conversorToml = conversorToml;
         this.pastaConfiguracao = pastaConfiguracao;
@@ -63,10 +66,11 @@ public final class Configurador implements IConfigurador {
     @Override
     public void lerConfiguracaoPadrao() {
         verificadorConfiguracao.lerArquivosTemplate();
-        criadorConfiguracoes.pegarConfiguracaoPadrao(
-                verificadorConfiguracao.getLeitorConfiguracoes().getInformacoesJSON());
-        criadorConfiguracoes.pegarPaletaPadrao(
-                verificadorConfiguracao.getLeitorPaleta().getInformacoesJSON());
+        if (verificadorConfiguracao instanceof VerificadorConfiguracao verificador) {
+            criadorConfiguracoes.pegarConfiguracaoPadrao(
+                    verificador.getLeitorConfiguracoes().getInformacoesJSON());
+            criadorConfiguracoes.pegarPaletaPadrao(verificador.getLeitorPaleta().getInformacoesJSON());
+        }
     }
 
     /**
@@ -76,11 +80,10 @@ public final class Configurador implements IConfigurador {
      */
     @Override
     public void criarArquivos() {
-        criadorConfiguracoes.criarPastaConfiguracao(pastaConfiguracao.decidirPastaConfiguracao());
+        criadorConfiguracoes.criarPastaConfiguracao();
         lerConfiguracaoPadrao();
-        criadorConfiguracoes.criarArquivoConfiguracoes(
-                pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_CONFIGURACOES);
-        criadorConfiguracoes.criarArquivoPaleta(pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_PALETA);
+        criadorConfiguracoes.criarArquivoConfiguracoes(ARQUIVO_CONFIGURACOES);
+        criadorConfiguracoes.criarArquivoPaleta(ARQUIVO_PALETA);
     }
 
     /**
@@ -96,13 +99,15 @@ public final class Configurador implements IConfigurador {
     /**
      * Verifica se há algum erro na configuração do programa, caso haja um erro o grave o programa é encerrado com o código de saída: {@link CodigoSaida#ERRO_CONFIGURACOES}.
      *
-     * @see VerificadorConfiguracaoPrograma
+     * @see VerificadorConfiguracao
      */
     public void verificarConfiguracoes() {
-        verificadorConfiguracao.verificarArquivoConfiguracao(
-                criadorConfiguracoes.getConfiguracaoPadrao(), leitorConfiguracao.getInformacoesConfiguracoes());
-        verificadorConfiguracao.verificarArquivoPaleta(
-                criadorConfiguracoes.getPaletaPadrao(), leitorConfiguracao.getInformacoesPaleta());
+        if (criadorConfiguracoes instanceof CriadorConfiguracoes criador) {
+            verificadorConfiguracao.verificarArquivoConfiguracao(
+                    criador.getConfiguracaoPadrao(), leitorConfiguracao.getInformacoesConfiguracoes());
+            verificadorConfiguracao.verificarArquivoPaleta(
+                    criador.getPaletaPadrao(), leitorConfiguracao.getInformacoesPaleta());
+        }
 
         if (verificadorConfiguracao.configuracoesContemErrosGraves()) {
             logger.severe(TradutorWrapper.tradutor.traduzirMensagem("error.config.end.app"));
@@ -131,24 +136,27 @@ public final class Configurador implements IConfigurador {
      */
     @Override
     public void combinarConfiguracoes() {
-        Map<String, List<Map<String, String>>> dadosConfiguracoes = combinadorConfiguracoes.combinarConfiguracoes(
-                criadorConfiguracoes.getConfiguracaoPadrao(),
-                leitorConfiguracao.getInformacoesConfiguracoes(),
-                "atributo",
-                "valorPadrao");
-        Map<String, List<Map<String, String>>> dadosPaleta = combinadorConfiguracoes.combinarConfiguracoes(
-                criadorConfiguracoes.getPaletaPadrao(),
-                leitorConfiguracao.getInformacoesPaleta(),
-                "nomeVariavel",
-                "valorPadraoVariavel");
+        Map<String, List<Map<String, String>>> dadosConfiguracoes = new LinkedHashMap<>();
+        Map<String, List<Map<String, String>>> dadosPaleta = new LinkedHashMap<>();
+
+        if (criadorConfiguracoes instanceof CriadorConfiguracoes criador) {
+            dadosConfiguracoes = combinadorConfiguracoes.combinarConfiguracoes(
+                    criador.getConfiguracaoPadrao(),
+                    leitorConfiguracao.getInformacoesConfiguracoes(),
+                    "atributo",
+                    "valorPadrao");
+            dadosPaleta = combinadorConfiguracoes.combinarConfiguracoes(
+                    criador.getPaletaPadrao(),
+                    leitorConfiguracao.getInformacoesPaleta(),
+                    "nomeVariavel",
+                    "valorPadraoVariavel");
+        }
 
         String dadosConfiguracoesToml = conversorToml.converterMapConfiguracaoParaStringTOML(dadosConfiguracoes);
         String dadosPaletaToml = conversorToml.converterMapPaletaParaStringTOML(dadosPaleta);
 
-        criadorConfiguracoes.sobrescreverArquivoConfiguracoes(
-                pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_CONFIGURACOES, dadosConfiguracoesToml);
-        criadorConfiguracoes.sobrescreverArquivoPaleta(
-                pastaConfiguracao.decidirPastaConfiguracao(), ARQUIVO_PALETA, dadosPaletaToml);
+        criadorConfiguracoes.sobrescreverArquivoConfiguracoes(ARQUIVO_CONFIGURACOES, dadosConfiguracoesToml);
+        criadorConfiguracoes.sobrescreverArquivoPaleta(ARQUIVO_PALETA, dadosPaletaToml);
         this.lerConfiguracao();
     }
 
@@ -167,11 +175,7 @@ public final class Configurador implements IConfigurador {
         return leitorConfiguracao.pegarValorConfiguracao(categoria, atributo, tipo);
     }
 
-    public CriadorConfiguracoes getCriadorConfiguracoesConcreto() {
-        return criadorConfiguracoes;
-    }
-
-    public CriadorConfiguracoesBase<?> getCriadorConfiguracoes() {
+    public CriadorConfiguracoesBase getCriadorConfiguracoes() {
         return null;
     }
 
@@ -180,7 +184,7 @@ public final class Configurador implements IConfigurador {
         return combinadorConfiguracoes;
     }
 
-    public LeitorConfiguracao getLeitorConfiguracao() {
+    public ILeitorConfiguracao getLeitorConfiguracao() {
         return leitorConfiguracao;
     }
 
@@ -190,7 +194,7 @@ public final class Configurador implements IConfigurador {
     }
 
     @Override
-    public VerificadorConfiguracaoPrograma getVerificadorConfiguracao() {
+    public IVerificadorConfiguracao getVerificadorConfiguracao() {
         return verificadorConfiguracao;
     }
 }

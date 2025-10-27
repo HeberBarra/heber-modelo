@@ -16,8 +16,9 @@ package io.github.heberbarra.modelador.infrastructure.configurador;
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
 import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
-import io.github.heberbarra.modelador.domain.model.json.AtributoJsonConfiguracao;
-import io.github.heberbarra.modelador.domain.model.json.AtributoJsonPaleta;
+import io.github.heberbarra.modelador.domain.configurador.CriadorConfiguracoesBase;
+import io.github.heberbarra.modelador.domain.configurador.IPastaConfiguracao;
+import io.github.heberbarra.modelador.domain.verificador.VerificadorAbstratoJSONAtributo;
 import io.github.heberbarra.modelador.infrastructure.conversor.ConversorTomlPrograma;
 import io.github.heberbarra.modelador.infrastructure.conversor.IConversorTOMLString;
 import io.github.heberbarra.modelador.infrastructure.verificador.JsonVerificadorConfiguracoes;
@@ -32,114 +33,95 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-/**
- * Responsável por criar os arquivos de configuração com as opções padrões se ainda não existirem.
- * Atualiza os arquivos com novas opções de configuração.
- *
- * @since v0.0.2-SNAPSHOT
- */
-public class CriadorConfiguracoes {
+public class CriadorConfiguracoes extends CriadorConfiguracoesBase {
 
     private static final Logger logger = JavaLogger.obterLogger(CriadorConfiguracoes.class.getName());
     private final IConversorTOMLString conversorToml;
     private final Map<String, List<Map<String, String>>> configuracaoPadrao;
     private final Map<String, List<Map<String, String>>> paletaPadrao;
 
-    public CriadorConfiguracoes() {
+    public CriadorConfiguracoes(IPastaConfiguracao pastaConfiguracao) {
+        super(pastaConfiguracao);
         conversorToml = new ConversorTomlPrograma();
         configuracaoPadrao = new LinkedHashMap<>();
         paletaPadrao = new LinkedHashMap<>();
         paletaPadrao.put("paleta", new ArrayList<>());
     }
 
-    /**
-     * Cria, se necessário, a pasta de configuração e as pastas anteriores.
-     *
-     * @param pastaConfiguracao o caminho da pasta a ser criada
-     */
-    public void criarPastaConfiguracao(String pastaConfiguracao) {
-        File pasta = new File(pastaConfiguracao);
+    @Override
+    public void criarPastaConfiguracao() {
+        File pasta = new File(pastaConfiguracao.getPasta());
         if (pasta.mkdirs()) {
             logger.info(TradutorWrapper.tradutor
                     .traduzirMensagem("file.dir.creation.success")
-                    .formatted(pastaConfiguracao));
+                    .formatted(pasta));
         }
     }
 
-    /**
-     * Coleta e salva a configuração padrão do programa.
-     *
-     * @param verificadorConfiguracoes verificador que contém as informações da configuração padrão
-     */
-    public void pegarConfiguracaoPadrao(JsonVerificadorConfiguracoes verificadorConfiguracoes) {
-        for (AtributoJsonConfiguracao atributo : verificadorConfiguracoes.getAtributos()) {
-            if (!configuracaoPadrao.containsKey(atributo.getCategoria())) {
-                configuracaoPadrao.put(atributo.getCategoria(), new ArrayList<>());
-            }
-
-            configuracaoPadrao.get(atributo.getCategoria()).add(atributo.converterParaMap());
-        }
-    }
-
-    /**
-     * Coleta e salva a paleta padrão do programa.
-     *
-     * @param verificadorPaleta verificador que contém as informações da paleta padrão
-     */
-    public void pegarPaletaPadrao(JsonVerificadorPaleta verificadorPaleta) {
-        List<Map<String, String>> atributos = paletaPadrao.get("paleta");
-
-        for (AtributoJsonPaleta atributo : verificadorPaleta.getAtributos()) {
-            atributos.add(atributo.converterParaMap());
-        }
-    }
-
-    /**
-     * Cria o arquivo de configuração, com as configurações padrões, mas não sobrescreve um arquivo existente.
-     *
-     * @param pastaConfiguracao    a pasta na qual o arquivo deve ser criado
-     * @param arquivoConfiguracoes o nome do arquivo de configuração
-     * @see CriadorConfiguracoes#sobrescreverArquivoConfiguracoes(String, String, String)
-     */
-    public void criarArquivoConfiguracoes(String pastaConfiguracao, String arquivoConfiguracoes) {
+    @Override
+    public void criarArquivoConfiguracoes(String arquivoConfiguracoes) {
         String dadosToml = conversorToml.converterMapConfiguracaoParaStringTOML(configuracaoPadrao);
-        criarArquivo(dadosToml, pastaConfiguracao + "/" + arquivoConfiguracoes);
+        criarArquivo(dadosToml, pastaConfiguracao.getPasta() + "/" + arquivoConfiguracoes);
     }
 
-    /**
-     * Cria o arquivo de paleta, com a configuração padrão, mas não sobrescreve um arquivo existente.
-     *
-     * @param pastaConfiguracao a pasta na qual o arquivo deve ser criado
-     * @param arquivoPaleta     o nome do arquivo de paleta
-     * @see CriadorConfiguracoes#sobrescreverArquivoPaleta(String, String, String)
-     */
-    public void criarArquivoPaleta(String pastaConfiguracao, String arquivoPaleta) {
+    @Override
+    public void criarArquivoDotEnv() {
+        File dotenv = new File(pastaConfiguracao.getPasta() + ".env");
+
+        try {
+            if (dotenv.createNewFile()) {
+                logger.info(TradutorWrapper.tradutor
+                        .traduzirMensagem("file.creation.success")
+                        .formatted(dotenv.getAbsoluteFile()));
+            }
+        } catch (IOException e) {
+            logger.severe(TradutorWrapper.tradutor
+                    .traduzirMensagem("error.file.create")
+                    .formatted(dotenv.getAbsoluteFile(), e.getMessage()));
+            logger.severe(TradutorWrapper.tradutor.traduzirMensagem("app.end"));
+            System.exit(CodigoSaida.ERRO_CRIACAO_CONFIG.getCodigo());
+        }
+    }
+
+    @Override
+    public void criarArquivoPaleta(String arquivoPaleta) {
         String dadosToml = conversorToml.converterMapPaletaParaStringTOML(paletaPadrao);
-        criarArquivo(dadosToml, pastaConfiguracao + "/" + arquivoPaleta);
+        criarArquivo(dadosToml, pastaConfiguracao.getPasta() + "/" + arquivoPaleta);
     }
 
-    /**
-     * Sobrescreve, sem confirmação, um arquivo de configuração com os dados fornecidos.
-     *
-     * @param pastaConfiguracao    - a pasta na qual o arquivo deve ser criado/sobrescrito
-     * @param arquivoConfiguracoes - o nome do arquivo de configurações
-     * @param dadosToml            - os dados a serem escritos no arquivo
-     */
-    public void sobrescreverArquivoConfiguracoes(
-            String pastaConfiguracao, String arquivoConfiguracoes, String dadosToml) {
-        criarArquivo(dadosToml, pastaConfiguracao + "/" + arquivoConfiguracoes, false);
+    @Override
+    public void sobrescreverArquivoConfiguracoes(String arquivoConfiguracoes, String dadosToml) {
+        criarArquivo(dadosToml, pastaConfiguracao.getPasta() + "/" + arquivoConfiguracoes, false);
     }
 
-    /**
-     * Sobrescreve, sem confirmação, um arquivo de paleta com os dados fornecidos.
-     *
-     * @param pastaConfiguracao - a pasta na qual o arquivo deve ser criado/sobrescrito
-     * @param arquivoPaleta     - o nome do arquivo de paleta
-     * @param dadosToml         - os dados a serem escritos no arquivo
-     * @see CriadorConfiguracoes#criarArquivoPaleta(String, String)
-     */
-    public void sobrescreverArquivoPaleta(String pastaConfiguracao, String arquivoPaleta, String dadosToml) {
-        criarArquivo(dadosToml, pastaConfiguracao + "/" + arquivoPaleta, false);
+    @Override
+    public void sobrescreverArquivoPaleta(String arquivoPaleta, String dadosToml) {
+        criarArquivo(dadosToml, pastaConfiguracao.getPasta() + "/" + arquivoPaleta, false);
+    }
+
+    @Override
+    public void pegarConfiguracaoPadrao(VerificadorAbstratoJSONAtributo<?> verificadorAbstratoJSONAtributo) {
+        if (verificadorAbstratoJSONAtributo instanceof JsonVerificadorConfiguracoes verificador) {
+            verificador.getAtributos().forEach(atributo -> {
+                if (!configuracaoPadrao.containsKey(atributo.getCategoria())) {
+                    configuracaoPadrao.put(atributo.getCategoria(), new ArrayList<>());
+                }
+
+                configuracaoPadrao.get(atributo.getCategoria()).add(atributo.converterParaMap());
+            });
+        }
+    }
+
+    @Override
+    public void pegarDotEnvPadrao(VerificadorAbstratoJSONAtributo<?> verificadorAbstratoJSONAtributo) {}
+
+    @Override
+    public void pegarPaletaPadrao(VerificadorAbstratoJSONAtributo<?> verificadorAbstratoJSONAtributo) {
+        if (verificadorAbstratoJSONAtributo instanceof JsonVerificadorPaleta verificador) {
+            List<Map<String, String>> atributos = paletaPadrao.get("paleta");
+
+            verificador.getAtributos().forEach(atributo -> atributos.add(atributo.converterParaMap()));
+        }
     }
 
     /**
@@ -153,16 +135,16 @@ public class CriadorConfiguracoes {
     }
 
     /**
-     * Cria o arquivo com os dados fornecidos, com a opção de sobreescrever um arquivo existente.
+     * Cria o arquivo com os dados fornecidos, com a opção de sobrescrever um arquivo existente.
      *
      * @param dadosToml        os dados a serem escritos
      * @param caminhoArquivo   o caminho até o arquivo
-     * @param naoSobreescrever se um arquivo existente deve ou não ser sobrescrito
+     * @param naoSobrescrever se um arquivo existente deve ou não ser sobrescrito
      */
-    private void criarArquivo(String dadosToml, String caminhoArquivo, boolean naoSobreescrever) {
+    private void criarArquivo(String dadosToml, String caminhoArquivo, boolean naoSobrescrever) {
         File arquivo = new File(caminhoArquivo);
 
-        if (naoSobreescrever && arquivo.length() != 0) {
+        if (naoSobrescrever && arquivo.length() != 0) {
             return;
         }
 

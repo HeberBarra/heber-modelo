@@ -19,7 +19,7 @@ import io.github.heberbarra.modelador.application.usecase.executar.ExecutadorArg
 import io.github.heberbarra.modelador.domain.configurador.IConfigurador;
 import io.github.heberbarra.modelador.infrastructure.acessador.AcessadorRecursos;
 import io.github.heberbarra.modelador.infrastructure.atualizador.AtualizadorPrograma;
-import io.github.heberbarra.modelador.infrastructure.configurador.PastaConfiguracaoPrograma;
+import io.github.heberbarra.modelador.infrastructure.configurador.PastaConfiguracao;
 import io.github.heberbarra.modelador.infrastructure.factory.ConfiguradorFactory;
 import io.github.heberbarra.modelador.infrastructure.security.UsuarioBanco;
 import java.io.File;
@@ -79,8 +79,8 @@ public class Principal implements WebServerFactoryCustomizer<ConfigurableWebServ
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void criarArquivoDotEnv() {
-        PastaConfiguracaoPrograma pastaConfiguracaoPrograma = new PastaConfiguracaoPrograma();
-        File dotEnv = new File("%s/.env".formatted(pastaConfiguracaoPrograma.getPasta()));
+        PastaConfiguracao pastaConfiguracao = new PastaConfiguracao();
+        File dotEnv = new File("%s/.env".formatted(pastaConfiguracao.getPasta()));
 
         if (!dotEnv.exists()) {
             try {

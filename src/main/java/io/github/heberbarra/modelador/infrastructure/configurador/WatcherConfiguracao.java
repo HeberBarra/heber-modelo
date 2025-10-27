@@ -15,6 +15,9 @@ package io.github.heberbarra.modelador.infrastructure.configurador;
 
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
+import io.github.heberbarra.modelador.domain.configurador.IConfigurador;
+import io.github.heberbarra.modelador.domain.configurador.ILeitorConfiguracao;
+import io.github.heberbarra.modelador.domain.configurador.IVerificadorConfiguracao;
 import io.github.heberbarra.modelador.domain.configurador.IWatcherConfiguracao;
 import io.github.heberbarra.modelador.infrastructure.factory.ConfiguradorFactory;
 import java.io.IOException;
@@ -27,22 +30,22 @@ import java.nio.file.WatchService;
 import java.util.logging.Logger;
 import org.tomlj.TomlTable;
 
-public class WatcherPastaConfiguracao implements IWatcherConfiguracao {
+public class WatcherConfiguracao implements IWatcherConfiguracao {
 
-    private static final Logger logger = JavaLogger.obterLogger(WatcherPastaConfiguracao.class.getName());
+    private static final Logger logger = JavaLogger.obterLogger(WatcherConfiguracao.class.getName());
     private static final int DELAY_RELOAD = 500;
-    private final Configurador configurador;
     private final CriadorConfiguracoes criadorConfiguracoes;
-    private final LeitorConfiguracao leitorConfiguracao;
-    private final VerificadorConfiguracaoPrograma verificadorConfiguracaoPrograma;
+    private final IConfigurador configurador;
+    private final ILeitorConfiguracao leitorConfiguracao;
+    private final IVerificadorConfiguracao verificadorConfiguracaoPrograma;
     private final Path pastaConfiguracao;
 
-    public WatcherPastaConfiguracao() {
-        configurador = (Configurador) ConfiguradorFactory.build();
-        criadorConfiguracoes = configurador.getCriadorConfiguracoesConcreto();
+    public WatcherConfiguracao() {
+        configurador = ConfiguradorFactory.build();
+        criadorConfiguracoes = (CriadorConfiguracoes) configurador.getCriadorConfiguracoes();
         leitorConfiguracao = configurador.getLeitorConfiguracao();
-        verificadorConfiguracaoPrograma = new VerificadorConfiguracaoPrograma();
-        pastaConfiguracao = Path.of(new PastaConfiguracaoPrograma().decidirPastaConfiguracao());
+        pastaConfiguracao = Path.of(configurador.getPastaConfiguracao().decidirPastaConfiguracao());
+        verificadorConfiguracaoPrograma = configurador.getVerificadorConfiguracao();
     }
 
     public void recarregarConfiguracao() {

@@ -27,11 +27,6 @@ import java.util.logging.Logger;
 import org.tomlj.Toml;
 import org.tomlj.TomlTable;
 
-/**
- * Lê os arquivos de configuração e a configuração padrão do programa.
- *
- * @since v0.0.2-SNAPSHOT
- */
 public class LeitorConfiguracao implements ILeitorConfiguracao {
 
     private static final Logger logger = JavaLogger.obterLogger(LeitorConfiguracao.class.getName());
@@ -47,9 +42,7 @@ public class LeitorConfiguracao implements ILeitorConfiguracao {
         this.arquivoPaleta = arquivoPaleta;
     }
 
-    /**
-     * Lê os arquivos de configuração do programa e salva as informações lidas
-     */
+    @Override
     public void lerArquivos() {
         lerArquivoConfiguracoes();
         lerArquivoPaleta();
@@ -86,11 +79,7 @@ public class LeitorConfiguracao implements ILeitorConfiguracao {
         return Objects.requireNonNull(informacoesPaleta.getTable("paleta")).getString(nomeVariavel);
     }
 
-    /**
-     * Pega todas as variáveis da paleta com seus respectivos códigos hexadecimais
-     *
-     * @return um {@link Map} cuja chave é o nome da variável e o valor é o código hexadecimal
-     */
+    @Override
     public Map<String, String> pegarVariaveisPaleta() {
         Map<String, String> informacoes = new LinkedHashMap<>();
         Map<String, Object> valores =

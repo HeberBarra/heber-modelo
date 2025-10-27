@@ -26,13 +26,13 @@ import java.util.Map;
 import java.util.logging.Logger;
 import org.tomlj.TomlTable;
 
-public class VerificadorConfiguracaoPrograma implements IVerificadorConfiguracao {
+public class VerificadorConfiguracao implements IVerificadorConfiguracao {
 
-    private static final Logger logger = JavaLogger.obterLogger(VerificadorConfiguracaoPrograma.class.getName());
+    private static final Logger logger = JavaLogger.obterLogger(VerificadorConfiguracao.class.getName());
     private final List<LeitorAbstratoArquivoVerificador<?>> leitores;
     private boolean configuracaoErrada;
 
-    public VerificadorConfiguracaoPrograma() {
+    public VerificadorConfiguracao() {
         AcessadorRecursos acessadorRecursos = new AcessadorRecursos();
         configuracaoErrada = false;
         leitores = new ArrayList<>();
