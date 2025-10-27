@@ -18,7 +18,7 @@ import io.github.cdimascio.dotenv.DotenvBuilder;
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
 import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
-import io.github.heberbarra.modelador.infrastructure.configuracao.PastaConfiguracaoPrograma;
+import io.github.heberbarra.modelador.infrastructure.configurador.PastaConfiguracao;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -89,9 +89,9 @@ public class AcessadorRecursos implements IAcessadorRecurso {
     @Override
     public String pegarValorVariavelAmbiente(String nomeVariavel) {
         if (dotenv == null) {
-            PastaConfiguracaoPrograma pastaConfiguracaoPrograma = new PastaConfiguracaoPrograma();
+            PastaConfiguracao pastaConfiguracao = new PastaConfiguracao();
             DotenvBuilder dotenvBuilder = new DotenvBuilder();
-            dotenvBuilder.directory(pastaConfiguracaoPrograma.getPasta());
+            dotenvBuilder.directory(pastaConfiguracao.getPasta());
             dotenv = dotenvBuilder.load();
         }
 

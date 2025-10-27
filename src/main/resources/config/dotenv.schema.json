@@ -1,0 +1,17 @@
+{
+  "$id": "",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "JSON Schema para o arquivo de validação do .env",
+  "type": ["array"],
+  "items": {
+    "type": ["object"],
+    "properties": {
+      "nome": {
+        "type": "string"
+      },
+      "valorPadrao": {
+        "type": ["string", "integer", "number", "boolean"]
+      }
+    }
+  }
+}

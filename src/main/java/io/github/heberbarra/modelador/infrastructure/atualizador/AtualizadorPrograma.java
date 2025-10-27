@@ -20,7 +20,8 @@ import io.github.heberbarra.modelador.application.usecase.hash.CalculadorHash;
 import io.github.heberbarra.modelador.application.usecase.pegar.PegadorVersaoRemota;
 import io.github.heberbarra.modelador.domain.atualizador.IAtualizador;
 import io.github.heberbarra.modelador.domain.codigo.CodigoSaida;
-import io.github.heberbarra.modelador.infrastructure.configuracao.ConfiguradorPrograma;
+import io.github.heberbarra.modelador.domain.configurador.IConfigurador;
+import io.github.heberbarra.modelador.infrastructure.factory.ConfiguradorFactory;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,19 +37,15 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
 import java.util.logging.Logger;
 
-/**
- * Responsável por lidar com as atualizações automáticas do programa.
- *
- * @since v0.0.3-SNAPSHOT
- */
 public class AtualizadorPrograma implements IAtualizador {
 
     public static final URL URL_ARQUIVO_JAR;
     public static final URL URL_ARQUIVO_SHA256;
     private static final Logger logger = JavaLogger.obterLogger(AtualizadorPrograma.class.getName());
-    private final ConfiguradorPrograma configurador;
+    private final IConfigurador configurador;
     private final ComparadorVersao comparadorVersao;
 
     static {
@@ -70,7 +67,7 @@ public class AtualizadorPrograma implements IAtualizador {
     }
 
     public AtualizadorPrograma() {
-        configurador = ConfiguradorPrograma.getInstance();
+        configurador = ConfiguradorFactory.build();
         PegadorVersaoRemota pegadorVersaoRemota = new PegadorVersaoRemota();
         String versaoPrograma = AtualizadorPrograma.class.getPackage().getImplementationVersion();
         String versaoRemota = pegadorVersaoRemota.pegarVersaoRemota();
@@ -101,7 +98,9 @@ public class AtualizadorPrograma implements IAtualizador {
         }
 
         logger.info(TradutorWrapper.tradutor.traduzirMensagem("update.new"));
-        if (configurador.pegarValorConfiguracao("atualizador", "atualizacao_automatica", boolean.class)) {
+        Optional<Boolean> atualizacaoAutomatica =
+                configurador.pegarValorConfiguracao("atualizador", "atualizacao_automatica", boolean.class);
+        if (atualizacaoAutomatica.isPresent() && atualizacaoAutomatica.get()) {
             baixarAtualizacao();
             return;
         }

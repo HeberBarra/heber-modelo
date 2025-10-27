@@ -16,13 +16,14 @@ package io.github.heberbarra.modelador;
 import io.github.heberbarra.modelador.application.diagrama.ListadorTiposDiagrama;
 import io.github.heberbarra.modelador.application.logging.JavaLogger;
 import io.github.heberbarra.modelador.application.tradutor.TradutorWrapper;
-import io.github.heberbarra.modelador.domain.configuracao.IConfigurador;
+import io.github.heberbarra.modelador.domain.configurador.IConfigurador;
 import io.github.heberbarra.modelador.domain.model.NovoDiagramaDTO;
 import io.github.heberbarra.modelador.domain.model.UsuarioDTO;
-import io.github.heberbarra.modelador.infrastructure.configuracao.ConfiguradorPrograma;
-import io.github.heberbarra.modelador.infrastructure.configuracao.WatcherPastaConfiguracao;
+import io.github.heberbarra.modelador.infrastructure.configurador.Configurador;
+import io.github.heberbarra.modelador.infrastructure.configurador.WatcherConfiguracao;
 import io.github.heberbarra.modelador.infrastructure.controller.ControladorDesligar;
 import io.github.heberbarra.modelador.infrastructure.entity.Usuario;
+import io.github.heberbarra.modelador.infrastructure.factory.ConfiguradorFactory;
 import io.github.heberbarra.modelador.infrastructure.services.UsuarioServices;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.Cookie;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Handler;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -60,7 +62,7 @@ import org.tomlj.TomlTable;
 public class ControladorWeb {
 
     private static final Logger logger = JavaLogger.obterLogger(ControladorWeb.class.getName());
-    private static final IConfigurador configurador;
+    private static final IConfigurador configurador = ConfiguradorFactory.build();
     private final TaskExecutor taskExecutor;
     private final UsuarioServices usuarioServices;
 
@@ -70,14 +72,10 @@ public class ControladorWeb {
         this.usuarioServices = usuarioServices;
     }
 
-    static {
-        configurador = ConfiguradorPrograma.getInstance();
-    }
-
     public static class InjetorAtributos {
 
         public static void injetarBindings(ModelMap modelMap) {
-            TomlTable tabelaBindings = ((ConfiguradorPrograma) configurador)
+            TomlTable tabelaBindings = ((Configurador) configurador)
                     .getLeitorConfiguracao()
                     .getInformacoesConfiguracoes()
                     .getTable("bindings");
@@ -122,28 +120,40 @@ public class ControladorWeb {
 
     @EventListener(ApplicationReadyEvent.class)
     public void iniciarWatcherConfig() {
-        WatcherPastaConfiguracao watcherPastaConfiguracao = new WatcherPastaConfiguracao();
-        taskExecutor.execute(watcherPastaConfiguracao);
+        WatcherConfiguracao watcherConfiguracao = new WatcherConfiguracao();
+        taskExecutor.execute(watcherConfiguracao);
     }
 
     @EventListener(ApplicationReadyEvent.class)
     public void exibirMensagemProgramaPronto() {
-        String host = configurador.pegarValorConfiguracao("programa", "dominio", String.class);
-        int porta = Math.toIntExact(configurador.pegarValorConfiguracao("programa", "porta", long.class));
-        logger.info(TradutorWrapper.tradutor.traduzirMensagem("app.ready").formatted(host, porta));
+        Optional<String> host = configurador.pegarValorConfiguracao("programa", "dominio", String.class);
+        Optional<Long> porta = configurador.pegarValorConfiguracao("programa", "porta", long.class);
+
+        if (host.isPresent() && porta.isPresent()) {
+            logger.info(TradutorWrapper.tradutor
+                    .traduzirMensagem("app.ready")
+                    .formatted(host.get(), Math.toIntExact(porta.get())));
+        }
     }
 
     @SuppressWarnings("HttpUrlsUsage")
     @EventListener(ApplicationReadyEvent.class)
     public void abrirWebBrowser() throws IOException {
-        if (!configurador.pegarValorConfiguracao("programa", "abrir_navegador_automaticamente", boolean.class)) return;
+        Optional<Boolean> abrirBrowser =
+                configurador.pegarValorConfiguracao("programa", "abrir_navegador_automaticamente", boolean.class);
+        if (abrirBrowser.isEmpty() || (!abrirBrowser.get())) return;
 
         logger.info(TradutorWrapper.tradutor.traduzirMensagem("app.opening.browser"));
         URI uriPrograma;
         try {
-            String dominioPrograma = configurador.pegarValorConfiguracao("programa", "dominio", String.class);
-            long portaPrograma = configurador.pegarValorConfiguracao("programa", "porta", long.class);
-            uriPrograma = new URI("http://%s:%d".formatted(dominioPrograma, portaPrograma));
+            Optional<String> dominioPrograma = configurador.pegarValorConfiguracao("programa", "dominio", String.class);
+            Optional<Long> portaPrograma = configurador.pegarValorConfiguracao("programa", "porta", long.class);
+
+            if (dominioPrograma.isEmpty() || portaPrograma.isEmpty()) {
+                return;
+            }
+
+            uriPrograma = new URI("http://%s:%d".formatted(dominioPrograma.get(), portaPrograma.get()));
         } catch (URISyntaxException e) {
             logger.warning(TradutorWrapper.tradutor
                     .traduzirMensagem("error.browser.cannot.create.url")
@@ -257,12 +267,16 @@ public class ControladorWeb {
         modelMap.addAttribute("diagramasBD", ListadorTiposDiagrama.pegarDiagramasBancoDados());
         modelMap.addAttribute("diagramasOutros", ListadorTiposDiagrama.pegarDiagramasOutros());
 
-        if (configurador.pegarValorConfiguracao("grade", "exibir", boolean.class)) {
-            long tamanhoQuadradoGrade = configurador.pegarValorConfiguracao("grade", "tamanho_quadrado_px", long.class);
-            long espessuraGrade = configurador.pegarValorConfiguracao("grade", "espessura", long.class);
+        Optional<Boolean> exibirGrade = configurador.pegarValorConfiguracao("grade", "exibir", boolean.class);
+        if (exibirGrade.isPresent() && exibirGrade.get()) {
+            Optional<Long> tamanhoQuadradoGrade =
+                    configurador.pegarValorConfiguracao("grade", "tamanho_quadrado_px", long.class);
+            Optional<Long> espessuraGrade = configurador.pegarValorConfiguracao("grade", "espessura", long.class);
 
-            modelMap.addAttribute("tamanhoQuadradoGrade", tamanhoQuadradoGrade + "px");
-            modelMap.addAttribute("espessuraGrade", espessuraGrade + "px");
+            if (tamanhoQuadradoGrade.isPresent() && espessuraGrade.isPresent()) {
+                modelMap.addAttribute("tamanhoQuadradoGrade", tamanhoQuadradoGrade.get() + "px");
+                modelMap.addAttribute("espessuraGrade", espessuraGrade.get() + "px");
+            }
         }
 
         modelMap.addAttribute(

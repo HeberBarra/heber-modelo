@@ -10,6 +10,7 @@ version = "0.0.23-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 java {
@@ -22,6 +23,7 @@ dependencies {
         exclude("commons-logging", "commons-logging")
     }
     implementation(libs.cdimascioDotenv)
+    implementation(libs.jakartaXML)
     implementation(libs.jlineJansi)
     implementation(libs.hibernateCore)
     implementation(libs.heberModeloAPI)

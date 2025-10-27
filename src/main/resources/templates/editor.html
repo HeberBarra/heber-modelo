@@ -5,11 +5,15 @@
     <th:block th:replace="~{fragments/head :: head}"></th:block>
     <th:block th:insert="~{fragments/bindings :: script}"></th:block>
     <link rel="stylesheet" th:href="@{/css/editor.css}" />
-    <script type="module" th:src="@{/javascript/editor.js}" defer></script>
-    <script type="module" th:src="@{/javascript/variaveisConfiguracao.js}"></script>
-    <script th:src="@{/javascript/callbacksElementos.js}"></script>
-    <script th:src="@{/javascript/grade.js}"></script>
-    <script th:src="@{/javascript/editor/salvar.js}" defer></script>
+    <script th:src="@{/javascript/application/paginas/editor/callbacksElementos.js}"></script>
+    <script
+      th:src="@{/javascript/application/paginas/editor/editor.js}"
+      type="module"
+      defer
+    ></script>
+    <script th:src="@{/javascript/application/paginas/editor/grade.js}"></script>
+    <script th:src="@{/javascript/application/paginas/editor/salvar.js}" defer></script>
+    <script th:src="@{/javascript/infrastructure/variaveisConfiguracao.js}" type="module"></script>
     <script th:inline="javascript">
       incrementoMovimentacao = Number("[(${incrementoMovimentacaoElemento})]");
       configurarGrade("--espessura-grade", "[(${espessuraGrade})]");
@@ -39,22 +43,9 @@ Licensed works, modifications, and larger works may be distributed under differe
       <button type="button" class="btn-painel-esquerdo btn-mostrar">&gt;</button>
       <section id="diagramas" class="pagina">
         <h2 th:text="#{web.page.editor.section.diagrams}"></h2>
-        <section id="UML">
-          <h2 th:text="#{web.page.editor.section.diagramas.uml}"></h2>
-          <label th:each="d : ${diagramasUML}" th:title="${d.getTitulo()}">
-            <input class="carregar-diagrama" type="checkbox" th:value="${d.getValor()}" />
-            <span class="traco">-</span>
-            <span th:text="${d.getNome()}"></span>
-          </label>
-        </section>
         <section id="banco-de-dados">
           <h2 th:text="#{web.page.editor.section.diagramas.others}"></h2>
           <label th:each="d : ${diagramasBD}" th:title="${d.getTitulo()}">
-            <input class="carregar-diagrama" type="checkbox" th:value="${d.getValor()}" />
-            <span class="traco">-</span>
-            <span th:text="${d.getNome()}"></span>
-          </label>
-          <label th:each="d : ${diagramasOutros}" th:title="${d.getTitulo()}">
             <input class="carregar-diagrama" type="checkbox" th:value="${d.getValor()}" />
             <span class="traco">-</span>
             <span th:text="${d.getNome()}"></span>
@@ -100,24 +91,6 @@ Licensed works, modifications, and larger works may be distributed under differe
       </section>
     </aside>
     <main>
-      <div
-        class="info-diagrama"
-        id="nome-diagrama"
-        style="display: none"
-        th:text="${novoDiagramaDTO.getNome()}"
-      ></div>
-      <div
-        class="info-diagrama"
-        id="autor-diagrama"
-        style="display: none"
-        th:text="${novoDiagramaDTO.getAutor()}"
-      ></div>
-      <div
-        class="info-diagrama"
-        id="email-diagrama"
-        style="display: none"
-        th:text="${novoDiagramaDTO.getEmail()}"
-      ></div>
       <div
         class="info-diagrama"
         id="tipos-diagrama"
